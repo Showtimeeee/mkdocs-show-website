@@ -1,0 +1,14 @@
+site_name: Showtime-Bro-Demo
+site_url: https://Showtimeeee.github.io/mkdocs-demo/
+theme:
+  name: 'darkly'
+nav:
+  - Главная: index.md
+  - Статьи: articles.md
+  - Проекты: projects/projects.md
+extra_css:
+  - css/extra.css
+markdown_extensions:
+  - neoteroi.timeline
+plugins:
+  - search

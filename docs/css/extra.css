@@ -1,0 +1,15 @@
+/* Установка фона для всей страницы */
+body {
+    background-image: url('background.jpg'); /* Путь к изображению */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Цвет текста и контраста */
+.markdown-body {
+    color: #ffffff; /* Белый текст */
+    background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный чёрный фон для контента */
+    padding: 20px;
+    border-radius: 10px;
+}
