@@ -1,6 +1,6 @@
 # Проект 2: Pass-Bro-Generator
 
-![Генератор паролей](images\bro_generator.png)
+![Генератор паролей](images/bro_generator.png)
 
 ## Описание
 
