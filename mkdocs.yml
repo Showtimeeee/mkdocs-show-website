@@ -1,7 +1,24 @@
 site_name: Showtime-Bro-Demo
 site_url: https://Showtimeeee.github.io/mkdocs-demo/
 theme:
-  name: 'darkly'
+      name: material
+      language: ru  # Или другой нужный язык (важно для переводов)
+      palette:
+        - scheme: default
+          toggle:
+            icon: material/brightness-7
+            name: Switch to dark mode
+        - scheme: slate
+          toggle:
+            icon: material/brightness-4
+            name: Switch to light mode
+            extra:
+              versions: 
+                Frontend: v.3.0
+              copyright: "Copyright © 2025 Vadim. Made with Material for MkDocs"
+              generator: false # Скрываем надпись "Made with MkDocs"
+            translations:
+              toc: "Содержание"  # Изменяем текст на "Содержание"
 nav:
   - Главная: index.md
   - Статьи: articles.md
@@ -12,3 +29,7 @@ markdown_extensions:
   - neoteroi.timeline
 plugins:
   - search
+  - redirects
+  - mkdocs-video
+
+copyright: Copyright &copy; 2025 <a href="">Vadim</a>.
