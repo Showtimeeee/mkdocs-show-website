@@ -1,16 +1,15 @@
 # Добро пожаловать на мой сайт!
+---
 
 ![{Хакер}](images/haker.jpg)
 
----
+Меня зовут Вадим, и я специалист в области разработки и тестирования программного обеспечения. Моя цель — создавать качественные и надежные решения, оптимизируя процессы разработки и тестирования с помощью современных инструментов и методов.
 
-#### Меня зовут Вадим, и я специалист в области автоматизации тестирования. Я стремлюсь оптимизировать процессы тестирования, используя актуальные инструменты и методы. В своей практике я использую различные технологии, такие как:
----
 
-- **Python** для создания скриптов автоматизации.
+<!-- - **Python** для создания скриптов автоматизации.
 - **Selenium**, **Playwright** и **Robot Framework** для UI-тестирования.
 - **Postman**, **Pytest**, **Requests** для API-тестирования.
-- **Jenkins**, **GitHub Actions**, **GitLab ci** для CI/CD.
+- **Jenkins**, **GitHub Actions**, **GitLab ci** для CI/CD. -->
 
 ---
 
@@ -39,10 +38,20 @@
 - `pip freeze > requirements.txt` — список всех установленных пакетов и их версий.
 - `mkdocs`, `readthedocs`, `cerulean`, `cosmo`, `cyborg`, `darkly`, `flatly`, `journal`, `litera`, `lumen`, `lux`, `materia`, `minty`, `pulse`, `sandstone`, `simplex`, `slate`, `solar`, `spacelab`, `superhero`, `united`, `yeti`, `material` — mkdocs темы  
 
----
+
+## Music & Ambience!
+![type:video](https://www.youtube.com/embed/p2zMXSXhZ9M?si=glYvSX035bksV-Ju)
+
+
+
 ## Обратная связь
 _Спасибо, что посетили мой сайт!_
 
 _Надеюсь, вы найдете здесь полезную информацию и вдохновение для своих проектов._
 
 _Если у вас есть вопросы или предложения, напишите мне на почту: [seevaa57@gmail.com](mailto:email@example.com)_
+
+---
+<div class="version-info">
+    - version 2.0<br>
+</div>
