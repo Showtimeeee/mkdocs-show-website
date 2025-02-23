@@ -23,6 +23,7 @@ nav:
   - Главная: index.md
   - Статьи: articles.md
   - Проекты: projects/projects.md
+  - Диаграммы: graphs/grafs.md
 extra_css:
   - css/extra.css
 markdown_extensions:
@@ -31,5 +32,6 @@ plugins:
   - search
   - redirects
   - mkdocs-video
+  - mermaid2
 
 copyright: Copyright &copy; 2025 <a href="">Vadim</a>.
