@@ -1,4 +1,5 @@
-# Диаграммы
+# <div class="animate__animated animate__bounce">Диаграммы</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 ![graph1](images/g2.png)
 
