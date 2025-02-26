@@ -20,11 +20,11 @@ extra:
     toc: "Содержание страницы"
 
 nav:
-  - Главная: index.md
-  - Статьи: articles.md
-  - Проекты: projects/projects.md
-  - Диаграммы: graphs/grafs.md
-  - Алгоритмы: algorithms/algorithms.md
+  - Главная🍕: index.md
+  - Статьи📝: articles.md
+  - Проекты🤖: projects/projects.md
+  - Диаграммы📊: graphs/grafs.md
+  - Алгоритмы👨‍💻: algorithms/algorithms.md
 
 extra_css:
   - css/extra.css
