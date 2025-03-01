@@ -1,6 +1,7 @@
 site_name: Showtime-Bro
 site_url: https://Showtimeeee.github.io/mkdocs-demo/
 theme:
+  favicon: images/logo-ico.ico
   logo: images/logo1.png
   name: material
   language: ru  # Или другой нужный язык (важно для переводов)
@@ -25,13 +26,17 @@ nav:
   - Главная🍕: index.md
   - Статьи📝: articles.md
   - Проекты🤖: projects/projects.md
-  - Диаграммы📊: graphs/grafs.md
   - Алгоритмы👨‍💻: algorithms/algorithms.md
+  - Диаграммы📊: graphs/grafs.md
   - Книги📚: download_books/books.md
   - Карты🗺️: map/map.md
 
+
 extra_css:
   - css/extra.css
+
+extra_javascript:
+  - js/bubble_sort.js
 
 markdown_extensions:
   - neoteroi.timeline
