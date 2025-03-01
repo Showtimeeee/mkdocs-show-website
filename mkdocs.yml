@@ -1,17 +1,19 @@
-site_name: Showtime-Bro-Demo
+site_name: Showtime-Bro
 site_url: https://Showtimeeee.github.io/mkdocs-demo/
 theme:
+  logo: images/logo1.png
   name: material
   language: ru  # Или другой нужный язык (важно для переводов)
   palette:
-    - scheme: default
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
     - scheme: slate
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    
 
 extra:
   copyright: "Copyright © 2025 Vadim."
@@ -25,6 +27,7 @@ nav:
   - Проекты🤖: projects/projects.md
   - Диаграммы📊: graphs/grafs.md
   - Алгоритмы👨‍💻: algorithms/algorithms.md
+  - Карты🗺️: map/map.md
 
 extra_css:
   - css/extra.css
