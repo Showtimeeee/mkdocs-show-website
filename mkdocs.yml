@@ -27,6 +27,7 @@ nav:
   - Проекты🤖: projects/projects.md
   - Диаграммы📊: graphs/grafs.md
   - Алгоритмы👨‍💻: algorithms/algorithms.md
+  - Книги📚: download_books/books.md
   - Карты🗺️: map/map.md
 
 extra_css:
