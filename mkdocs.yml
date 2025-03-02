@@ -17,6 +17,9 @@ theme:
     
 
 extra:
+  analytics:
+        provider: google
+        property: G-CRWF7DFZHT
   copyright: "Copyright © 2025 Vadim."
   generator: false  # Скрываем надпись "Made with MkDocs"
   translations:
