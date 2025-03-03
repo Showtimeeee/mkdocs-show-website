@@ -71,3 +71,6 @@ _Если у вас есть вопросы или предложения, на�
     color:rgb(233, 235, 238); 
   }
 </style>
+
+
+<meta name="google-site-verification" content="pxXtr1tMXFSZEkwBWZOuhRlzsH-IwxoabERNsQ6IaBM" />
