@@ -72,5 +72,3 @@ _Если у вас есть вопросы или предложения, на�
   }
 </style>
 
-
-<meta name="google-site-verification" content="pxXtr1tMXFSZEkwBWZOuhRlzsH-IwxoabERNsQ6IaBM" />
