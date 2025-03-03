@@ -14,6 +14,11 @@ body {
     border-radius: 10px;
 }
 
+.md-header__button.md-logo img {
+    width: 40px; /* Настройте ширину */
+    height: auto; /* Сохраните пропорции */
+}
+
 /* Изменение цвета текста в шапке */
 .md-header {
     color: white;
@@ -56,4 +61,116 @@ body {
 .popup p {
     margin: 0;
     font-size: 14px;
+}
+
+  /* Стили для контейнера */
+#feedback-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: var(--md-default-bg-color); /* Адаптивный фон */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Стили для заголовка */
+  #feedback-container h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  /* Стили для полей ввода */
+  #feedback-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  #feedback-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: var(--md-default-bg-color); /* Адаптивный фон */
+    color: var(--md-default-fg-color); /* Адаптивный текст */
+    resize: none;
+  }
+  
+  #feedback-form #name {
+    height: 50px; /* Высота поля ввода */
+  }
+  
+  /* Стили для кнопки */
+  #feedback-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Голубой цвет */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #feedback-form button:hover {
+    background-color: #0056b3; /* Темный голубой при наведении */
+  }
+  
+  /* Стили для статуса */
+  #status {
+    text-align: center;
+    font-size: 1em;
+    color: green;
+    margin-top: 10px;
+  }
+  
+  /* Анимация при фокусе */
+  #feedback-form textarea:focus {
+    border-color: #007bff; /* Голубая рамка при фокусе */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Добавление Material Design Icons */
+  .material-icons {
+    margin-right: 5px;
+  }
+
+
+/* Анимация шапки с растяжением и движущимся градиентом */
+.md-header {
+  animation: stretch-gradient 5s infinite, gradient-animation 5s infinite; /* Обе анимации */
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); /* Градиент */
+  background-size: 400% 400%; /* Размер фона для анимации */
+  color: white; /* Белый текст */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
+  border-radius: 10px; /* Закругленные углы */
+}
+
+/* Анимация растяжения */
+@keyframes stretch-gradient {
+  0%, 100% {
+    transform: scale(1); /* Нормальный размер */
+  }
+  50% {
+    transform: scale(1.05); /* Легкое растяжение */
+  }
+}
+
+/* Анимация перемещения градиента */
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%; /* Начальная позиция */
+  }
+  50% {
+    background-position: 100% 50%; /* Промежуточная позиция */
+  }
+  100% {
+    background-position: 0% 50%; /* Возврат к начальной позиции */
+  }
 }
