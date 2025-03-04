@@ -37,9 +37,11 @@ nav:
 
 extra_css:
   - css/extra.css
+  - css/base.css
 
 extra_javascript:
   - js/bubble_sort.js
+  - js/side-effects.js
 
 markdown_extensions:
   - neoteroi.timeline
