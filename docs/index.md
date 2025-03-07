@@ -8,7 +8,7 @@
     border-radius: 11%; /* Круглая рамка */
     border: 2px solid #333; /* Тёмная граница */
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2); /* Тень */
-    transition: transform 0.3s ease; /* Эффект при наведении */
+    transition: transform 1.3s ease; /* Эффект при наведении */
   }
 
   .avatar:hover {
@@ -23,19 +23,27 @@
 
 ---
 
+
 ## Что вас ждёт на этом сайте?
 
 - **Статьи**: Гайды про разработку и автоматизацию. 
 - **Проекты**: Мои небольшие приложения, игры, скрипты.
 - **Интересные темы**: От теории до практики — всё, что связано с IT.
 - **Мемы**: Юмор про IT и не только.
-
+- **Диаграммы**: Разработка графиков-диаграм.
+- **Книги**: Мои рекомендации книг, которые можно скачать.
 ---
 
-## Инструменты
-_mkdocs, js, python, html, css, md, github-actions_
+## Open-source:
 
-![гифка](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHhpYXIwODQ2ODRkcnAxeHllaHNiZzBleGx4Z3BpMTV5Mno2OXpzYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xNzWXduun3uwTyN56I/giphy.gif)
+Этот open-source проект, исходный код сайта доступен на GitHub
+
+Технологии:
+
+```
+MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
+```
+
 
 ---
 
@@ -45,8 +53,11 @@ _mkdocs, js, python, html, css, md, github-actions_
 
 - `python -m venv venv`
 - `venv\Scripts\activate` 
-- `pip freeze > requirements.txt` 
-- `mkdocs`, `readthedocs`, `cerulean`, `cosmo`, `cyborg`, `darkly`, `flatly`, `journal`, `litera`, `lumen`, `lux`, `materia`, `minty`, `pulse`, `sandstone`, `simplex`, `slate`, `solar`, `spacelab`, `superhero`, `united`, `yeti`, `material`
+- `pip freeze > requirements.txt`
+- `pytest -v -s --tb=long -rA --color=yes --durations=10`
+- `mkdocs serve`
+
+![гифка](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWc2czluZThxZXl6NGk3NG82djZ4cWZ0bWY0NGVjeG5mZjR1eWR2YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oz8xRICW5msyoRUv6/giphy.gif)
 
 ---
 
@@ -55,9 +66,12 @@ _mkdocs, js, python, html, css, md, github-actions_
 
 ---
 
-## Обратная связь
+## Обратная связь 
+Если у вас есть вопросы или предложения, напишите мне на почту:  
+📧 **[seevaa57@gmail.com](mailto:seevaa57@gmail.com)**  
 
-_Если у вас есть вопросы или предложения, напишите мне на почту: [seevaa57@gmail.com](mailto:email@example.com)_
+GitHub:  
+🐙 **[Showtimeeee](https://github.com/Showtimeeee)**  
 
 ---
 <div id="like-container" style="text-align: center; margin-top: 20px;">
@@ -69,7 +83,7 @@ _Если у вас есть вопросы или предложения, на�
 
 
 <div class="version-info">
-    v2.9
+    v3.1
 </div>
 
 <style>
