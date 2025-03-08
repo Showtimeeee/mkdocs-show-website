@@ -32,17 +32,6 @@
 - **Мемы**: Юмор про IT и не только.
 - **Диаграммы**: Разработка графиков-диаграм.
 - **Книги**: Мои рекомендации книг, которые можно скачать.
----
-
-## Open-source:
-
-Этот open-source проект, исходный код сайта доступен на GitHub
-
-Технологии:
-
-```
-MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
-```
 
 
 ---
@@ -66,35 +55,46 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 ---
 
-## Обратная связь 
-Если у вас есть вопросы или предложения, напишите мне на почту:  
-📧 **[seevaa57@gmail.com](mailto:seevaa57@gmail.com)**  
 
-GitHub:  
-🐙 **[Showtimeeee](https://github.com/Showtimeeee)**  
+## Open-source:
+
+Это open-source проект, исходный код сайта доступен на GitHub
+
+```
+MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
+```
 
 ---
-<div id="like-container" style="text-align: center; margin-top: 20px;">
-  <span id="like-heart" style="font-size: 30px; color: red; cursor: pointer;">❤️</span>
-  <span id="like-count" style="font-size: 20px; margin-left: 10px;"></span>
-</div>
 
-<script src="js/like_counter.js"></script>
+## Обратная связь 
 
+📧 **[seevaa57@gmail.com](mailto:seevaa57@gmail.com)**  
 
-<div class="version-info">
-    v3.1
+🐙 **[GitHub](https://github.com/Showtimeeee)**  
+
+**[✍️ Форма обратной связи](feedback/feedback.md)**
+
+---
+
+<div class="version-container">
+    <div class="version-info">
+        v3.1
+    </div>
 </div>
 
 <style>
+  .version-container {
+    text-align: center; /* Центрируем содержимое по горизонтали */
+  }
+
   .version-info {
-    display: inline-block;
+    display: inline-block; /* Чтобы элемент занимал только необходимую ширину */
     padding: 5px 10px;
-    background-color:rgb(13, 102, 65); 
-    border: 1px solidrgb(247, 243, 241); 
+    background-color: rgb(13, 102, 65); 
+    border: 1px solid rgb(247, 243, 241); 
     border-radius: 5px; /* Закругленные углы */
     font-size: 16px;
     font-weight: bold;
-    color:rgb(233, 235, 238); 
+    color: rgb(233, 235, 238); 
   }
 </style>
