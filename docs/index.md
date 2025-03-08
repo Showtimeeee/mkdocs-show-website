@@ -76,6 +76,10 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 ---
 
+**[Хакер-мод🆕](hacking/hacking.md)**
+
+---
+
 <div class="version-container">
     <div class="version-info">
         v3.1
