@@ -1,5 +1,5 @@
 site_name: Showtime-Bro
-site_url: https://Showtimeeee.github.io/mkdocs-demo/
+site_url: https://showtimeeee.github.io/mkdocs-show-website/
 theme:
   favicon: images/logo-ico.ico
   logo: images/logo1.png
@@ -18,8 +18,19 @@ theme:
 
 extra:
   analytics:
-        provider: google
-        property: G-CRWF7DFZHT
+      provider: google
+      property: G-CRWF7DFZHT
+      feedback:
+          title: Вам нравится эта страница?
+          ratings:
+            - icon: material/thumb-up-outline
+              name: Да
+              data: 1
+              note: Спасибо! Я рад, что вам понравилось.
+            - icon: material/thumb-down-outline
+              name: Нет
+              data: 0
+              note: Жаль, что вам не понравилось...
   copyright: "Copyright © 2025 Vadim."
   generator: false  # Скрываем надпись "Made with MkDocs"
   translations:
@@ -33,6 +44,8 @@ nav:
   - Диаграммы📊: graphs/grafs.md
   - Книги📚: download_books/books.md
   - Карты🗺️: map/map.md
+  - Напиши мне✍️: feedback/feedback.md
+  
 
 
 extra_css:
@@ -51,5 +64,6 @@ plugins:
   - redirects
   - mkdocs-video
   - mermaid2
+  
 
 copyright: Copyright &copy; 2025 <a href="">Vadim</a>.
