@@ -56,7 +56,7 @@
 ---
 
 
-## Open-source:
+## Open-source / Инструменты
 
 Это open-source проект, исходный код сайта доступен на GitHub
 
@@ -76,7 +76,7 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 ---
 
-**[Хакер-мод🆕](hacking/hacking.md)**
+## **[Хакер-мод🆕](hacking/hacking.md)**
 
 ---
 
