@@ -174,3 +174,19 @@ body {
     background-position: 0% 50%; /* Возврат к начальной позиции */
   }
 }
+
+.clock-container {
+  text-align: center; /* Центрируем часы */
+  margin: 20px 0; /* Отступы сверху и снизу */
+}
+
+.clock {
+  font-family: 'Courier New', Courier, monospace; /* Шрифт в стиле терминала */
+  font-size: 2.5em; /* Размер текста */
+  color: lime; /* Цвет текста */
+  background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
+  padding: 10px 20px; /* Внутренние отступы */
+  border-radius: 10px; /* Закруглённые углы */
+  display: inline-block; /* Чтобы ширина соответствовала содержимому */
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Неоновая тень */
+}
