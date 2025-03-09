@@ -1,15 +1,18 @@
-# Хакер-мод 💻
-
-## Terminal-Showtime-Bro
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hacker Mode</title>
 <style>
-  /* Стили для эффекта Матрицы */
   body {
     background: black;
     color: lime;
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
     overflow: hidden;
+    display: flex;
+    height: 100vh;
   }
 
   #matrix-effect {
@@ -19,17 +22,18 @@
     width: 100%;
     height: 100%;
     z-index: 9999;
-    pointer-events: none; /* Чтобы клики проходили сквозь эффект */
+    pointer-events: none;
+    clip-path: inset(50px 0 0 0); /* Prevent symbols from overlapping the top panel */
   }
 
   .matrix-char {
     position: absolute;
-    color: lime;
-    font-family: monospace;
-    font-size: 16px;
-    user-select: none; /* Запрет выделения текста */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    user-select: none;
     animation: fall linear infinite;
     opacity: 0.8;
+    color: lime;
   }
 
   @keyframes fall {
@@ -43,17 +47,17 @@
     }
   }
 
-  /* Стили для основного контента */
   .content {
     position: relative;
     z-index: 10000;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон для текста */
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     margin: 20px;
-  }
+    max-width: 1200px; /* ← Добавьте это для ограничения ширины */
+    width: 100%; /* ← Или это для процентной ширины */
+}
 
-  /* Стили для аудиоплеера */
   audio {
     width: 100%;
     margin-top: 20px;
@@ -68,17 +72,16 @@
 
   audio::-webkit-media-controls-play-button,
   audio::-webkit-media-controls-mute-button {
-    filter: invert(1); /* Инвертировать цвет кнопок для лучшей видимости */
+    filter: invert(1);
   }
 
-  /* Стили для терминала */
   #terminal {
     background: black;
     color: lime;
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace;
     padding: 20px;
     border-radius: 5px;
-    height: 300px;
+    height: 500px; /* Increased height for a more rectangular shape */
     overflow-y: auto;
     border: 1px solid lime;
     position: relative;
@@ -94,18 +97,41 @@
     background: transparent;
     border: none;
     color: lime;
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace;
     outline: none;
     width: 80%;
-    padding-left: 5px; /* Добавляем отступ для текста */
+    padding-left: 5px;
+  }
+
+  @keyframes glitch {
+    0%, 100% {
+      text-shadow: 0.05em 0 0 lime, -0.05em 0 0 lime;
+    }
+    20% {
+      text-shadow: 0.05em 0 0 lime, -0.05em -0.05em 0 lime;
+    }
+    40% {
+      text-shadow: 0.05em -0.05em 0 lime, -0.05em 0.05em 0 lime;
+    }
+    60% {
+      text-shadow: 0.05em 0.05em 0 lime, -0.05em 0 0 lime;
+    }
+    80% {
+      text-shadow: 0.05em 0 0 lime, -0.05em -0.05em 0 lime;
+    }
+  }
+
+  .glitch {
+    animation: glitch 0.2s infinite;
   }
 </style>
+</head>
+<body>
 <div id="matrix-effect"></div>
 <div class="content">
-
-- исопльзуйте команду help
-
-
+  <h1 class="glitch">Хакер-мод💻</h1>
+  <span class="glitch">Terminal-Showtime-Bro</span> 
+  <p>Используйте команду help</p>
   <div id="terminal">
     <div id="terminal-output"></div>
     <div>
@@ -113,59 +139,49 @@
       <input id="terminal-input" autofocus>
     </div>
   </div>
-
+</div>
 
 <script>
-  // Скрипт для эффекта Матрицы
   const matrixEffect = document.getElementById('matrix-effect');
+  const matrixChars = 'アァカサタナハマヤャラザワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
 
   function createMatrixChar() {
     const char = document.createElement('div');
     char.className = 'matrix-char';
-    char.textContent = String.fromCharCode(Math.random() * 128); // Случайный символ
-    char.style.left = `${Math.random() * 100}vw`; // Случайная горизонтальная позиция
-    char.style.animationDuration = `${Math.random() * 2 + 1}s`; // Случайная скорость
-    char.style.opacity = Math.random() * 0.8 + 0.2; // Случайная прозрачность
+    char.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+    char.style.left = `${Math.random() * 100}vw`;
+    char.style.animationDuration = `${Math.random() * 3 + 2}s`;
+    char.style.animationDelay = `${Math.random() * 5}s`;
     matrixEffect.appendChild(char);
 
-    // Удаление символа после завершения анимации
     char.addEventListener('animationend', () => {
       char.remove();
     });
   }
 
-  // Запуск эффекта
   function startMatrixEffect() {
-    setInterval(createMatrixChar, 30); // Создаем новый символ каждые 30 мс
+    setInterval(createMatrixChar, 50);
   }
 
-  // Остановка эффекта
   function stopMatrixEffect() {
-    matrixEffect.innerHTML = ''; // Очищаем контейнер
+    matrixEffect.innerHTML = '';
   }
 
-  // Запуск эффекта при загрузке страницы
   startMatrixEffect();
 
-  // Остановка эффекта при переходе на другую страницу
   window.addEventListener('beforeunload', stopMatrixEffect);
 
-  // Скрипт для терминала
   const terminalInput = document.getElementById('terminal-input');
   const terminalOutput = document.getElementById('terminal-output');
 
-  // Устанавливаем фокус на поле ввода при загрузке страницы
   terminalInput.focus();
 
-  // Перехватываем все нажатия клавиш
   document.addEventListener('keydown', (e) => {
-    // Если поле ввода не в фокусе, устанавливаем фокус на него
     if (document.activeElement !== terminalInput) {
       terminalInput.focus();
     }
   });
 
-  // Обработка ввода команды
   terminalInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const command = terminalInput.value.trim();
@@ -173,69 +189,99 @@
         terminalOutput.innerHTML += `<div>> ${command}</div>`;
         handleCommand(command);
         terminalInput.value = '';
-        terminalOutput.scrollTop = terminalOutput.scrollHeight; // Прокрутка вниз
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
       }
     }
   });
 
   function handleCommand(command) {
-  let output = '';
-  switch (command.toLowerCase()) {
-    case 'help':
-      output = `Доступные команды:
+    let output = '';
+    switch (command.toLowerCase()) {
+      case 'help':
+        output = `Доступные команды:
 - clear: Очистить терминал
 - about: Информация о проекте
 - hack: Запустить процесс взлома
-- admin: Код доступа к admin
-- ip: Показать ваш IP-адрес 
+- admin: Получить доступ к админке
+- ip: Показать ваш IP-адрес
 - encrypt: Зашифровать данные
 - decrypt: Расшифровать данные
 - ping: Проверить соединение
-- exit: Закрыть терминал 
-- sudo: Получить root-доступ 
-- hackThePen: Взломать об`;
-      break;
-    case 'clear':
-      terminalOutput.innerHTML = '';
-      return;
-    case 'about':
-      output = 'Хакер-мод v1.6\n Веб-приложение v3.1';
-      break;
-    case 'hack':
-      output = 'Запуск процесса взлома...\nВзлом завершен!';
-      break;
-    case 'admin':
-      output = `01010100 01101000 01100101 00100000 01001101 01100001 01110100 01110010 01101001 01111000 00100000 01101001 01110011 00100000 01100101 01110110 01100101 01110010 01111001 01110111 01101000 01100101 01110010 01100101`;
-      break;
-    case 'ip':
-      output = 'Ваш IP-адрес: 127.0.0.1';
-      break;
-    case 'encrypt':
-      output = 'Данные зашифрованы: X5gH$2kL@9qW';
-      break;
-    case 'decrypt':
-      output = 'Данные расшифрованы: Hello, World!';
-      break;
-    case 'ping':
-      output = 'Pinging 8.8.8.8...\nОтвет от 8.8.8.8: время=10мс';
-      break;
-    case 'exit':
-      output = 'Закрытие терминала...\nТерминал нельзя закрыть!)';
-      break;
-    case 'sudo':
-      output = 'Ошибка: недостаточно прав. Обратитесь к admin.';
-      break;
-    case 'hackThePen':
-      output = 'Запуск глобального взлома...\nВзлом завершен!';
-      break;
-    default:
-      output = `Ошибка: команда "${command}" не найдена. Введите "help" для списка команд.`;
+- sudo: Получить root-доступ
+- sql: Выполнить SQL-инъекцию
+- scan: Сканировать порты
+- brute: Запустить brute force атаку
+- ddos: Запустить DDoS атаку
+- bypass: Обойти защиту
+- hacktheworld: Взломать весь мир`;
+        break;
+      case 'clear':
+        terminalOutput.innerHTML = '';
+        return;
+      case 'about':
+        output = 'Terminal-Showtime-Bro v1.6\nВеб-приложение v3.1';
+        break;
+      case 'hack':
+        output = 'Запуск процесса взлома...\nВзлом завершен!';
+        break;
+      case 'admin':
+        output = 'Поиск уязвимостей в админке...\nДоступ получен: admin:password123';
+        break;
+      case 'ip':
+        output = 'Ваш IP-адрес: 127.0.0.1';
+        break;
+      case 'encrypt':
+        output = 'Данные зашифрованы: X5gH$2kL@9qW';
+        break;
+      case 'decrypt':
+        output = 'Данные расшифрованы: Hello, World!';
+        break;
+      case 'ping':
+        output = 'Pinging 8.8.8.8...\nОтвет от 8.8.8.8: время=10мс';
+        break;
+      case 'sudo':
+        output = 'Ошибка: недостаточно прав. Обратитесь к admin.';
+        break;
+      case 'sql':
+        output = 'Выполнение SQL-инъекции...\nУспешно! Данные извлечены: users table';
+        break;
+      case 'scan':
+        output = 'Сканирование портов...\nОткрытые порты: 22 (SSH), 80 (HTTP), 443 (HTTPS)';
+        break;
+      case 'brute':
+        output = 'Запуск brute force атаки...\nПароль подобран: qwerty123';
+        break;
+      case 'ddos':
+        output = 'Запуск DDoS атаки...\nСервер недоступен!';
+        break;
+      case 'bypass':
+        output = 'Попытка обхода защиты...\nЗащита успешно обойдена!';
+        break;
+      case 'hacktheworld':
+        output = 'Запуск глобального взлома...\nВзлом завершен! Мир теперь ваш!';
+        break;
+      default:
+        output = `Ошибка: команда "${command}" не найдена. Введите "help" для списка команд.`;
+    }
+    simulateTyping(output);
   }
-  terminalOutput.innerHTML += `<div>${output}</div>`;
-}
+
+  function simulateTyping(output) {
+    let i = 0;
+    const interval = setInterval(() => {
+      terminalOutput.innerHTML += output[i++];
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      if (i >= output.length) {
+        clearInterval(interval);
+        terminalOutput.innerHTML += '<br>';
+      }
+    }, 25); // Adjust speed of typing here
+  }
 </script>
 
 <audio controls preload="metadata" style="width: 100%" autoplay>
   <source src="../audio/mat.mp3" type="audio/mpeg">
   Ваш браузер не поддерживает воспроизведение звука на странице.
 </audio>
+</body>
+</html>
