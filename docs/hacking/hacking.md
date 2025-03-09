@@ -10,7 +10,6 @@
     color: lime;
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    overflow: hidden;
     display: flex;
     height: 100vh;
   }
@@ -23,7 +22,7 @@
     height: 100%;
     z-index: 9999;
     pointer-events: none;
-    clip-path: inset(50px 0 0 0); /* Prevent symbols from overlapping the top panel */
+    clip-path: inset(50px 0 0 0);
   }
 
   .matrix-char {
@@ -54,9 +53,10 @@
     background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     margin: 20px;
-    max-width: 1200px; /* ← Добавьте это для ограничения ширины */
-    width: 100%; /* ← Или это для процентной ширины */
-}
+    max-width: 1000px;
+    width: 100%;
+    max-height: 80vh;
+  }
 
   audio {
     width: 100%;
@@ -81,7 +81,7 @@
     font-family: 'Courier New', Courier, monospace;
     padding: 20px;
     border-radius: 5px;
-    height: 500px; /* Increased height for a more rectangular shape */
+    height: 500px;
     overflow-y: auto;
     border: 1px solid lime;
     position: relative;
@@ -123,6 +123,42 @@
 
   .glitch {
     animation: glitch 0.2s infinite;
+  }
+
+  /* Новые стили */
+  #terminal-input::after {
+    content: '_';
+    animation: blink 1s infinite;
+    color: lime;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .output-line {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .system-msg {
+    color: #ff00ff;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+
+  .error-msg {
+    animation: glitch 0.3s infinite;
   }
 </style>
 </head>
@@ -168,7 +204,6 @@
   }
 
   startMatrixEffect();
-
   window.addEventListener('beforeunload', stopMatrixEffect);
 
   const terminalInput = document.getElementById('terminal-input');
@@ -182,6 +217,63 @@
     }
   });
 
+  // Новые фичи
+  const systemMessages = [
+    'KERNEL: Memory allocation optimized',
+    'FIREWALL: Breach detected in sector 7',
+    'CRYPTO: AES-256 encryption active',
+    'NETWORK: Proxy connection established',
+    'CPU: Overclocking to 4.2GHz'
+  ];
+
+  const keySound = new Audio('../audio/keytap.mp3');
+
+  terminalInput.addEventListener('keydown', (e) => {
+    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+      keySound.play();
+    }
+  });
+
+  function showRandomSystemMessage() {
+    const randomMsg = systemMessages[Math.floor(Math.random() + systemMessages.length)];
+    const msgElement = document.createElement('div');
+    msgElement.className = 'system-msg output-line';
+    msgElement.textContent = `[SYS] ${randomMsg}`;
+    terminalOutput.appendChild(msgElement);
+    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+  }
+
+  setInterval(showRandomSystemMessage, Math.random() * 110000 + 110000);
+
+  const originalSimulateTyping = simulateTyping;
+  simulateTyping = function(output) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = output;
+    tempDiv.querySelectorAll('div').forEach(line => {
+      line.classList.add('output-line');
+      if (line.textContent.startsWith('Ошибка')) {
+        line.classList.add('error-msg');
+      }
+    });
+    originalSimulateTyping.apply(this, arguments);
+  };
+
+  const originalHandleCommand = handleCommand;
+  handleCommand = function(command) {
+    const loader = document.createElement('div');
+    loader.className = 'system-msg';
+    loader.textContent = '[...] Processing command...';
+    loader.style.background = 'linear-gradient(90deg, #00ff00, #00ffff)';
+    loader.style.height = '2px';
+    terminalOutput.appendChild(loader);
+    
+    setTimeout(() => {
+      loader.remove();
+      originalHandleCommand.apply(this, arguments);
+    }, Math.random() * 1000 + 500);
+  };
+
+  // Оригинальные функции
   terminalInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const command = terminalInput.value.trim();
@@ -198,31 +290,13 @@
     let output = '';
     switch (command.toLowerCase()) {
       case 'help':
-        output = `Доступные команды:
-- clear: Очистить терминал
-- about: Информация о проекте
-- hack: Запустить процесс взлома
-- admin: Получить доступ к админке
-- ip: Показать ваш IP-адрес
-- encrypt: Зашифровать данные
-- decrypt: Расшифровать данные
-- ping: Проверить соединение
-- sudo: Получить root-доступ
-- sql: Выполнить SQL-инъекцию
-- scan: Сканировать порты
-- brute: Запустить brute force атаку
-- ddos: Запустить DDoS атаку
-- bypass: Обойти защиту
-- hacktheworld: Взломать весь мир`;
+        output = `Доступные команды:\n- clear: Очистить терминал\n- about: Информация о проекте\n- admin: Получить доступ к админке\n- ip: Показать ваш IP-адрес\n- encrypt: Зашифровать данные\n- decrypt: Расшифровать данные\n- ping: Проверить соединение\n- sudo: Получить root-доступ\n- sql: Выполнить SQL-инъекцию\n- scan: Сканировать порты\n- brute: Запустить brute force атаку\n- ddos: Запустить DDoS атаку\n- bypass: Обойти защиту\n- `;
         break;
       case 'clear':
         terminalOutput.innerHTML = '';
         return;
       case 'about':
         output = 'Terminal-Showtime-Bro v1.6\nВеб-приложение v3.1';
-        break;
-      case 'hack':
-        output = 'Запуск процесса взлома...\nВзлом завершен!';
         break;
       case 'admin':
         output = 'Поиск уязвимостей в админке...\nДоступ получен: admin:password123';
@@ -243,7 +317,7 @@
         output = 'Ошибка: недостаточно прав. Обратитесь к admin.';
         break;
       case 'sql':
-        output = 'Выполнение SQL-инъекции...\nУспешно! Данные извлечены: users table';
+        output = 'Выполнение SQL-инъекции...\nУспешно! Данные извлечены: users_table';
         break;
       case 'scan':
         output = 'Сканирование портов...\nОткрытые порты: 22 (SSH), 80 (HTTP), 443 (HTTPS)';
@@ -255,10 +329,7 @@
         output = 'Запуск DDoS атаки...\nСервер недоступен!';
         break;
       case 'bypass':
-        output = 'Попытка обхода защиты...\nЗащита успешно обойдена!';
-        break;
-      case 'hacktheworld':
-        output = 'Запуск глобального взлома...\nВзлом завершен! Мир теперь ваш!';
+        output = 'Попытка обхода защиты...\nНе указан url!';
         break;
       default:
         output = `Ошибка: команда "${command}" не найдена. Введите "help" для списка команд.`;
@@ -275,7 +346,7 @@
         clearInterval(interval);
         terminalOutput.innerHTML += '<br>';
       }
-    }, 25); // Adjust speed of typing here
+    }, 25);
   }
 </script>
 
