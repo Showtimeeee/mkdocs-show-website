@@ -181,6 +181,8 @@
   const matrixEffect = document.getElementById('matrix-effect');
   const matrixChars = 'アァカサタナハマヤャラザワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
 
+  let matrixInterval;
+
   function createMatrixChar() {
     const char = document.createElement('div');
     char.className = 'matrix-char';
@@ -196,10 +198,11 @@
   }
 
   function startMatrixEffect() {
-    setInterval(createMatrixChar, 50);
+    matrixInterval = setInterval(createMatrixChar, 50);
   }
 
   function stopMatrixEffect() {
+    clearInterval(matrixInterval);
     matrixEffect.innerHTML = '';
   }
 
@@ -226,21 +229,13 @@
     'CPU: Overclocking to 4.2GHz'
   ];
 
-  const keySound = new Audio('../audio/keytap.mp3');
-
-  terminalInput.addEventListener('keydown', (e) => {
-    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-      keySound.play();
-    }
-  });
-
   function showRandomSystemMessage() {
-    const randomMsg = systemMessages[Math.floor(Math.random() + systemMessages.length)];
+    const randomMsg = systemMessages[Math.floor(Math.random() * systemMessages.length)];
     const msgElement = document.createElement('div');
     msgElement.className = 'system-msg output-line';
     msgElement.textContent = `[SYS] ${randomMsg}`;
     terminalOutput.appendChild(msgElement);
-    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    scrollToBottom();
   }
 
   setInterval(showRandomSystemMessage, Math.random() * 110000 + 110000);
@@ -281,7 +276,7 @@
         terminalOutput.innerHTML += `<div>> ${command}</div>`;
         handleCommand(command);
         terminalInput.value = '';
-        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        scrollToBottom();
       }
     }
   });
@@ -290,7 +285,7 @@
     let output = '';
     switch (command.toLowerCase()) {
       case 'help':
-        output = `Доступные команды:\n- clear: Очистить терминал\n- about: Информация о проекте\n- admin: Получить доступ к админке\n- ip: Показать ваш IP-адрес\n- encrypt: Зашифровать данные\n- decrypt: Расшифровать данные\n- ping: Проверить соединение\n- sudo: Получить root-доступ\n- sql: Выполнить SQL-инъекцию\n- scan: Сканировать порты\n- brute: Запустить brute force атаку\n- ddos: Запустить DDoS атаку\n- bypass: Обойти защиту\n- `;
+        output = `Доступные команды:\n- clear: Очистить терминал\n- about: Информация о проекте\n- ip: Показать ваш IP-адрес\n- hidden: список скрытых команд \n- ping: Проверить соединение\n- sudo: Получить root-доступ\n- sql: Выполнить SQL-инъекцию\n- scan: Сканировать порты\n- brute: Запустить brute force атаку\n- ddos: Запустить DDoS атаку \n- matrix: Включить/выключить эффект матрицы\n- `;
         break;
       case 'clear':
         terminalOutput.innerHTML = '';
@@ -298,17 +293,11 @@
       case 'about':
         output = 'Terminal-Showtime-Bro v1.6\nВеб-приложение v3.1';
         break;
-      case 'admin':
-        output = 'Поиск уязвимостей в админке...\nДоступ получен: admin:password123';
-        break;
       case 'ip':
-        output = 'Ваш IP-адрес: 127.0.0.1';
+        output = 'Ваш IP-адрес: 197.0.0.1';
         break;
-      case 'encrypt':
-        output = 'Данные зашифрованы: X5gH$2kL@9qW';
-        break;
-      case 'decrypt':
-        output = 'Данные расшифрованы: Hello, World!';
+      case 'hidden':
+        output = 'Требуются права доступа!';
         break;
       case 'ping':
         output = 'Pinging 8.8.8.8...\nОтвет от 8.8.8.8: время=10мс';
@@ -331,6 +320,16 @@
       case 'bypass':
         output = 'Попытка обхода защиты...\nНе указан url!';
         break;
+      case 'matrix':
+        if (matrixInterval) {
+          stopMatrixEffect();
+          output = 'Эффект матрицы отключен.';
+          matrixInterval = null;
+        } else {
+          startMatrixEffect();
+          output = 'Эффект матрицы включен.';
+        }
+        break;
       default:
         output = `Ошибка: команда "${command}" не найдена. Введите "help" для списка команд.`;
     }
@@ -341,18 +340,45 @@
     let i = 0;
     const interval = setInterval(() => {
       terminalOutput.innerHTML += output[i++];
-      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      scrollToBottom();
       if (i >= output.length) {
         clearInterval(interval);
         terminalOutput.innerHTML += '<br>';
+        scrollToBottom();
       }
     }, 25);
   }
+
+  // Функция для автоматической прокрутки вниз
+  function scrollToBottom() {
+    setTimeout(() => {
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }, 10); // Небольшая задержка для гарантии прокрутки
+  }
+</script>
+<script>
+    function updateClock() {
+      const clockElement = document.getElementById('clock');
+      const now = new Date();
+
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
 </script>
 
 <audio controls preload="metadata" style="width: 100%" autoplay>
   <source src="../audio/mat.mp3" type="audio/mpeg">
   Ваш браузер не поддерживает воспроизведение звука на странице.
 </audio>
+
+<div class="clock-container animate__animated animate__fadeInDown">
+  <div id="clock" class="clock"></div>
+</div>
 </body>
 </html>
