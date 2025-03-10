@@ -38,13 +38,25 @@
 
 ## Мой топ команд:
 
-Я их постоянно забываю:
-
-- `python -m venv venv`
-- `venv\Scripts\activate` 
-- `pip freeze > requirements.txt`
-- `pytest -v -s --tb=long -rA --color=yes --durations=10`
-- `mkdocs serve`
+Я их постоянно забываю
+```
+python -m venv venv
+```
+```
+venv\Scripts\activate
+```
+```
+pip freeze > requirements.txt
+```
+```
+pip install -r requirements.txt
+```
+```
+pytest -v -s --tb=long -rA --color=yes --durations=10
+```
+```
+mkdocs serve
+```
 
 ![гифка](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWc2czluZThxZXl6NGk3NG82djZ4cWZ0bWY0NGVjeG5mZjR1eWR2YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oz8xRICW5msyoRUv6/giphy.gif)
 
