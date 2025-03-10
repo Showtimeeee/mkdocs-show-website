@@ -5,6 +5,10 @@ theme:
   logo: images/logo1.png
   name: material
   language: ru  # Или другой нужный язык (важно для переводов)
+  features:
+    - navigation.footer
+    - content.code.copy
+    - content.action.edit
   palette:
     - scheme: slate
       toggle:
