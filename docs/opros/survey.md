@@ -1,156 +1,211 @@
-<form action="https://formspree.io/your-email@example.com" method="POST">
-    <h2>Опрос по Python и безопасности</h2>
+# Пройти тестирование 🧪
 
-    <label for="experience">Как давно вы используете Python?</label>
-    <select id="experience" name="experience" required>
-        <option value="Менее года">Менее года</option>
-        <option value="1-3 года">1-3 года</option>
-        <option value="Более 3 лет">Более 3 лет</option>
-    </select>
-    <br><br>
+Пройди тест по кибербезопасности! 15 вопросов, которые проверят твои знания. После завершения теста ты получишь оценку твоего уровня.
 
-    <label for="versions">Какие версии Python вы используете?</label>
-    <select id="versions" name="versions" required>
-        <option value="Python 2.x">Python 2.x</option>
-        <option value="Python 3.x">Python 3.x</option>
-        <option value="Обе версии">Обе версии</option>
-    </select>
-    <br><br>
+<div id="quiz-container">
+  <div id="question-container"></div>
+  <button id="next-button">Следующий вопрос</button>
+  <div id="result-container" style="display: none;"></div>
+</div>
 
-    <label for="libraries">Какие библиотеки Python вы используете чаще всего?</label>
-    <input type="text" id="libraries" name="libraries" required>
-    <br><br>
+<script>
+  // Вопросы теста
+  const questions = [
+    {
+      question: "Какой модуль в Python используется для работы с криптографическими хэш-функциями?",
+      options: ["hashlib", "cryptography", "crypto", "ssl"],
+      answer: "hashlib"
+    },
+    {
+      question: "Что делает функция os.urandom() в Python?",
+      options: ["Генерирует случайное число", "Генерирует криптографически безопасные случайные байты", "Шифрует данные", "Дешифрует данные"],
+      answer: "Генерирует криптографически безопасные случайные байты"
+    },
+    {
+      question: "Какая уязвимость связана с использованием eval() в Python?",
+      options: ["SQL-инъекция", "XSS", "Code Injection", "CSRF"],
+      answer: "Code Injection"
+    },
+    {
+      question: "Какой протокол обеспечивает безопасное соединение между клиентом и сервером?",
+      options: ["HTTP", "FTP", "SMTP", "HTTPS"],
+      answer: "HTTPS"
+    },
+    {
+      question: "Какой метод в Python используется для безопасного сравнения строк (например, паролей)?",
+      options: ["==", "is", "str.compare()", "hmac.compare_digest()"],
+      answer: "hmac.compare_digest()"
+    },
+    {
+      question: "Что такое XSS?",
+      options: ["Уязвимость, позволяющая внедрять скрипты в веб-страницы", "Метод шифрования данных", "Библиотека для работы с базами данных", "Формат передачи данных"],
+      answer: "Уязвимость, позволяющая внедрять скрипты в веб-страницы"
+    },
+    {
+      question: "Какой модуль в Python используется для работы с SSL/TLS?",
+      options: ["ssl", "http", "socket", "requests"],
+      answer: "ssl"
+    },
+    {
+      question: "Какой метод аутентификации считается наиболее безопасным?",
+      options: ["Basic Auth", "OAuth 2.0", "Digest Auth", "Token Auth"],
+      answer: "OAuth 2.0"
+    },
+    {
+      question: "Что такое CSRF?",
+      options: ["Атака, при которой злоумышленник выполняет действия от имени пользователя", "Метод шифрования данных", "Уязвимость в базах данных", "Формат передачи данных"],
+      answer: "Атака, при которой злоумышленник выполняет действия от имени пользователя"
+    },
+    {
+      question: "Какой метод в Python используется для генерации надёжных паролей?",
+      options: ["random.choice()", "secrets.token_hex()", "os.urandom()", "string.random()"],
+      answer: "secrets.token_hex()"
+    },
+    {
+      question: "Что такое SQL-инъекция?",
+      options: ["Атака, при которой злоумышленник внедряет вредоносный SQL-код", "Метод шифрования данных", "Уязвимость в базах данных", "Формат передачи данных"],
+      answer: "Атака, при которой злоумышленник внедряет вредоносный SQL-код"
+    },
+    {
+      question: "Какой метод в Python используется для безопасной сериализации данных?",
+      options: ["pickle", "json", "marshal", "yaml"],
+      answer: "json"
+    },
+    {
+      question: "Что такое JWT?",
+      options: ["Формат токена для аутентификации", "Метод шифрования данных", "Уязвимость в базах данных", "Формат передачи данных"],
+      answer: "Формат токена для аутентификации"
+    },
+    {
+      question: "Какой метод в Python используется для проверки целостности данных?",
+      options: ["hashlib.sha256()", "hmac.new()", "os.urandom()", "secrets.compare_digest()"],
+      answer: "hmac.new()"
+    },
+    {
+      question: "Какой метод в Python используется для безопасного выполнения команд в системе?",
+      options: ["os.system()", "subprocess.run()", "exec()", "eval()"],
+      answer: "subprocess.run()"
+    }
+  ];
 
-    <label for="issues">Какие проблемы вы сталкиваетесь при использовании Python?</label>
-    <input type="text" id="issues" name="issues" required>
-    <br><br>
+  let currentQuestionIndex = 0;
+  let score = 0;
 
-    <label for="virtualenv">Используете ли вы виртуальные окружения для управления зависимостями?</label>
-    <select id="virtualenv" name="virtualenv" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
+  const questionContainer = document.getElementById("question-container");
+  const nextButton = document.getElementById("next-button");
+  const resultContainer = document.getElementById("result-container");
 
-    <label for="testing">Какие инструменты вы используете для тестирования кода?</label>
-    <input type="text" id="testing" name="testing" required>
-    <br><br>
+  function loadQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
+    questionContainer.innerHTML = `
+      <h3>${currentQuestionIndex + 1}. ${currentQuestion.question}</h3>
+      <ul>
+        ${currentQuestion.options.map(option => `<li><label><input type="radio" name="answer" value="${option}"> ${option}</label></li>`).join("")}
+      </ul>
+    `;
+  }
 
-    <label for="security">Какие меры безопасности вы применяете в своем коде на Python?</label>
-    <input type="text" id="security" name="security" required>
-    <br><br>
+  nextButton.addEventListener("click", () => {
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    if (!selectedAnswer) {
+      alert("Выберите ответ!");
+      return;
+    }
 
-    <label for="vulnerabilities">Какие уязвимости в Python вы считаете наиболее критичными?</label>
-    <input type="text" id="vulnerabilities" name="vulnerabilities" required>
-    <br><br>
+    if (selectedAnswer.value === questions[currentQuestionIndex].answer) {
+      score++;
+    }
 
-    <label for="best_practices">Какие лучшие практики безопасности вы используете при разработке на Python?</label>
-    <input type="text" id="best_practices" name="best_practices" required>
-    <br><br>
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      loadQuestion();
+    } else {
+      showResult();
+    }
+  });
 
-    <label for="encryption">Используете ли вы шифрование для защиты данных?</label>
-    <select id="encryption" name="encryption" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
+  function showResult() {
+    questionContainer.style.display = "none";
+    nextButton.style.display = "none";
+    resultContainer.style.display = "block";
 
-    <label for="authentication">Какие методы аутентификации вы используете в своих приложениях?</label>
-    <input type="text" id="authentication" name="authentication" required>
-    <br><br>
+    let message = "";
+    if (score >= 13) {
+      message = "Отлично! Вы настоящий эксперт в Python и безопасности!";
+    } else if (score >= 8) {
+      message = "Хорошо! У вас есть хорошие знания, но есть куда расти.";
+    } else {
+      message = "Попробуйте ещё раз! Возможно, стоит углубить свои знания.";
+    }
 
-    <label for="dependencies">Как вы управляете зависимостями в своих проектах?</label>
-    <input type="text" id="dependencies" name="dependencies" required>
-    <br><br>
+    resultContainer.innerHTML = `
+      <h2>Результаты теста</h2>
+      <p>Правильных ответов: ${score}/${questions.length}</p>
+      <p>${message}</p>
+    `;
+  }
 
-    <label for="code_review">Проводите ли вы code review для выявления уязвимостей?</label>
-    <select id="code_review" name="code_review" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
+  loadQuestion();
+</script>
 
-    <label for="static_analysis">Используете ли вы инструменты статического анализа кода?</label>
-    <select id="static_analysis" name="static_analysis" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
+<style>
+  /* Общие стили */
+  #quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
 
-    <label for="logging">Как вы организуете логирование в своих приложениях?</label>
-    <input type="text" id="logging" name="logging" required>
-    <br><br>
+  #question-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
 
-    <label for="error_handling">Какие подходы к обработке ошибок вы используете?</label>
-    <input type="text" id="error_handling" name="error_handling" required>
-    <br><br>
+  #question-container li {
+    margin: 10px 0;
+  }
 
-    <label for="data_validation">Как вы выполняете валидацию данных?</label>
-    <input type="text" id="data_validation" name="data_validation" required>
-    <br><br>
+  #next-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-    <label for="api_security">Какие меры безопасности вы применяете для защиты API?</label>
-    <input type="text" id="api_security" name="api_security" required>
-    <br><br>
+  #next-button:hover {
+    background-color: #0056b3;
+  }
 
-    <label for="database_security">Как вы защищаете данные в базе данных?</label>
-    <input type="text" id="database_security" name="database_security" required>
-    <br><br>
+  #result-container {
+    text-align: center;
+  }
 
-    <label for="secure_communication">Как вы обеспечиваете безопасность передачи данных?</label>
-    <input type="text" id="secure_communication" name="secure_communication" required>
-    <br><br>
+  /* Стили для тёмной темы */
+  [data-md-color-scheme="slate"] #quiz-container {
+    border-color: #424242;
+    background-color: #212121;
+  }
 
-    <label for="user_input">Как вы обрабатываете пользовательский ввод для предотвращения атак?</label>
-    <input type="text" id="user_input" name="user_input" required>
-    <br><br>
+  [data-md-color-scheme="slate"] .md-typeset {
+    color: #e0e0e0;
+  }
 
-    <label for="security_updates">Как часто вы обновляете зависимости для исправления уязвимостей?</label>
-    <input type="text" id="security_updates" name="security_updates" required>
-    <br><br>
+  [data-md-color-scheme="slate"] input[type="radio"] + label {
+    color: #e0e0e0;
+  }
 
-    <label for="security_testing">Проводите ли вы тестирование безопасности своего кода?</label>
-    <select id="security_testing" name="security_testing" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
+  [data-md-color-scheme="slate"] #next-button {
+    background-color: #1e88e5;
+  }
 
-    <label for="incident_response">Есть ли у вас план реагирования на инциденты безопасности?</label>
-    <select id="incident_response" name="incident_response" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
-
-    <label for="compliance">Соблюдаете ли вы какие-либо стандарты безопасности (например, GDPR, HIPAA)?</label>
-    <select id="compliance" name="compliance" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
-
-    <label for="training">Проходите ли вы или ваша команда обучение по безопасности?</label>
-    <select id="training" name="training" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
-
-    <label for="open_source">Используете ли вы open-source библиотеки?</label>
-    <select id="open_source" name="open_source" required>
-        <option value="Да">Да</option>
-        <option value="Нет">Нет</option>
-    </select>
-    <br><br>
-
-    <label for="security_tools">Какие инструменты безопасности вы используете?</label>
-    <input type="text" id="security_tools" name="security_tools" required>
-    <br><br>
-
-    <label for="feedback">Есть ли у вас дополнительные предложения по улучшению безопасности в Python?</label>
-    <textarea id="feedback" name="feedback" required></textarea>
-    <br><br>
-
-    <button type="submit">Отправить</button>
-</form>
+  [data-md-color-scheme="slate"] #result-container {
+    color: #e0e0e0;
+  }
+</style>
