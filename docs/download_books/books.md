@@ -12,7 +12,7 @@
 ## «Энциклопедия профессора Фортрана» А. Зарецкий, А. Труханов, М. Зарецкая
 ![i2](images/fortran.png)
 
-- [Скачать PDF](https://vk.com/doc415041562_577265753?hash=cRNb7csFvaZOZFaj7HskkWzyZGdhbn74eA33OisOs8g&dl=UvdXfD7kYiyxOz3bqP93e9a8G5yINAcsYq79jrM6s8H&api=1&no_preview=1)
+- [Скачать PDF](https://drive.google.com/file/d/1j9YV9rRBbkR-18SH4h0e6tZ830qUZrqp/view?usp=drive_link)
 
 ---
 
@@ -28,6 +28,21 @@
 
 - [Скачать PDF](https://vk.com/doc81289_529724225?hash=VowtBmmwYYjrixtkdsTt89D6PS256niOh7PrqzJB5gL&dl=uzDYmkqR8LBlPTdWA4duLWX9VcjvVm9ZBHbW0dB3Kcc&api=1&no_preview=1)
 
+---
+
+## Выявление и эксплуатация SQL-инъекций в приложениях
+
+![i4](images/sql1.jpg)
+
+- [Скачать PDF](https://npo-echelon.ru/doc/echelon-sql.pdf)
+
+---
+
+## Уязвимость SQL-инъекция: Практическое руководство для хакеров
+
+![i4](images/sql2.jpg)
+
+- [Скачать PDF](https://vk.com/doc54631840_592147092?hash=BfjYFzWYFVzdqzqq4Lotm2iaihOOnViBJtfFDqK7h1X&dl=TEZkzssZBSbewTMe9pnrKzDzsgGnC8rwrtTItqlULMs)
 
 ---
 
