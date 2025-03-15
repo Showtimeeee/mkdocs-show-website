@@ -4,6 +4,8 @@
 
 #### - [Муравьиный алгоритм (Ant Colony Optimization, ACO)](ant_colony.md)
 #### - [Пчелиный алгоритм (Bee Algorithm)](bee_alg.md)
+#### - [Алгоритм Роя Частиц (Particle Swarm Optimization, PSO)](particle_swarm.md)
+
 
 
 
