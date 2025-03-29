@@ -63,6 +63,10 @@ extra_javascript:
 
 markdown_extensions:
   - neoteroi.timeline
+  - codehilite:
+      guess_lang: false
+      linenums: true
+  - pymdownx.superfences
 
 plugins:
   - search
