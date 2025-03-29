@@ -59,7 +59,6 @@ extra_css:
 
 extra_javascript:
   - js/bubble_sort.js
-  - js/side-effects.js
 
 markdown_extensions:
   - neoteroi.timeline
