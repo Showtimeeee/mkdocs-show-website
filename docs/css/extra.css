@@ -144,7 +144,7 @@ body {
 
 /* Анимация шапки с растяжением и движущимся градиентом */
 .md-header {
-  animation: stretch-gradient 5s infinite, gradient-animation 5s infinite; /* Обе анимации */
+  animation: stretch-gradient 80s infinite, gradient-animation 35s infinite; /* Обе анимации */
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); /* Градиент */
   background-size: 400% 400%; /* Размер фона для анимации */
   color: white; /* Белый текст */
