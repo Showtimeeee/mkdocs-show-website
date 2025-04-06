@@ -8,6 +8,7 @@
 #### - [Postman](postman.md)
 #### - [Charles](charles.md)
 #### - [Locust](locust.md)
+#### - [Pairwise](pairwise.md)
 ---
 #### - [Rest api](rest_api.md)
 #### - [gRPC](gRPC.md)
