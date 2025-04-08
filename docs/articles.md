@@ -3,7 +3,7 @@
 
 ![Мой аватар](images/automation.png)
 
-#### - [Статья 1: Автоматизация тестирования: Путь к балансу](articles/article1.md)
-#### - [Статья 2: Пирамида тестирования крабов](articles/article2.md)
-#### - [Статья 3: Исповедь автотестера](articles/article3.md)
-#### - [Статья 4: Продо и Кольцо Багов](articles/article5.md)
+#### - [Автоматизация тестирования: Путь к балансу](articles/article1.md)
+#### - [Пирамида тестирования крабов](articles/article2.md)
+#### - [Идущий к багу](articles/article3.md)
+#### - [Продо и Кольцо Багов](articles/article5.md)
