@@ -1,6 +1,8 @@
-# <div class="animate__animated animate__bounce">Книги</div>
+# <div class="animate__animated animate__bounce">Книги📚</div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-Здесь вы можете скачать полезные книги по программированию и другим темам.
+_Здесь вы можете скачать полезные книги по программированию и другим темам._
+
+---
 
 ## «Грокаем алгоритмы» Адитья Бхаргава
 ⭐⭐⭐⭐
@@ -79,6 +81,17 @@
 ![i8](images/payka.png)
 
 - [Скачать PDF](https://vk.com/doc10943591_557426364?hash=5UhiGLSUyFzGZ63norzQ18riwRGaAXuQEKBE4RFzayo&dl=5BMSbZrzbgBgzS1CdvZeI57vkbISTg9nCKJDm2SzN2T)
+
+
+---
+
+## «Автофабрика» Филип К. Дик
+
+⭐⭐⭐⭐
+
+![i9](images/autofactory-logo.png)
+
+- [Скачать PDF](https://www.litres.ru/book/filip-kindred-dik/avtofabrika-28738640/?lfrom_processed=290248264)
 
 
 
