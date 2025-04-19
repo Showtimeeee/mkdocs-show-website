@@ -10,6 +10,7 @@
 #### - [Locust](locust.md)
 #### - [Pairwise](pairwise.md)
 ---
+#### - [Статус-Коды HTTP](statuscode.md)
 #### - [Rest api](rest_api.md)
 #### - [gRPC](gRPC.md)
 #### - [SDLC](sdlc.md)
