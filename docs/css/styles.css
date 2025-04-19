@@ -1,0 +1,23 @@
+/* Стили для блока цитаты */
+.quote {
+    font-family: 'Georgia', serif;
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    border-left: 5px solid #6200ea; 
+    color: #48e00b; 
+    max-width: 600px; 
+}
+
+.quote blockquote {
+    font-size: 1.2em; /* Размер текста цитаты */
+    font-style: italic; /* Курсив */
+    margin: 0;
+}
+
+.quote cite {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em; /* Размер текста автора */
+    color: #48e00b; /* Серый цвет для автора */
+}
