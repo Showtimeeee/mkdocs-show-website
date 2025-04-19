@@ -91,7 +91,9 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 ---
 
-## **[Хакер-мод🆕](hacking/hacking.md)**
+**[Хакер-мод💻](hacking/hacking.md)**
+
+**[Биохакинг🧬](biosecure/biosecure.md)**
 
 ---
 
