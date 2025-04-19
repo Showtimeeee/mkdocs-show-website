@@ -23,7 +23,6 @@
 
 ---
 
-
 ## Что вас ждёт на этом сайте?
 
 - Полезные материалы по разработке, тестированию и оптимизации процессов.
@@ -50,9 +49,6 @@ pip freeze > requirements.txt
 ```
 ```
 pip install -r requirements.txt
-```
-```
-pytest -v -s --tb=long -rA --color=yes --durations=10
 ```
 ```
 pytest -v -s --tb=long -rA --color=yes --durations=10
@@ -94,6 +90,29 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 **[Хакер-мод💻](hacking/hacking.md)**
 
 **[Биохакинг🧬](biosecure/biosecure.md)**
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" href="css/styles.css"> <!-- Путь к папке css -->
+</head>
+<body>
+    <!-- Блок для случайной цитаты -->
+    <div id="random-quote" class="quote">
+        <blockquote>"Здесь будет случайная цитата."</blockquote>
+        <cite>— Автор</cite>
+    </div>
+
+    <!-- Подключение JavaScript -->
+    <script src="js/script.js"></script> <!-- Путь к папке js -->
+</body>
+</html>
 
 ---
 
