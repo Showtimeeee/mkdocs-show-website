@@ -35,6 +35,13 @@
 
 ---
 
+<span style="color:rgb(155, 107, 245); font-weight: bold;">🆕22.04.2025</span>
+<a href="https://calendar.google.com" target="_blank"></a>
+
+**[Cовременное IT🍄](articles/provocation.md)**
+
+---
+
 ## Мой топ команд:
 
 Я их постоянно забываю
@@ -52,9 +59,6 @@ pip install -r requirements.txt
 ```
 ```
 pytest -v -s --tb=long -rA --color=yes --durations=10
-```
-```
-mkdocs serve
 ```
 
 ![гифка](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWc2czluZThxZXl6NGk3NG82djZ4cWZ0bWY0NGVjeG5mZjR1eWR2YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oz8xRICW5msyoRUv6/giphy.gif)
@@ -84,12 +88,6 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 🐙 **[GitHub](https://github.com/Showtimeeee)**  
 
 **[✍️ Форма обратной связи](feedback/feedback.md)**
-
----
-
-**[Хакер-мод💻](hacking/hacking.md)**
-
-**[Биохакинг🧬](biosecure/biosecure.md)**
 
 ---
 
