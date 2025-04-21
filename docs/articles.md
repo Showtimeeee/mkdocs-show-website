@@ -7,4 +7,4 @@
 #### - [Пирамида тестирования крабов](articles/article2.md)⛰️🦀
 #### - [Идущий к багу](articles/article3.md)🧟
 #### - [Продо и Кольцо Багов](articles/article5.md)💍
-#### - [Провокация](articles/provocation.md)🍄
+#### - [Cовременное IT](articles/provocation.md)🍄
