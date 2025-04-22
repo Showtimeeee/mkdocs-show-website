@@ -1,4 +1,4 @@
-# <div class="animate__animated animate__bounce">Проекты</div>
+# <div class="animate__animated animate__bounce">Проекты🤖</div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 ![robot](images/robot.jpg)
@@ -7,11 +7,10 @@
 
 ---
 
-## Список проектов
-#### - [Проект 1: Десктоп приложение "Pet-Desktop-Ver-2-0"](project1.md)
-#### - [Проект 2: Генератор паролей "Pass-Bro-Generator"](project2.md)
-#### - [Проект 3: Игра-платформер "Jumper-Pygame"](project3.md)
-#### - [Проект 4: Игра-платформер "Tanks_p_vs_p_pygame"](project4.md)
+#### - [Десктоп приложение "Pet-Desktop-Ver-2-0"](project1.md)
+#### - [Генератор паролей "Pass-Bro-Generator"](project2.md)
+#### - [Игра-платформер "Jumper-Pygame"](project3.md)
+#### - [Игра-платформер "Tanks_p_vs_p_pygame"](project4.md)
 
 ---
 
