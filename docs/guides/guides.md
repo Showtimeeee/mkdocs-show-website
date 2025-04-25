@@ -9,10 +9,13 @@
 #### - [Charles](charles.md)
 #### - [Locust](locust.md)
 #### - [Pairwise](pairwise.md)
+#### - [Git](git_guide.md)
 ---
 #### - [Статус-Коды HTTP](statuscode.md)
 #### - [Rest api](rest_api.md)
+#### - [SOAP](soap.md)
 #### - [gRPC](gRPC.md)
+#### - [GraphQL](graphql_guide.md)
 #### - [SDLC](sdlc.md)
 ---
 #### - [Api Testing Python](api_testing_python.md)
