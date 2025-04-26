@@ -1,8 +1,10 @@
-# <div class="animate__animated animate__fadeInDown">Добро пожаловать на мой сайт!</div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<h1 class="neon-text-yellow" style="font-size: 2rem; margin-bottom: 10px;" 
+    onmouseover="this.textContent='Спасибо, что зашли! 🙌'" 
+    onmouseout="this.textContent='Добро пожаловать! 🌟'">
+  Добро пожаловать! 🌟
+</h1>
 
- --- 
-
+---
 <style>
   .avatar {
     border-radius: 11%; /* Круглая рамка */
@@ -23,7 +25,7 @@
 
 ---
 
-## Что вас ждёт на этом сайте?
+## <h2 class="neon-text-pink">Что вас ждёт на этом сайте?</h2>
 
 - Полезные материалы по разработке, тестированию и оптимизации процессов.
 - Пошаговые инструкции для решения конкретных задач.
@@ -35,21 +37,17 @@
 
 ---
 
-<span style="color:rgb(155, 107, 245); font-weight: bold;">🆕22.04.2025</span>
-<a href="https://calendar.google.com" target="_blank"></a>
+## <h2 class="neon-text-green">Мой топ команд</h2>
 
-**[Cовременное IT🍄](articles/provocation.md)**
-
----
-
-## Мой топ команд:
-
-Я их постоянно забываю
+_Я их постоянно забываю_😅
 ```
 python -m venv venv
 ```
 ```
 venv\Scripts\activate
+```
+```
+python -m http.server 8000
 ```
 ```
 pip freeze > requirements.txt
@@ -65,13 +63,14 @@ pytest -v -s --tb=long -rA --color=yes --durations=10
 
 ---
 
-## Music & Ambience
+## <h2 class="neon-text-blue">Music & Ambience</h2>
+
 ![type:video](https://www.youtube.com/embed/p2zMXSXhZ9M?si=glYvSX035bksV-Ju)
 
 ---
 
+## <h2 class="neon-text-purple">Open-source / Инструменты</h2>
 
-## Open-source / Инструменты
 
 Это open-source проект, исходный код сайта доступен на GitHub
 
@@ -81,7 +80,8 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 ---
 
-## Обратная связь <img src="images/Z5cP.gif" alt="Анимация" class="gif-background">
+
+## <h2 class="neon-text-orange">Обратная связь <img src="images/Z5cP.gif" alt="Анимация" class="gif-background"></h2>
 
 📧 **[seevaa57@gmail.com](mailto:seevaa57@gmail.com)**  
 
@@ -90,6 +90,7 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 **[✍️ Форма обратной связи](feedback/feedback.md)**
 
 ---
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -116,23 +117,6 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 <div class="version-container">
     <div class="version-info">
-        v3.7
+        v3.9
     </div>
 </div>
-
-<style>
-  .version-container {
-    text-align: center; /* Центрируем содержимое по горизонтали */
-  }
-
-  .version-info {
-    display: inline-block; /* Чтобы элемент занимал только необходимую ширину */
-    padding: 5px 10px;
-    background-color: rgb(13, 102, 65); 
-    border: 1px solid rgb(247, 243, 241); 
-    border-radius: 5px; /* Закругленные углы */
-    font-size: 16px;
-    font-weight: bold;
-    color: rgb(233, 235, 238); 
-  }
-</style>
