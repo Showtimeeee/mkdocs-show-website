@@ -65,7 +65,7 @@ pytest -v -s --tb=long -rA --color=yes --durations=10
 
 ## <h2 class="neon-text-blue">Music & Ambience</h2>
 
-![type:video](https://www.youtube.com/embed/p2zMXSXhZ9M?si=glYvSX035bksV-Ju)
+![type:video](https://www.youtube.com/embed/9ou1pl0XNRs?si=5XgTQAABh5yLZw0S)
 
 ---
 
