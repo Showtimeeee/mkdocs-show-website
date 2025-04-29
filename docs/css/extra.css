@@ -190,3 +190,48 @@ body {
   display: inline-block; /* Чтобы ширина соответствовала содержимому */
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Неоновая тень */
 }
+
+/* Основные стили таблицы */
+.md-typeset table:not([class]) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.95rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Заголовки столбцов */
+.md-typeset table:not([class]) th {
+  background-color: #f55cc7;
+  color: #212629;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid #ec5f01;
+}
+
+
+/* Ссылки в таблице */
+.md-typeset table:not([class]) a {
+  color: #0b82a0;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.md-typeset table:not([class]) a:hover {
+  color: #f55cc7;
+  text-decoration: underline;
+}
+
+
+/* Компактный вариант для мобильных */
+@media (max-width: 768px) {
+  .md-typeset table:not([class]) {
+      font-size: 0.9rem;
+  }
+  .md-typeset table:not([class]) th,
+  .md-typeset table:not([class]) td {
+      padding: 0.5rem 0.75rem;
+  }
+}
