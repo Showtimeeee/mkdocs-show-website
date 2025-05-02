@@ -22,6 +22,7 @@
     color: #48e00b; /* Серый цвет для автора */
 }
 
+
 .neon-text-blue {
     font-size: 3em;
     color: #00ffcc;
@@ -44,6 +45,42 @@
         0 0 40px #8A2BE2,
         0 0 80px #8A2BE2;
     animation: flicker-purple 1.5s infinite;
+}
+
+.neon-text-darkpurple {
+    font-size: 3em;
+    color: #8a00ff;
+    text-shadow:
+        0 0 5px #8a00ff,
+        0 0 10px #8a00ff,
+        0 0 20px #8a00ff,
+        0 0 40px #6a0dad,
+        0 0 80px #4b0082;
+    animation: flicker-darkpurple 1.5s infinite alternate;
+}
+
+.neon-text-rainbow {
+    font-size: 3em;
+    color: #ff00ff;
+    text-shadow:
+        0 0 5px #ff00ff,
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;
+    animation: flicker-rainbow 2s infinite alternate;
+}
+
+.neon-text-gold {
+    font-size: 3em;
+    color: #ffd700;
+    text-shadow:
+        0 0 5px #ffd700,
+        0 0 10px #ffd700,
+        0 0 20px #ffd700,
+        0 0 40px #ffaa00,
+        0 0 80px #ff8800;
+    animation: flicker-gold 4.5s infinite alternate;
 }
 
 .neon-text-yellow {
@@ -149,3 +186,22 @@
     cursor: pointer; /* Курсор меняется на указатель */
   }
 
+  @keyframes flicker-iceblue {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; text-shadow: 0 0 10px #00f2ff, 0 0 20px #00b7ff; }
+}
+
+@keyframes flicker-acid {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; text-shadow: 0 0 15px #39ff14, 0 0 30px #00ff7f; }
+}
+
+@keyframes flicker-rainbow {
+    0%, 100% { color: #ff00ff; text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff; }
+    50% { color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff; }
+}
+
+@keyframes flicker-gold {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; text-shadow: 0 0 15px #ffd700, 0 0 30px #ffaa00; }
+}
