@@ -1,7 +1,7 @@
-<h1 class="neon-text-yellow" style="font-size: 2rem; margin-bottom: 10px;" 
+<h1 class="neon-text-gold" style="font-size: 2rem; margin-bottom: 10px;" 
     onmouseover="this.textContent='Спасибо, что зашли! 🙌'" 
     onmouseout="this.textContent='Добро пожаловать! 🌟'">
-  Добро пожаловать! 🌟
+  Добро пожаловать!🌟
 </h1>
 
 ---
