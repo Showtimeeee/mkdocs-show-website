@@ -170,7 +170,6 @@
             Исследуйте структуру ДНК в интерактивном режиме. Вращайте, масштабируйте и изучайте
             состав нуклеотидов. Наведите курсор на элементы ДНК, чтобы увидеть подробную информацию.
         </p>
-
         <div class="controls">
             <button id="rotate-btn">Вращение: Вкл</button>
             <button id="zoom-in-btn">Увеличить</button>
@@ -179,13 +178,11 @@
             <button id="generate-dna-btn">Новая ДНК</button>
             <button id="info-btn">О ДНК</button>
         </div>
-
         <div id="dna-container">
             <canvas id="dna-canvas"></canvas>
             <div class="base-info" id="base-info"></div>
             <div class="tooltip" id="tooltip"></div>
         </div>
-
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color" style="background-color: #FF5252;"></div>
@@ -205,13 +202,12 @@
             </div>
         </div>
     </div>
-
     <div class="modal" id="info-modal">
         <div class="modal-content">
             <button class="close-modal">&times;</button>
             <h2>О структуре ДНК</h2>
             <p>
-                ДНК (дезоксирибонуклеиновая кислота) - это молекула, которая содержит
+                ДНК (дезоксирибонуклеиновая кислота) — это молекула, которая содержит
                 генетические инструкции для развития и функционирования всех живых организмов.
             </p>
             <p>
@@ -239,7 +235,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Основные константы
         const BASES = {
@@ -248,13 +243,11 @@
             'G': { name: 'Гуанин', color: '#4CAF50', pair: 'C' },
             'C': { name: 'Цитозин', color: '#2196F3', pair: 'G' }
         };
-
         // Параметры ДНК
         const DNA_LENGTH = 20;
         const DNA_RADIUS = 2;
         const BASE_DISTANCE = 1.5;
         const TURN_PER_BASE = 0.2;
-
         // Генерация случайной последовательности ДНК
         function generateRandomDNA(length) {
             const bases = Object.keys(BASES);
@@ -264,7 +257,6 @@
             }
             return sequence;
         }
-
         // Основной класс для визуализации ДНК
         class DNAVisualizer {
             constructor(canvas) {
@@ -280,14 +272,11 @@
                 this.lastMousePos = null;
                 this.isDragging = false;
                 this.isPanning = false;
-
                 this.init();
             }
-
             init() {
                 this.resizeCanvas();
                 window.addEventListener('resize', () => this.resizeCanvas());
-
                 // Обработчики событий мыши
                 this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
                 this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
@@ -295,11 +284,9 @@
                 this.canvas.addEventListener('mouseleave', () => this.onMouseUp());
                 this.canvas.addEventListener('wheel', (e) => this.onMouseWheel(e));
                 this.canvas.addEventListener('click', (e) => this.onClick(e));
-
                 // Анимация
                 requestAnimationFrame(() => this.animate());
             }
-
             resizeCanvas() {
                 const container = this.canvas.parentElement;
                 this.canvas.width = container.clientWidth;
@@ -309,23 +296,18 @@
                     y: this.canvas.height / 2
                 };
             }
-
             onMouseDown(e) {
                 this.lastMousePos = { x: e.clientX, y: e.clientY };
-
                 if (e.button === 0) { // ЛКМ
                     this.isDragging = true;
                 } else if (e.button === 2) { // ПКМ
                     this.isPanning = true;
                 }
             }
-
             onMouseMove(e) {
                 if (!this.lastMousePos) return;
-
                 const dx = e.clientX - this.lastMousePos.x;
                 const dy = e.clientY - this.lastMousePos.y;
-
                 if (this.isDragging) {
                     this.rotation.y += dx * 0.01;
                     this.rotation.x += dy * 0.01;
@@ -335,31 +317,24 @@
                     this.center.x += dx;
                     this.center.y += dy;
                 }
-
                 this.lastMousePos = { x: e.clientX, y: e.clientY };
-
-                // Проверка наведения на основание
                 this.checkHover(e.clientX, e.clientY);
             }
-
             onMouseUp() {
                 this.isDragging = false;
                 this.isPanning = false;
                 this.lastMousePos = null;
             }
-
             onMouseWheel(e) {
                 e.preventDefault();
                 this.scale += e.deltaY * -0.1;
                 this.scale = Math.max(10, Math.min(150, this.scale));
             }
-
             onClick(e) {
                 if (this.hoveredBase) {
                     const baseInfo = document.getElementById('base-info');
                     const base = BASES[this.hoveredBase.base];
                     const pair = BASES[base.pair];
-
                     baseInfo.innerHTML = `
                         <strong>${base.name} (${this.hoveredBase.base})</strong><br>
                         Соединяется с ${pair.name} (${base.pair})<br>
@@ -367,38 +342,32 @@
                     `;
                     baseInfo.style.opacity = '1';
 
-                    setTimeout(() => {
-                        baseInfo.style.opacity = '0';
-                    }, 3000);
+                    
                 }
             }
-
             checkHover(x, y) {
                 const rect = this.canvas.getBoundingClientRect();
                 x -= rect.left;
                 y -= rect.top;
 
-                const mousePos = { x, y };
                 let closestBase = null;
                 let minDist = Infinity;
 
-                // Преобразуем координаты мыши в 3D пространство
-                const mouse3D = this.screenTo3D(mousePos);
-
-                // Проверяем все основания
                 for (let i = 0; i < this.sequence.length; i++) {
                     const base = this.sequence[i];
-                    const basePos = this.getBasePosition(i);
-                    const pairPos = this.getBasePosition(i, true);
-
-                    // Проверяем расстояние до основания и его пары
-                    const dist1 = this.distance(mouse3D, basePos);
-                    const dist2 = this.distance(mouse3D, pairPos);
+                    const pos1 = this.getBasePosition(i);
+                    const screenPos1 = this.projectPoint(pos1);
+                    const dist1 = this.distance({x, y}, {x: screenPos1.x, y: screenPos1.y});
 
                     if (dist1 < minDist) {
                         minDist = dist1;
                         closestBase = { base, position: i, isPair: false };
                     }
+
+                    // Проверяем парное основание
+                    const pos2 = this.getBasePosition(i, true);
+                    const screenPos2 = this.projectPoint(pos2);
+                    const dist2 = this.distance({x, y}, {x: screenPos2.x, y: screenPos2.y});
 
                     if (dist2 < minDist) {
                         minDist = dist2;
@@ -406,11 +375,9 @@
                     }
                 }
 
-                // Проверяем, достаточно ли близко мышь к основанию
-                const threshold = 0.5 * (this.scale / 50);
+                const threshold = 10;
                 if (minDist < threshold) {
                     this.hoveredBase = closestBase;
-
                     const tooltip = document.getElementById('tooltip');
                     tooltip.innerHTML = `${closestBase.base} (${BASES[closestBase.base].name})`;
                     tooltip.style.left = `${x + 15}px`;
@@ -421,29 +388,17 @@
                     document.getElementById('tooltip').style.opacity = '0';
                 }
             }
-
-            screenTo3D(screenPos) {
-                return {
-                    x: (screenPos.x - this.center.x) / this.scale,
-                    y: (screenPos.y - this.center.y) / this.scale,
-                    z: 0
-                };
-            }
-
             distance(a, b) {
                 return Math.sqrt(
                     Math.pow(a.x - b.x, 2) +
-                    Math.pow(a.y - b.y, 2) +
-                    Math.pow(a.z - b.z, 2)
+                    Math.pow(a.y - b.y, 2)
                 );
             }
-
             getBasePosition(index, isPair = false) {
                 const angle = index * TURN_PER_BASE * Math.PI;
                 const x = Math.cos(angle) * DNA_RADIUS;
                 const z = Math.sin(angle) * DNA_RADIUS;
                 const y = index * BASE_DISTANCE - (DNA_LENGTH * BASE_DISTANCE) / 2;
-
                 if (isPair) {
                     return {
                         x: -x,
@@ -451,49 +406,38 @@
                         z: -z
                     };
                 }
-
                 return { x, y, z };
             }
-
             rotatePoint(point) {
                 // Вращение по X
                 const cosX = Math.cos(this.rotation.x);
                 const sinX = Math.sin(this.rotation.x);
                 const y1 = point.y * cosX - point.z * sinX;
                 const z1 = point.y * sinX + point.z * cosX;
-
                 // Вращение по Y
                 const cosY = Math.cos(this.rotation.y);
                 const sinY = Math.sin(this.rotation.y);
                 const x2 = point.x * cosY + z1 * sinY;
                 const z2 = -point.x * sinY + z1 * cosY;
-
-                // Вращение по Z (не используем для простоты)
                 return { x: x2, y: y1, z: z2 };
             }
-
             projectPoint(point3D) {
                 const rotated = this.rotatePoint(point3D);
                 const distance = 5;
                 const factor = distance / (distance - rotated.z);
-
                 return {
                     x: this.center.x + rotated.x * factor * this.scale,
                     y: this.center.y + rotated.y * factor * this.scale
                 };
             }
-
             draw() {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
                 // Рисуем сахаро-фосфатный остов
                 this.drawBackbone();
-
                 // Рисуем пары оснований
                 for (let i = 0; i < this.sequence.length; i++) {
                     this.drawBasePair(i);
                 }
-
                 // Подсвечиваем hovered base
                 if (this.hoveredBase) {
                     const pos = this.getBasePosition(
@@ -501,28 +445,23 @@
                         this.hoveredBase.isPair
                     );
                     const screenPos = this.projectPoint(pos);
-
                     this.ctx.beginPath();
                     this.ctx.arc(screenPos.x, screenPos.y, 8, 0, Math.PI * 2);
                     this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
                     this.ctx.fill();
                 }
             }
-
             drawBackbone() {
                 const points1 = [];
                 const points2 = [];
-
                 for (let i = 0; i <= this.sequence.length; i++) {
                     const angle = i * TURN_PER_BASE * Math.PI;
                     const x = Math.cos(angle) * DNA_RADIUS;
                     const z = Math.sin(angle) * DNA_RADIUS;
                     const y = i * BASE_DISTANCE - (DNA_LENGTH * BASE_DISTANCE) / 2;
-
                     points1.push(this.projectPoint({ x, y, z }));
                     points2.push(this.projectPoint({ x: -x, y, z: -z }));
                 }
-
                 // Рисуем первую цепь
                 this.ctx.beginPath();
                 this.ctx.moveTo(points1[0].x, points1[0].y);
@@ -532,7 +471,6 @@
                 this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
                 this.ctx.lineWidth = 3;
                 this.ctx.stroke();
-
                 // Рисуем вторую цепь
                 this.ctx.beginPath();
                 this.ctx.moveTo(points2[0].x, points2[0].y);
@@ -543,17 +481,13 @@
                 this.ctx.lineWidth = 3;
                 this.ctx.stroke();
             }
-
             drawBasePair(index) {
                 const base = this.sequence[index];
                 const pair = BASES[base].pair;
-
                 const pos1 = this.getBasePosition(index);
                 const pos2 = this.getBasePosition(index, true);
-
                 const screenPos1 = this.projectPoint(pos1);
                 const screenPos2 = this.projectPoint(pos2);
-
                 // Рисуем соединение между основаниями
                 this.ctx.beginPath();
                 this.ctx.moveTo(screenPos1.x, screenPos1.y);
@@ -561,7 +495,6 @@
                 this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
                 this.ctx.lineWidth = 1;
                 this.ctx.stroke();
-
                 // Рисуем первое основание
                 this.ctx.beginPath();
                 this.ctx.arc(screenPos1.x, screenPos1.y, 5, 0, Math.PI * 2);
@@ -570,7 +503,6 @@
                 this.ctx.strokeStyle = 'white';
                 this.ctx.lineWidth = 1;
                 this.ctx.stroke();
-
                 // Рисуем второе основание
                 this.ctx.beginPath();
                 this.ctx.arc(screenPos2.x, screenPos2.y, 5, 0, Math.PI * 2);
@@ -579,42 +511,34 @@
                 this.ctx.strokeStyle = 'white';
                 this.ctx.lineWidth = 1;
                 this.ctx.stroke();
-
                 // Подписываем основания при большом масштабе
                 if (this.scale > 70) {
                     this.ctx.font = 'bold 14px Arial';
                     this.ctx.fillStyle = 'white';
                     this.ctx.textAlign = 'center';
                     this.ctx.textBaseline = 'middle';
-
                     this.ctx.fillText(base, screenPos1.x, screenPos1.y);
                     this.ctx.fillText(pair, screenPos2.x, screenPos2.y);
                 }
             }
-
             animate() {
                 if (this.autoRotate) {
                     this.rotation.y += this.rotationSpeed;
                 }
-
                 this.draw();
                 requestAnimationFrame(() => this.animate());
             }
-
             toggleRotation() {
                 this.autoRotate = !this.autoRotate;
                 document.getElementById('rotate-btn').textContent =
                     `Вращение: ${this.autoRotate ? 'Вкл' : 'Выкл'}`;
             }
-
             zoomIn() {
                 this.scale = Math.min(150, this.scale * 1.2);
             }
-
             zoomOut() {
                 this.scale = Math.max(10, this.scale / 1.2);
             }
-
             reset() {
                 this.rotation = { x: 0, y: 0, z: 0 };
                 this.scale = 50;
@@ -625,48 +549,39 @@
                 this.autoRotate = true;
                 document.getElementById('rotate-btn').textContent = 'Вращение: Вкл';
             }
-
             generateNewDNA() {
                 this.sequence = generateRandomDNA(DNA_LENGTH);
             }
         }
-
         // Инициализация при загрузке страницы
         window.onload = function() {
             const canvas = document.getElementById('dna-canvas');
             const dnaVisualizer = new DNAVisualizer(canvas);
-
             // Настройка кнопок управления
             document.getElementById('rotate-btn').addEventListener('click', () => dnaVisualizer.toggleRotation());
             document.getElementById('zoom-in-btn').addEventListener('click', () => dnaVisualizer.zoomIn());
             document.getElementById('zoom-out-btn').addEventListener('click', () => dnaVisualizer.zoomOut());
             document.getElementById('reset-btn').addEventListener('click', () => dnaVisualizer.reset());
             document.getElementById('generate-dna-btn').addEventListener('click', () => dnaVisualizer.generateNewDNA());
-
             // Модальное окно с информацией
             const infoModal = document.getElementById('info-modal');
             const infoBtn = document.getElementById('info-btn');
             const closeModal = document.querySelector('.close-modal');
-
             infoBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 infoModal.classList.add('active');
             });
-
             closeModal.addEventListener('click', (e) => {
                 e.stopPropagation();
                 infoModal.classList.remove('active');
             });
-
             infoModal.addEventListener('click', (e) => {
                 if (e.target === infoModal) {
                     infoModal.classList.remove('active');
                 }
             });
-
             // Запрещаем контекстное меню на canvas
             canvas.addEventListener('contextmenu', (e) => e.preventDefault());
-
             // Закрытие по ESC
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
