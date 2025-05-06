@@ -13,8 +13,9 @@
 #### - [Игра-платформер "Tanks_p_vs_p_pygame"](project4.md)
 
 ---
-#### - [DNA🧬](..//graphs/dna/dna.html)
-#### - [Хакер-мод (Terminal)💻](../hacking/hacking.md)
+#### - [Муравьиная Колония (Ants-Bro)🐜](..//graphs/ant/ant.html)
+#### - [ДНК (DNA-Bro)🧬](..//graphs/dna/dna.html)
+#### - [Хакер-мод (Terminal-Bro)💻](../hacking/hacking.md)
 #### - [Нарисуй идеальный круг (js-game)🔵](../js_games/game_circle.html)
 #### - [Нарисуй идеальную линию (js-game)〰️](../js_games/game_line.html)
 
