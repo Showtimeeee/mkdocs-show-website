@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicon -->
+  <link rel="icon" type="dna" href="ant-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <title>Муравьиная Колония</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #1b5e20;
+      color: white;
+      transition: background-color 0.5s;
+    }
+
+    .info-panel {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 15px 30px;
+      text-align: center;
+      border-bottom: 2px solid #fff3e0;
+    }
+
+    .info-panel h2 {
+      margin-top: 0;
+      font-size: 2em;
+    }
+
+    .info-panel p {
+      font-size: 1.1em;
+      max-width: 800px;
+      margin: 0 auto 10px;
+    }
+
+    .info-panel strong {
+      display: block;
+      margin-top: 10px;
+    }
+
+    canvas {
+      display: block;
+      margin: auto;
+      background-color: #0a962d;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      transition: background-color 0.5s;
+    }
+
+    .legend {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .legend span {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    .controls {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 8px 15px;
+      background-color: #03570e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #day-night-btn {
+      background-color: #333;
+    }
+
+    #day-night-btn:hover {
+      background-color: #555;
+    }
+
+    #stats {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+      font-size: 0.9em;
+    }
+
+    .fact-container {
+      margin: 20px auto;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      min-height: 100px;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Информационная панель -->
+  <div class="info-panel">
+    <h2>Муравьиная Колония🐜</h2>
+    <p>
+      Исследуйте структуру настоящей муравьиной колонии. Матка находится в центре, вокруг неё — личинки и куколки.
+      Няньки ухаживают за потомством, солдаты патрулируют периметр, а фуражиры собирают пищу.
+    </p>
+
+    <div class="controls">
+      <button id="add-food-btn">Добавить еду</button>
+      <button id="add-ant-btn">Добавить муравья (случайный тип)</button>
+      <button id="day-night-btn">Ночной режим</button>
+    </div>
+
+    <div id="stats">
+      <div>Муравьев: <span id="ant-count">0</span></div>
+      <div>Еды: <span id="food-count">0</span></div>
+      <div>Собрано еды: <span id="food-collected">0</span></div>
+      <div>Личинок: <span id="larvae-count">0</span></div>
+    </div>
+  </div>
+
+  <!-- Холст -->
+  <canvas id="colony-canvas" width="900" height="600"></canvas>
+
+  <!-- Легенда -->
+  <div class="legend">
+    <p><span style="background:#8C2FD4"></span>Матка</p>
+    <p><span style="background:#ffd600;"></span>Нянька</p>
+    <p><span style="background:#fff176;"></span>Фуражир</p>
+    <p><span style="background:#2979ff;"></span>Солдат</p>
+    <p><span style="background:#ffffff;"></span>Личинка / Куколка</p>
+    <p><span style="background:#f44336;"></span>Падь</p>
+    <p><span style="background:#00ff00;"></span>Феромоны к гнезду</p>
+    <p><span style="background:#ff0000;"></span>Феромоны к еде</p>
+  </div>
+
+  <!-- Факты о муравьях -->
+  <div class="fact-container" id="factDisplay">
+    <p>Нажмите кнопку, чтобы узнать интересный факт о муравьях</p>
+  </div>
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="showRandomFact()">Получить факт о муравьях</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('colony-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Центр гнезда
+    const NEST_CENTER = { x: 130, y: 300 };
+    const LARVAE_RADIUS = 30;
+
+    // Типы особей
+    const ANT_TYPES = {
+      queen: { color: '#8C2FD4', size: 12, speed: 0 },
+      nurse: { color: '#ffd600', size: 6, speed: 0.6 },
+      forager: { color: '#fff176', size: 6, speed: 1.0 },
+      soldier: { color: '#2979ff', size: 8, speed: 0.8 },
+    };
+
+    let ants = [];
+    let foods = [];
+    let pheromones = [];
+    const MAX_PHEROMONES = 500;
+    let isNight = false;
+    let foodCollectedCount = 0;
+
+    // Инициализация колонии
+    function initColony() {
+      ants = [];
+      foods = [];
+      pheromones = [];
+      foodCollectedCount = 0;
+
+      // Создание матки
+      ants.push({
+        type: 'queen',
+        x: NEST_CENTER.x,
+        y: NEST_CENTER.y,
+      });
+
+      // Личинки вокруг матки
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 3;
+        ants.push({
+          type: 'larva',
+          x: NEST_CENTER.x + Math.cos(angle) * LARVAE_RADIUS,
+          y: NEST_CENTER.y + Math.sin(angle) * LARVAE_RADIUS,
+          size: 6,
+          growthTimer: 0,
+          growthStage: 0
+        });
+      }
+
+      // Няньки
+      for (let i = 0; i < 6; i++) {
+        ants.push({
+          type: 'nurse',
+          x: NEST_CENTER.x + Math.random() * 60 - 30,
+          y: NEST_CENTER.y + Math.random() * 60 - 30,
+          vx: (Math.random() - 0.5) * 1,
+          vy: (Math.random() - 0.5) * 1,
+        });
+      }
+
+      // Солдаты 
+      for (let i = 0; i < 4; i++) {
+        ants.push({
+          type: 'soldier',
+          x: NEST_CENTER.x + 60 + Math.random() * 200, 
+          y: NEST_CENTER.y + Math.random() * 200 - 100,
+          vx: (Math.random() - 0.5) * 1,
+          vy: (Math.random() - 0.5) * 1,
+          pauseTimer: 0,
+          isPaused: false
+        });
+      }
+
+      // Фуражиры
+      for (let i = 0; i < 5; i++) {
+        ants.push({
+          type: 'forager',
+          x: NEST_CENTER.x + 150 + Math.random() * 400,
+          y: NEST_CENTER.y + Math.random() * 300 - 150,
+          vx: (Math.random() - 0.5) * 1,
+          vy: (Math.random() - 0.5) * 1,
+          carryingFood: false,
+        });
+      }
+
+      // Падь
+      for (let i = 0; i < 13; i++) {
+        foods.push({
+          x: 400 + Math.random() * 400,
+          y: 100 + Math.random() * 400,
+          collected: false,
+        });
+      }
+    }
+
+    function drawAnts() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Рисуем феромоны
+      pheromones.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = p.type === 'toNest' ? 'rgba(0,255,0,0.3)' : 'rgba(255,0,0,0.3)';
+        ctx.fill();
+      });
+
+      // Рисуем еду
+      foods.forEach(food => {
+        if (!food.collected) {
+          ctx.beginPath();
+          ctx.arc(food.x, food.y, 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#f44336';
+          ctx.fill();
+        }
+      });
+
+      // Рисуем муравьёв
+      ants.forEach(ant => {
+        const data = ANT_TYPES[ant.type];
+        if (data) {
+          ctx.beginPath();
+          ctx.arc(ant.x, ant.y, data.size, 0, Math.PI * 2);
+          ctx.fillStyle = data.color;
+          ctx.fill();
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Если фуражир несет еду
+          if (ant.type === 'forager' && ant.carryingFood) {
+            ctx.beginPath();
+            ctx.arc(ant.x, ant.y - 10, 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#f44336';
+            ctx.fill();
+          }
+        }
+      });
+
+      // Рисуем личинки
+      ants.forEach(ant => {
+        if (ant.type === 'larva') {
+          ctx.beginPath();
+          ctx.arc(ant.x, ant.y, ant.size, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
+    }
+
+    function updatePositions() {
+      // Обновляем статистику
+      document.getElementById('ant-count').textContent = ants.filter(a => a.type !== 'larva').length;
+      document.getElementById('larvae-count').textContent = ants.filter(a => a.type === 'larva').length;
+      document.getElementById('food-count').textContent = foods.filter(f => !f.collected).length;
+      document.getElementById('food-collected').textContent = foodCollectedCount;
+
+      // Обновляем феромоны
+      pheromones.forEach(p => p.life--);
+      pheromones = pheromones.filter(p => p.life > 0);
+
+      ants.forEach(ant => {
+        if (ant.type === 'queen') return;
+
+        // Обработка личинок
+        if (ant.type === 'larva') {
+          ant.growthTimer++;
+          
+          // Раз в 200 кадров увеличиваем стадию развития
+          if (ant.growthTimer % 200 === 0 && ant.growthStage < 100) {
+            ant.growthStage += 2 + Math.random() * 5;
+            ant.size = 6 + (ant.growthStage / 25);
+          }
+          
+          // Когда стадия достигает 100 - превращаемся
+          if (ant.growthStage >= 100) {
+            const types = ['nurse', 'forager', 'soldier'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            // Заменяем личинку на муравья
+            const index = ants.indexOf(ant);
+            ants.splice(index, 1, {
+              type: type,
+              x: ant.x,
+              y: ant.y,
+              vx: (Math.random() - 0.5) * 1,
+              vy: (Math.random() - 0.5) * 1,
+              ...(type === 'forager' ? { carryingFood: false } : {}),
+              ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {})
+            });
+            
+            // С шансом 25% добавляем новую личинку
+            if (Math.random() < 0.25) {
+              const angle = Math.random() * Math.PI * 2;
+              ants.push({
+                type: 'larva',
+                x: NEST_CENTER.x + Math.cos(angle) * LARVAE_RADIUS,
+                y: NEST_CENTER.y + Math.sin(angle) * LARVAE_RADIUS,
+                size: 6,
+                growthTimer: 0,
+                growthStage: 0
+              });
+            }
+          }
+          return;
+        }
+
+        // Няньки — движутся между личинками
+        if (ant.type === 'nurse') {
+          const larvae = ants.filter(a => a.type === 'larva');
+          if (larvae.length > 0) {
+            const targetLarva = larvae[Math.floor(Math.random() * larvae.length)];
+            let dx = targetLarva.x - ant.x;
+            let dy = targetLarva.y - ant.y;
+            let dist = Math.hypot(dx, dy);
+            if (dist > 10) {
+              ant.vx += dx / dist * 0.03;
+              ant.vy += dy / dist * 0.03;
+            }
+          }
+        }
+
+        // Солдаты — патрулируют около гнезда
+        if (ant.type === 'soldier') {
+          if (!ant.isPaused) {
+            let dx = NEST_CENTER.x - ant.x;
+            let dy = NEST_CENTER.y - ant.y;
+            let dist = Math.hypot(dx, dy);
+        
+            // Если близко — уходим от центра
+            if (dist < 80) {
+              ant.vx -= dx / dist * 0.02;
+              ant.vy -= dy / dist * 0.02;
+            }
+            // Если далеко — возвращаемся к центру
+            else if (dist > 200) {
+              ant.vx += dx / dist * 0.02;
+              ant.vy += dy / dist * 0.02;
+            }
+        
+            // Иногда останавливаемся
+            if (Math.random() < 0.005 && !ant.isPaused) {
+              ant.isPaused = true;
+              ant.pauseTimer = Date.now();
+            }
+          } else {
+            // Пауза — стоим
+            if (Date.now() - ant.pauseTimer > 4000) {
+              ant.isPaused = false;
+            }
+          }
+        }
+
+        // Фуражиры — собирают еду и относят её королеве
+        if (ant.type === 'forager') {
+          if (ant.carryingFood) {
+            let dx = NEST_CENTER.x - ant.x;
+            let dy = NEST_CENTER.y - ant.y;
+            let dist = Math.hypot(dx, dy);
+            if (dist < 10) {
+              ant.carryingFood = false;
+              foodCollectedCount++;
+            } else {
+              ant.vx += dx / dist * 0.02;
+              ant.vy += dy / dist * 0.02;
+            }
+
+            // Оставляем феромоны к гнезду
+            if (Math.random() < 0.1) {
+              pheromones.push({
+                x: ant.x,
+                y: ant.y,
+                type: 'toNest',
+                life: 100
+              });
+              if (pheromones.length > MAX_PHEROMONES) {
+                pheromones.shift();
+              }
+            }
+          } else {
+            let nearestFood = foods.find(f => !f.collected);
+            if (nearestFood) {
+              let dx = nearestFood.x - ant.x;
+              let dy = nearestFood.y - ant.y;
+              let dist = Math.hypot(dx, dy);
+              if (dist < 10) {
+                nearestFood.collected = true;
+                ant.carryingFood = true;
+              } else {
+                ant.vx += dx / dist * 0.02;
+                ant.vy += dy / dist * 0.02;
+              }
+
+              // Оставляем феромоны к еде
+              if (Math.random() < 0.1) {
+                pheromones.push({
+                  x: ant.x,
+                  y: ant.y,
+                  type: 'toFood',
+                  life: 100
+                });
+                if (pheromones.length > MAX_PHEROMONES) {
+                  pheromones.shift();
+                }
+              }
+            }
+          }
+        }
+
+        // Обычное движение
+        ant.x += ant.vx;
+        ant.y += ant.vy;
+
+        // Отскок от границ
+        if (ant.x < 0 || ant.x > canvas.width) ant.vx *= -1;
+        if (ant.y < 0 || ant.y > canvas.height) ant.vy *= -1;
+
+        // Случайные повороты
+        ant.vx += (Math.random() - 0.5) * 0.05;
+        ant.vy += (Math.random() - 0.5) * 0.05;
+
+        // Ограничиваем скорость
+        const speed = Math.hypot(ant.vx, ant.vy);
+        const maxSpeed = ANT_TYPES[ant.type]?.speed || 1;
+        if (speed > maxSpeed) {
+          ant.vx = (ant.vx / speed) * maxSpeed;
+          ant.vy = (ant.vy / speed) * maxSpeed;
+        }
+      });
+    }
+
+    function animate() {
+      drawAnts();
+      updatePositions();
+      requestAnimationFrame(animate);
+    }
+
+    // Кнопки управления
+    document.getElementById('add-food-btn').addEventListener('click', () => {
+      foods.push({
+        x: 400 + Math.random() * 400,
+        y: 100 + Math.random() * 400,
+        collected: false
+      });
+    });
+
+    document.getElementById('add-ant-btn').addEventListener('click', () => {
+      const types = ['nurse', 'forager', 'soldier'];
+      const type = types[Math.floor(Math.random() * types.length)];
+      
+      ants.push({
+        type: type,
+        x: NEST_CENTER.x + Math.random() * 300 - 150,
+        y: NEST_CENTER.y + Math.random() * 300 - 150,
+        vx: (Math.random() - 0.5) * 1,
+        vy: (Math.random() - 0.5) * 1,
+        ...(type === 'forager' ? { carryingFood: false } : {}),
+        ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {})
+      });
+    });
+
+    document.getElementById('day-night-btn').addEventListener('click', () => {
+      isNight = !isNight;
+      document.body.style.backgroundColor = isNight ? '#0a1e0d' : '#1b5e20';
+      canvas.style.backgroundColor = isNight ? '#1b5e20' : '#388e3c';
+      document.getElementById('day-night-btn').textContent = isNight ? 'Дневной режим' : 'Ночной режим';
+    });
+
+    // Факты о муравьях
+    const antFacts = [
+      "Муравьи общаются с помощью феромонов, оставляя запаховые следы для сородичей.",
+      "Существует более 15 000 видов муравьёв (а по некоторым оценкам – до 20 000). Они живут почти на всех континентах, кроме Антарктиды.",
+      "Муравьи появились около 140–160 млн лет назад и пережили динозавров, адаптируясь к изменениям климата.",
+      "Некоторые виды (например, муравьи-амазонки) захватывают личинки других муравьёв и заставляют их работать на себя.",
+      "Муравьи создают сложные системы тоннелей с вентиляцией, хранилищами пищи и даже 'фермами' для грибов (как листорезы).",
+      "У вида Camponotus saundersi есть рабочие с взрывающимися железами – при угрозе они разрывают себя, выпуская яд.",
+      "Рекордный обнаруженный муравейник имел глубину более 8 метров и занимал площадь около 50 м².",
+      "Муравьи могут переносить грузы в 10-50 раз тяжелее собственного веса.",
+      "У муравьёв нет лёгких – они дышат через крошечные отверстия (дыхальца).",
+      "Муравейник – это единый 'сверхорганизм', где каждый выполняет свою роль: рабочие, солдаты, королева.",
+      "Муравьи живут в сложных сообществах, где каждый муравей выполняет свою роль. Эти роли могут меняться в зависимости от потребностей колонии. Например, молодые муравьи часто начинают с ухода за потомством, а затем переходят к другим задачам, таким как фуражировка или охрана гнезда.",
+      "Хотя отдельный муравей обладает ограниченным интеллектом, колония в целом демонстрирует высокий уровень организации и коллективного интеллекта. Это позволяет муравьям решать сложные задачи, такие как постройка гнезда или поиск пищи.",
+      "Некоторые виды муравьев, такие как листорезы, занимаются фермерством. Они выращивают грибы в специальных садах внутри своих гнезд, обеспечивая себя пищей.",
+      "Королевы муравьев могут жить до 30 лет, тогда как рабочие муравьи живут всего несколько месяцев или лет.",
+      "В одной колонии могут сосуществовать муравьи разных размеров, от мелких рабочих до крупных солдат. Это разнообразие помогает выполнять различные задачи, от ухода за потомством до защиты гнезда.",
+      "Некоторые муравьи выделяют антибиотические вещества, которые помогают защитить колонию от болезней и инфекций."
+    ];
+
+    function showRandomFact() {
+      const randomIndex = Math.floor(Math.random() * antFacts.length);
+      document.getElementById('factDisplay').innerHTML = "<p>" + antFacts[randomIndex] + "</p>";
+    }
+
+    // Инициализация и запуск
+    initColony();
+    animate();
+  </script>
+</body>
+</html>
