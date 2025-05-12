@@ -129,11 +129,11 @@
     </p>
 
     <div class="controls">
-      <button id="add-food-btn">Добавить еду</button>
+      <!-- <button id="add-food-btn">Добавить еду</button> -->
       <button id="add-ant-btn">Добавить муравья (случайный тип)</button>
-      <button id="day-night-btn">Ночной режим</button>
       <button id="buy-larva-btn">Купить личинку (5 еды)</button>
       <button id="add-enemy-btn">Добавить врага</button>
+      <button id="day-night-btn">🌙</button>
     </div>
 
     <div class="larva-progress-container">
@@ -145,8 +145,8 @@
 
     <div id="stats">
       <div>Муравьев: <span id="ant-count">0</span></div>
-      <div>Еды: <span id="food-count">0</span></div>
-      <div>Собрано еды: <span id="food-collected">0</span></div>
+      <div>Падь: <span id="food-count">0</span></div>
+      <div>Eды на складе: <span id="food-collected">0</span></div>
       <div>Личинок: <span id="larvae-count">0</span></div>
       <div>Врагов: <span id="enemy-count">0</span></div>
       <div>Украдено личинок: <span id="stolen-larvae">0</span></div>
@@ -162,12 +162,13 @@
     <p><span style="background:#2979ff;"></span>Солдат</p>
     <p><span style="background:#ffffff;"></span>Личинка / Куколка</p>
     <p><span style="background:#f44336;"></span>Падь</p>
-    <p><span style="background:#00ff00;"></span>Феромоны к гнезду</p>
+    <p><span style="background:#000000e8; border: 1px solid white;"></span>Враг</p>
+    <p><span style="background:#f19010;"></span>Склад еды</p>
+    <p><span style="background:#f19010;"></span>Феромоны к гнезду</p>
     <p><span style="background:#ff0000;"></span>Феромоны к еде</p>
-    <p><span style="background:#000000e8; border: 2px solid white;"></span>Враг</p>
     <p><span style="background:#120125;"></span>Феромоны солдат</p>
     <p><span style="background:#ffffff;"></span>Феромоны врагов</p>
-    <p><span style="background:#f19010;"></span>Склад еды</p>
+    <p><span style="background:#ffeb3b;"></span>Феромоны нянек</p>
   </div>
 
   <div class="fact-container" id="factDisplay">
@@ -193,7 +194,7 @@
       queen: { color: '#8C2FD4', size: 12, speed: 0 },
       nurse: { color: '#ffd600', size: 5, speed: 0.3 },
       forager: { color: '#fff176', size: 6, speed: 0.6 },
-      soldier: { color: '#2979ff', size: 8, speed: 0.8 },
+      soldier: { color: '#2979ff', size: 9, speed: 0.8 },
     };
 
     let ants = [];
@@ -302,13 +303,15 @@
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
         if (p.type === 'toNest') {
-          ctx.fillStyle = 'rgba(0,255,0,0.3)';
+          ctx.fillStyle = '#f19010';
         } else if (p.type === 'toFood') {
           ctx.fillStyle = 'rgba(255,0,0,0.3)';
         } else if (p.type === 'soldier') {
           ctx.fillStyle = '#120125';
         } else if (p.type === 'enemy') {
           ctx.fillStyle = 'rgba(255,255,255,0.3)';
+        } else if (p.type === 'nurse') {
+          ctx.fillStyle = '#ffeb3b'; // Желтый цвет для феромонов нянек
         }
         ctx.fill();
       });
@@ -583,6 +586,19 @@
               ant.vx += dx / dist * 0.03;
               ant.vy += dy / dist * 0.03;
             }
+            
+            // Оставляем желтые феромоны
+            if (Math.random() < 0.1) {
+              pheromones.push({
+                x: ant.x,
+                y: ant.y,
+                type: 'nurse',
+                life: 100
+              });
+              if (pheromones.length > MAX_PHEROMONES) {
+                pheromones.shift();
+              }
+            }
           }
         }
 
@@ -735,7 +751,7 @@
       
       // Настройка скорости врагов
       // Здесь можно изменить базовую скорость (0.5) и разброс (0.5)
-      const speedMultiplier = 0.3 + Math.random() * 0.5; // Было: 0.5 + Math.random()
+      const speedMultiplier = 0.3 + Math.random() * 0.6; // Было: 0.5 + Math.random()
       
       enemies.push({
         x: x,
@@ -773,13 +789,16 @@
     }
 
     // Кнопки управления
-    document.getElementById('add-food-btn').addEventListener('click', () => {
-      foods.push({
-        x: 400 + Math.random() * 400,
-        y: 100 + Math.random() * 400,
-        collected: false
+    const addFoodBtn = document.getElementById('add-food-btn');
+    if (addFoodBtn) {
+      addFoodBtn.addEventListener('click', () => {
+        foods.push({
+          x: 400 + Math.random() * 400,
+          y: 100 + Math.random() * 400,
+          collected: false
+        });
       });
-    });
+    }
 
     document.getElementById('add-ant-btn').addEventListener('click', () => {
       const types = ['nurse', 'forager', 'soldier'];
@@ -800,7 +819,7 @@
       isNight = !isNight;
       document.body.style.backgroundColor = isNight ? '#0a1e0d' : '#1b5e20';
       canvas.style.backgroundColor = isNight ? '#1b5e20' : '#388e3c';
-      document.getElementById('day-night-btn').textContent = isNight ? 'Дневной режим' : 'Ночной режим';
+      document.getElementById('day-night-btn').textContent = isNight ? '🌞' : '🌙';
     });
 
     document.getElementById('add-enemy-btn').addEventListener('click', spawnEnemy);
