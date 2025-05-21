@@ -2,9 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="dna" href="ant-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="dna" href="ant-icon.png"/>
   <title>Муравьиная Колония</title>
   <style>
     body {
@@ -127,22 +126,19 @@
       Исследуйте структуру настоящей муравьиной колонии. Матка находится в центре, вокруг неё — личинки и куколки.
       Няньки ухаживают за потомством, солдаты патрулируют периметр, а фуражиры собирают пищу. На горизонте появляются враги — хищные насекомые или другие муравьи, желающие украсть беззащитных личинок.
     </p>
-
+    <strong id="nest-hp">Гнездо: 100%</strong>
     <div class="controls">
-      <!-- <button id="add-food-btn">Добавить еду</button> -->
       <button id="add-ant-btn">Добавить муравья (случайный тип)</button>
       <button id="buy-larva-btn">Купить личинку (5 еды)</button>
       <button id="add-enemy-btn">Добавить врага</button>
       <button id="day-night-btn">🌙</button>
     </div>
-
     <div class="larva-progress-container">
       <div class="larva-progress-bar">
         <div class="larva-progress-fill" id="larva-progress-fill"></div>
       </div>
       <div class="larva-progress-text" id="larva-progress-text">Создание личинки: 0%</div>
     </div>
-
     <div id="stats">
       <div>Муравьев: <span id="ant-count">0</span></div>
       <div>Падь: <span id="food-count">0</span></div>
@@ -152,14 +148,13 @@
       <div>Украдено личинок: <span id="stolen-larvae">0</span></div>
     </div>
   </div>
-
   <canvas id="colony-canvas" width="900" height="600"></canvas>
-
   <div class="legend">
     <p><span style="background:#8C2FD4"></span>Матка</p>
     <p><span style="background:#ffd600;"></span>Нянька</p>
     <p><span style="background:#fff176;"></span>Фуражир</p>
-    <p><span style="background:#2979ff;"></span>Солдат</p>
+    <p><span style="background:#2979ff; border: 1px solid white;"></span>Солдат</p>
+    <p><span style="background:#f19010;"></span>Строитель</p>
     <p><span style="background:#ffffff;"></span>Личинка / Куколка</p>
     <p><span style="background:#f44336;"></span>Падь</p>
     <p><span style="background:#000000e8; border: 1px solid white;"></span>Враг</p>
@@ -170,52 +165,62 @@
     <p><span style="background:#ffffff;"></span>Феромоны врагов</p>
     <p><span style="background:#ffeb3b;"></span>Феромоны нянек</p>
   </div>
-
   <div class="fact-container" id="factDisplay">
     <p>Нажмите кнопку, чтобы узнать интересный факт о муравьях</p>
   </div>
   <div style="text-align: center; margin-bottom: 20px;">
     <button onclick="showRandomFact()">Получить факт о муравьях</button>
   </div>
-
   <script>
     const canvas = document.getElementById('colony-canvas');
     const ctx = canvas.getContext('2d');
 
     // Центр гнезда
     const NEST_CENTER = { x: 130, y: 300 };
-    const LARVAE_RADIUS = 30;
-    const STORAGE_RADIUS = 40;
-    const MAX_STORAGE_DISPLAY = 50;
-    const STORAGE_POSITION = { x: NEST_CENTER.x + 50, y: NEST_CENTER.y };
+    const NEST = {
+      x: NEST_CENTER.x,
+      y: NEST_CENTER.y - 20,
+      size: 150,
+      entranceOffset: 25,
+      color: '#8B4513',
+      maxHp: 100,
+      hp: 100,
+      radius: 60
+    };
 
-    // Типы особей
+    const LARVAE_RADIUS = 30;
+    const STORAGE_POSITION = { x: NEST_CENTER.x - 40, y: NEST_CENTER.y + 40 }; // Рядом с личинками
+
     const ANT_TYPES = {
       queen: { color: '#8C2FD4', size: 12, speed: 0 },
       nurse: { color: '#ffd600', size: 5, speed: 0.3 },
       forager: { color: '#fff176', size: 6, speed: 0.6 },
       soldier: { color: '#2979ff', size: 9, speed: 0.8 },
+      builder: { color: '#4CAF50', size: 7, speed: 0.5 } // Новый тип: Строитель
     };
 
     let ants = [];
     let foods = [];
     let pheromones = [];
     let enemies = [];
+    let sticks = []; // Палочки для строителей
     const MAX_PHEROMONES = 500;
+
     let isNight = false;
     let foodCollectedCount = 0;
     let stolenLarvaeCount = 0;
     let enemySpawnTimer = 0;
     let frameCount = 0;
     let larvaSpawnProgress = 0;
-    const LARVA_SPAWN_THRESHOLD = 1800; // Количество кадров для создания личинки
+    const LARVA_SPAWN_THRESHOLD = 1800;
 
-    // Инициализация колонии
     function initColony() {
       ants = [];
       foods = [];
       pheromones = [];
       enemies = [];
+      sticks = [];
+
       foodCollectedCount = 0;
       stolenLarvaeCount = 0;
       enemySpawnTimer = 0;
@@ -223,14 +228,16 @@
       larvaSpawnProgress = 0;
       updateLarvaProgressBar();
 
-      // Создание матки
+      NEST.hp = NEST.maxHp;
+
+      // Матка
       ants.push({
         type: 'queen',
         x: NEST_CENTER.x,
         y: NEST_CENTER.y,
       });
 
-      // Личинки вокруг матки
+      // Личинки внутри гнезда
       for (let i = 0; i < 11; i++) {
         const angle = (i / 8) * Math.PI * 3;
         ants.push({
@@ -254,11 +261,11 @@
         });
       }
 
-      // Солдаты 
+      // Солдаты
       for (let i = 0; i < 4; i++) {
         ants.push({
           type: 'soldier',
-          x: NEST_CENTER.x + 60 + Math.random() * 200, 
+          x: NEST_CENTER.x + 60 + Math.random() * 200,
           y: NEST_CENTER.y + Math.random() * 200 - 100,
           vx: (Math.random() - 0.5) * 1,
           vy: (Math.random() - 0.5) * 1,
@@ -279,12 +286,33 @@
         });
       }
 
-      // Падь (тут ставим больше)
+      // Строители
+      for (let i = 0; i < 3; i++) {
+        ants.push({
+          type: 'builder',
+          x: NEST_CENTER.x + 150 + Math.random() * 400,
+          y: NEST_CENTER.y + Math.random() * 300 - 150,
+          vx: (Math.random() - 0.5) * 1,
+          vy: (Math.random() - 0.5) * 1,
+          carryingStick: false
+        });
+      }
+
+      // Еда
       for (let i = 0; i < 9; i++) {
         foods.push({
           x: 400 + Math.random() * 400,
           y: 100 + Math.random() * 400,
           collected: false,
+        });
+      }
+
+      // Палочки
+      for (let i = 0; i < 15; i++) {
+        sticks.push({
+          x: 100 + Math.random() * 700,
+          y: 50 + Math.random() * 500,
+          collected: false
         });
       }
     }
@@ -295,10 +323,50 @@
       document.getElementById('larva-progress-text').textContent = `Создание личинки: ${Math.floor(progressPercent)}%`;
     }
 
+    function drawNest() {
+      if (NEST.hp <= 0) return;
+
+      ctx.beginPath();
+      const height = Math.sqrt(3) / 2 * NEST.size;
+      const points = [
+        { x: NEST.x, y: NEST.y - height / 2 },
+        { x: NEST.x - NEST.size / 2, y: NEST.y + height / 2 },
+        { x: NEST.x + NEST.size / 2, y: NEST.y + height / 2 }
+      ];
+      ctx.moveTo(points[0].x, points[0].y);
+      ctx.lineTo(points[1].x, points[1].y);
+      ctx.lineTo(points[2].x, points[2].y);
+      ctx.closePath();
+      ctx.fillStyle = NEST.color;
+      ctx.fill();
+
+      ctx.fillStyle = '#2f2f2f';
+      ctx.fillRect(
+        NEST.x - 5,
+        NEST.y - NEST.entranceOffset,
+        10,
+        NEST.entranceOffset + 5
+      );
+
+      const hpPercent = (NEST.hp / NEST.maxHp) * 100;
+      const status = document.getElementById('nest-hp');
+      status.textContent = `Гнездо: ${Math.round(hpPercent)}% HP`;
+      if (hpPercent <= 0) {
+        status.style.color = 'red';
+        status.textContent += " — Гнездо разрушено!";
+      } else if (hpPercent <= 30) {
+        status.style.color = 'orange';
+      } else {
+        status.style.color = 'white';
+      }
+    }
+
     function drawAnts() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (NEST.hp > 0) {
+        drawNest();
+      }
 
-      // Рисуем феромоны
       pheromones.forEach(p => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
@@ -311,12 +379,12 @@
         } else if (p.type === 'enemy') {
           ctx.fillStyle = 'rgba(255,255,255,0.3)';
         } else if (p.type === 'nurse') {
-          ctx.fillStyle = '#ffeb3b'; // Желтый цвет для феромонов нянек
+          ctx.fillStyle = '#ffeb3b';
         }
         ctx.fill();
       });
 
-      // Рисуем еду
+      // Еда
       foods.forEach(food => {
         if (!food.collected) {
           ctx.beginPath();
@@ -326,25 +394,34 @@
         }
       });
 
-      // Рисуем склад еды
-      const storageCount = Math.min(foodCollectedCount, MAX_STORAGE_DISPLAY);
+      // Палочки
+      sticks.forEach(stick => {
+        if (!stick.collected) {
+          ctx.beginPath();
+          ctx.rect(stick.x, stick.y, 4, 4);
+          ctx.fillStyle = '#f19010';
+          ctx.fill();
+        }
+      });
+
+      // Склад еды
+      const storageCount = Math.min(foodCollectedCount, 50);
       if (storageCount > 0) {
         for (let i = 0; i < storageCount; i++) {
           const angle = (i * 137.5) * (Math.PI / 180);
           const radius = Math.sqrt(i) * 2;
-          
           ctx.beginPath();
           ctx.arc(
-            STORAGE_POSITION.x + Math.cos(angle) * radius, 
-            STORAGE_POSITION.y + Math.sin(angle) * radius, 
+            STORAGE_POSITION.x + Math.cos(angle) * radius,
+            STORAGE_POSITION.y + Math.sin(angle) * radius,
             3, 0, Math.PI * 2
           );
-          ctx.fillStyle = '#f19010';
+          ctx.fillStyle = '#f44336'; // Красный цвет, как у пади
           ctx.fill();
         }
       }
 
-      // Рисуем врагов
+      // Враги
       enemies.forEach(enemy => {
         ctx.beginPath();
         ctx.arc(enemy.x, enemy.y, 8, 0, Math.PI * 2);
@@ -353,7 +430,6 @@
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 2;
         ctx.stroke();
-        
         if (enemy.carryingLarva) {
           ctx.beginPath();
           ctx.arc(enemy.x, enemy.y - 12, 5, 0, Math.PI * 2);
@@ -362,7 +438,7 @@
         }
       });
 
-      // Рисуем муравьёв
+      // Муравьи
       ants.forEach(ant => {
         const data = ANT_TYPES[ant.type];
         if (data) {
@@ -373,7 +449,6 @@
           ctx.strokeStyle = 'white';
           ctx.lineWidth = 1;
           ctx.stroke();
-
           if (ant.type === 'forager' && ant.carryingFood) {
             ctx.beginPath();
             ctx.arc(ant.x, ant.y - 10, 3, 0, Math.PI * 2);
@@ -383,7 +458,7 @@
         }
       });
 
-      // Рисуем личинки
+      // Личинки
       ants.forEach(ant => {
         if (ant.type === 'larva') {
           ctx.beginPath();
@@ -399,8 +474,6 @@
 
     function updatePositions() {
       frameCount++;
-      
-      // Обновляем статистику
       document.getElementById('ant-count').textContent = ants.filter(a => a.type !== 'larva').length;
       document.getElementById('larvae-count').textContent = ants.filter(a => a.type === 'larva').length;
       document.getElementById('food-count').textContent = foods.filter(f => !f.collected).length;
@@ -408,11 +481,9 @@
       document.getElementById('enemy-count').textContent = enemies.length;
       document.getElementById('stolen-larvae').textContent = stolenLarvaeCount;
 
-      // Обновляем феромоны
       pheromones.forEach(p => p.life--);
       pheromones = pheromones.filter(p => p.life > 0);
 
-      // Обновляем прогресс создания личинки
       if (foodCollectedCount > 0) {
         larvaSpawnProgress++;
         if (larvaSpawnProgress >= LARVA_SPAWN_THRESHOLD) {
@@ -428,30 +499,26 @@
               growthTimer: 0,
               growthStage: 0
             });
-            // Уменьшаем количество еды при создании личинки
             foodCollectedCount = Math.max(0, foodCollectedCount - 1);
           }
         }
       } else {
-        // Если еды нет, сбрасываем прогресс
         larvaSpawnProgress = 0;
       }
+
       updateLarvaProgressBar();
 
-      // Случайное появление врагов
       enemySpawnTimer++;
       if (enemySpawnTimer > 300 && Math.random() < 0.01 && enemies.length < 5) {
         spawnEnemy();
         enemySpawnTimer = 0;
       }
 
-      // Обновляем врагов
       enemies.forEach(enemy => {
         if (enemy.carryingLarva) {
           let dx = enemy.spawnX - enemy.x;
           let dy = enemy.spawnY - enemy.y;
           let dist = Math.hypot(dx, dy);
-          
           if (dist < 10) {
             const index = enemies.indexOf(enemy);
             enemies.splice(index, 1);
@@ -461,75 +528,55 @@
             enemy.vy = dy / dist * 1.2 * enemy.speedMultiplier;
           }
         } else {
-          const larvae = ants.filter(a => a.type === 'larva');
-          if (larvae.length > 0) {
-            let closestLarva = null;
-            let minDist = Infinity;
-            
-            larvae.forEach(larva => {
-              const dist = Math.hypot(larva.x - enemy.x, larva.y - enemy.y);
-              if (dist < minDist) {
-                minDist = dist;
-                closestLarva = larva;
-              }
-            });
-            
-            if (closestLarva) {
-              let dx = closestLarva.x - enemy.x;
-              let dy = closestLarva.y - enemy.y;
-              let dist = Math.hypot(dx, dy);
-              
-              if (dist < 10) {
-                enemy.carryingLarva = true;
-                const index = ants.indexOf(closestLarva);
-                ants.splice(index, 1);
-              } else {
-                enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier;
-                enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier;
-                
-                // Оставляем белые феромоны при преследовании личинки
-                if (Math.random() < 0.2) {
-                  pheromones.push({
-                    x: enemy.x,
-                    y: enemy.y,
-                    type: 'enemy',
-                    life: 100
-                  });
-                  if (pheromones.length > MAX_PHEROMONES) {
-                    pheromones.shift();
-                  }
-                }
-              }
+          if (NEST.hp > 0) {
+            let dx = NEST.x - enemy.x;
+            let dy = NEST.y - enemy.y;
+            let dist = Math.hypot(dx, dy);
+            if (dist < NEST.radius) {
+              NEST.hp -= 2; // Урон по гнезду
+              if (NEST.hp < 0) NEST.hp = 0;
+              const index = enemies.indexOf(enemy);
+              enemies.splice(index, 1); // Враг умирает
+            } else {
+              enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier;
+              enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier;
             }
           } else {
-            if (!enemy.pauseTimer) {
-              enemy.pauseTimer = Math.random() * 100 + 50;
-            }
-            
-            if (enemy.pauseTimer > 0) {
-              enemy.pauseTimer--;
-              if (enemy.pauseTimer === 0) {
-                enemy.vx = (Math.random() - 0.5) * 0.8 * enemy.speedMultiplier;
-                enemy.vy = (Math.random() - 0.5) * 0.8 * enemy.speedMultiplier;
-              }
-            } else {
-              if (Math.random() < 0.05) {
-                enemy.vx = (Math.random() - 0.5) * 0.8 * enemy.speedMultiplier;
-                enemy.vy = (Math.random() - 0.5) * 0.8 * enemy.speedMultiplier;
+            const larvae = ants.filter(a => a.type === 'larva');
+            if (larvae.length > 0) {
+              let closestLarva = null;
+              let minDist = Infinity;
+              larvae.forEach(larva => {
+                const dist = Math.hypot(larva.x - enemy.x, larva.y - enemy.y);
+                if (dist < minDist) {
+                  minDist = dist;
+                  closestLarva = larva;
+                }
+              });
+              if (closestLarva) {
+                let dx = closestLarva.x - enemy.x;
+                let dy = closestLarva.y - enemy.y;
+                let dist = Math.hypot(dx, dy);
+                if (dist < 10) {
+                  enemy.carryingLarva = true;
+                  const index = ants.indexOf(closestLarva);
+                  ants.splice(index, 1);
+                } else {
+                  enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier;
+                  enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier;
+                }
               }
             }
           }
         }
-        
+
         const baseMaxSpeed = enemy.carryingLarva ? 1.2 : 0.8;
         const maxSpeed = baseMaxSpeed * enemy.speedMultiplier;
-        
         const speed = Math.hypot(enemy.vx, enemy.vy);
         if (speed > maxSpeed) {
           enemy.vx = (enemy.vx / speed) * maxSpeed;
           enemy.vy = (enemy.vy / speed) * maxSpeed;
         }
-        
         enemy.x += enemy.vx;
         enemy.y += enemy.vy;
       });
@@ -539,16 +586,13 @@
 
         if (ant.type === 'larva') {
           ant.growthTimer++;
-          
           if (ant.growthTimer % 200 === 0 && ant.growthStage < 100) {
             ant.growthStage += 2 + Math.random() * 5;
             ant.size = 6 + (ant.growthStage / 25);
           }
-          
           if (ant.growthStage >= 100) {
-            const types = ['nurse', 'forager', 'soldier'];
+            const types = ['nurse', 'forager', 'soldier', 'builder'];
             const type = types[Math.floor(Math.random() * types.length)];
-            
             const index = ants.indexOf(ant);
             ants.splice(index, 1, {
               type: type,
@@ -557,9 +601,9 @@
               vx: (Math.random() - 0.5) * 1,
               vy: (Math.random() - 0.5) * 1,
               ...(type === 'forager' ? { carryingFood: false } : {}),
-              ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {})
+              ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {}),
+              ...(type === 'builder' ? { carryingStick: false } : {})
             });
-            
             if (Math.random() < 0.25) {
               const angle = Math.random() * Math.PI * 2;
               ants.push({
@@ -575,6 +619,36 @@
           return;
         }
 
+        // Строитель
+        if (ant.type === 'builder') {
+          let closestStick = sticks.find(s => !s.collected);
+          if (closestStick) {
+            let dx = closestStick.x - ant.x;
+            let dy = closestStick.y - ant.y;
+            let dist = Math.hypot(dx, dy);
+            if (dist < 10) {
+              closestStick.collected = true;
+              ant.carryingStick = true;
+            } else {
+              ant.vx += dx / dist * 0.03;
+              ant.vy += dy / dist * 0.03;
+            }
+          } else if (ant.carryingStick && NEST.hp < NEST.maxHp) {
+            let dx = NEST.x - ant.x;
+            let dy = NEST.y - ant.y;
+            let dist = Math.hypot(dx, dy);
+            if (dist < 10) {
+              NEST.hp += 5;
+              if (NEST.hp > NEST.maxHp) NEST.hp = NEST.maxHp;
+              ant.carryingStick = false;
+            } else {
+              ant.vx += dx / dist * 0.02;
+              ant.vy += dy / dist * 0.02;
+            }
+          }
+        }
+
+        // Остальной код поведения муравьёв...
         if (ant.type === 'nurse') {
           const larvae = ants.filter(a => a.type === 'larva');
           if (larvae.length > 0) {
@@ -586,8 +660,6 @@
               ant.vx += dx / dist * 0.03;
               ant.vy += dy / dist * 0.03;
             }
-            
-            // Оставляем желтые феромоны
             if (Math.random() < 0.1) {
               pheromones.push({
                 x: ant.x,
@@ -606,24 +678,20 @@
           if (!ant.isPaused) {
             let closestEnemy = null;
             let minDist = Infinity;
-            
-            enemies.forEach(enemy => {
-              const dist = Math.hypot(enemy.x - ant.x, enemy.y - ant.y);
+            enemies.forEach(e => {
+              const dist = Math.hypot(e.x - ant.x, e.y - ant.y);
               if (dist < 100 && dist < minDist) {
                 minDist = dist;
-                closestEnemy = enemy;
+                closestEnemy = e;
               }
             });
-            
             if (closestEnemy) {
               let dx = closestEnemy.x - ant.x;
               let dy = closestEnemy.y - ant.y;
               let dist = Math.hypot(dx, dy);
-              
               if (dist < 10) {
                 const index = enemies.indexOf(closestEnemy);
                 enemies.splice(index, 1);
-                
                 for (let i = 0; i < 2; i++) {
                   foods.push({
                     x: closestEnemy.x + (Math.random() * 20 - 10),
@@ -634,35 +702,19 @@
               } else {
                 ant.vx += dx / dist * 0.05;
                 ant.vy += dy / dist * 0.05;
-                
-                // Оставляем феромоны при преследовании врага
-                if (Math.random() < 0.2) {
-                  pheromones.push({
-                    x: ant.x,
-                    y: ant.y,
-                    type: 'soldier',
-                    life: 100
-                  });
-                  if (pheromones.length > MAX_PHEROMONES) {
-                    pheromones.shift();
-                  }
-                }
               }
             } else {
               let dx = NEST_CENTER.x - ant.x;
               let dy = NEST_CENTER.y - ant.y;
               let dist = Math.hypot(dx, dy);
-          
               if (dist < 80) {
                 ant.vx -= dx / dist * 0.02;
                 ant.vy -= dy / dist * 0.02;
-              }
-              else if (dist > 200) {
+              } else if (dist > 200) {
                 ant.vx += dx / dist * 0.02;
                 ant.vy += dy / dist * 0.02;
               }
             }
-        
             if (Math.random() < 0.005 && !ant.isPaused) {
               ant.isPaused = true;
               ant.pauseTimer = Date.now();
@@ -686,7 +738,6 @@
               ant.vx += dx / dist * 0.02;
               ant.vy += dy / dist * 0.02;
             }
-
             if (Math.random() < 0.1) {
               pheromones.push({
                 x: ant.x,
@@ -711,7 +762,6 @@
                 ant.vx += dx / dist * 0.02;
                 ant.vy += dy / dist * 0.02;
               }
-
               if (Math.random() < 0.1) {
                 pheromones.push({
                   x: ant.x,
@@ -729,7 +779,6 @@
 
         ant.x += ant.vx;
         ant.y += ant.vy;
-
         if (ant.x < 0 || ant.x > canvas.width) ant.vx *= -1;
         if (ant.y < 0 || ant.y > canvas.height) ant.vy *= -1;
 
@@ -748,11 +797,7 @@
     function spawnEnemy() {
       const x = canvas.width + 10;
       const y = 50 + Math.random() * (canvas.height - 100);
-      
-      // Настройка скорости врагов
-      // Здесь можно изменить базовую скорость (0.5) и разброс (0.5)
-      const speedMultiplier = 0.3 + Math.random() * 0.6; // Было: 0.5 + Math.random()
-      
+      const speedMultiplier = 0.3 + Math.random() * 0.6;
       enemies.push({
         x: x,
         y: y,
@@ -761,15 +806,19 @@
         vx: -0.3 * speedMultiplier,
         vy: (Math.random() - 0.5) * 0.2 * speedMultiplier,
         carryingLarva: false,
-        pauseTimer: 0,
         speedMultiplier: speedMultiplier
       });
     }
 
+    function animate() {
+      drawAnts();
+      updatePositions();
+      requestAnimationFrame(animate);
+    }
+
     function buyLarva() {
-      if (foodCollectedCount >= 5) {
+      if (foodCollectedCount >= 5 && NEST.hp > 0) {
         foodCollectedCount -= 5;
-        
         const angle = Math.random() * Math.PI * 2;
         ants.push({
           type: 'larva',
@@ -782,37 +831,26 @@
       }
     }
 
-    function animate() {
-      drawAnts();
-      updatePositions();
-      requestAnimationFrame(animate);
-    }
+    // --- Инициализация ---
+    initColony();
+    animate();
 
-    // Кнопки управления
-    const addFoodBtn = document.getElementById('add-food-btn');
-    if (addFoodBtn) {
-      addFoodBtn.addEventListener('click', () => {
-        foods.push({
-          x: 400 + Math.random() * 400,
-          y: 100 + Math.random() * 400,
-          collected: false
-        });
-      });
-    }
-
+    // --- Обработчики событий ---
     document.getElementById('add-ant-btn').addEventListener('click', () => {
-      const types = ['nurse', 'forager', 'soldier'];
-      const type = types[Math.floor(Math.random() * types.length)];
-      
-      ants.push({
-        type: type,
-        x: NEST_CENTER.x + Math.random() * 300 - 150,
-        y: NEST_CENTER.y + Math.random() * 300 - 150,
-        vx: (Math.random() - 0.5) * 1,
-        vy: (Math.random() - 0.5) * 1,
-        ...(type === 'forager' ? { carryingFood: false } : {}),
-        ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {})
-      });
+      if (NEST.hp > 0) {
+        const types = ['nurse', 'forager', 'soldier', 'builder'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        ants.push({
+          type: type,
+          x: NEST_CENTER.x + Math.random() * 300 - 150,
+          y: NEST_CENTER.y + Math.random() * 300 - 150,
+          vx: (Math.random() - 0.5) * 1,
+          vy: (Math.random() - 0.5) * 1,
+          ...(type === 'forager' ? { carryingFood: false } : {}),
+          ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {}),
+          ...(type === 'builder' ? { carryingStick: false } : {})
+        });
+      }
     });
 
     document.getElementById('day-night-btn').addEventListener('click', () => {
@@ -825,7 +863,7 @@
     document.getElementById('add-enemy-btn').addEventListener('click', spawnEnemy);
     document.getElementById('buy-larva-btn').addEventListener('click', buyLarva);
 
-    // Факты о муравьях
+    // --- Факты о муравьях ---
     const antFacts = [
       "Муравьи общаются с помощью феромонов, оставляя запаховые следы для сородичей.",
       "Существует более 15 000 видов муравьёв (а по некоторым оценкам – до 20 000). Они живут почти на всех континентах, кроме Антарктиды.",
@@ -836,27 +874,16 @@
       "Рекордный обнаруженный муравейник имел глубину более 8 метров и занимал площадь около 50 м².",
       "Муравьи могут переносить грузы в 10-50 раз тяжелее собственного веса.",
       "У муравьёв нет лёгких – они дышат через крошечные отверстия (дыхальца).",
-      "Муравейник – это единый 'сверхорганизм', где каждый выполняет свою роль: рабочие, солдаты, королева.",
-      "Муравьи живут в сложных сообществах, где каждый муравей выполняет свою роль. Эти роли могут меняться в зависимости от потребностей колонии.",
-      "Хотя отдельный муравей обладает ограниченным интеллектом, колония в целом демонстрирует высокий уровень организации.",
-      "Некоторые виды муравьев, такие как листорезы, занимаются фермерством, выращивая грибы в своих гнездах.",
-      "Королевы муравьев могут жить до 30 лет, тогда как рабочие муравьи живут всего несколько месяцев или лет.",
-      "В одной колонии могут сосуществовать муравьи разных размеров, от мелких рабочих до крупных солдат.",
-      "Некоторые муравьи выделяют антибиотические вещества, которые помогают защитить колонию от болезней."
+      "Муравейник – это единый 'сверхорганизм', где каждый выполняет свою роль: рабочие, солдаты, королева."
     ];
 
     function showRandomFact() {
       const randomIndex = Math.floor(Math.random() * antFacts.length);
-      document.getElementById('factDisplay').innerHTML = "<p>" + antFacts[randomIndex] + "</p>";
+      document.getElementById('factDisplay').innerHTML = `<p>${antFacts[randomIndex]}</p>`;
     }
-
-    // Инициализация и запуск
-    initColony();
-    animate();
   </script>
 </body>
-</html>
-
 <footer>
-    <p>Copyright © 2025 Vadim.</p>
+  <p>Copyright © 2025 Vadim.</p>
 </footer>
+</html>
