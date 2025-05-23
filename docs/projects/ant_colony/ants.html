@@ -364,7 +364,8 @@
       color: '#8B4513',
       maxHp: 100,
       hp: 100,
-      radius: 60
+      radius: 60,
+      isDestroyed: false
     };
 
     const LARVAE_RADIUS = 30;
@@ -391,7 +392,9 @@
     let enemySpawnTimer = 0;
     let frameCount = 0;
     let larvaSpawnProgress = 0;
+    let stickSpawnTimer = 0; // Таймер для генерации палочек
     const LARVA_SPAWN_THRESHOLD = 1800;
+    const STICK_SPAWN_INTERVAL = 300; // Каждые 5 секунд (60 кадров/сек * 5 сек)
 
     function initColony() {
       ants = [];
@@ -405,9 +408,11 @@
       enemySpawnTimer = 0;
       frameCount = 0;
       larvaSpawnProgress = 0;
+      stickSpawnTimer = 0;
       updateLarvaProgressBar();
 
       NEST.hp = NEST.maxHp;
+      NEST.isDestroyed = false;
 
       // Матка
       ants.push({
@@ -473,7 +478,8 @@
           y: NEST_CENTER.y + Math.random() * 300 - 150,
           vx: (Math.random() - 0.5) * 1,
           vy: (Math.random() - 0.5) * 1,
-          carryingStick: false
+          carryingStick: false,
+          repairing: false
         });
       }
 
@@ -496,6 +502,14 @@
       }
     }
 
+    function spawnStick() {
+      sticks.push({
+        x: 100 + Math.random() * 700,
+        y: 50 + Math.random() * 500,
+        collected: false
+      });
+    }
+
     function updateLarvaProgressBar() {
       const progressPercent = Math.min(100, (larvaSpawnProgress / LARVA_SPAWN_THRESHOLD) * 100);
       document.getElementById('larva-progress-fill').style.width = `${progressPercent}%`;
@@ -512,7 +526,7 @@
     }
 
     function drawNest() {
-      if (NEST.hp <= 0) return;
+      if (NEST.hp <= 0 && NEST.isDestroyed) return;
 
       ctx.beginPath();
       const height = Math.sqrt(3) / 2 * NEST.size;
@@ -525,16 +539,25 @@
       ctx.lineTo(points[1].x, points[1].y);
       ctx.lineTo(points[2].x, points[2].y);
       ctx.closePath();
-      ctx.fillStyle = NEST.color;
+      
+      // Если гнездо разрушено, рисуем его полупрозрачным
+      if (NEST.hp <= 0) {
+        ctx.fillStyle = 'rgba(139, 69, 19, 0.3)';
+      } else {
+        ctx.fillStyle = NEST.color;
+      }
       ctx.fill();
 
-      ctx.fillStyle = '#2f2f2f';
-      ctx.fillRect(
-        NEST.x - 5,
-        NEST.y - NEST.entranceOffset,
-        10,
-        NEST.entranceOffset + 5
-      );
+      // Вход в гнездо рисуем только если гнездо не разрушено
+      if (NEST.hp > 0) {
+        ctx.fillStyle = '#2f2f2f';
+        ctx.fillRect(
+          NEST.x - 5,
+          NEST.y - NEST.entranceOffset,
+          10,
+          NEST.entranceOffset + 5
+        );
+      }
 
       const hpPercent = (NEST.hp / NEST.maxHp) * 100;
       const status = document.getElementById('nest-hp');
@@ -542,6 +565,7 @@
       if (hpPercent <= 0) {
         status.style.color = 'red';
         status.textContent += " — Гнездо разрушено!";
+        NEST.isDestroyed = true;
       } else if (hpPercent <= 30) {
         status.style.color = 'orange';
       } else {
@@ -551,9 +575,7 @@
 
     function drawAnts() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (NEST.hp > 0) {
-        drawNest();
-      }
+      drawNest();
 
       pheromones.forEach(p => {
         ctx.beginPath();
@@ -586,15 +608,15 @@
       sticks.forEach(stick => {
         if (!stick.collected) {
           ctx.beginPath();
-          ctx.rect(stick.x, stick.y, 4, 4);
-          ctx.fillStyle = '#f19010';
+          ctx.rect(stick.x - 2, stick.y - 2, 4, 4);
+          ctx.fillStyle = '#8B4513'; // Коричневый цвет для палочек
           ctx.fill();
         }
       });
 
       // Склад еды
       const storageCount = Math.min(foodCollectedCount, 50);
-      if (storageCount > 0) {
+      if (storageCount > 0 && NEST.hp > 0) {
         for (let i = 0; i < storageCount; i++) {
           const angle = (i * 137.5) * (Math.PI / 180);
           const radius = Math.sqrt(i) * 2;
@@ -637,31 +659,48 @@
           ctx.strokeStyle = 'white';
           ctx.lineWidth = 1;
           ctx.stroke();
+          
+          // Если муравей несет предмет
           if (ant.type === 'forager' && ant.carryingFood) {
             ctx.beginPath();
             ctx.arc(ant.x, ant.y - 10, 3, 0, Math.PI * 2);
             ctx.fillStyle = '#f44336';
             ctx.fill();
+          } else if (ant.type === 'builder' && ant.carryingStick) {
+            ctx.beginPath();
+            ctx.rect(ant.x - 2, ant.y - 10, 4, 4);
+            ctx.fillStyle = '#8B4513';
+            ctx.fill();
           }
         }
       });
 
-      // Личинки
-      ants.forEach(ant => {
-        if (ant.type === 'larva') {
-          ctx.beginPath();
-          ctx.arc(ant.x, ant.y, ant.size, 0, Math.PI * 2);
-          ctx.fillStyle = '#ffffff';
-          ctx.fill();
-          ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      });
+      // Личинки (рисуем только если гнездо не разрушено)
+      if (NEST.hp > 0) {
+        ants.forEach(ant => {
+          if (ant.type === 'larva') {
+            ctx.beginPath();
+            ctx.arc(ant.x, ant.y, ant.size, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        });
+      }
     }
 
     function updatePositions() {
       frameCount++;
+      stickSpawnTimer++;
+      
+      // Генерация новых палочек каждые 5 секунд
+      if (stickSpawnTimer >= STICK_SPAWN_INTERVAL) {
+        stickSpawnTimer = 0;
+        spawnStick();
+      }
+      
       document.getElementById('ant-count').textContent = ants.filter(a => a.type !== 'larva').length;
       document.getElementById('larvae-count').textContent = ants.filter(a => a.type === 'larva').length;
       document.getElementById('food-count').textContent = foods.filter(f => !f.collected).length;
@@ -675,7 +714,7 @@
       pheromones.forEach(p => p.life--);
       pheromones = pheromones.filter(p => p.life > 0);
 
-      if (foodCollectedCount > 0) {
+      if (foodCollectedCount > 0 && NEST.hp > 0) {
         larvaSpawnProgress++;
         if (larvaSpawnProgress >= LARVA_SPAWN_THRESHOLD) {
           larvaSpawnProgress = 0;
@@ -793,7 +832,7 @@
               vy: (Math.random() - 0.5) * 1,
               ...(type === 'forager' ? { carryingFood: false } : {}),
               ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {}),
-              ...(type === 'builder' ? { carryingStick: false } : {})
+              ...(type === 'builder' ? { carryingStick: false, repairing: false } : {})
             });
             if (Math.random() < 0.25) {
               const angle = Math.random() * Math.PI * 2;
@@ -812,29 +851,74 @@
 
         // Строитель
         if (ant.type === 'builder') {
-          let closestStick = sticks.find(s => !s.collected);
-          if (closestStick) {
-            let dx = closestStick.x - ant.x;
-            let dy = closestStick.y - ant.y;
-            let dist = Math.hypot(dx, dy);
-            if (dist < 10) {
-              closestStick.collected = true;
-              ant.carryingStick = true;
-            } else {
-              ant.vx += dx / dist * 0.03;
-              ant.vy += dy / dist * 0.03;
-            }
-          } else if (ant.carryingStick && NEST.hp < NEST.maxHp) {
+          if (ant.repairing) {
+            // Если строитель ремонтирует гнездо
             let dx = NEST.x - ant.x;
             let dy = NEST.y - ant.y;
             let dist = Math.hypot(dx, dy);
+            
             if (dist < 10) {
-              NEST.hp += 5;
-              if (NEST.hp > NEST.maxHp) NEST.hp = NEST.maxHp;
-              ant.carryingStick = false;
+              // Ремонт гнезда
+              if (NEST.hp < NEST.maxHp) {
+                NEST.hp += 0.5; // Медленный ремонт
+                if (NEST.hp > NEST.maxHp) NEST.hp = NEST.maxHp;
+                
+                // Если гнездо полностью отремонтировано
+                if (NEST.hp === NEST.maxHp) {
+                  NEST.isDestroyed = false;
+                  ant.repairing = false;
+                }
+              }
             } else {
+              // Двигаемся к гнезду для ремонта
               ant.vx += dx / dist * 0.02;
               ant.vy += dy / dist * 0.02;
+            }
+          } else if (ant.carryingStick) {
+            // Если несет палочку - идем к гнезду
+            let dx = NEST.x - ant.x;
+            let dy = NEST.y - ant.y;
+            let dist = Math.hypot(dx, dy);
+            
+            if (dist < 10) {
+              // Пришли в гнездо - начинаем ремонт
+              ant.carryingStick = false;
+              ant.repairing = true;
+            } else {
+              // Двигаемся к гнезду
+              ant.vx += dx / dist * 0.02;
+              ant.vy += dy / dist * 0.02;
+            }
+          } else {
+            // Ищем палочку
+            let closestStick = sticks.find(s => !s.collected);
+            if (closestStick) {
+              let dx = closestStick.x - ant.x;
+              let dy = closestStick.y - ant.y;
+              let dist = Math.hypot(dx, dy);
+              
+              if (dist < 10) {
+                // Подобрали палочку
+                closestStick.collected = true;
+                ant.carryingStick = true;
+              } else {
+                // Двигаемся к палочке
+                ant.vx += dx / dist * 0.03;
+                ant.vy += dy / dist * 0.03;
+              }
+            } else if (NEST.hp <= 0) {
+              // Если гнездо разрушено и нет палочек - идем к гнезду для ремонта
+              let dx = NEST.x - ant.x;
+              let dy = NEST.y - ant.y;
+              let dist = Math.hypot(dx, dy);
+              
+              if (dist < 10) {
+                // Начали ремонт без палочки (медленнее)
+                ant.repairing = true;
+              } else {
+                ant.vx += dx / dist * 0.02;
+                ant.vy += dy / dist * 0.02;
+              }
             }
           }
         }
@@ -1039,7 +1123,7 @@
           vy: (Math.random() - 0.5) * 1,
           ...(type === 'forager' ? { carryingFood: false } : {}),
           ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {}),
-          ...(type === 'builder' ? { carryingStick: false } : {})
+          ...(type === 'builder' ? { carryingStick: false, repairing: false } : {})
         });
       }
     });
