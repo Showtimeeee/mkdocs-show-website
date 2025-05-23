@@ -376,7 +376,7 @@
       nurse: { color: '#ffd600', size: 5, speed: 0.3 },
       forager: { color: '#fff176', size: 6, speed: 0.6 },
       soldier: { color: '#2979ff', size: 9, speed: 0.8 },
-      builder: { color: '#4CAF50', size: 7, speed: 0.5 } // Новый тип: Строитель
+      builder: { color: '#4CAF50', size: 5, speed: 0.3 } // Новый тип: Строитель
     };
 
     let ants = [];
@@ -471,7 +471,7 @@
       }
 
       // Строители
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 2; i++) {
         ants.push({
           type: 'builder',
           x: NEST_CENTER.x + 150 + Math.random() * 400,
@@ -871,8 +871,8 @@
               }
             } else {
               // Двигаемся к гнезду для ремонта
-              ant.vx += dx / dist * 0.02;
-              ant.vy += dy / dist * 0.02;
+              ant.vx += dx / dist * 0.01;
+              ant.vy += dy / dist * 0.01;
             }
           } else if (ant.carryingStick) {
             // Если несет палочку - идем к гнезду
@@ -1072,7 +1072,7 @@
     function spawnEnemy() {
       const x = canvas.width + 10;
       const y = 50 + Math.random() * (canvas.height - 100);
-      const speedMultiplier = 0.3 + Math.random() * 0.6;
+      const speedMultiplier = 0.5 + Math.random() * 0.8;
       enemies.push({
         x: x,
         y: y,
