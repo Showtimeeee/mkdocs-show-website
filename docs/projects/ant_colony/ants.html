@@ -35,7 +35,9 @@
     canvas {
       display: block;
       margin: auto;
-      background-color: #0a962d;
+      background-image: url('krasivo-57.jpg');
+      background-size: cover; /* Растягивает изображение под размер канваса */
+      background-position: center; /* Центрирует изображение */
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       transition: background-color 0.5s;
@@ -117,6 +119,75 @@
     .larva-progress-text {
       font-size: 14px;
     }
+    .stats-table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 600px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .stats-table th, .stats-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+    }
+    .stats-table th {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .stats-table tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    /* Стили для модальных окон */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background-color: #1b5e20;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #fff3e0;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: white;
+    }
+    .modal-title {
+      margin-top: 0;
+      text-align: center;
+    }
+    .modal-text {
+      line-height: 1.6;
+    }
+    .legend-item {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -126,19 +197,59 @@
       Исследуйте структуру настоящей муравьиной колонии. Матка находится в центре, вокруг неё — личинки и куколки.
       Няньки ухаживают за потомством, солдаты патрулируют периметр, а фуражиры собирают пищу. На горизонте появляются враги — хищные насекомые или другие муравьи, желающие украсть беззащитных личинок.
     </p>
-    <strong id="nest-hp">Гнездо: 100%</strong>
-    <div class="controls">
-      <button id="add-ant-btn">Добавить муравья (случайный тип)</button>
-      <button id="buy-larva-btn">Купить личинку (5 еды)</button>
-      <button id="add-enemy-btn">Добавить врага</button>
-      <button id="day-night-btn">🌙</button>
-    </div>
-    <div class="larva-progress-container">
+  
+    
+    <!-- Новая таблица статистики -->
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>Тип муравья</th>
+          <th>Количество</th>
+          <th>Описание</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span style="background:#8C2FD4; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Матка</td>
+          <td id="queen-count">0</td>
+          <td>Сердце колонии, производит потомство</td>
+        </tr>
+        <tr>
+          <td><span style="background:#ffd600; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Нянька</td>
+          <td id="nurse-count">0</td>
+          <td>Ухаживает за личинками и маткой</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fff176; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Фуражир</td>
+          <td id="forager-count">0</td>
+          <td>Собирает пищу и приносит в гнездо</td>
+        </tr>
+        <tr>
+          <td><span style="background:#2979ff; width:12px; height:12px; display:inline-block; border-radius:50%; border:1px solid white;"></span> Солдат</td>
+          <td id="soldier-count">0</td>
+          <td>Защищает колонию от врагов</td>
+        </tr>
+        <tr>
+          <td><span style="background:#4CAF50; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Строитель</td>
+          <td id="builder-count">0</td>
+          <td>Ремонтирует гнездо и собирает материалы</td>
+        </tr>
+        <tr>
+          <td><span style="background:#ffffff; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Личинка</td>
+          <td id="larva-count">0</td>
+          <td>Будущие муравьи, требуют ухода</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="larva-progress-container">
       <div class="larva-progress-bar">
         <div class="larva-progress-fill" id="larva-progress-fill"></div>
       </div>
       <div class="larva-progress-text" id="larva-progress-text">Создание личинки: 0%</div>
     </div>
+    
     <div id="stats">
       <div>Муравьев: <span id="ant-count">0</span></div>
       <div>Падь: <span id="food-count">0</span></div>
@@ -146,25 +257,96 @@
       <div>Личинок: <span id="larvae-count">0</span></div>
       <div>Врагов: <span id="enemy-count">0</span></div>
       <div>Украдено личинок: <span id="stolen-larvae">0</span></div>
+      <strong id="nest-hp">Гнездо: 100%</strong>
+    </div>
+
+  <canvas id="colony-canvas" width="1000" height="700"></canvas>
+  <div class="controls">
+      <button id="add-ant-btn">Добавить муравья (случайный тип)</button>
+      <button id="buy-larva-btn">Купить личинку (5 еды)</button>
+      <button id="add-enemy-btn">Добавить врага</button>
+      <button id="legend-btn">Легенда</button>
+      <button id="about-btn">Об игре</button>
+      <button id="day-night-btn">🌙</button>
+    </div>
+  <!-- Модальное окно "Легенда" -->
+  <div id="legend-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 class="modal-title">Легенда</h3>
+      <div class="modal-text">
+        <div class="legend-item">
+          <div class="legend-color" style="background:#8C2FD4;"></div>
+          <div>Матка - сердце колонии, производит потомство</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ffd600;"></div>
+          <div>Нянька - ухаживает за личинками и маткой</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#fff176;"></div>
+          <div>Фуражир - собирает пищу и приносит в гнездо</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#2979ff; border:1px solid white;"></div>
+          <div>Солдат - защищает колонию от врагов</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#4CAF50;"></div>
+          <div>Строитель - ремонтирует гнездо и собирает материалы</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ffffff;"></div>
+          <div>Личинка / Куколка - будущие муравьи</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#f44336;"></div>
+          <div>Падь - источник пищи для муравьев</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#000000; border:1px solid white;"></div>
+          <div>Враг - угроза для колонии</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#f19010;"></div>
+          <div>Склад еды - место хранения собранной пищи</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#f19010;"></div>
+          <div>Феромоны к гнезду - путь домой для фуражиров</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ff0000;"></div>
+          <div>Феромоны к еде - путь к пище</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#120125;"></div>
+          <div>Феромоны солдат - сигналы об опасности</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ffffff;"></div>
+          <div>Феромоны врагов - следы хищников</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#ffeb3b;"></div>
+          <div>Феромоны нянек - сигналы о нуждающихся личинках</div>
+        </div>
+      </div>
     </div>
   </div>
-  <canvas id="colony-canvas" width="900" height="600"></canvas>
-  <div class="legend">
-    <p><span style="background:#8C2FD4"></span>Матка</p>
-    <p><span style="background:#ffd600;"></span>Нянька</p>
-    <p><span style="background:#fff176;"></span>Фуражир</p>
-    <p><span style="background:#2979ff; border: 1px solid white;"></span>Солдат</p>
-    <p><span style="background:#f19010;"></span>Строитель</p>
-    <p><span style="background:#ffffff;"></span>Личинка / Куколка</p>
-    <p><span style="background:#f44336;"></span>Падь</p>
-    <p><span style="background:#000000e8; border: 1px solid white;"></span>Враг</p>
-    <p><span style="background:#f19010;"></span>Склад еды</p>
-    <p><span style="background:#f19010;"></span>Феромоны к гнезду</p>
-    <p><span style="background:#ff0000;"></span>Феромоны к еде</p>
-    <p><span style="background:#120125;"></span>Феромоны солдат</p>
-    <p><span style="background:#ffffff;"></span>Феромоны врагов</p>
-    <p><span style="background:#ffeb3b;"></span>Феромоны нянек</p>
+
+  <!-- Модальное окно "Об игре" -->
+  <div id="about-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 class="modal-title">Об игре</h3>
+      <div class="modal-text">
+        <p>Исследуйте структуру муравьиной колонии. Матка находится в центре, вокруг неё — личинки и куколки. Няньки ухаживают за потомством, солдаты патрулируют периметр, а фуражиры собирают пищу. На горизонте появляются враги — хищные насекомые или другие муравьи, желающие украсть беззащитных личинок.</p>
+        <p>Управляйте колонией, добавляя новых муравьев, защищаясь от врагов и расширяя свое гнездо!</p>
+      </div>
+    </div>
   </div>
+
   <div class="fact-container" id="factDisplay">
     <p>Нажмите кнопку, чтобы узнать интересный факт о муравьях</p>
   </div>
@@ -321,6 +503,15 @@
       const progressPercent = Math.min(100, (larvaSpawnProgress / LARVA_SPAWN_THRESHOLD) * 100);
       document.getElementById('larva-progress-fill').style.width = `${progressPercent}%`;
       document.getElementById('larva-progress-text').textContent = `Создание личинки: ${Math.floor(progressPercent)}%`;
+    }
+
+    function updateAntStats() {
+      document.getElementById('queen-count').textContent = ants.filter(a => a.type === 'queen').length;
+      document.getElementById('nurse-count').textContent = ants.filter(a => a.type === 'nurse').length;
+      document.getElementById('forager-count').textContent = ants.filter(a => a.type === 'forager').length;
+      document.getElementById('soldier-count').textContent = ants.filter(a => a.type === 'soldier').length;
+      document.getElementById('builder-count').textContent = ants.filter(a => a.type === 'builder').length;
+      document.getElementById('larva-count').textContent = ants.filter(a => a.type === 'larva').length;
     }
 
     function drawNest() {
@@ -480,6 +671,9 @@
       document.getElementById('food-collected').textContent = foodCollectedCount;
       document.getElementById('enemy-count').textContent = enemies.length;
       document.getElementById('stolen-larvae').textContent = stolenLarvaeCount;
+      
+      // Обновляем статистику по типам муравьев
+      updateAntStats();
 
       pheromones.forEach(p => p.life--);
       pheromones = pheromones.filter(p => p.life > 0);
@@ -533,7 +727,7 @@
             let dy = NEST.y - enemy.y;
             let dist = Math.hypot(dx, dy);
             if (dist < NEST.radius) {
-              NEST.hp -= 2; // Урон по гнезду
+              NEST.hp -= 40; // Урон по гнезду
               if (NEST.hp < 0) NEST.hp = 0;
               const index = enemies.indexOf(enemy);
               enemies.splice(index, 1); // Враг умирает
@@ -880,6 +1074,42 @@
     function showRandomFact() {
       const randomIndex = Math.floor(Math.random() * antFacts.length);
       document.getElementById('factDisplay').innerHTML = `<p>${antFacts[randomIndex]}</p>`;
+    }
+
+    // --- Модальные окна ---
+    // Получаем модальные окна и кнопки
+    const legendModal = document.getElementById('legend-modal');
+    const aboutModal = document.getElementById('about-modal');
+    const legendBtn = document.getElementById('legend-btn');
+    const aboutBtn = document.getElementById('about-btn');
+    const closeButtons = document.getElementsByClassName('close');
+
+    // Открываем модальное окно "Легенда" при нажатии кнопки
+    legendBtn.onclick = function() {
+      legendModal.style.display = "block";
+    }
+
+    // Открываем модальное окно "Об игре" при нажатии кнопки
+    aboutBtn.onclick = function() {
+      aboutModal.style.display = "block";
+    }
+
+    // Закрываем модальное окно при нажатии на крестик
+    for (let i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].onclick = function() {
+        legendModal.style.display = "none";
+        aboutModal.style.display = "none";
+      }
+    }
+
+    // Закрываем модальное окно при клике вне его области
+    window.onclick = function(event) {
+      if (event.target == legendModal) {
+        legendModal.style.display = "none";
+      }
+      if (event.target == aboutModal) {
+        aboutModal.style.display = "none";
+      }
     }
   </script>
 </body>
