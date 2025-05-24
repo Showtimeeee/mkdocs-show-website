@@ -8,11 +8,16 @@
   <style>
     body {
       margin: 0;
+      margin: 0;
       font-family: sans-serif;
-      background-color: #1b5e20;
+      background-image: url('krasivo-58.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: white;
       transition: background-color 0.5s;
     }
+    
     .info-panel {
       background: rgba(0, 0, 0, 0.6);
       padding: 15px 30px;
@@ -36,8 +41,8 @@
       display: block;
       margin: auto;
       background-image: url('krasivo-57.jpg');
-      background-size: cover; /* Растягивает изображение под размер канваса */
-      background-position: center; /* Центрирует изображение */
+      background-size: cover;
+      background-position: center;
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       transition: background-color 0.5s;
@@ -137,7 +142,22 @@
     .stats-table tr:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
-    /* Стили для модальных окон */
+    .hp-bar {
+      width: 60px;
+      height: 10px;
+      background-color: #333;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 5px;
+      position: relative;
+    }
+    .hp-fill {
+      height: 100%;
+      background-color: #4CAF50;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
     .modal {
       display: none;
       position: fixed;
@@ -188,15 +208,24 @@
       margin-right: 10px;
       flex-shrink: 0;
     }
+    .slider-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    .slider-container label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .slider {
+      width: 200px;
+    }
   </style>
 </head>
 <body>
   <div class="info-panel">
     <h2>Муравьиная Колония🐜</h2>
     
-    
-
-  <div class="larva-progress-container">
+    <div class="larva-progress-container">
       <div class="larva-progress-bar">
         <div class="larva-progress-fill" id="larva-progress-fill"></div>
       </div>
@@ -208,7 +237,10 @@
       <button id="add-enemy-btn">Добавить врага</button>
       <button id="legend-btn">Легенда</button>
       <button id="about-btn">Об игре</button>
-      <button id="day-night-btn">🌙</button>
+    </div>
+    <div class="slider-container">
+      <label for="enemy-speed-slider">Скорость врагов: <span id="enemy-speed-value">1.0x</span></label>
+      <input type="range" min="0.1" max="2" step="0.1" value="1" class="slider" id="enemy-speed-slider">
     </div>
     <div id="stats">
       <div>Муравьев: <span id="ant-count">0</span></div>
@@ -220,15 +252,15 @@
       <strong id="nest-hp">Гнездо: 100%</strong>
     </div>
 
-  <canvas id="colony-canvas" width="1000" height="700"></canvas>
+    <canvas id="colony-canvas" width="1000" height="700"></canvas>
   
-  <!-- Новая таблица статистики -->
     <table class="stats-table">
       <thead>
         <tr>
           <th>Тип муравья</th>
           <th>Количество</th>
           <th>Описание</th>
+          <th>HP гнезда</th>
         </tr>
       </thead>
       <tbody>
@@ -236,6 +268,12 @@
           <td><span style="background:#8C2FD4; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Матка</td>
           <td id="queen-count">0</td>
           <td>Сердце колонии, производит потомство</td>
+          <td rowspan="6" style="text-align: center; vertical-align: middle;">
+            <div id="nest-hp-text">100%</div>
+            <div class="hp-bar">
+              <div class="hp-fill" id="nest-hp-bar" style="width: 100%;"></div>
+            </div>
+          </td>
         </tr>
         <tr>
           <td><span style="background:#ffd600; width:12px; height:12px; display:inline-block; border-radius:50%;"></span> Нянька</td>
@@ -266,7 +304,6 @@
     </table>
   </div>
   
-  <!-- Модальное окно "Легенда" -->
   <div id="legend-modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -309,30 +346,13 @@
           <div>Склад еды - место хранения собранной пищи</div>
         </div>
         <div class="legend-item">
-          <div class="legend-color" style="background:#f19010;"></div>
-          <div>Феромоны к гнезду - путь домой для фуражиров</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background:#ff0000;"></div>
-          <div>Феромоны к еде - путь к пище</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background:#120125;"></div>
-          <div>Феромоны солдат - сигналы об опасности</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background:#ffffff;"></div>
-          <div>Феромоны врагов - следы хищников</div>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background:#ffeb3b;"></div>
-          <div>Феромоны нянек - сигналы о нуждающихся личинках</div>
+          <div class="legend-color" style="background:#8B4513;"></div>
+          <div>Палочки - материалы для ремонта гнезда</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Модальное окно "Об игре" -->
   <div id="about-modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -345,11 +365,12 @@
   </div>
 
   <div class="fact-container" id="factDisplay">
-    <p>Нажмите кнопку, чтобы узнать интересный факт о муравьях</p>
+    <p>Нажмите кнопку, чтобы узнать интересный факт о муравьях🌿</p>
   </div>
   <div style="text-align: center; margin-bottom: 20px;">
     <button onclick="showRandomFact()">Получить факт о муравьях</button>
   </div>
+
   <script>
     const canvas = document.getElementById('colony-canvas');
     const ctx = canvas.getContext('2d');
@@ -369,21 +390,21 @@
     };
 
     const LARVAE_RADIUS = 30;
-    const STORAGE_POSITION = { x: NEST_CENTER.x - 40, y: NEST_CENTER.y + 40 }; // Рядом с личинками
+    const STORAGE_POSITION = { x: NEST_CENTER.x - 40, y: NEST_CENTER.y + 40 };
 
     const ANT_TYPES = {
       queen: { color: '#8C2FD4', size: 12, speed: 0 },
       nurse: { color: '#ffd600', size: 5, speed: 0.3 },
       forager: { color: '#fff176', size: 6, speed: 0.6 },
       soldier: { color: '#2979ff', size: 9, speed: 0.8 },
-      builder: { color: '#4CAF50', size: 5, speed: 0.3 } // Новый тип: Строитель
+      builder: { color: '#4CAF50', size: 5, speed: 0.3 }
     };
 
     let ants = [];
     let foods = [];
     let pheromones = [];
     let enemies = [];
-    let sticks = []; // Палочки для строителей
+    let sticks = [];
     const MAX_PHEROMONES = 500;
 
     let isNight = false;
@@ -392,9 +413,10 @@
     let enemySpawnTimer = 0;
     let frameCount = 0;
     let larvaSpawnProgress = 0;
-    let stickSpawnTimer = 0; // Таймер для генерации палочек
+    let stickSpawnTimer = 0;
     const LARVA_SPAWN_THRESHOLD = 1800;
-    const STICK_SPAWN_INTERVAL = 300; // Каждые 5 секунд (60 кадров/сек * 5 сек)
+    const STICK_SPAWN_INTERVAL = 600; // 10 секунд (60 кадров/сек * 10 сек)
+    let enemySpeedMultiplier = 1.0;
 
     function initColony() {
       ants = [];
@@ -413,6 +435,7 @@
 
       NEST.hp = NEST.maxHp;
       NEST.isDestroyed = false;
+      updateNestHPDisplay();
 
       // Матка
       ants.push({
@@ -421,7 +444,7 @@
         y: NEST_CENTER.y,
       });
 
-      // Личинки внутри гнезда
+      // Личинки
       for (let i = 0; i < 11; i++) {
         const angle = (i / 8) * Math.PI * 3;
         ants.push({
@@ -503,17 +526,37 @@
     }
 
     function spawnStick() {
+      const x = 50 + Math.random() * (canvas.width - 100);
+      const y = 50 + Math.random() * (canvas.height - 100);
+      
       sticks.push({
-        x: 100 + Math.random() * 700,
-        y: 50 + Math.random() * 500,
+        x: x,
+        y: y,
         collected: false
       });
+      
+      console.log(`Новая палочка появилась в (${x.toFixed(0)}, ${y.toFixed(0)})`);
     }
 
     function updateLarvaProgressBar() {
       const progressPercent = Math.min(100, (larvaSpawnProgress / LARVA_SPAWN_THRESHOLD) * 100);
       document.getElementById('larva-progress-fill').style.width = `${progressPercent}%`;
       document.getElementById('larva-progress-text').textContent = `Создание личинки: ${Math.floor(progressPercent)}%`;
+    }
+
+    function updateNestHPDisplay() {
+      const hpPercent = (NEST.hp / NEST.maxHp) * 100;
+      document.getElementById('nest-hp-text').textContent = `${Math.round(hpPercent)}%`;
+      document.getElementById('nest-hp-bar').style.width = `${hpPercent}%`;
+      
+      const hpBar = document.getElementById('nest-hp-bar');
+      if (hpPercent <= 30) {
+        hpBar.style.backgroundColor = '#f44336';
+      } else if (hpPercent <= 70) {
+        hpBar.style.backgroundColor = '#ff9800';
+      } else {
+        hpBar.style.backgroundColor = '#4CAF50';
+      }
     }
 
     function updateAntStats() {
@@ -526,8 +569,6 @@
     }
 
     function drawNest() {
-      if (NEST.hp <= 0 && NEST.isDestroyed) return;
-
       ctx.beginPath();
       const height = Math.sqrt(3) / 2 * NEST.size;
       const points = [
@@ -540,7 +581,6 @@
       ctx.lineTo(points[2].x, points[2].y);
       ctx.closePath();
       
-      // Если гнездо разрушено, рисуем его полупрозрачным
       if (NEST.hp <= 0) {
         ctx.fillStyle = 'rgba(139, 69, 19, 0.3)';
       } else {
@@ -548,7 +588,6 @@
       }
       ctx.fill();
 
-      // Вход в гнездо рисуем только если гнездо не разрушено
       if (NEST.hp > 0) {
         ctx.fillStyle = '#2f2f2f';
         ctx.fillRect(
@@ -571,6 +610,8 @@
       } else {
         status.style.color = 'white';
       }
+      
+      updateNestHPDisplay();
     }
 
     function drawAnts() {
@@ -608,9 +649,12 @@
       sticks.forEach(stick => {
         if (!stick.collected) {
           ctx.beginPath();
-          ctx.rect(stick.x - 2, stick.y - 2, 4, 4);
-          ctx.fillStyle = '#8B4513'; // Коричневый цвет для палочек
+          ctx.rect(stick.x - 4, stick.y - 2, 8, 4);
+          ctx.fillStyle = '#8B4513';
           ctx.fill();
+          ctx.strokeStyle = '#5D2906';
+          ctx.lineWidth = 1;
+          ctx.stroke();
         }
       });
 
@@ -626,7 +670,7 @@
             STORAGE_POSITION.y + Math.sin(angle) * radius,
             3, 0, Math.PI * 2
           );
-          ctx.fillStyle = '#f44336'; // Красный цвет, как у пади
+          ctx.fillStyle = '#f44336';
           ctx.fill();
         }
       }
@@ -660,7 +704,6 @@
           ctx.lineWidth = 1;
           ctx.stroke();
           
-          // Если муравей несет предмет
           if (ant.type === 'forager' && ant.carryingFood) {
             ctx.beginPath();
             ctx.arc(ant.x, ant.y - 10, 3, 0, Math.PI * 2);
@@ -675,30 +718,33 @@
         }
       });
 
-      // Личинки (рисуем только если гнездо не разрушено)
-      if (NEST.hp > 0) {
-        ants.forEach(ant => {
-          if (ant.type === 'larva') {
-            ctx.beginPath();
-            ctx.arc(ant.x, ant.y, ant.size, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-            ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        });
-      }
+      // Личинки (рисуем отдельно, чтобы они были поверх других муравьев)
+      ants.forEach(ant => {
+        if (ant.type === 'larva') {
+          ctx.beginPath();
+          ctx.arc(ant.x, ant.y, ant.size, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      });
     }
 
     function updatePositions() {
       frameCount++;
       stickSpawnTimer++;
       
-      // Генерация новых палочек каждые 5 секунд
+      // Генерация новых палочек каждые 10 секунд
       if (stickSpawnTimer >= STICK_SPAWN_INTERVAL) {
         stickSpawnTimer = 0;
         spawnStick();
+        
+        // Добавим еще одну палочку, если их меньше 5
+        if (sticks.filter(s => !s.collected).length < 5) {
+          spawnStick();
+        }
       }
       
       document.getElementById('ant-count').textContent = ants.filter(a => a.type !== 'larva').length;
@@ -708,7 +754,6 @@
       document.getElementById('enemy-count').textContent = enemies.length;
       document.getElementById('stolen-larvae').textContent = stolenLarvaeCount;
       
-      // Обновляем статистику по типам муравьев
       updateAntStats();
 
       pheromones.forEach(p => p.life--);
@@ -754,8 +799,8 @@
             enemies.splice(index, 1);
             stolenLarvaeCount++;
           } else {
-            enemy.vx = dx / dist * 1.2 * enemy.speedMultiplier;
-            enemy.vy = dy / dist * 1.2 * enemy.speedMultiplier;
+            enemy.vx = dx / dist * 1.2 * enemy.speedMultiplier * enemySpeedMultiplier;
+            enemy.vy = dy / dist * 1.2 * enemy.speedMultiplier * enemySpeedMultiplier;
           }
         } else {
           if (NEST.hp > 0) {
@@ -763,13 +808,14 @@
             let dy = NEST.y - enemy.y;
             let dist = Math.hypot(dx, dy);
             if (dist < NEST.radius) {
-              NEST.hp -= 40; // Урон по гнезду
+              NEST.hp -= 40;
               if (NEST.hp < 0) NEST.hp = 0;
               const index = enemies.indexOf(enemy);
-              enemies.splice(index, 1); // Враг умирает
+              enemies.splice(index, 1);
+              updateNestHPDisplay();
             } else {
-              enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier;
-              enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier;
+              enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier * enemySpeedMultiplier;
+              enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier * enemySpeedMultiplier;
             }
           } else {
             const larvae = ants.filter(a => a.type === 'larva');
@@ -792,8 +838,8 @@
                   const index = ants.indexOf(closestLarva);
                   ants.splice(index, 1);
                 } else {
-                  enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier;
-                  enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier;
+                  enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier * enemySpeedMultiplier;
+                  enemy.vy += dy / dist * 0.05 * enemy.speedMultiplier * enemySpeedMultiplier;
                 }
               }
             }
@@ -801,7 +847,7 @@
         }
 
         const baseMaxSpeed = enemy.carryingLarva ? 1.2 : 0.8;
-        const maxSpeed = baseMaxSpeed * enemy.speedMultiplier;
+        const maxSpeed = baseMaxSpeed * enemy.speedMultiplier * enemySpeedMultiplier;
         const speed = Math.hypot(enemy.vx, enemy.vy);
         if (speed > maxSpeed) {
           enemy.vx = (enemy.vx / speed) * maxSpeed;
@@ -852,45 +898,37 @@
         // Строитель
         if (ant.type === 'builder') {
           if (ant.repairing) {
-            // Если строитель ремонтирует гнездо
             let dx = NEST.x - ant.x;
             let dy = NEST.y - ant.y;
             let dist = Math.hypot(dx, dy);
             
             if (dist < 10) {
-              // Ремонт гнезда
               if (NEST.hp < NEST.maxHp) {
-                NEST.hp += 0.5; // Медленный ремонт
+                NEST.hp += 0.1;
                 if (NEST.hp > NEST.maxHp) NEST.hp = NEST.maxHp;
                 
-                // Если гнездо полностью отремонтировано
                 if (NEST.hp === NEST.maxHp) {
                   NEST.isDestroyed = false;
                   ant.repairing = false;
                 }
               }
             } else {
-              // Двигаемся к гнезду для ремонта
-              ant.vx += dx / dist * 0.01;
-              ant.vy += dy / dist * 0.01;
+              ant.vx += dx / dist * 0.02;
+              ant.vy += dy / dist * 0.02;
             }
           } else if (ant.carryingStick) {
-            // Если несет палочку - идем к гнезду
             let dx = NEST.x - ant.x;
             let dy = NEST.y - ant.y;
             let dist = Math.hypot(dx, dy);
             
             if (dist < 10) {
-              // Пришли в гнездо - начинаем ремонт
               ant.carryingStick = false;
               ant.repairing = true;
             } else {
-              // Двигаемся к гнезду
               ant.vx += dx / dist * 0.02;
               ant.vy += dy / dist * 0.02;
             }
           } else {
-            // Ищем палочку
             let closestStick = sticks.find(s => !s.collected);
             if (closestStick) {
               let dx = closestStick.x - ant.x;
@@ -898,22 +936,18 @@
               let dist = Math.hypot(dx, dy);
               
               if (dist < 10) {
-                // Подобрали палочку
                 closestStick.collected = true;
                 ant.carryingStick = true;
               } else {
-                // Двигаемся к палочке
                 ant.vx += dx / dist * 0.03;
                 ant.vy += dy / dist * 0.03;
               }
             } else if (NEST.hp <= 0) {
-              // Если гнездо разрушено и нет палочек - идем к гнезду для ремонта
               let dx = NEST.x - ant.x;
               let dy = NEST.y - ant.y;
               let dist = Math.hypot(dx, dy);
               
               if (dist < 10) {
-                // Начали ремонт без палочки (медленнее)
                 ant.repairing = true;
               } else {
                 ant.vx += dx / dist * 0.02;
@@ -923,7 +957,6 @@
           }
         }
 
-        // Остальной код поведения муравьёв...
         if (ant.type === 'nurse') {
           const larvae = ants.filter(a => a.type === 'larva');
           if (larvae.length > 0) {
@@ -1072,14 +1105,14 @@
     function spawnEnemy() {
       const x = canvas.width + 10;
       const y = 50 + Math.random() * (canvas.height - 100);
-      const speedMultiplier = 0.5 + Math.random() * 0.8;
+      const speedMultiplier = 0.3 + Math.random() * 0.6;
       enemies.push({
         x: x,
         y: y,
         spawnX: x,
         spawnY: y,
-        vx: -0.3 * speedMultiplier,
-        vy: (Math.random() - 0.5) * 0.2 * speedMultiplier,
+        vx: -0.3 * speedMultiplier * enemySpeedMultiplier,
+        vy: (Math.random() - 0.5) * 0.2 * speedMultiplier * enemySpeedMultiplier,
         carryingLarva: false,
         speedMultiplier: speedMultiplier
       });
@@ -1128,15 +1161,23 @@
       }
     });
 
-    document.getElementById('day-night-btn').addEventListener('click', () => {
-      isNight = !isNight;
-      document.body.style.backgroundColor = isNight ? '#0a1e0d' : '#1b5e20';
-      canvas.style.backgroundColor = isNight ? '#1b5e20' : '#388e3c';
-      document.getElementById('day-night-btn').textContent = isNight ? '🌞' : '🌙';
-    });
-
     document.getElementById('add-enemy-btn').addEventListener('click', spawnEnemy);
     document.getElementById('buy-larva-btn').addEventListener('click', buyLarva);
+
+    // Ползунок скорости врагов
+    const speedSlider = document.getElementById('enemy-speed-slider');
+    const speedValue = document.getElementById('enemy-speed-value');
+    
+    speedSlider.addEventListener('input', function() {
+      enemySpeedMultiplier = parseFloat(this.value);
+      speedValue.textContent = this.value + 'x';
+      
+      // Обновляем скорость существующих врагов
+      enemies.forEach(enemy => {
+        enemy.vx = (enemy.vx / enemy.speedMultiplier) * enemySpeedMultiplier;
+        enemy.vy = (enemy.vy / enemy.speedMultiplier) * enemySpeedMultiplier;
+      });
+    });
 
     // --- Факты о муравьях ---
     const antFacts = [
@@ -1158,24 +1199,20 @@
     }
 
     // --- Модальные окна ---
-    // Получаем модальные окна и кнопки
     const legendModal = document.getElementById('legend-modal');
     const aboutModal = document.getElementById('about-modal');
     const legendBtn = document.getElementById('legend-btn');
     const aboutBtn = document.getElementById('about-btn');
     const closeButtons = document.getElementsByClassName('close');
 
-    // Открываем модальное окно "Легенда" при нажатии кнопки
     legendBtn.onclick = function() {
       legendModal.style.display = "block";
     }
 
-    // Открываем модальное окно "Об игре" при нажатии кнопки
     aboutBtn.onclick = function() {
       aboutModal.style.display = "block";
     }
 
-    // Закрываем модальное окно при нажатии на крестик
     for (let i = 0; i < closeButtons.length; i++) {
       closeButtons[i].onclick = function() {
         legendModal.style.display = "none";
@@ -1183,7 +1220,6 @@
       }
     }
 
-    // Закрываем модальное окно при клике вне его области
     window.onclick = function(event) {
       if (event.target == legendModal) {
         legendModal.style.display = "none";
@@ -1194,7 +1230,9 @@
     }
   </script>
 </body>
-<footer>
-  <p>Copyright © 2025 Vadim.</p>
+<footer id="app-footer" style="text-align: center; padding: 20px; font-size: 0.9em; color: #032204;">
+  <p>Версия <strong>1.0.0</strong> | Обновлено: <strong>2025-05-26</strong></p>
+  <p>© Copyright 2025 Vadim</p>
+</footer>
 </footer>
 </html>
