@@ -118,7 +118,7 @@
     }
     .larva-progress-fill {
       height: 100%;
-      background-color: #8C2FD4;
+      background-color: #0cb328;
       transition: width 0.3s;
     }
     .larva-progress-text {
@@ -240,7 +240,7 @@
     </div>
     <div class="slider-container">
       <label for="enemy-speed-slider">Скорость врагов: <span id="enemy-speed-value">1.0x</span></label>
-      <input type="range" min="0.1" max="2" step="0.1" value="1" class="slider" id="enemy-speed-slider">
+      <input type="range" min="0.1" max="5" step="0.1" value="2" id="enemy-speed-slider">
     </div>
     <div id="stats">
       <div>Муравьев: <span id="ant-count">0</span></div>
@@ -808,7 +808,7 @@
             let dy = NEST.y - enemy.y;
             let dist = Math.hypot(dx, dy);
             if (dist < NEST.radius) {
-              NEST.hp -= 40;
+              NEST.hp -= 60;
               if (NEST.hp < 0) NEST.hp = 0;
               const index = enemies.indexOf(enemy);
               enemies.splice(index, 1);
@@ -1111,8 +1111,8 @@
         y: y,
         spawnX: x,
         spawnY: y,
-        vx: -0.3 * speedMultiplier * enemySpeedMultiplier,
-        vy: (Math.random() - 0.5) * 0.2 * speedMultiplier * enemySpeedMultiplier,
+        vx: -0.5 * speedMultiplier * enemySpeedMultiplier,
+        vy: (Math.random() - 0.5) * 0.3 * speedMultiplier * enemySpeedMultiplier,
         carryingLarva: false,
         speedMultiplier: speedMultiplier
       });
@@ -1231,7 +1231,7 @@
   </script>
 </body>
 <footer id="app-footer" style="text-align: center; padding: 20px; font-size: 0.9em; color: #032204;">
-  <p>Версия <strong>1.0.0</strong> | Обновлено: <strong>2025-05-26</strong></p>
+  <p>Версия <strong>2.2.1</strong> | Обновлено: <strong>2025-05-25</strong></p>
   <p>© Copyright 2025 Vadim</p>
 </footer>
 </footer>
