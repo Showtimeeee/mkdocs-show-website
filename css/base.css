@@ -1,0 +1,40 @@
+/* Общие стили для тела страницы */
+body {
+    margin: 0; /* Убираем стандартные отступы */
+    font-family: Arial, sans-serif; /* Опционально: задаем шрифт */
+    position: relative; /* Необходимо для позиционирования полос */
+  }
+  
+  /* Боковые полосы */
+  .body-side-effects {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 10px; /* Ширина полосы */
+    animation: side-color-change 5s infinite; /* Анимация */
+    z-index: -1; /* Полосы находятся за основным контентом */
+  }
+  
+  /* Левая полоса */
+  .body-side-left {
+    left: 0;
+    background: linear-gradient(180deg, #ee7752, #e73c7e); /* Градиент для левой полосы */
+  }
+  
+  /* Правая полоса */
+  .body-side-right {
+    right: 0;
+    background: linear-gradient(180deg, #23a6d5, #23d5ab); /* Градиент для правой полосы */
+  }
+  
+  /* Анимация изменения цвета */
+  @keyframes side-color-change {
+    0%, 100% {
+      transform: scaleY(1); /* Начальное и конечное состояние */
+    }
+    50% {
+      transform: scaleY(1.1); /* Немного растягиваем полосу */
+    }
+  }
+
+  
