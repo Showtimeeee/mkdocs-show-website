@@ -1,4 +1,4 @@
-# <div class="animate__animated animate__bounce">Тест по SQL</div>
+<div class="animate__animated animate__bounce">Тест по SQL</div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 Пройди тест по SQL! 15 вопросов, которые проверят твои знания. После завершения теста ты получишь оценку твоего уровня.
@@ -14,80 +14,90 @@
   const questions = [
     {
       question: "Какая команда используется для создания новой таблицы в SQL?",
-      options: ["CREATE TABLE", "INSERT INTO", "SELECT", "UPDATE"],
+      options: ["INSERT INTO", "CREATE TABLE", "SELECT", "UPDATE"],
       answer: "CREATE TABLE"
     },
     {
       question: "Какая команда используется для выборки данных из таблицы?",
-      options: ["SELECT", "INSERT INTO", "DELETE", "DROP"],
+      options: ["DELETE", "INSERT INTO", "SELECT", "DROP"],
       answer: "SELECT"
     },
     {
       question: "Что делает оператор WHERE в SQL?",
-      options: ["Фильтрует строки по условию", "Объединяет таблицы", "Группирует данные", "Сортирует данные"],
+      options: ["Группирует данные", "Фильтрует строки по условию", "Объединяет таблицы", "Сортирует данные"],
       answer: "Фильтрует строки по условию"
     },
     {
       question: "Какой оператор используется для удаления таблицы из базы данных?",
-      options: ["DROP TABLE", "DELETE TABLE", "REMOVE TABLE", "CLEAR TABLE"],
+      options: ["REMOVE TABLE", "DROP TABLE", "DELETE TABLE", "CLEAR TABLE"],
       answer: "DROP TABLE"
     },
     {
       question: "Какая функция используется для подсчёта количества строк в таблице?",
-      options: ["COUNT()", "SUM()", "AVG()", "MAX()"],
+      options: ["SUM()", "COUNT()", "AVG()", "MAX()"],
       answer: "COUNT()"
     },
     {
       question: "Какой тип JOIN возвращает только те строки, которые есть в обеих таблицах?",
-      options: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL OUTER JOIN"],
+      options: ["LEFT JOIN", "INNER JOIN", "RIGHT JOIN", "FULL OUTER JOIN"],
       answer: "INNER JOIN"
     },
     {
       question: "Какая команда используется для добавления новых записей в таблицу?",
-      options: ["INSERT INTO", "ADD RECORD", "UPDATE", "CREATE"],
+      options: ["CREATE", "ADD RECORD", "INSERT INTO", "UPDATE"],
       answer: "INSERT INTO"
     },
     {
       question: "Что делает оператор ORDER BY?",
-      options: ["Сортирует данные", "Фильтрует данные", "Группирует данные", "Удаляет данные"],
+      options: ["Фильтрует данные", "Группирует данные", "Сортирует данные", "Удаляет данные"],
       answer: "Сортирует данные"
     },
     {
       question: "Какой оператор используется для изменения существующих записей в таблице?",
-      options: ["UPDATE", "MODIFY", "ALTER", "CHANGE"],
+      options: ["ALTER", "MODIFY", "UPDATE", "CHANGE"],
       answer: "UPDATE"
     },
     {
       question: "Какая функция возвращает максимальное значение в столбце?",
-      options: ["MAX()", "MIN()", "AVG()", "SUM()"],
+      options: ["MIN()", "AVG()", "MAX()", "SUM()"],
       answer: "MAX()"
     },
     {
       question: "Что такое PRIMARY KEY в SQL?",
-      options: ["Уникальный идентификатор записи", "Внешний ключ", "Индекс для поиска", "Ограничение на значения"],
+      options: ["Внешний ключ", "Уникальный идентификатор записи", "Индекс для поиска", "Ограничение на значения"],
       answer: "Уникальный идентификатор записи"
     },
     {
       question: "Какой оператор используется для группировки данных?",
-      options: ["GROUP BY", "ORDER BY", "FILTER BY", "SORT BY"],
+      options: ["ORDER BY", "GROUP BY", "FILTER BY", "SORT BY"],
       answer: "GROUP BY"
     },
     {
       question: "Какой тип JOIN возвращает все строки из левой таблицы и совпадающие строки из правой?",
-      options: ["LEFT JOIN", "RIGHT JOIN", "INNER JOIN", "FULL OUTER JOIN"],
+      options: ["INNER JOIN", "RIGHT JOIN", "LEFT JOIN", "FULL OUTER JOIN"],
       answer: "LEFT JOIN"
     },
     {
       question: "Какой оператор используется для удаления записей из таблицы?",
-      options: ["DELETE", "DROP", "REMOVE", "CLEAR"],
+      options: ["DROP", "REMOVE", "DELETE", "CLEAR"],
       answer: "DELETE"
     },
     {
       question: "Что делает оператор DISTINCT?",
-      options: ["Удаляет дубликаты из результатов", "Сортирует данные", "Фильтрует данные", "Группирует данные"],
+      options: ["Сортирует данные", "Фильтрует данные", "Удаляет дубликаты из результатов", "Группирует данные"],
       answer: "Удаляет дубликаты из результатов"
+    },
+    {
+      question: "Какой оператор используется для объединения результатов двух или более SELECT запросов?",
+      options: ["MERGE", "JOIN", "UNION", "COMBINE"],
+      answer: "UNION"
     }
   ];
+
+  // Перемешиваем варианты ответов
+  questions.forEach(question => {
+    question.options.sort(() => Math.random() - 0.5);
+  });
 
   let currentQuestionIndex = 0;
   let score = 0;
@@ -210,5 +220,3 @@
     color: #e0e0e0;
   }
 </style>
-
----
