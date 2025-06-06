@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
+    
 <head>
   <meta charset="UTF-8" />
   <title>Маркетплейс "БроМаркет"</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23ff9900'%3E%F0%9F%9B%8E%3C/text%3E%3C/svg%3E">
+  
   <style>
+
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
     * {
@@ -147,7 +151,7 @@
     .banner {
       width: 100%;
       height: 300px;
-      background-image: url('https://via.placeholder.com/1200x300/ff9900/ffffff?text=Специальные+предложения');
+      background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsYlZ1MNaQfm0hy/giphy.gif');
       background-size: cover;
       background-position: center;
       margin-bottom: 1rem;
@@ -603,6 +607,14 @@
         height: 250px;
       }
     }
+
+    /* Стиль для боковых изображений */
+    .sidebar-image {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -622,12 +634,12 @@
   <a href="#" class="logo">
     <i class="fas fa-shopping-bag"></i> БроМаркет
   </a>
-  
+
   <div class="search-bar">
     <input type="text" placeholder="Поиск товаров...">
     <button><i class="fas fa-search"></i></button>
   </div>
-  
+
   <div class="nav-icons">
     <div class="nav-icon" onclick="toggleModal('accountModal')">
       <i class="fas fa-user"></i>
@@ -662,23 +674,17 @@
 
 <!-- Основной контент -->
 <div class="container">
-  <!-- Рекомендуемые товары -->
-  <div class="section-title">
-    <h2>Рекомендуем вам</h2>
-    <a href="#">Смотреть все</a>
-  </div>
-  
-  <div class="products-grid" id="recommendedProducts">
+  <div class="products-grid" id="saleProducts">
     <!-- Товары будут добавлены через JS -->
   </div>
 
-  <!-- Товары со скидкой -->
+  <!-- Горячие предложения недели -->
   <div class="section-title">
-    <h2>Скидки до 70%</h2>
+    <h2>Горячие предложения недели</h2>
     <a href="#">Смотреть все</a>
   </div>
-  
-  <div class="products-grid" id="discountedProducts">
+
+  <div class="products-grid" id="hotDeals">
     <!-- Товары будут добавлены через JS -->
   </div>
 
@@ -686,7 +692,7 @@
   <div class="prize-section">
     <h2 class="prize-title">Крутите барабан и выигрывайте призы!</h2>
     <p class="prize-subtitle">Каждый день один бесплатный шанс</p>
-    
+
     <div class="wheel-container">
       <div class="pointer"></div>
       <div class="wheel" id="wheel">
@@ -694,7 +700,7 @@
       </div>
       <button class="spin-button" id="spinButton" onclick="spinWheel()">Крутить!</button>
     </div>
-    
+
     <div class="cashback-info">
       <div>
         <div>Ваш кэшбек:</div>
@@ -704,12 +710,32 @@
     </div>
   </div>
 
+  <!-- Рекомендуемые товары -->
+  <div class="section-title">
+    <h2>Рекомендуем вам</h2>
+    <a href="#">Смотреть все</a>
+  </div>
+
+  <div class="products-grid" id="recommendedProducts">
+    <!-- Товары будут добавлены через JS -->
+  </div>
+
+  <!-- Товары со скидкой -->
+  <div class="section-title">
+    <h2>Скидки до 70%</h2>
+    <a href="#">Смотреть все</a>
+  </div>
+
+  <div class="products-grid" id="discountedProducts">
+    <!-- Товары будут добавлены через JS -->
+  </div>
+
   <!-- Популярные товары -->
   <div class="section-title">
     <h2>Популярные товары</h2>
     <a href="#">Смотреть все</a>
   </div>
-  
+
   <div class="products-grid" id="popularProducts">
     <!-- Товары будут добавлены через JS -->
   </div>
@@ -762,7 +788,7 @@
         <div style="font-weight: bold;">Покупатель Покупателевич</div>
         <div style="color: #777; font-size: 0.9rem;">pokupatel@example.com</div>
       </div>
-      
+
       <div style="margin-bottom: 1rem;">
         <div style="font-weight: bold; margin-bottom: 0.5rem;">Бонусные баллы</div>
         <div style="display: flex; align-items: center; justify-content: space-between; background-color: #f0f2f2; padding: 0.8rem; border-radius: 8px;">
@@ -773,7 +799,7 @@
           <button style="background-color: #ff9900; color: white; border: none; border-radius: 20px; padding: 0.5rem 1rem; cursor: pointer;">Использовать</button>
         </div>
       </div>
-      
+
       <div style="margin-bottom: 1rem;">
         <div style="font-weight: bold; margin-bottom: 0.5rem;">Мои заказы</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
@@ -785,7 +811,7 @@
           <span>56 789 ₽</span>
         </div>
       </div>
-      
+
       <button style="width: 100%; padding: 0.8rem; background-color: #f0f2f2; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;">Выйти</button>
     </div>
   </div>
@@ -989,25 +1015,37 @@
     const recommendedProducts = document.getElementById('recommendedProducts');
     const discountedProducts = document.getElementById('discountedProducts');
     const popularProducts = document.getElementById('popularProducts');
-    
+    const saleProducts = document.getElementById('saleProducts');
+    const hotDeals = document.getElementById('hotDeals');
+
     // Очищаем контейнеры
     recommendedProducts.innerHTML = '';
     discountedProducts.innerHTML = '';
     popularProducts.innerHTML = '';
-    
+    saleProducts.innerHTML = '';
+    hotDeals.innerHTML = '';
+
     // Рендерим товары
     products.forEach(product => {
       const productCard = createProductCard(product);
-      
+
       // Добавляем товары в разные секции
       recommendedProducts.appendChild(productCard.cloneNode(true));
-      
+
       if (product.discount > 30) {
         discountedProducts.appendChild(productCard.cloneNode(true));
       }
-      
+
       if (product.rating >= 4.5 || product.badges.includes("bestseller")) {
         popularProducts.appendChild(productCard.cloneNode(true));
+      }
+
+      if (product.discount > 50) {
+        saleProducts.appendChild(productCard.cloneNode(true));
+      }
+
+      if (product.badges.includes("new") || product.rating >= 4.5) {
+        hotDeals.appendChild(productCard.cloneNode(true));
       }
     });
   }
@@ -1016,7 +1054,7 @@
   function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
-    
+
     // Бейджи
     let badgesHTML = '';
     if (product.badges.includes("bestseller")) {
@@ -1025,7 +1063,7 @@
     if (product.badges.includes("new")) {
       badgesHTML += '<div class="badge badge-new">Новинка</div>';
     }
-    
+
     // Рейтинг
     let ratingHTML = '';
     for (let i = 1; i <= 5; i++) {
@@ -1037,13 +1075,13 @@
         ratingHTML += '<i class="far fa-star"></i>';
       }
     }
-    
+
     // Старая цена
     let oldPriceHTML = '';
     if (product.oldPrice) {
       oldPriceHTML = `<span class="product-old-price">${formatPrice(product.oldPrice)} ₽</span>`;
     }
-    
+
     card.innerHTML = `
       <div class="product-badges">${badgesHTML}</div>
       <img src="${product.image}" alt="${product.name}" class="product-image">
@@ -1061,7 +1099,7 @@
         </div>
       </div>
     `;
-    
+
     return card;
   }
 
@@ -1074,7 +1112,7 @@
   function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
-    
+
     const existingItem = cart.find(item => item.id === productId);
     if (existingItem) {
       existingItem.quantity += 1;
@@ -1084,7 +1122,7 @@
         quantity: 1
       });
     }
-    
+
     updateCartCount();
     showToast(`Товар "${product.name}" добавлен в корзину`);
   }
@@ -1099,7 +1137,7 @@
   function updateCartCount() {
     const count = cart.reduce((total, item) => total + item.quantity, 0);
     document.getElementById('cartCount').textContent = count;
-    
+
     // Обновляем содержимое корзины в модальном окне
     updateCartModal();
   }
@@ -1108,7 +1146,7 @@
   function updateCartModal() {
     const cartItems = document.getElementById('cartItems');
     cartItems.innerHTML = '';
-    
+
     if (cart.length === 0) {
       cartItems.innerHTML = `
         <div style="text-align: center; padding: 2rem 0;">
@@ -1120,21 +1158,21 @@
       `;
       return;
     }
-    
+
     let totalPrice = 0;
     let totalDiscount = 0;
-    
+
     cart.forEach(item => {
       const itemElement = document.createElement('div');
       itemElement.className = 'cart-item';
-      
+
       const itemPrice = item.price * item.quantity;
       const itemOldPrice = item.oldPrice ? item.oldPrice * item.quantity : itemPrice;
       const itemDiscount = itemOldPrice - itemPrice;
-      
+
       totalPrice += itemPrice;
       totalDiscount += itemDiscount;
-      
+
       itemElement.innerHTML = `
         <img src="${item.image}" alt="${item.name}" class="cart-item-image">
         <div class="cart-item-details">
@@ -1152,10 +1190,10 @@
           </button>
         </div>
       `;
-      
+
       cartItems.appendChild(itemElement);
     });
-    
+
     // Обновляем итоговую сумму
     document.querySelector('.cart-summary .summary-row:nth-child(1) span:last-child').textContent = `${formatPrice(totalPrice)} ₽`;
     document.querySelector('.cart-summary .summary-row:nth-child(2) span:last-child').textContent = `-${formatPrice(totalDiscount)} ₽`;
@@ -1169,7 +1207,7 @@
       removeFromCart(productId);
       return;
     }
-    
+
     const item = cart.find(item => item.id === productId);
     if (item) {
       item.quantity = newQuantity;
@@ -1187,7 +1225,7 @@
   function toggleModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-    
+
     // Блокируем прокрутку страницы при открытом модальном окне
     document.body.style.overflow = modal.style.display === 'flex' ? 'hidden' : '';
   }
@@ -1207,9 +1245,9 @@
     toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
     toast.style.animation = 'fadeIn 0.3s, fadeOut 0.3s 2.7s';
     toast.textContent = message;
-    
+
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
       document.body.removeChild(toast);
     }, 3000);
@@ -1226,9 +1264,9 @@
       { text: "10% скидка", value: 0, color: "#28a745" },
       { text: "Повезёт в другой раз", value: 0, color: "#6c757d" }
     ];
-    
+
     wheel.innerHTML = '';
-    
+
     prizes.forEach((prize, index) => {
       const section = document.createElement('div');
       section.className = 'wheel-section';
@@ -1236,7 +1274,7 @@
       section.style.backgroundColor = prize.color;
       section.style.transform = `rotate(${index * (360 / prizes.length)}deg)`;
       section.style.clipPath = 'polygon(0 0, 100% 0, 100% 100%)';
-      
+
       wheel.appendChild(section);
     });
   }
@@ -1253,32 +1291,32 @@
       { text: "10% скидка", value: 0 },
       { text: "Повезёт в другой раз", value: 0 }
     ];
-    
+
     // Отключаем кнопку на время вращения
     spinButton.disabled = true;
-    
+
     // Случайный угол вращения (минимум 2 полных оборота)
     const spinDegrees = 720 + Math.floor(Math.random() * 360);
-    
+
     // Вращаем барабан
     wheel.style.transform = `rotate(${spinDegrees}deg)`;
-    
+
     // После завершения вращения
     setTimeout(() => {
       // Определяем выигранный приз
       const prizeIndex = Math.floor((spinDegrees % 360) / (360 / prizes.length));
       const prize = prizes[prizeIndex];
-      
+
       // Обновляем кэшбек, если выиграли деньги
       if (prize.value > 0) {
         cashback += prize.value;
         document.getElementById('cashbackAmount').textContent = `${cashback} ₽`;
       }
-      
+
       // Показываем результат
       document.getElementById('prizeResult').textContent = `Вы выиграли: ${prize.text}`;
       toggleModal('prizeModal');
-      
+
       // Включаем кнопку снова
       spinButton.disabled = false;
     }, 4000);
