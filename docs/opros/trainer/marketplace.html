@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
-    
+
 <head>
   <meta charset="UTF-8" />
-  <title>Маркетплейс "БроМаркет"</title>
+  <title>Bro-Mock-Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23ff9900'%3E%F0%9F%9B%8E%3C/text%3E%3C/svg%3E">
-  
-  <style>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='70' font-size='185' text-anchor='middle' fill='%23ff9900'%3E%F0%9F%9B%8E%3C/text%3E%3C/svg%3E">
 
+  <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
     * {
@@ -209,10 +208,10 @@
 
     .product-badges {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 5px;
+      left: 5px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 5px;
     }
 
@@ -310,23 +309,26 @@
       border-radius: 8px;
       margin: 2rem 0;
       text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .prize-title {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-bottom: 1rem;
       color: #232f3e;
+      font-weight: bold;
     }
 
     .prize-subtitle {
       margin-bottom: 2rem;
       color: #565959;
+      font-size: 1.1rem;
     }
 
     .wheel-container {
       position: relative;
-      width: 300px;
-      height: 300px;
+      width: 350px;
+      height: 350px;
       margin: 0 auto 2rem;
     }
 
@@ -337,7 +339,8 @@
       position: relative;
       overflow: hidden;
       transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      border: 10px solid #fff;
     }
 
     .wheel-section {
@@ -350,16 +353,18 @@
       justify-content: center;
       font-weight: bold;
       color: white;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
     .spin-button {
-      background-color: #ff9900;
+      background: linear-gradient(145deg, #ff9900, #ff6600);
       color: white;
       border: none;
       border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      font-size: 1.2rem;
+      width: 90px;
+      height: 90px;
+      font-size: 1.3rem;
       font-weight: bold;
       position: absolute;
       top: 50%;
@@ -367,10 +372,13 @@
       transform: translate(-50%, -50%);
       cursor: pointer;
       z-index: 10;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s;
     }
 
     .spin-button:hover {
-      background-color: #ff8c00;
+      background: linear-gradient(145deg, #ff8c00, #ff5e00);
+      transform: translate(-50%, -50%) scale(1.05);
     }
 
     .spin-button:disabled {
@@ -380,16 +388,23 @@
 
     .pointer {
       position: absolute;
-      top: -20px;
+      top: -30px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 30px solid #ff9900;
+      border-left: 25px solid transparent;
+      border-right: 25px solid transparent;
+      border-top: 40px solid #ff6600;
       z-index: 5;
     }
+
+    .wheel-section:nth-child(1) { background-color: #ff9900; }
+    .wheel-section:nth-child(2) { background-color: #ffcc00; }
+    .wheel-section:nth-child(3) { background-color: #ff6600; }
+    .wheel-section:nth-child(4) { background-color: #00a8e8; }
+    .wheel-section:nth-child(5) { background-color: #28a745; }
+    .wheel-section:nth-child(6) { background-color: #6c757d; }
 
     /* Кэшбек и бонусы */
     .cashback-info {
@@ -615,13 +630,46 @@
       margin-bottom: 1rem;
       border-radius: 8px;
     }
+
+    .footer {
+      background: linear-gradient(135deg, #FF9900, #FFCC99);
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+      border-top: 2px solid #FF9900;
+    }
+
+    .footer-content p {
+      margin: 0 0 10px 0;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+    }
+
+    .social-icons a {
+      color: #333;
+      margin: 0 15px;
+      font-size: 22px;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #FF6600;
+      transform: scale(1.2);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
 
 <!-- Верхняя панель -->
 <div class="top-bar">
-  <div>Добро пожаловать в БроМаркет!</div>
+  <div>Добро пожаловать в Маркетплейс🛒</div>
   <div class="top-links">
     <a href="#"><i class="fas fa-headset"></i> Помощь</a>
     <a href="#"><i class="fas fa-user"></i> Аккаунт</a>
@@ -632,7 +680,7 @@
 <!-- Шапка с лого и поиском -->
 <header class="header">
   <a href="#" class="logo">
-    <i class="fas fa-shopping-bag"></i> БроМаркет
+    <i class="fas fa-shopping-bag"></i> БроМокМаркет
   </a>
 
   <div class="search-bar">
@@ -850,15 +898,25 @@
   </div>
 </div>
 
+<footer class="footer">
+  <div class="footer-content">
+    <p>Copyright © 2025 Vadim</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-telegram"></i></a>
+      <a href="#"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+
 <script>
-  // Данные товаров с юмором
+  // Данные товаров
   const products = [
     {
       id: 1,
       name: "Вечный двигатель (работает от батареек)",
       price: 9999,
       oldPrice: 19999,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Вечный+двигатель",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/3689/6dcf/-cf2/c-4580-b6f1-ee80ea322b2b/image.jpg",
       rating: 4.2,
       reviews: 42,
       discount: 50,
@@ -870,7 +928,7 @@
       name: "Набор 'Сам себе барбер' (очень острый)",
       price: 1499,
       oldPrice: 2999,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Барбер+набор",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/659d/1593/-3bf/4-4828-89cf-6b388b111db4/image.jpg",
       rating: 3.8,
       reviews: 128,
       discount: 50,
@@ -882,7 +940,7 @@
       name: "Ложка для макарон с отверстием (наконец-то!)",
       price: 399,
       oldPrice: 599,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Ложка+для+макарон",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/d679/2ac7/-cb3/4-40a2-b208-db81d4f37df1/image.jpg",
       rating: 4.9,
       reviews: 512,
       discount: 33,
@@ -894,7 +952,7 @@
       name: "Подставка для 10 телефонов (на всякий случай)",
       price: 1299,
       oldPrice: 1599,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Подставка+для+телефонов",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/d930/1e6d/-eba/d-4c23-937e-d31540f3dd29/image.jpg",
       rating: 4.1,
       reviews: 87,
       discount: 19,
@@ -906,7 +964,7 @@
       name: "Коврик для мышки с подогревом (чтобы пальцам тепло)",
       price: 1999,
       oldPrice: 2499,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Коврик+с+подогревом",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/f63c/20ff/-5c0/5-443b-ac01-08627dd2c86e/image.jpg",
       rating: 4.5,
       reviews: 231,
       discount: 20,
@@ -918,7 +976,7 @@
       name: "USB-хаб на 127 портов (мало не покажется)",
       price: 4999,
       oldPrice: 7999,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=USB+хаб",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/0a3a/0072/-ca3/8-4745-bc8b-7a00af9678b5/image.jpg",
       rating: 3.9,
       reviews: 64,
       discount: 38,
@@ -930,7 +988,7 @@
       name: "Набор 'Собери ИКЕА-мебель без нервов' (шутка)",
       price: 999,
       oldPrice: 1999,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Набор+ИКЕА",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/9fae/904e/-964/8-4a1a-b912-752e5ba0c1ff/image.jpg",
       rating: 2.5,
       reviews: 342,
       discount: 50,
@@ -942,7 +1000,7 @@
       name: "Беспроводные наушники с проводом для зарядки",
       price: 2999,
       oldPrice: 4999,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Наушники+с+проводом",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/c555/88f5/-796/f-4132-a496-d8ef10f0ede7/image.jpg",
       rating: 4.0,
       reviews: 198,
       discount: 40,
@@ -954,7 +1012,7 @@
       name: "Книга 'Как ничего не делать' (365 страниц)",
       price: 899,
       oldPrice: 1299,
-      image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Книга+безделья",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/05ce/92f1/-963/3-413f-bc06-e4dc27a54aaa/image.jpg",
       rating: 4.7,
       reviews: 421,
       discount: 31,
