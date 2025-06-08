@@ -140,6 +140,7 @@
       text-decoration: none;
       margin-right: 1.5rem;
       font-size: 0.9rem;
+      cursor: pointer;
     }
 
     .categories a:hover {
@@ -663,6 +664,28 @@
       flex-direction: column;
       align-items: center;
     }
+    
+    .category-content {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .category-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .category-content h3 {
+      color: #ff9900;
+      margin-bottom: 15px;
+    }
+    
+    .category-content p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -709,12 +732,12 @@
 
 <!-- Навигация по категориям -->
 <nav class="categories">
-  <a href="#"><i class="fas fa-bars"></i> Все категории</a>
-  <a href="#"><i class="fas fa-laugh-squint"></i> Для души</a>
-  <a href="#"><i class="fas fa-utensils"></i> Для кухни</a>
-  <a href="#"><i class="fas fa-couch"></i> Для дома</a>
-  <a href="#"><i class="fas fa-gift"></i> Непонятное</a>
-  <a href="#"><i class="fas fa-question-circle"></i> Зачем это?</a>
+  <a onclick="toggleModal('allCategoriesModal')"><i class="fas fa-bars"></i> Все категории</a>
+  <a onclick="toggleModal('forSoulModal')"><i class="fas fa-laugh-squint"></i> Для души</a>
+  <a onclick="toggleModal('forKitchenModal')"><i class="fas fa-utensils"></i> Для кухни</a>
+  <a onclick="toggleModal('forHomeModal')"><i class="fas fa-couch"></i> Для дома</a>
+  <a onclick="toggleModal('unclearModal')"><i class="fas fa-gift"></i> Непонятное</a>
+  <a onclick="toggleModal('whyModal')"><i class="fas fa-question-circle"></i> Зачем это?</a>
 </nav>
 
 <!-- Баннер -->
@@ -898,8 +921,137 @@
   </div>
 </div>
 
+<!-- Модальное окно "Все категории" -->
+<div class="modal" id="allCategoriesModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-bars"></i> Все категории</div>
+      <button class="close-modal" onclick="toggleModal('allCategoriesModal')">&times;</button>
+    </div>
+    <div class="modal-body category-content">
+      <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXZ4d2JmZ3RwZ3B5dGJtM2F5dWJ6Y2F5Z2R3eGJ5Z2J0bGJ1dGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKMt1VVNkHV2PaE/giphy.gif" alt="Все категории">
+      <h3>Всё, что душе угодно!</h3>
+      <p>Здесь вы найдёте абсолютно всё, что только можно вообразить (и даже то, что вообразить невозможно).</p>
+      <p>От ложек с дырками до вечных двигателей на батарейках - у нас есть всё для вашего комфорта и недоумения.</p>
+      <p>Прокрутите вниз и удивитесь разнообразию нашего ассортимента!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно "Для души" -->
+<div class="modal" id="forSoulModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-laugh-squint"></i> Для души</div>
+      <button class="close-modal" onclick="toggleModal('forSoulModal')">&times;</button>
+    </div>
+    <div class="modal-body category-content">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2F3a2lwZ3RzY2JtZ2R6d2VtY2J6Z2F5Z2R3eGJ5Z2J0bGJ1dGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6Zt481isNVuQI1l6/giphy.gif" alt="Для души">
+      <h3>Товары для душевного равновесия</h3>
+      <p>Когда душа требует чего-то особенного, но вы не знаете чего именно - эта категория для вас!</p>
+      <p>Здесь собраны товары, которые:</p>
+      <ul style="text-align: left; margin-left: 20px;">
+        <li>Поднимут настроение, когда всё плохо</li>
+        <li>Заставят задуматься, когда всё хорошо</li>
+        <li>Вызовут недоумение в любое время суток</li>
+      </ul>
+      <p>Попробуйте наш бестселлер - книгу "Как ничего не делать" (365 страниц полезных советов).</p>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно "Для кухни" -->
+<div class="modal" id="forKitchenModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-utensils"></i> Для кухни</div>
+      <button class="close-modal" onclick="toggleModal('forKitchenModal')">&times;</button>
+    </div>
+    <div class="modal-body category-content">
+      <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsYlZ1MNaQfm0hy/giphy.gif" alt="Для кухни">
+      <h3>Кухонные гаджеты, которые вам не нужны</h3>
+      <p>Забудьте про обычные ложки и вилки! В нашем веке технологий вам просто необходимы:</p>
+      <ul style="text-align: left; margin-left: 20px;">
+        <li>Ложка с дыркой для макарон (чтобы вода стекала обратно в кастрюлю)</li>
+        <li>Набор "Собери пельмени сам" (мука и вода продаются отдельно)</li>
+        <li>Подогреватель для холодного кофе (чтобы он не остывал, пока вы его пьёте)</li>
+      </ul>
+      <p>Помните: чем бесполезнее гаджет, тем больше шансов, что он вам понравится!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно "Для дома" -->
+<div class="modal" id="forHomeModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-couch"></i> Для дома</div>
+      <button class="close-modal" onclick="toggleModal('forHomeModal')">&times;</button>
+    </div>
+    <div class="modal-body category-content">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjR7I0XY6dCg0/giphy.gif" alt="Для дома">
+      <h3>Вещи, которые захламят ваш дом с любовью</h3>
+      <p>Превратите свою квартиру в музей бесполезных изобретений с нашей помощью!</p>
+      <p>В этой категории вы найдёте:</p>
+      <ul style="text-align: left; margin-left: 20px;">
+        <li>Подставку для 10 телефонов (на случай, если у вас их 11)</li>
+        <li>Коврик для мышки с подогревом (чтобы пальцам было тепло)</li>
+        <li>Набор "Собери ИКЕА-мебель без нервов" (шутка, нервы всё равно понадобятся)</li>
+      </ul>
+      <p>Потому что дом - это место, где должно быть тесно от ненужных вещей!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно "Непонятное" -->
+<div class="modal" id="unclearModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-gift"></i> Непонятное</div>
+      <button class="close-modal" onclick="toggleModal('unclearModal')">&times;</button>
+    </div>
+    <div class="modal-body category-content">
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKUM3IgJBX2as9O/giphy.gif" alt="Непонятное">
+      <h3>Товары, назначение которых неизвестно даже нам</h3>
+      <p>Эта категория для настоящих ценителей абсурда и непонятных штук!</p>
+      <p>Здесь собраны товары, которые:</p>
+      <ul style="text-align: left; margin-left: 20px;">
+        <li>Вы не понимаете, зачем нужны</li>
+        <li>Мы не понимаем, зачем продаём</li>
+        <li>Производитель, вероятно, тоже не понимает, зачем создал</li>
+      </ul>
+      <p>Попробуйте наш хит продаж - USB-хаб на 127 портов (мало не покажется).</p>
+      <p>Или вечный двигатель, который работает от батареек (батарейки в комплект не входят).</p>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно "Зачем это?" -->
+<div class="modal" id="whyModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title"><i class="fas fa-question-circle"></i> Зачем это?</div>
+      <button class="close-modal" onclick="toggleModal('whyModal')">&times;</button>
+    </div>
+    <div class="modal-body category-content">
+      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjcqQ7pOZ2I8w/giphy.gif" alt="Зачем это?">
+      <h3>Философский вопрос нашего времени</h3>
+      <p>Вы когда-нибудь задумывались, зачем существуют некоторые вещи?</p>
+      <p>Мы - да. Каждый день. И всё равно продолжаем их продавать.</p>
+      <p>Эта категория для тех, кто:</p>
+      <ul style="text-align: left; margin-left: 20px;">
+        <li>Любит задавать вопросы без ответов</li>
+        <li>Хочет купить то, что никогда не будет использовать</li>
+        <li>Просто хочет потратить деньги на что-то странное</li>
+      </ul>
+      <p>Помните: если вы не знаете, зачем вам эта вещь - значит, она вам точно нужна!</p>
+    </div>
+  </div>
+</div>
+
 <footer class="footer">
   <div class="footer-content">
+    <p>Version 2 | 09.06.2025</p>
     <p>Copyright © 2025 Vadim</p>
     <div class="social-icons">
       <a href="#"><i class="fab fa-telegram"></i></a>
@@ -907,6 +1059,8 @@
     </div>
   </div>
 </footer>
+
+
 
 <script>
   // Данные товаров
@@ -1255,6 +1409,7 @@
     // Обновляем итоговую сумму
     document.querySelector('.cart-summary .summary-row:nth-child(1) span:last-child').textContent = `${formatPrice(totalPrice)} ₽`;
     document.querySelector('.cart-summary .summary-row:nth-child(2) span:last-child').textContent = `-${formatPrice(totalDiscount)} ₽`;
+    document.querySelector('.cart-summary .summary-row:nth-child(3) span:last-child').textContent = `Бесплатно`;
     document.querySelector('.cart-summary .total span:last-child').textContent = `${formatPrice(totalPrice)} ₽`;
     document.querySelector('.cart-summary .summary-row:nth-child(1) span:first-child').textContent = `Товары (${cart.reduce((total, item) => total + item.quantity, 0)})`;
   }
