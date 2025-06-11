@@ -4,6 +4,7 @@
 ![graph1](images/infograph.jpg)
 
 ---
+- [Этапы принятия Бага](bug_stages.html)
 - [Пирамида тестирования](testing_pyramid.html)
 - [Блинчики на кефире](pie_chart.md)
 - [Биткойн](line_chart.md)
