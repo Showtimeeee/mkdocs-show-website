@@ -204,7 +204,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      margin-right: 10px;
+      margin-right:  10px;
       flex-shrink: 0;
     }
     .slider-container {
@@ -278,7 +278,6 @@
       <strong id="nest-hp">Гнездо: 100%</strong>
     </div>
 
-    <!-- Новые ползунки для регулировки количества муравьев -->
     <div class="slider-container">
       <div class="slider-item">
         <label for="nurse-slider">Няньки: <span id="nurse-count-value">0</span></label>
@@ -465,7 +464,6 @@
     const canvas = document.getElementById('colony-canvas');
     const ctx = canvas.getContext('2d');
 
-    // Центр гнезда
     const NEST_CENTER = { x: 130, y: 300 };
     const NEST = {
       x: NEST_CENTER.x,
@@ -505,7 +503,7 @@
     let larvaSpawnProgress = 0;
     let stickSpawnTimer = 0;
     const LARVA_SPAWN_THRESHOLD = 1800;
-    const STICK_SPAWN_INTERVAL = 600; // 10 секунд (60 кадров/сек * 10 сек)
+    const STICK_SPAWN_INTERVAL = 600;
     let enemySpeedMultiplier = 1.0;
     let survivalMode = false;
     let survivalModeInterval;
@@ -529,14 +527,12 @@
       NEST.isDestroyed = false;
       updateNestHPDisplay();
 
-      // Самка
       ants.push({
         type: 'queen',
         x: NEST_CENTER.x,
         y: NEST_CENTER.y,
       });
 
-      // Личинки
       for (let i = 0; i < 11; i++) {
         const angle = (i / 8) * Math.PI * 3;
         ants.push({
@@ -549,7 +545,6 @@
         });
       }
 
-      // Няньки
       for (let i = 0; i < 6; i++) {
         ants.push({
           type: 'nurse',
@@ -560,7 +555,6 @@
         });
       }
 
-      // Солдаты
       for (let i = 0; i < 4; i++) {
         ants.push({
           type: 'soldier',
@@ -569,11 +563,11 @@
           vx: (Math.random() - 0.5) * 1,
           vy: (Math.random() - 0.5) * 1,
           pauseTimer: 0,
-          isPaused: false
+          isPaused: false,
+          hp: 3
         });
       }
 
-      // Фуражиры
       for (let i = 0; i < 5; i++) {
         ants.push({
           type: 'forager',
@@ -585,7 +579,6 @@
         });
       }
 
-      // Строители
       for (let i = 0; i < 1; i++) {
         ants.push({
           type: 'builder',
@@ -594,11 +587,11 @@
           vx: (Math.random() - 0.5) * 1,
           vy: (Math.random() - 0.5) * 1,
           carryingStick: false,
-          repairing: false
+          repairing: false,
+          hp: 3
         });
       }
 
-      // Еда
       for (let i = 0; i < 9; i++) {
         foods.push({
           x: 400 + Math.random() * 400,
@@ -607,7 +600,6 @@
         });
       }
 
-      // Палочки
       for (let i = 0; i < 15; i++) {
         sticks.push({
           x: 100 + Math.random() * 700,
@@ -727,7 +719,6 @@
         ctx.fill();
       });
 
-      // Еда
       foods.forEach(food => {
         if (!food.collected) {
           ctx.beginPath();
@@ -737,7 +728,6 @@
         }
       });
 
-      // Палочки
       sticks.forEach(stick => {
         if (!stick.collected) {
           ctx.beginPath();
@@ -750,7 +740,6 @@
         }
       });
 
-      // Склад еды
       const storageCount = Math.min(foodCollectedCount, 50);
       if (storageCount > 0 && NEST.hp > 0) {
         for (let i = 0; i < storageCount; i++) {
@@ -767,7 +756,6 @@
         }
       }
 
-      // Враги
       enemies.forEach(enemy => {
         ctx.beginPath();
         ctx.arc(enemy.x, enemy.y, 8, 0, Math.PI * 2);
@@ -784,7 +772,6 @@
         }
       });
 
-      // Муравьи
       ants.forEach(ant => {
         const data = ANT_TYPES[ant.type];
         if (data) {
@@ -807,10 +794,17 @@
             ctx.fillStyle = '#8B4513';
             ctx.fill();
           }
+
+          if (ant.type === 'soldier' || ant.type === 'builder') {
+            const hpPercent = (ant.hp / 3) * 100;
+            ctx.fillStyle = 'black';
+            ctx.fillRect(ant.x - 10, ant.y - 15, 20, 5);
+            ctx.fillStyle = hpPercent > 50 ? '#4CAF50' : hpPercent > 20 ? '#ff9800' : '#f44336';
+            ctx.fillRect(ant.x - 10, ant.y - 15, 20 * (hpPercent / 100), 5);
+          }
         }
       });
 
-      // Личинки (рисуем отдельно, чтобы они были поверх других муравьев)
       ants.forEach(ant => {
         if (ant.type === 'larva') {
           ctx.beginPath();
@@ -828,12 +822,10 @@
       frameCount++;
       stickSpawnTimer++;
 
-      // Генерация новых палочек каждые 10 секунд
       if (stickSpawnTimer >= STICK_SPAWN_INTERVAL) {
         stickSpawnTimer = 0;
         spawnStick();
 
-        // Добавим еще одну палочку, если их меньше 5
         if (sticks.filter(s => !s.collected).length < 5) {
           spawnStick();
         }
@@ -904,6 +896,11 @@
               if (NEST.hp < 0) NEST.hp = 0;
               const index = enemies.indexOf(enemy);
               enemies.splice(index, 1);
+              foods.push({
+                x: enemy.x,
+                y: enemy.y,
+                collected: false
+              });
               updateNestHPDisplay();
             } else {
               enemy.vx += dx / dist * 0.05 * enemy.speedMultiplier * enemySpeedMultiplier;
@@ -969,8 +966,8 @@
               vx: (Math.random() - 0.5) * 1,
               vy: (Math.random() - 0.5) * 1,
               ...(type === 'forager' ? { carryingFood: false } : {}),
-              ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {}),
-              ...(type === 'builder' ? { carryingStick: false, repairing: false } : {})
+              ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false, hp: 3 } : {}),
+              ...(type === 'builder' ? { carryingStick: false, repairing: false, hp: 3 } : {})
             });
             if (Math.random() < 0.25) {
               const angle = Math.random() * Math.PI * 2;
@@ -987,7 +984,6 @@
           return;
         }
 
-        // Строитель
         if (ant.type === 'builder') {
           if (ant.repairing) {
             let dx = NEST.x - ant.x;
@@ -1092,13 +1088,16 @@
               if (dist < 10) {
                 const index = enemies.indexOf(closestEnemy);
                 enemies.splice(index, 1);
-                for (let i = 0; i < 2; i++) {
-                  foods.push({
-                    x: closestEnemy.x + (Math.random() * 20 - 10),
-                    y: closestEnemy.y + (Math.random() * 20 - 10),
-                    collected: false
-                  });
+                ant.hp -= 1;
+                if (ant.hp <= 0) {
+                  const antIndex = ants.indexOf(ant);
+                  ants.splice(antIndex, 1);
                 }
+                foods.push({
+                  x: closestEnemy.x,
+                  y: closestEnemy.y,
+                  collected: false
+                });
               } else {
                 ant.vx += dx / dist * 0.05;
                 ant.vy += dy / dist * 0.05;
@@ -1237,21 +1236,16 @@
         if (skillName === 'Увеличение скорости') {
           soldier.speed *= 1.5;
         } else if (skillName === '2') {
-          // Логика усиления атаки
         } else if (skillName === '3') {
-          // Логика защитного щита
         } else if (skillName === '4') {
-          // Логика регенерации
         }
       });
       alert(`Навык "${skillName}" применен!`);
     }
 
-    // --- Инициализация ---
     initColony();
     animate();
 
-    // --- Обработчики событий ---
     document.getElementById('add-ant-btn').addEventListener('click', () => {
       if (NEST.hp > 0) {
         const types = ['nurse', 'forager', 'soldier', 'builder'];
@@ -1263,8 +1257,8 @@
           vx: (Math.random() - 0.5) * 1,
           vy: (Math.random() - 0.5) * 1,
           ...(type === 'forager' ? { carryingFood: false } : {}),
-          ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false } : {}),
-          ...(type === 'builder' ? { carryingStick: false, repairing: false } : {})
+          ...(type === 'soldier' ? { pauseTimer: 0, isPaused: false, hp: 3 } : {}),
+          ...(type === 'builder' ? { carryingStick: false, repairing: false, hp: 3 } : {})
         });
       }
     });
@@ -1272,7 +1266,6 @@
     document.getElementById('add-enemy-btn').addEventListener('click', spawnEnemy);
     document.getElementById('buy-larva-btn').addEventListener('click', buyLarva);
 
-    // Ползунок скорости врагов
     const speedSlider = document.getElementById('enemy-speed-slider');
     const speedValue = document.getElementById('enemy-speed-value');
 
@@ -1280,14 +1273,12 @@
       enemySpeedMultiplier = parseFloat(this.value);
       speedValue.textContent = this.value + 'x';
 
-      // Обновляем скорость существующих врагов
       enemies.forEach(enemy => {
         enemy.vx = (enemy.vx / enemy.speedMultiplier) * enemySpeedMultiplier;
         enemy.vy = (enemy.vy / enemy.speedMultiplier) * enemySpeedMultiplier;
       });
     });
 
-    // Ползунки для регулировки количества муравьев
     const nurseSlider = document.getElementById('nurse-slider');
     const foragerSlider = document.getElementById('forager-slider');
     const soldierSlider = document.getElementById('soldier-slider');
@@ -1302,7 +1293,6 @@
       const nurseCount = parseInt(this.value);
       nurseCountValue.textContent = nurseCount;
 
-      // Обновляем количество нянек
       const currentNurseCount = ants.filter(a => a.type === 'nurse').length;
       if (nurseCount > currentNurseCount) {
         for (let i = 0; i < nurseCount - currentNurseCount; i++) {
@@ -1327,7 +1317,6 @@
       const foragerCount = parseInt(this.value);
       foragerCountValue.textContent = foragerCount;
 
-      // Обновляем количество фуражиров
       const currentForagerCount = ants.filter(a => a.type === 'forager').length;
       if (foragerCount > currentForagerCount) {
         for (let i = 0; i < foragerCount - currentForagerCount; i++) {
@@ -1353,7 +1342,6 @@
       const soldierCount = parseInt(this.value);
       soldierCountValue.textContent = soldierCount;
 
-      // Обновляем количество солдат
       const currentSoldierCount = ants.filter(a => a.type === 'soldier').length;
       if (soldierCount > currentSoldierCount) {
         for (let i = 0; i < soldierCount - currentSoldierCount; i++) {
@@ -1364,7 +1352,8 @@
             vx: (Math.random() - 0.5) * 1,
             vy: (Math.random() - 0.5) * 1,
             pauseTimer: 0,
-            isPaused: false
+            isPaused: false,
+            hp: 3
           });
         }
       } else if (soldierCount < currentSoldierCount) {
@@ -1380,7 +1369,6 @@
       const builderCount = parseInt(this.value);
       builderCountValue.textContent = builderCount;
 
-      // Обновляем количество строителей
       const currentBuilderCount = ants.filter(a => a.type === 'builder').length;
       if (builderCount > currentBuilderCount) {
         for (let i = 0; i < builderCount - currentBuilderCount; i++) {
@@ -1391,7 +1379,8 @@
             vx: (Math.random() - 0.5) * 1,
             vy: (Math.random() - 0.5) * 1,
             carryingStick: false,
-            repairing: false
+            repairing: false,
+            hp: 3
           });
         }
       } else if (builderCount < currentBuilderCount) {
@@ -1403,7 +1392,6 @@
       }
     });
 
-    // --- Факты о муравьях ---
     const antFacts = [
       "Муравьи общаются с помощью феромонов, оставляя запаховые следы для сородичей.",
       "Существует более 15 000 видов муравьёв (а по некоторым оценкам – до 20 000). Они живут почти на всех континентах, кроме Антарктиды.",
@@ -1422,7 +1410,6 @@
       document.getElementById('factDisplay').innerHTML = `<p>${antFacts[randomIndex]}</p>`;
     }
 
-    // --- Модальные окна ---
     const legendModal = document.getElementById('legend-modal');
     const aboutModal = document.getElementById('about-modal');
     const skillsModal = document.getElementById('skills-modal');
@@ -1463,19 +1450,30 @@
       }
     }
 
-    // Обработчик для чекбокса "Выживание"
     document.getElementById('survival-mode').addEventListener('change', function() {
       survivalMode = this.checked;
       if (survivalMode) {
-        survivalModeInterval = setInterval(spawnEnemy, 1000); // Враги появляются каждые 1 секунды
+        survivalModeInterval = setInterval(spawnEnemy, 1000);
       } else {
         clearInterval(survivalModeInterval);
       }
     });
   </script>
+  
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <audio controls preload="metadata" style="width: 300px;" id="audioPlayer" autoplay>
+    <source src="audio/07.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает воспроизведение звука на странице.
+  </audio>
+</div>
+
+<script>
+  document.getElementById('audioPlayer').volume = 0.7;
+</script>
+
 </body>
 <footer id="app-footer" style="text-align: center; padding: 20px; font-size: 0.9em; color: #032204;">
-  <p>Версия <strong>2.3.2</strong> | Обновлено: <strong>04-06-2025</strong></p>
+  <p>Версия <strong>2.4.1</strong> | Обновлено: <strong>14-06-2025</strong></p>
   <p>© Copyright 2025 Vadim</p>
 </footer>
 </html>
