@@ -10,6 +10,7 @@
 - [Charles](charles.md)
 - [Locust](locust.md)
 - [Pairwise Testing](pairwise.md)
+- [Kafka](apache_kafka_guide.md)
 - [Git](git_guide.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Протоколы и API</div>
