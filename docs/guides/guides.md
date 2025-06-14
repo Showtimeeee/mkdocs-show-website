@@ -14,11 +14,12 @@
 - [Git](git_guide.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Протоколы и API</div>
-- [HTTP Status Codes](statuscode.md)
 - [REST API](rest_api.md)
 - [SOAP](soap.md)
 - [gRPC](gRPC.md)
 - [GraphQL](graphql_guide.md)
+- [HTTP Status Codes](statuscode.md)
+- [WebSocket](websocket_guide.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Автотестирование</div>
 - [Pytest](pytest_guide.md)
