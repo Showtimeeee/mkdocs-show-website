@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line Drawing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #047c62;
+        }
+        #game-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        #canvas {
+            border: 2px solid #333;
+            background-color: white;
+            cursor: crosshair;
+        }
+        #instructions {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+            min-height: 30px;
+        }
+        #restart-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #restart-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Нарисуй идеальную линию!</h1>
+    <div id="instructions">Проведите прямую линию от одного края к другому</div>
+    <div id="game-container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    <div id="result"></div>
+    <button id="restart-btn">Попробовать снова</button>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const resultDiv = document.getElementById('result');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        let isDrawing = false;
+        let points = [];
+        let perfectLine = null;
+        
+        // Initialize game
+        function init() {
+            isDrawing = false;
+            points = [];
+            perfectLine = null;
+            resultDiv.textContent = '';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#333';
+        }
+        
+        // Start drawing
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            points = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            addPoint(e);
+        });
+        
+        // Continue drawing
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            addPoint(e);
+            drawCurrentPath();
+        });
+        
+        // Stop drawing
+        canvas.addEventListener('mouseup', (e) => {
+            if (!isDrawing) return;
+            isDrawing = false;
+            addPoint(e);
+            evaluateLine();
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            if (isDrawing) {
+                isDrawing = false;
+                evaluateLine();
+            }
+        });
+        
+        // Add point to the path
+        function addPoint(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            points.push({ x, y });
+        }
+        
+        // Draw the current path
+        function drawCurrentPath() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        
+        // Evaluate how straight the line is
+        function evaluateLine() {
+            if (points.length < 10) {
+                resultDiv.textContent = 'Слишком короткая линия. Попробуйте снова!';
+                return;
+            }
+            
+            // Calculate linear regression (y = a + b*x)
+            let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+            const n = points.length;
+            
+            for (const point of points) {
+                sumX += point.x;
+                sumY += point.y;
+                sumXY += point.x * point.y;
+                sumXX += point.x * point.x;
+            }
+            
+            const b = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const a = (sumY - b * sumX) / n;
+            
+            // Calculate R-squared (coefficient of determination)
+            let ssTot = 0, ssRes = 0;
+            const meanY = sumY / n;
+            
+            for (const point of points) {
+                const yPred = a + b * point.x;
+                ssTot += Math.pow(point.y - meanY, 2);
+                ssRes += Math.pow(point.y - yPred, 2);
+            }
+            
+            const rSquared = 1 - (ssRes / ssTot);
+            
+            // Calculate score (0-100)
+            let score = Math.max(0, Math.round(rSquared * 100));
+            
+            // Store perfect line data (start and end points of regression line)
+            perfectLine = {
+                start: { x: points[0].x, y: a + b * points[0].x },
+                end: { x: points[points.length-1].x, y: a + b * points[points.length-1].x }
+            };
+            
+            // Draw the perfect line for comparison
+            drawPerfectLine();
+            
+            // Display result
+            resultDiv.textContent = `Прямолинейность: ${score}%`;
+            resultDiv.style.color = getColorForScore(score);
+        }
+        
+        // Draw the perfect line for comparison
+        function drawPerfectLine() {
+            if (!perfectLine) return;
+            
+            // Draw user's path
+            drawCurrentPath();
+            
+            // Draw perfect line
+            ctx.beginPath();
+            ctx.moveTo(perfectLine.start.x, perfectLine.start.y);
+            ctx.lineTo(perfectLine.end.x, perfectLine.end.y);
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+        
+        // Get color based on score
+        function getColorForScore(score) {
+            if (score > 90) return '#2ecc71'; // Green
+            if (score > 70) return '#f39c12'; // Orange
+            return '#e74c3c'; // Red
+        }
+        
+        // Restart game
+        restartBtn.addEventListener('click', init);
+        
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
