@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8" />
   <title>Bro-Mock-Marketplace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='70' font-size='185' text-anchor='middle' fill='%23ff9900'%3E%F0%9F%9B%8E%3C/text%3E%3C/svg%3E">
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #f5f5f5;
+      background-color: #f5f5f5; 
       color: #333;
       line-height: 1.6;
     }
-
     /* Шапка */
     .top-bar {
       background-color: #232f3e;
@@ -34,13 +29,11 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .top-links a {
       color: white;
       text-decoration: none;
       margin-left: 1rem;
     }
-
     .header {
       background-color: #131921;
       padding: 1rem;
@@ -49,7 +42,6 @@
       justify-content: space-between;
       flex-wrap: wrap;
     }
-
     .logo {
       color: white;
       font-size: 1.8rem;
@@ -58,26 +50,22 @@
       display: flex;
       align-items: center;
     }
-
     .logo i {
       margin-right: 0.5rem;
       color: #ff9900;
     }
-
     .search-bar {
       flex-grow: 1;
       max-width: 600px;
       margin: 0 1rem;
       display: flex;
     }
-
     .search-bar input {
       width: 100%;
       padding: 0.7rem;
       border: none;
       border-radius: 4px 0 0 4px;
     }
-
     .search-bar button {
       background-color: #ff9900;
       border: none;
@@ -85,12 +73,10 @@
       border-radius: 0 4px 4px 0;
       cursor: pointer;
     }
-
     .nav-icons {
       display: flex;
       align-items: center;
     }
-
     .nav-icon {
       color: white;
       margin-left: 1rem;
@@ -99,16 +85,13 @@
       align-items: center;
       cursor: pointer;
     }
-
     .nav-icon i {
       font-size: 1.5rem;
     }
-
     .nav-icon span {
       font-size: 0.8rem;
       margin-top: 0.2rem;
     }
-
     .cart-count {
       background-color: #ff9900;
       color: black;
@@ -123,7 +106,6 @@
       top: -5px;
       right: -5px;
     }
-
     /* Навигация */
     .categories {
       background-color: #232f3e;
@@ -134,7 +116,6 @@
       overflow-x: auto;
       white-space: nowrap;
     }
-
     .categories a {
       color: white;
       text-decoration: none;
@@ -142,28 +123,24 @@
       font-size: 0.9rem;
       cursor: pointer;
     }
-
     .categories a:hover {
       color: #ff9900;
     }
-
     /* Баннер */
     .banner {
       width: 100%;
       height: 300px;
-      background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsYlZ1MNaQfm0hy/giphy.gif');
+      background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsYlZ1MNaQfm0hy/giphy.gif'); 
       background-size: cover;
       background-position: center;
       margin-bottom: 1rem;
     }
-
     /* Основной контент */
     .container {
       padding: 1rem;
       max-width: 1400px;
       margin: 0 auto;
     }
-
     .section-title {
       font-size: 1.5rem;
       margin: 1rem 0;
@@ -171,20 +148,17 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .section-title a {
       font-size: 0.9rem;
       color: #0066c0;
       text-decoration: none;
     }
-
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 1rem;
       margin-bottom: 2rem;
     }
-
     .product-card {
       background-color: white;
       border-radius: 8px;
@@ -193,12 +167,10 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
     }
-
     .product-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-
     .product-image {
       height: 200px;
       width: 100%;
@@ -206,7 +178,6 @@
       background-color: #f7f7f7;
       padding: 1rem;
     }
-
     .product-badges {
       position: absolute;
       top: 5px;
@@ -215,7 +186,6 @@
       flex-direction: row;
       gap: 5px;
     }
-
     .badge {
       padding: 0.2rem 0.5rem;
       border-radius: 3px;
@@ -223,37 +193,30 @@
       font-weight: bold;
       color: white;
     }
-
     .badge-discount {
       background-color: #cc0c39;
     }
-
     .badge-new {
       background-color: #007185;
     }
-
     .badge-bestseller {
       background-color: #ff9900;
     }
-
     .product-info {
       padding: 1rem;
     }
-
     .product-price {
       font-weight: bold;
       font-size: 1.2rem;
       color: #b12704;
       margin: 0.5rem 0;
     }
-
     .product-old-price {
       text-decoration: line-through;
       color: #565959;
       font-size: 0.9rem;
       margin-left: 0.5rem;
     }
-
     .product-name {
       margin-bottom: 0.5rem;
       font-size: 0.95rem;
@@ -262,19 +225,16 @@
       display: -webkit-box;
       -webkit-box-orient: vertical;
     }
-
     .product-rating {
       color: #ffa41c;
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
     }
-
     .product-actions {
       display: flex;
       justify-content: space-between;
       margin-top: 1rem;
     }
-
     .add-to-cart {
       background-color: #ffd814;
       border: none;
@@ -284,11 +244,9 @@
       font-weight: 500;
       flex-grow: 1;
     }
-
     .add-to-cart:hover {
       background-color: #f7ca00;
     }
-
     .buy-now {
       background-color: #ffa41c;
       border: none;
@@ -298,11 +256,9 @@
       font-weight: 500;
       margin-left: 0.5rem;
     }
-
     .buy-now:hover {
       background-color: #fa8c00;
     }
-
     /* Барабан призов */
     .prize-section {
       background-color: white;
@@ -312,27 +268,23 @@
       text-align: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
     .prize-title {
       font-size: 1.8rem;
       margin-bottom: 1rem;
       color: #232f3e;
       font-weight: bold;
     }
-
     .prize-subtitle {
       margin-bottom: 2rem;
       color: #565959;
       font-size: 1.1rem;
     }
-
     .wheel-container {
       position: relative;
       width: 350px;
       height: 350px;
       margin: 0 auto 2rem;
     }
-
     .wheel {
       width: 100%;
       height: 100%;
@@ -343,7 +295,6 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
       border: 10px solid #fff;
     }
-
     .wheel-section {
       position: absolute;
       width: 50%;
@@ -357,7 +308,6 @@
       font-size: 1.2rem;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
-
     .spin-button {
       background: linear-gradient(145deg, #ff9900, #ff6600);
       color: white;
@@ -376,17 +326,14 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       transition: transform 0.2s;
     }
-
     .spin-button:hover {
       background: linear-gradient(145deg, #ff8c00, #ff5e00);
       transform: translate(-50%, -50%) scale(1.05);
     }
-
     .spin-button:disabled {
       background-color: #cccccc;
       cursor: not-allowed;
     }
-
     .pointer {
       position: absolute;
       top: -30px;
@@ -399,14 +346,12 @@
       border-top: 40px solid #ff6600;
       z-index: 5;
     }
-
     .wheel-section:nth-child(1) { background-color: #ff9900; }
     .wheel-section:nth-child(2) { background-color: #ffcc00; }
     .wheel-section:nth-child(3) { background-color: #ff6600; }
     .wheel-section:nth-child(4) { background-color: #00a8e8; }
     .wheel-section:nth-child(5) { background-color: #28a745; }
     .wheel-section:nth-child(6) { background-color: #6c757d; }
-
     /* Кэшбек и бонусы */
     .cashback-info {
       background-color: #f0f2f2;
@@ -417,13 +362,11 @@
       align-items: center;
       justify-content: space-between;
     }
-
     .cashback-amount {
       font-weight: bold;
       color: #b12704;
       font-size: 1.2rem;
     }
-
     /* Модальные окна */
     .modal {
       display: none;
@@ -437,7 +380,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .modal-content {
       background-color: white;
       border-radius: 8px;
@@ -447,7 +389,6 @@
       overflow-y: auto;
       animation: modalFadeIn 0.3s ease;
     }
-
     .modal-header {
       padding: 1rem;
       border-bottom: 1px solid #ddd;
@@ -455,12 +396,10 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .modal-title {
       font-size: 1.3rem;
       font-weight: bold;
     }
-
     .close-modal {
       background: none;
       border: none;
@@ -468,49 +407,40 @@
       cursor: pointer;
       color: #555;
     }
-
     .modal-body {
       padding: 1rem;
     }
-
     .cart-item {
       display: flex;
       padding: 1rem 0;
       border-bottom: 1px solid #eee;
     }
-
     .cart-item-image {
       width: 80px;
       height: 80px;
       object-fit: contain;
       margin-right: 1rem;
     }
-
     .cart-item-details {
       flex-grow: 1;
     }
-
     .cart-item-name {
       font-weight: 500;
       margin-bottom: 0.5rem;
     }
-
     .cart-item-price {
       font-weight: bold;
       color: #b12704;
     }
-
     .cart-item-actions {
       display: flex;
       align-items: center;
     }
-
     .quantity-control {
       display: flex;
       align-items: center;
       margin-right: 1rem;
     }
-
     .quantity-btn {
       background-color: #f0f2f2;
       border: none;
@@ -521,38 +451,32 @@
       justify-content: center;
       cursor: pointer;
     }
-
     .quantity-input {
       width: 40px;
       text-align: center;
       border: 1px solid #ddd;
       margin: 0 5px;
     }
-
     .remove-item {
       color: #0066c0;
       background: none;
       border: none;
       cursor: pointer;
     }
-
     .cart-summary {
       padding: 1rem;
       border-top: 1px solid #ddd;
     }
-
     .summary-row {
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.5rem;
     }
-
     .total {
       font-weight: bold;
       font-size: 1.2rem;
       margin-top: 1rem;
     }
-
     .checkout-btn {
       background-color: #ffd814;
       border: none;
@@ -563,11 +487,9 @@
       margin-top: 1rem;
       cursor: pointer;
     }
-
     .checkout-btn:hover {
       background-color: #f7ca00;
     }
-
     /* Анимации */
     @keyframes modalFadeIn {
       from {
@@ -579,51 +501,49 @@
         transform: translateY(0);
       }
     }
-
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
     /* Адаптация */
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
         align-items: stretch;
       }
-
       .search-bar {
         margin: 1rem 0;
         max-width: 100%;
       }
-
       .nav-icons {
         justify-content: space-around;
         margin-top: 1rem;
       }
-
       .nav-icon {
         margin: 0;
       }
-
       .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       }
-
       .product-image {
         height: 150px;
       }
-
       .product-actions {
         flex-direction: column;
       }
-
       .buy-now {
         margin-left: 0;
         margin-top: 0.5rem;
       }
-
       .wheel-container {
         width: 250px;
         height: 250px;
       }
     }
-
     /* Стиль для боковых изображений */
     .sidebar-image {
       width: 100%;
@@ -631,7 +551,6 @@
       margin-bottom: 1rem;
       border-radius: 8px;
     }
-
     .footer {
       background: linear-gradient(135deg, #FF9900, #FFCC99);
       color: #333;
@@ -640,48 +559,40 @@
       font-size: 16px;
       border-top: 2px solid #FF9900;
     }
-
     .footer-content p {
       margin: 0 0 10px 0;
       font-family: 'Arial', sans-serif;
       font-weight: bold;
     }
-
     .social-icons a {
       color: #333;
       margin: 0 15px;
       font-size: 22px;
       transition: transform 0.3s, color 0.3s;
     }
-
     .social-icons a:hover {
       color: #FF6600;
       transform: scale(1.2);
     }
-
     .footer-content {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    
     .category-content {
       text-align: center;
       padding: 20px;
     }
-    
     .category-content img {
       max-width: 100%;
       height: auto;
       border-radius: 8px;
       margin-bottom: 20px;
     }
-    
     .category-content h3 {
       color: #ff9900;
       margin-bottom: 15px;
     }
-    
     .category-content p {
       margin-bottom: 15px;
       line-height: 1.6;
@@ -689,8 +600,8 @@
   </style>
 </head>
 <body>
-
 <!-- Верхняя панель -->
+ 
 <div class="top-bar">
   <div>Добро пожаловать в Маркетплейс🛒</div>
   <div class="top-links">
@@ -699,18 +610,15 @@
     <a href="#"><i class="fas fa-heart"></i> Избранное</a>
   </div>
 </div>
-
 <!-- Шапка с лого и поиском -->
 <header class="header">
   <a href="#" class="logo">
     <i class="fas fa-shopping-bag"></i> БроМокМаркет
   </a>
-
   <div class="search-bar">
-    <input type="text" placeholder="Поиск товаров...">
+    <input type="text" placeholder="Поиск товаров..." oninput="filterProducts(this.value)">
     <button><i class="fas fa-search"></i></button>
   </div>
-
   <div class="nav-icons">
     <div class="nav-icon" onclick="toggleModal('accountModal')">
       <i class="fas fa-user"></i>
@@ -729,41 +637,41 @@
     </div>
   </div>
 </header>
-
 <!-- Навигация по категориям -->
 <nav class="categories">
-  <a onclick="toggleModal('allCategoriesModal')"><i class="fas fa-bars"></i> Все категории</a>
-  <a onclick="toggleModal('forSoulModal')"><i class="fas fa-laugh-squint"></i> Для души</a>
-  <a onclick="toggleModal('forKitchenModal')"><i class="fas fa-utensils"></i> Для кухни</a>
-  <a onclick="toggleModal('forHomeModal')"><i class="fas fa-couch"></i> Для дома</a>
-  <a onclick="toggleModal('unclearModal')"><i class="fas fa-gift"></i> Непонятное</a>
-  <a onclick="toggleModal('whyModal')"><i class="fas fa-question-circle"></i> Зачем это?</a>
+  <a onclick="filterByCategory('all')">Все категории</a>
+  <a onclick="filterByCategory('for_soul')">Для души</a>
+  <a onclick="filterByCategory('for_kitchen')">Для кухни</a>
+  <a onclick="filterByCategory('for_home')">Для дома</a>
+  <a onclick="filterByCategory('unclear')">Непонятное</a>
+  <a onclick="filterByCategory('why')">Зачем это?</a>
 </nav>
-
 <!-- Баннер -->
 <div class="banner"></div>
-
 <!-- Основной контент -->
 <div class="container">
+  <select onchange="sortProducts(this.value)" style="margin-bottom: 1rem; padding: 0.5rem;">
+    <option value="default">Сортировка</option>
+    <option value="price_asc">Цена: по возрастанию</option>
+    <option value="price_desc">Цена: по убыванию</option>
+    <option value="rating">Рейтинг</option>
+  </select>
+
   <div class="products-grid" id="saleProducts">
     <!-- Товары будут добавлены через JS -->
   </div>
-
   <!-- Горячие предложения недели -->
   <div class="section-title">
     <h2>Горячие предложения недели</h2>
     <a href="#">Смотреть все</a>
   </div>
-
   <div class="products-grid" id="hotDeals">
     <!-- Товары будут добавлены через JS -->
   </div>
-
   <!-- Барабан призов -->
   <div class="prize-section">
     <h2 class="prize-title">Крутите барабан и выигрывайте призы!</h2>
     <p class="prize-subtitle">Каждый день один бесплатный шанс</p>
-
     <div class="wheel-container">
       <div class="pointer"></div>
       <div class="wheel" id="wheel">
@@ -771,7 +679,6 @@
       </div>
       <button class="spin-button" id="spinButton" onclick="spinWheel()">Крутить!</button>
     </div>
-
     <div class="cashback-info">
       <div>
         <div>Ваш кэшбек:</div>
@@ -780,38 +687,31 @@
       <button class="checkout-btn" style="max-width: 200px;">Использовать кэшбек</button>
     </div>
   </div>
-
   <!-- Рекомендуемые товары -->
   <div class="section-title">
     <h2>Рекомендуем вам</h2>
     <a href="#">Смотреть все</a>
   </div>
-
   <div class="products-grid" id="recommendedProducts">
     <!-- Товары будут добавлены через JS -->
   </div>
-
   <!-- Товары со скидкой -->
   <div class="section-title">
     <h2>Скидки до 70%</h2>
     <a href="#">Смотреть все</a>
   </div>
-
   <div class="products-grid" id="discountedProducts">
     <!-- Товары будут добавлены через JS -->
   </div>
-
   <!-- Популярные товары -->
   <div class="section-title">
     <h2>Популярные товары</h2>
     <a href="#">Смотреть все</a>
   </div>
-
   <div class="products-grid" id="popularProducts">
     <!-- Товары будут добавлены через JS -->
   </div>
 </div>
-
 <!-- Модальное окно корзины -->
 <div class="modal" id="cartModal">
   <div class="modal-content">
@@ -824,12 +724,12 @@
     </div>
     <div class="cart-summary">
       <div class="summary-row">
-        <span>Товары (3)</span>
-        <span>12 450 ₽</span>
+        <span>Товары (<span id="cartItemCount">0</span>)</span>
+        <span id="cartTotalPrice">0 ₽</span>
       </div>
       <div class="summary-row">
         <span>Скидка</span>
-        <span>-1 245 ₽</span>
+        <span id="cartDiscount">-0 ₽</span>
       </div>
       <div class="summary-row">
         <span>Доставка</span>
@@ -837,13 +737,12 @@
       </div>
       <div class="summary-row total">
         <span>Итого</span>
-        <span>11 205 ₽</span>
+        <span id="cartFinalPrice">0 ₽</span>
       </div>
       <button class="checkout-btn">Перейти к оформлению</button>
     </div>
   </div>
 </div>
-
 <!-- Модальное окно аккаунта -->
 <div class="modal" id="accountModal">
   <div class="modal-content">
@@ -859,7 +758,6 @@
         <div style="font-weight: bold;">Покупатель Покупателевич</div>
         <div style="color: #777; font-size: 0.9rem;">pokupatel@example.com</div>
       </div>
-
       <div style="margin-bottom: 1rem;">
         <div style="font-weight: bold; margin-bottom: 0.5rem;">Бонусные баллы</div>
         <div style="display: flex; align-items: center; justify-content: space-between; background-color: #f0f2f2; padding: 0.8rem; border-radius: 8px;">
@@ -870,7 +768,6 @@
           <button style="background-color: #ff9900; color: white; border: none; border-radius: 20px; padding: 0.5rem 1rem; cursor: pointer;">Использовать</button>
         </div>
       </div>
-
       <div style="margin-bottom: 1rem;">
         <div style="font-weight: bold; margin-bottom: 0.5rem;">Мои заказы</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
@@ -882,12 +779,10 @@
           <span>56 789 ₽</span>
         </div>
       </div>
-
       <button style="width: 100%; padding: 0.8rem; background-color: #f0f2f2; border: none; border-radius: 8px; margin-top: 1rem; cursor: pointer;">Выйти</button>
     </div>
   </div>
 </div>
-
 <!-- Модальное окно избранного -->
 <div class="modal" id="favoritesModal">
   <div class="modal-content">
@@ -905,7 +800,6 @@
     </div>
   </div>
 </div>
-
 <!-- Модальное окно выигрыша -->
 <div class="modal" id="prizeModal">
   <div class="modal-content">
@@ -916,11 +810,10 @@
     <div class="modal-body" style="text-align: center; padding: 2rem 0;">
       <div id="prizeResult" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem; color: #b12704;"></div>
       <div style="margin-bottom: 1.5rem;">Ваш приз уже добавлен в ваш аккаунт</div>
-      <button style="background-color: #ff9900; color: white; border: none; border-radius: 20px; padding: 0.7rem 1.5rem; cursor: pointer;">Отлично!</button>
+      <button style="background-color: #ff9900; color: white; border: none; border-radius: 20px; padding: 0.7rem 1.5rem; cursor: pointer;" onclick="toggleModal('prizeModal')">Отлично!</button>
     </div>
   </div>
 </div>
-
 <!-- Модальное окно "Все категории" -->
 <div class="modal" id="allCategoriesModal">
   <div class="modal-content">
@@ -929,7 +822,7 @@
       <button class="close-modal" onclick="toggleModal('allCategoriesModal')">&times;</button>
     </div>
     <div class="modal-body category-content">
-      <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXZ4d2JmZ3RwZ3B5dGJtM2F5dWJ6Y2F5Z2R3eGJ5Z2J0bGJ1dGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKMt1VVNkHV2PaE/giphy.gif" alt="Все категории">
+      <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXZ4d2JmZ3RwZ3B5dGJtM2F5dWJ6Y2F5Z2R3eGJ5Z2J0bGJ1dGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKMt1VVNkHV2PaE/giphy.gif"  alt="Все категории">
       <h3>Всё, что душе угодно!</h3>
       <p>Здесь вы найдёте абсолютно всё, что только можно вообразить (и даже то, что вообразить невозможно).</p>
       <p>От ложек с дырками до вечных двигателей на батарейках - у нас есть всё для вашего комфорта и недоумения.</p>
@@ -937,7 +830,6 @@
     </div>
   </div>
 </div>
-
 <!-- Модальное окно "Для души" -->
 <div class="modal" id="forSoulModal">
   <div class="modal-content">
@@ -946,7 +838,7 @@
       <button class="close-modal" onclick="toggleModal('forSoulModal')">&times;</button>
     </div>
     <div class="modal-body category-content">
-      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2F3a2lwZ3RzY2JtZ2R6d2VtY2J6Z2F5Z2R3eGJ5Z2J0bGJ1dGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6Zt481isNVuQI1l6/giphy.gif" alt="Для души">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2F3a2lwZ3RzY2JtZ2R6d2VtY2J6Z2F5Z2R3eGJ5Z2J0bGJ1dGx3eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6Zt481isNVuQI1l6/giphy.gif"  alt="Для души">
       <h3>Товары для душевного равновесия</h3>
       <p>Когда душа требует чего-то особенного, но вы не знаете чего именно - эта категория для вас!</p>
       <p>Здесь собраны товары, которые:</p>
@@ -959,7 +851,6 @@
     </div>
   </div>
 </div>
-
 <!-- Модальное окно "Для кухни" -->
 <div class="modal" id="forKitchenModal">
   <div class="modal-content">
@@ -968,11 +859,11 @@
       <button class="close-modal" onclick="toggleModal('forKitchenModal')">&times;</button>
     </div>
     <div class="modal-body category-content">
-      <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsYlZ1MNaQfm0hy/giphy.gif" alt="Для кухни">
+      <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsYlZ1MNaQfm0hy/giphy.gif"  alt="Для кухни">
       <h3>Кухонные гаджеты, которые вам не нужны</h3>
       <p>Забудьте про обычные ложки и вилки! В нашем веке технологий вам просто необходимы:</p>
       <ul style="text-align: left; margin-left: 20px;">
-        <li>Ложка с дыркой для макарон (чтобы вода стекала обратно в кастрюлю)</li>
+        <li>Ложка с дыркой для супа (чтобы знал свое место)</li>
         <li>Набор "Собери пельмени сам" (мука и вода продаются отдельно)</li>
         <li>Подогреватель для холодного кофе (чтобы он не остывал, пока вы его пьёте)</li>
       </ul>
@@ -980,7 +871,6 @@
     </div>
   </div>
 </div>
-
 <!-- Модальное окно "Для дома" -->
 <div class="modal" id="forHomeModal">
   <div class="modal-content">
@@ -989,7 +879,7 @@
       <button class="close-modal" onclick="toggleModal('forHomeModal')">&times;</button>
     </div>
     <div class="modal-body category-content">
-      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjR7I0XY6dCg0/giphy.gif" alt="Для дома">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjR7I0XY6dCg0/giphy.gif"  alt="Для дома">
       <h3>Вещи, которые захламят ваш дом с любовью</h3>
       <p>Превратите свою квартиру в музей бесполезных изобретений с нашей помощью!</p>
       <p>В этой категории вы найдёте:</p>
@@ -1002,7 +892,6 @@
     </div>
   </div>
 </div>
-
 <!-- Модальное окно "Непонятное" -->
 <div class="modal" id="unclearModal">
   <div class="modal-content">
@@ -1011,7 +900,7 @@
       <button class="close-modal" onclick="toggleModal('unclearModal')">&times;</button>
     </div>
     <div class="modal-body category-content">
-      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKUM3IgJBX2as9O/giphy.gif" alt="Непонятное">
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKUM3IgJBX2as9O/giphy.gif"  alt="Непонятное">
       <h3>Товары, назначение которых неизвестно даже нам</h3>
       <p>Эта категория для настоящих ценителей абсурда и непонятных штук!</p>
       <p>Здесь собраны товары, которые:</p>
@@ -1020,12 +909,11 @@
         <li>Мы не понимаем, зачем продаём</li>
         <li>Производитель, вероятно, тоже не понимает, зачем создал</li>
       </ul>
-      <p>Попробуйте наш хит продаж - USB-хаб на 127 портов (мало не покажется).</p>
+      <p>Попробуйте наш хит продаж - USB-хаб на 35 портов (мало не покажется).</p>
       <p>Или вечный двигатель, который работает от батареек (батарейки в комплект не входят).</p>
     </div>
   </div>
 </div>
-
 <!-- Модальное окно "Зачем это?" -->
 <div class="modal" id="whyModal">
   <div class="modal-content">
@@ -1034,7 +922,7 @@
       <button class="close-modal" onclick="toggleModal('whyModal')">&times;</button>
     </div>
     <div class="modal-body category-content">
-      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjcqQ7pOZ2I8w/giphy.gif" alt="Зачем это?">
+      <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjdwdGRsYTlid3Mxc21lNTN5NmJwcHoyc2NuaW8zYjgxcGZtOGh0biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKSjcqQ7pOZ2I8w/giphy.gif"  alt="Зачем это?">
       <h3>Философский вопрос нашего времени</h3>
       <p>Вы когда-нибудь задумывались, зачем существуют некоторые вещи?</p>
       <p>Мы - да. Каждый день. И всё равно продолжаем их продавать.</p>
@@ -1048,10 +936,9 @@
     </div>
   </div>
 </div>
-
 <footer class="footer">
   <div class="footer-content">
-    <p>Version 2 | 09.06.2025</p>
+    <p>Version 2.2 | 19.06.2025</p>
     <p>Copyright © 2025 Vadim</p>
     <div class="social-icons">
       <a href="#"><i class="fab fa-telegram"></i></a>
@@ -1059,9 +946,6 @@
     </div>
   </div>
 </footer>
-
-
-
 <script>
   // Данные товаров
   const products = [
@@ -1070,7 +954,7 @@
       name: "Вечный двигатель (работает от батареек)",
       price: 9999,
       oldPrice: 19999,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/3689/6dcf/-cf2/c-4580-b6f1-ee80ea322b2b/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/3689/6dcf/-cf2/c-4580-b6f1-ee80ea322b2b/image.jpg", 
       rating: 4.2,
       reviews: 42,
       discount: 50,
@@ -1082,7 +966,7 @@
       name: "Набор 'Сам себе барбер' (очень острый)",
       price: 1499,
       oldPrice: 2999,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/659d/1593/-3bf/4-4828-89cf-6b388b111db4/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/659d/1593/-3bf/4-4828-89cf-6b388b111db4/image.jpg", 
       rating: 3.8,
       reviews: 128,
       discount: 50,
@@ -1091,10 +975,10 @@
     },
     {
       id: 3,
-      name: "Ложка для макарон с отверстием (наконец-то!)",
+      name: "Ложка с дыркой для супа (чтобы знал свое место)",
       price: 399,
       oldPrice: 599,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/d679/2ac7/-cb3/4-40a2-b208-db81d4f37df1/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/d679/2ac7/-cb3/4-40a2-b208-db81d4f37df1/image.jpg", 
       rating: 4.9,
       reviews: 512,
       discount: 33,
@@ -1106,7 +990,7 @@
       name: "Подставка для 10 телефонов (на всякий случай)",
       price: 1299,
       oldPrice: 1599,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/d930/1e6d/-eba/d-4c23-937e-d31540f3dd29/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/d930/1e6d/-eba/d-4c23-937e-d31540f3dd29/image.jpg", 
       rating: 4.1,
       reviews: 87,
       discount: 19,
@@ -1118,7 +1002,7 @@
       name: "Коврик для мышки с подогревом (чтобы пальцам тепло)",
       price: 1999,
       oldPrice: 2499,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/f63c/20ff/-5c0/5-443b-ac01-08627dd2c86e/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/f63c/20ff/-5c0/5-443b-ac01-08627dd2c86e/image.jpg", 
       rating: 4.5,
       reviews: 231,
       discount: 20,
@@ -1127,10 +1011,10 @@
     },
     {
       id: 6,
-      name: "USB-хаб на 127 портов (мало не покажется)",
+      name: "USB-хаб на 35 портов (мало не покажется)",
       price: 4999,
       oldPrice: 7999,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/0a3a/0072/-ca3/8-4745-bc8b-7a00af9678b5/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/0a3a/0072/-ca3/8-4745-bc8b-7a00af9678b5/image.jpg", 
       rating: 3.9,
       reviews: 64,
       discount: 38,
@@ -1139,10 +1023,10 @@
     },
     {
       id: 7,
-      name: "Набор 'Собери ИКЕА-мебель без нервов' (шутка)",
+      name: "Журнал 'ИКЕА-мебель своими руками'",
       price: 999,
       oldPrice: 1999,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/9fae/904e/-964/8-4a1a-b912-752e5ba0c1ff/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/9fae/904e/-964/8-4a1a-b912-752e5ba0c1ff/image.jpg", 
       rating: 2.5,
       reviews: 342,
       discount: 50,
@@ -1154,7 +1038,7 @@
       name: "Беспроводные наушники с проводом для зарядки",
       price: 2999,
       oldPrice: 4999,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/c555/88f5/-796/f-4132-a496-d8ef10f0ede7/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/c555/88f5/-796/f-4132-a496-d8ef10f0ede7/image.jpg", 
       rating: 4.0,
       reviews: 198,
       discount: 40,
@@ -1163,10 +1047,10 @@
     },
     {
       id: 9,
-      name: "Книга 'Как ничего не делать' (365 страниц)",
+      name: "Набор кулинара (Книга рецептов в подарок)",
       price: 899,
       oldPrice: 1299,
-      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/05ce/92f1/-963/3-413f-bc06-e4dc27a54aaa/image.jpg",
+      image: "https://mistralaiblackforestprod.blob.core.windows.net/images/blackforest/05ce/92f1/-963/3-413f-bc06-e4dc27a54aaa/image.jpg", 
       rating: 4.7,
       reviews: 421,
       discount: 31,
@@ -1199,7 +1083,7 @@
     },
     {
       id: 12,
-      name: "Коврик для йоги с разметкой 'где какая нога'",
+      name: "Коврик 'Гибкость не гарантируется'",
       price: 1299,
       oldPrice: 1799,
       image: "https://via.placeholder.com/250x250/cccccc/ffffff?text=Коврик+для+йоги",
@@ -1210,20 +1094,31 @@
       category: "for_soul"
     }
   ];
-
   // Корзина
   let cart = [];
   let cashback = 0;
 
+  function loadCartFromStorage() {
+    const saved = localStorage.getItem("cart");
+    if (saved) {
+      cart = JSON.parse(saved);
+    }
+  }
+
+  function saveCartToStorage() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
   // Инициализация при загрузке страницы
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
+    loadCartFromStorage();
     renderProducts();
     initWheel();
     updateCartCount();
   });
 
   // Рендер товаров
-  function renderProducts() {
+  function renderProducts(filteredProducts = products) {
     const recommendedProducts = document.getElementById('recommendedProducts');
     const discountedProducts = document.getElementById('discountedProducts');
     const popularProducts = document.getElementById('popularProducts');
@@ -1238,24 +1133,19 @@
     hotDeals.innerHTML = '';
 
     // Рендерим товары
-    products.forEach(product => {
+    filteredProducts.forEach(product => {
       const productCard = createProductCard(product);
-
       // Добавляем товары в разные секции
       recommendedProducts.appendChild(productCard.cloneNode(true));
-
       if (product.discount > 30) {
         discountedProducts.appendChild(productCard.cloneNode(true));
       }
-
       if (product.rating >= 4.5 || product.badges.includes("bestseller")) {
         popularProducts.appendChild(productCard.cloneNode(true));
       }
-
       if (product.discount > 50) {
         saleProducts.appendChild(productCard.cloneNode(true));
       }
-
       if (product.badges.includes("new") || product.rating >= 4.5) {
         hotDeals.appendChild(productCard.cloneNode(true));
       }
@@ -1266,7 +1156,6 @@
   function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
-
     // Бейджи
     let badgesHTML = '';
     if (product.badges.includes("bestseller")) {
@@ -1275,7 +1164,6 @@
     if (product.badges.includes("new")) {
       badgesHTML += '<div class="badge badge-new">Новинка</div>';
     }
-
     // Рейтинг
     let ratingHTML = '';
     for (let i = 1; i <= 5; i++) {
@@ -1287,13 +1175,11 @@
         ratingHTML += '<i class="far fa-star"></i>';
       }
     }
-
     // Старая цена
     let oldPriceHTML = '';
     if (product.oldPrice) {
       oldPriceHTML = `<span class="product-old-price">${formatPrice(product.oldPrice)} ₽</span>`;
     }
-
     card.innerHTML = `
       <div class="product-badges">${badgesHTML}</div>
       <img src="${product.image}" alt="${product.name}" class="product-image">
@@ -1311,7 +1197,6 @@
         </div>
       </div>
     `;
-
     return card;
   }
 
@@ -1324,7 +1209,6 @@
   function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
-
     const existingItem = cart.find(item => item.id === productId);
     if (existingItem) {
       existingItem.quantity += 1;
@@ -1334,9 +1218,9 @@
         quantity: 1
       });
     }
-
     updateCartCount();
     showToast(`Товар "${product.name}" добавлен в корзину`);
+    saveCartToStorage();
   }
 
   // Купить сейчас
@@ -1349,7 +1233,6 @@
   function updateCartCount() {
     const count = cart.reduce((total, item) => total + item.quantity, 0);
     document.getElementById('cartCount').textContent = count;
-
     // Обновляем содержимое корзины в модальном окне
     updateCartModal();
   }
@@ -1358,30 +1241,30 @@
   function updateCartModal() {
     const cartItems = document.getElementById('cartItems');
     cartItems.innerHTML = '';
-
     if (cart.length === 0) {
       cartItems.innerHTML = `
         <div style="text-align: center; padding: 2rem 0;">
-          <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+          <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i> 
           <div style="font-weight: bold; margin-bottom: 0.5rem;">Корзина пуста</div>
           <div style="color: #777; margin-bottom: 1rem;">Добавьте товары, чтобы сделать заказ</div>
           <button style="background-color: #ff9900; color: white; border: none; border-radius: 20px; padding: 0.7rem 1.5rem; cursor: pointer;" onclick="toggleModal('cartModal')">Перейти к покупкам</button>
         </div>
       `;
+      document.getElementById('cartItemCount').textContent = 0;
+      document.getElementById('cartTotalPrice').textContent = '0 ₽';
+      document.getElementById('cartDiscount').textContent = '-0 ₽';
+      document.getElementById('cartFinalPrice').textContent = '0 ₽';
       return;
     }
 
     let totalPrice = 0;
     let totalDiscount = 0;
-
     cart.forEach(item => {
       const itemElement = document.createElement('div');
       itemElement.className = 'cart-item';
-
       const itemPrice = item.price * item.quantity;
       const itemOldPrice = item.oldPrice ? item.oldPrice * item.quantity : itemPrice;
       const itemDiscount = itemOldPrice - itemPrice;
-
       totalPrice += itemPrice;
       totalDiscount += itemDiscount;
 
@@ -1402,16 +1285,14 @@
           </button>
         </div>
       `;
-
       cartItems.appendChild(itemElement);
     });
 
     // Обновляем итоговую сумму
-    document.querySelector('.cart-summary .summary-row:nth-child(1) span:last-child').textContent = `${formatPrice(totalPrice)} ₽`;
-    document.querySelector('.cart-summary .summary-row:nth-child(2) span:last-child').textContent = `-${formatPrice(totalDiscount)} ₽`;
-    document.querySelector('.cart-summary .summary-row:nth-child(3) span:last-child').textContent = `Бесплатно`;
-    document.querySelector('.cart-summary .total span:last-child').textContent = `${formatPrice(totalPrice)} ₽`;
-    document.querySelector('.cart-summary .summary-row:nth-child(1) span:first-child').textContent = `Товары (${cart.reduce((total, item) => total + item.quantity, 0)})`;
+    document.getElementById('cartItemCount').textContent = cart.reduce((total, item) => total + item.quantity, 0);
+    document.getElementById('cartTotalPrice').textContent = `${formatPrice(totalPrice)} ₽`;
+    document.getElementById('cartDiscount').textContent = `-${formatPrice(totalDiscount)} ₽`;
+    document.getElementById('cartFinalPrice').textContent = `${formatPrice(totalPrice)} ₽`;
   }
 
   // Обновление количества товара
@@ -1420,11 +1301,11 @@
       removeFromCart(productId);
       return;
     }
-
     const item = cart.find(item => item.id === productId);
     if (item) {
       item.quantity = newQuantity;
       updateCartCount();
+      saveCartToStorage();
     }
   }
 
@@ -1432,13 +1313,13 @@
   function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     updateCartCount();
+    saveCartToStorage();
   }
 
   // Переключение модального окна
   function toggleModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-
     // Блокируем прокрутку страницы при открытом модальном окне
     document.body.style.overflow = modal.style.display === 'flex' ? 'hidden' : '';
   }
@@ -1458,9 +1339,7 @@
     toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
     toast.style.animation = 'fadeIn 0.3s, fadeOut 0.3s 2.7s';
     toast.textContent = message;
-
     document.body.appendChild(toast);
-
     setTimeout(() => {
       document.body.removeChild(toast);
     }, 3000);
@@ -1477,9 +1356,7 @@
       { text: "10% скидка", value: 0, color: "#28a745" },
       { text: "Повезёт в другой раз", value: 0, color: "#6c757d" }
     ];
-
     wheel.innerHTML = '';
-
     prizes.forEach((prize, index) => {
       const section = document.createElement('div');
       section.className = 'wheel-section';
@@ -1487,7 +1364,6 @@
       section.style.backgroundColor = prize.color;
       section.style.transform = `rotate(${index * (360 / prizes.length)}deg)`;
       section.style.clipPath = 'polygon(0 0, 100% 0, 100% 100%)';
-
       wheel.appendChild(section);
     });
   }
@@ -1534,7 +1410,35 @@
       spinButton.disabled = false;
     }, 4000);
   }
-</script>
 
+  // Сортировка товаров
+  function sortProducts(sortBy) {
+    let sorted = [...products];
+    if (sortBy === 'price_asc') {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'price_desc') {
+      sorted.sort((a, b) => b.price - a.price);
+    } else if (sortBy === 'rating') {
+      sorted.sort((a, b) => b.rating - a.rating);
+    }
+    renderProducts(sorted);
+  }
+
+  // Фильтрация товаров по категории
+  function filterByCategory(category) {
+    let filtered = products;
+    if (category !== 'all') {
+      filtered = products.filter(p => p.category === category);
+    }
+    renderProducts(filtered);
+  }
+
+  // Поиск товаров
+  function filterProducts(query) {
+    query = query.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+    renderProducts(filtered);
+  }
+</script>
 </body>
 </html>
