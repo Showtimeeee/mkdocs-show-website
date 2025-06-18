@@ -1,7 +1,7 @@
-<h1 class="neon-text-gold" style="font-size: 2rem; margin-bottom: 10px;" 
-    onmouseover="this.textContent='Спасибо, что зашли! 🙌'" 
-    onmouseout="this.textContent='Добро пожаловать! 🌟'">
-  Добро пожаловать!🌟
+<h1 class="neon-text-gold" style="font-size: 2rem; margin-bottom: 10px;"
+    onmouseover="this.textContent='Готовы сразиться с багами? 💥'"
+    onmouseout="this.textContent='Добро пожаловать в мир кода! 🚀'">
+    Добро пожаловать в мир кода! 🚀
 </h1>
 
 ---
@@ -26,10 +26,8 @@
 ---
 
 ## <h2 class="neon-text-pink">Что вас ждёт на этом сайте?</h2>
-
 - Полезные материалы по разработке, тестированию и оптимизации процессов.
-- Пошаговые инструкции для решения конкретных задач.
-- Примеры реальных проектов с подробным разбором их реализации.
+- Примеры реальных проектов с разбором их реализации.
 - Обзор популярных архитектурных решений и их применение.
 - Разбор алгоритмов и их реализация на практике.
 - Рекомендации по книгам для углубления знаний.
@@ -63,9 +61,9 @@ pytest -v -s --tb=long -rA --color=yes --durations=10
 
 ---
 
-## <h2 class="neon-text-blue">Music & Ambience</h2>
+## <h2 class="neon-text-blue">Random Music For Code Crusaders</h2>
 
-![type:video](https://www.youtube.com/embed/9ou1pl0XNRs?si=5XgTQAABh5yLZw0S)
+![type:video](https://www.youtube.com/embed/BLqktDBIew8?si=QUZOM0gDxEc5nflA)
 
 ---
 
@@ -117,6 +115,6 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 <div class="version-container">
     <div class="version-info">
-        v3.9
+        v4.0
     </div>
 </div>
