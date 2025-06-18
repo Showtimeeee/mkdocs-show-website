@@ -23,6 +23,7 @@
 <br>
 
 ## [Интерактивное собеседование на Python🐍](sobes/sobes_python.html)
+## [Интерактивный тренажер по SQL🧩](trainer/sql_traine.html)
 
 <details style="color: #fff;">
   <summary style="cursor: pointer;">🦧 Как это работает</summary>
