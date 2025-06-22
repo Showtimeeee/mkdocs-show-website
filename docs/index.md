@@ -103,10 +103,13 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 </head>
 <body>
     <!-- Блок для случайной цитаты -->
-    <div id="random-quote" class="quote">
-        <blockquote>"Здесь будет случайная цитата."</blockquote>
-        <cite>— Автор</cite>
-    </div>
+<div id="random-quote" class="quote">
+    <blockquote>"Здесь будет случайная цитата."</blockquote>
+    <cite>— Автор</cite>
+</div>
+
+<!-- Подключение JavaScript -->
+<script src="js/script.js"></script>
 </body>
 </html>
 
