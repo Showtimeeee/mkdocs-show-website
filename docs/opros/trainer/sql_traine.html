@@ -1,286 +1,272 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
-    <title>SQL Тренажёр</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #121212;
-            margin: 0;
-            padding: 20px;
-            color: #e0e0e0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        h1 {
-            text-align: center;
-            color: #bb86fc;
-        }
-        .workspace {
-            display: flex;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .blocks-panel {
-            width: 30%;
-            background: #2d2d2d;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        .query-builder {
-            width: 70%;
-            min-height: 200px;
-            background: #262626;
-            border: 2px dashed #bb86fc;
-            border-radius: 8px;
-            padding: 15px;
-        }
-        .sql-block {
-            background: #3700b3;
-            color: white;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            cursor: grab;
-            user-select: none;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-        .sql-block:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-        .sql-block:active {
-            transform: scale(0.98);
-        }
-        .sql-block.keyword {
-            background: #ff0266;
-        }
-        .sql-block.table {
-            background: #00c853;
-        }
-        .sql-block.column {
-            background: #ff9100;
-        }
-        .sql-block.condition {
-            background: #6200ee;
-        }
-        .generated-query {
-            margin-top: 20px;
-            padding: 15px;
-            background: #000000;
-            color: #bb86fc;
-            border-radius: 5px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            transition: background-color 0.3s;
-        }
-        button {
-            background: #00c853;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 15px;
-            transition: background 0.3s, transform 0.2s;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        button:hover {
-            background: #00e676;
-            transform: scale(1.05);
-        }
-        .feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        .correct {
-            background: #388e3c;
-            color: white;
-        }
-        .incorrect {
-            background: #c62828;
-            color: white;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+  <title>SQL Тренажёр</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #121212;
+      margin: 0;
+      padding: 20px;
+      color: #e0e0e0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      text-align: center;
+      color: #bb86fc;
+    }
+    .workspace {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .blocks-panel {
+      width: 30%;
+      background: #2d2d2d;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .query-builder {
+      width: 70%;
+      min-height: 200px;
+      background: #262626;
+      border: 2px dashed #bb86fc;
+      border-radius: 8px;
+      padding: 15px;
+    }
+    .sql-block {
+      background: #3700b3;
+      color: white;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .sql-block:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+    .sql-block:active {
+      transform: scale(0.98);
+    }
+    .sql-block.keyword { background: #ff0266; }
+    .sql-block.table { background: #00c853; }
+    .sql-block.column { background: #ff9100; }
+    .sql-block.condition { background: #6200ee; }
+    .sql-block.operator { background: #03a9f4; }
+    .generated-query {
+      margin-top: 20px;
+      padding: 15px;
+      background: #000000;
+      color: #bb86fc;
+      border-radius: 5px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      transition: background-color 0.3s;
+    }
+    button {
+      background: #00c853;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+      transition: background 0.3s, transform 0.2s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button:hover {
+      background: #00e676;
+      transform: scale(1.05);
+    }
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    .correct { background: #388e3c; color: white; }
+    .incorrect { background: #c62828; color: white; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧩 Тренажёр SQL: Собери запрос</h1>
+  <div class="container">
+    <h1>🧩 Тренажёр SQL: Собери запрос</h1>
+    <div class="workspace">
+      <div class="blocks-panel" id="blocks-panel">
+        <h3>Доступные блоки:</h3>
+        <!-- Основные ключевые слова -->
+        <div class="sql-block keyword" draggable="true">SELECT</div>
+        <div class="sql-block keyword" draggable="true">FROM</div>
+        <div class="sql-block keyword" draggable="true">WHERE</div>
+        <div class="sql-block keyword" draggable="true">ORDER BY</div>
+        <div class="sql-block keyword" draggable="true">GROUP BY</div>
+        <div class="sql-block keyword" draggable="true">HAVING</div>
+        <div class="sql-block keyword" draggable="true">INSERT INTO</div>
+        <div class="sql-block keyword" draggable="true">UPDATE</div>
+        <div class="sql-block keyword" draggable="true">DELETE FROM</div>
+        <div class="sql-block keyword" draggable="true">SET</div>
+        <div class="sql-block keyword" draggable="true">VALUES</div>
+        <div class="sql-block keyword" draggable="true">JOIN</div>
+        <div class="sql-block keyword" draggable="true">ON</div>
 
-        <div class="workspace">
-            <div class="blocks-panel" id="blocks-panel">
-                <h3>Доступные блоки:</h3>
-                <div class="sql-block keyword" draggable="true">SELECT</div>
-                <div class="sql-block keyword" draggable="true">FROM</div>
-                <div class="sql-block keyword" draggable="true">WHERE</div>
-                <div class="sql-block keyword" draggable="true">ORDER BY</div>
-                <div class="sql-block table" draggable="true">users</div>
-                <div class="sql-block table" draggable="true">products</div>
-                <div class="sql-block table" draggable="true">orders</div>
-                <div class="sql-block column" draggable="true">id</div>
-                <div class="sql-block column" draggable="true">name</div>
-                <div class="sql-block column" draggable="true">price</div>
-                <div class="sql-block column" draggable="true">email</div>
-                <div class="sql-block condition" draggable="true">=</div>
-                <div class="sql-block condition" draggable="true">></div>
-                <div class="sql-block condition" draggable="true"><</div>
-                <div class="sql-block condition" draggable="true">'admin'</div>
-                <div class="sql-block condition" draggable="true">100</div>
-            </div>
+        <!-- Таблицы -->
+        <div class="sql-block table" draggable="true">users</div>
+        <div class="sql-block table" draggable="true">products</div>
+        <div class="sql-block table" draggable="true">orders</div>
 
-            <div class="query-builder" id="query-builder">
-                <p>Перетащите блоки сюда</p>
-            </div>
-        </div>
+        <!-- Колонки -->
+        <div class="sql-block column" draggable="true">id</div>
+        <div class="sql-block column" draggable="true">name</div>
+        <div class="sql-block column" draggable="true">price</div>
+        <div class="sql-block column" draggable="true">email</div>
+        <div class="sql-block column" draggable="true">user_id</div>
 
-        <div class="generated-query" id="generated-query">
-            Ваш запрос появится здесь...
-        </div>
+        <!-- Условия -->
+        <div class="sql-block condition" draggable="true">=</div>
+        <div class="sql-block condition" draggable="true">></div>
+        <div class="sql-block condition" draggable="true"><</div>
+        <div class="sql-block condition" draggable="true">'admin'</div>
+        <div class="sql-block condition" draggable="true">100</div>
 
-        <button id="check-query">Проверить запрос</button>
-        <button id="reset-query">Сбросить</button>
-
-        <div class="feedback" id="feedback"></div>
-
-        <!-- Пример задания -->
-        <div style="margin-top: 30px; padding: 15px; background: #263238; border-radius: 8px;">
-            <h3>Задание 1:</h3>
-            <p>Соберите запрос, который выбирает все поля из таблицы <strong>users</strong> где email равен <strong>'admin'</strong></p>
-        </div>
+        <!-- Операторы -->
+        <div class="sql-block operator" draggable="true">*</div>
+        <div class="sql-block operator" draggable="true">AS</div>
+        <div class="sql-block operator" draggable="true">AND</div>
+        <div class="sql-block operator" draggable="true">OR</div>
+        <div class="sql-block operator" draggable="true">NOT</div>
+        <div class="sql-block operator" draggable="true">LIMIT</div>
+      </div>
+      <div class="query-builder" id="query-builder">
+        <p>Перетащите блоки сюда</p>
+      </div>
     </div>
+    <div class="generated-query" id="generated-query">
+      Ваш запрос появится здесь...
+    </div>
+    <button id="check-query">Проверить запрос</button>
+    <button id="reset-query">Сбросить</button>
+    <div class="feedback" id="feedback"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const blocksPanel = document.getElementById('blocks-panel');
-            const queryBuilder = document.getElementById('query-builder');
-            const generatedQuery = document.getElementById('generated-query');
-            const checkButton = document.getElementById('check-query');
-            const resetButton = document.getElementById('reset-query');
-            const feedback = document.getElementById('feedback');
+    <!-- Пример задания -->
+    <div style="margin-top: 30px; padding: 15px; background: #263238; border-radius: 8px;">
+      <h3>Задание 1:</h3>
+      <p>Соберите запрос, который выбирает все поля из таблицы <strong>users</strong>, где email равен <strong>'admin'</strong></p>
+    </div>
+  </div>
 
-            let draggedItem = null;
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const blocksPanel = document.getElementById('blocks-panel');
+      const queryBuilder = document.getElementById('query-builder');
+      const generatedQuery = document.getElementById('generated-query');
+      const checkButton = document.getElementById('check-query');
+      const resetButton = document.getElementById('reset-query');
+      const feedback = document.getElementById('feedback');
+      let draggedItem = null;
 
-            // Drag and Drop логика
-            blocksPanel.querySelectorAll('.sql-block').forEach(block => {
-                block.addEventListener('dragstart', function() {
-                    draggedItem = this;
-                    setTimeout(() => this.style.opacity = '0.4', 0);
-                });
+      // Добавляем dragstart и dragend всем блокам
+      blocksPanel.querySelectorAll('.sql-block').forEach(block => {
+        block.addEventListener('dragstart', handleDragStart);
+        block.addEventListener('dragend', handleDragEnd);
+      });
 
-                block.addEventListener('dragend', function() {
-                    setTimeout(() => this.style.opacity = '1', 0);
-                    draggedItem = null;
-                });
-            });
+      function handleDragStart(e) {
+        draggedItem = this;
+        setTimeout(() => this.style.opacity = '0.4', 0);
+      }
 
-            queryBuilder.addEventListener('dragover', function(e) {
-                e.preventDefault();
-            });
+      function handleDragEnd(e) {
+        setTimeout(() => this.style.opacity = '1', 0);
+        draggedItem = null;
+      }
 
-            queryBuilder.addEventListener('dragenter', function(e) {
-                e.preventDefault();
-                this.style.backgroundColor = '#37474f';
-            });
+      // Обработка событий DnD
+      queryBuilder.addEventListener('dragover', e => e.preventDefault());
+      queryBuilder.addEventListener('dragenter', () => queryBuilder.style.backgroundColor = '#37474f');
+      queryBuilder.addEventListener('dragleave', () => queryBuilder.style.backgroundColor = '#262626');
 
-            queryBuilder.addEventListener('dragleave', function() {
-                this.style.backgroundColor = '#262626';
-            });
+      queryBuilder.addEventListener('drop', function (e) {
+        e.preventDefault();
+        queryBuilder.style.backgroundColor = '#262626';
+        if (draggedItem) {
+          const clone = draggedItem.cloneNode(true);
+          clone.style.opacity = '1';
+          clone.draggable = true;
+          clone.addEventListener('dragstart', handleDragStart);
+          clone.addEventListener('dragend', handleDragEnd);
 
-            queryBuilder.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.style.backgroundColor = '#262626';
-
-                if (draggedItem) {
-                    const clone = draggedItem.cloneNode(true);
-                    clone.style.opacity = '1';
-                    clone.draggable = true;
-                    clone.addEventListener('dragstart', handleDragStart);
-
-                    // Определяем позицию вставки
-                    const dropY = e.clientY;
-                    const blocks = Array.from(queryBuilder.querySelectorAll('.sql-block'));
-                    let insertBeforeElement = null;
-
-                    for (const block of blocks) {
-                        const rect = block.getBoundingClientRect();
-                        if (dropY < rect.top + rect.height / 2) {
-                            insertBeforeElement = block;
-                            break;
-                        }
-                    }
-
-                    if (insertBeforeElement) {
-                        queryBuilder.insertBefore(clone, insertBeforeElement);
-                    } else {
-                        queryBuilder.appendChild(clone);
-                    }
-
-                    updateGeneratedQuery();
-                }
-            });
-
-            function handleDragStart(e) {
-                draggedItem = this;
-                setTimeout(() => this.style.opacity = '0.4', 0);
+          // Вставляем перед или после
+          const dropY = e.clientY;
+          const blocks = Array.from(queryBuilder.querySelectorAll('.sql-block'));
+          let insertBeforeElement = null;
+          for (const block of blocks) {
+            const rect = block.getBoundingClientRect();
+            if (dropY < rect.top + rect.height / 2) {
+              insertBeforeElement = block;
+              break;
             }
+          }
+          if (insertBeforeElement) {
+            queryBuilder.insertBefore(clone, insertBeforeElement);
+          } else {
+            queryBuilder.appendChild(clone);
+          }
 
-            // Обновление сгенерированного SQL
-            function updateGeneratedQuery() {
-                const blocks = queryBuilder.querySelectorAll('.sql-block');
-                let query = '';
+          updateGeneratedQuery();
+        }
+      });
 
-                blocks.forEach(block => {
-                    query += block.textContent + ' ';
-                });
-
-                generatedQuery.textContent = query.trim() || 'Ваш запрос появится здесь...';
-            }
-
-            // Проверка запроса
-            checkButton.addEventListener('click', function() {
-                const userQuery = generatedQuery.textContent.toLowerCase();
-
-                // Пример проверки для задания 1
-                if (userQuery.includes("select * from users where email = 'admin'")) {
-                    showFeedback('Правильно! Отличная работа!', true);
-                } else {
-                    showFeedback('Почти получилось! Попробуйте: SELECT * FROM users WHERE email = \'admin\'', false);
-                }
-            });
-
-            // Сброс запроса
-            resetButton.addEventListener('click', function() {
-                queryBuilder.innerHTML = '<p>Перетащите блоки сюда</p>';
-                generatedQuery.textContent = 'Ваш запрос появится здесь...';
-                feedback.style.display = 'none';
-            });
-
-            // Показать обратную связь
-            function showFeedback(message, isCorrect) {
-                feedback.textContent = message;
-                feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
-                feedback.style.display = 'block';
-            }
+      function updateGeneratedQuery() {
+        const blocks = queryBuilder.querySelectorAll('.sql-block');
+        let query = '';
+        blocks.forEach(block => {
+          query += block.textContent + ' ';
         });
-    </script>
+        generatedQuery.textContent = query.trim() || 'Ваш запрос появится здесь...';
+      }
+
+      checkButton.addEventListener('click', function () {
+        const userQuery = generatedQuery.textContent.toLowerCase();
+        if (userQuery === "select * from users where email = 'admin'") {
+          showFeedback('Правильно! Отличная работа!', true);
+        } else {
+          showFeedback('Почти получилось! Попробуйте: SELECT * FROM users WHERE email = \'admin\'', false);
+        }
+      });
+
+      resetButton.addEventListener('click', function () {
+        queryBuilder.innerHTML = '<p>Перетащите блоки сюда</p>';
+        generatedQuery.textContent = 'Ваш запрос появится здесь...';
+        feedback.style.display = 'none';
+      });
+
+      function showFeedback(message, isCorrect) {
+        feedback.textContent = message;
+        feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+        feedback.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
