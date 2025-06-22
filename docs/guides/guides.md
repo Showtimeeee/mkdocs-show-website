@@ -21,14 +21,19 @@
 - [HTTP Status Codes](statuscode.md)
 - [WebSocket](websocket_guide.md)
 
+
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Автотестирование</div>
 - [Pytest](pytest_guide.md)
 - [API Testing (Requests)](api_testing_python.md)
 - [Playwright](playwright_testing_python.md)
 
-## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Другие технологии</div>
-- [Flask](flask.md)
-- [SDLC](sdlc.md)
+## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Авторизация</div>
+- [Session](session_auth.md)
 
+## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Веб-фреймворки</div>
+- [Flask](flask.md)
+
+## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Документация</div>
+- [SDLC](sdlc.md)
 
 ---
