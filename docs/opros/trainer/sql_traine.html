@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
   <title>SQL Тренажёр</title>
   <style>
@@ -101,17 +101,203 @@
       display: none;
       animation: fadeIn 0.5s;
     }
-    .correct { background: #388e3c; color: white; }
-    .incorrect { background: #c62828; color: white; }
+    .correct {
+      background: #388e3c;
+      color: white;
+    }
+    .incorrect {
+      background: #c62828;
+      color: white;
+    }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .task-selector {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .task-selector button {
+      display: inline-block;
+      margin: 0;
+    }
+    .schema-table {
+      width: 100%;
+      margin: 15px 0;
+      border-collapse: collapse;
+    }
+    .schema-table th, .schema-table td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: left;
+    }
+    .schema-table th {
+      background-color: #333;
+    }
+    .schema-table td {
+      background-color: #222;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 20px;
+      padding: 10px;
+      background: #262626;
+      color: #e0e0e0;
+      border: 1px solid #bb86fc;
+      border-radius: 5px;
+      font-family: monospace;
+      resize: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🧩 Тренажёр SQL: Собери запрос</h1>
+    <div class="task-selector">
+      <button id="task1-button">Задание 1</button>
+      <button id="task2-button">Задание 2</button>
+      <button id="task3-button">Задание 3</button>
+    </div>
+    <div id="task1" class="task" style="display: block;">
+      <div style="margin-top: 30px; padding: 15px; background: #263238; border-radius: 8px;">
+        <h3>Задание 1:</h3>
+        <p>Соберите запрос, который выбирает все поля из таблицы <strong>users</strong>, где email равен <strong>'admin'</strong></p>
+        <h4>Схема таблицы users:</h4>
+        <table class="schema-table">
+          <thead>
+            <tr>
+              <th>Поле</th>
+              <th>Тип данных</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>INT</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>VARCHAR</td>
+            </tr>
+            <tr>
+              <td>email</td>
+              <td>VARCHAR</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="task2" class="task" style="display: none;">
+      <div style="margin-top: 30px; padding: 15px; background: #263238; border-radius: 8px;">
+        <h3>Задание 2:</h3>
+        <p>Соберите запрос, который выбирает имена пользователей и сумму их заказов из таблиц <strong>users</strong> и <strong>orders</strong>, группирует по имени пользователя, и выводит только тех, у кого сумма заказов больше 1000.</p>
+        <h4>Схема таблицы users:</h4>
+        <table class="schema-table">
+          <thead>
+            <tr>
+              <th>Поле</th>
+              <th>Тип данных</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>INT</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>VARCHAR</td>
+            </tr>
+            <tr>
+              <td>email</td>
+              <td>VARCHAR</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Схема таблицы orders:</h4>
+        <table class="schema-table">
+          <thead>
+            <tr>
+              <th>Поле</th>
+              <th>Тип данных</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>INT</td>
+            </tr>
+            <tr>
+              <td>user_id</td>
+              <td>INT</td>
+            </tr>
+            <tr>
+              <td>price</td>
+              <td>DECIMAL</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="task3" class="task" style="display: none;">
+      <div style="margin-top: 30px; padding: 15px; background: #263238; border-radius: 8px;">
+        <h3>Задание 3:</h3>
+        <p>Соберите запрос, который выбирает имена пользователей и названия продуктов, которые они заказали, из таблиц <strong>users</strong> и <strong>products</strong>, используя LEFT JOIN. Также выберите только те продукты, названия которых начинаются с буквы 'A'.</p>
+        <h4>Схема таблицы users:</h4>
+        <table class="schema-table">
+          <thead>
+            <tr>
+              <th>Поле</th>
+              <th>Тип данных</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>INT</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>VARCHAR</td>
+            </tr>
+            <tr>
+              <td>email</td>
+              <td>VARCHAR</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Схема таблицы products:</h4>
+        <table class="schema-table">
+          <thead>
+            <tr>
+              <th>Поле</th>
+              <th>Тип данных</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>INT</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>VARCHAR</td>
+            </tr>
+            <tr>
+              <td>user_id</td>
+              <td>INT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <div class="workspace">
       <div class="blocks-panel" id="blocks-panel">
         <h3>Доступные блоки:</h3>
@@ -128,7 +314,9 @@
         <div class="sql-block keyword" draggable="true">SET</div>
         <div class="sql-block keyword" draggable="true">VALUES</div>
         <div class="sql-block keyword" draggable="true">JOIN</div>
+        <div class="sql-block keyword" draggable="true">LEFT JOIN</div>
         <div class="sql-block keyword" draggable="true">ON</div>
+        <div class="sql-block keyword" draggable="true">LIKE</div>
 
         <!-- Таблицы -->
         <div class="sql-block table" draggable="true">users</div>
@@ -141,6 +329,7 @@
         <div class="sql-block column" draggable="true">price</div>
         <div class="sql-block column" draggable="true">email</div>
         <div class="sql-block column" draggable="true">user_id</div>
+        <div class="sql-block column" draggable="true">SUM</div>
 
         <!-- Условия -->
         <div class="sql-block condition" draggable="true">=</div>
@@ -148,6 +337,8 @@
         <div class="sql-block condition" draggable="true"><</div>
         <div class="sql-block condition" draggable="true">'admin'</div>
         <div class="sql-block condition" draggable="true">100</div>
+        <div class="sql-block condition" draggable="true">1000</div>
+        <div class="sql-block condition" draggable="true">'A%'</div>
 
         <!-- Операторы -->
         <div class="sql-block operator" draggable="true">*</div>
@@ -164,15 +355,10 @@
     <div class="generated-query" id="generated-query">
       Ваш запрос появится здесь...
     </div>
+    <textarea id="manual-query" placeholder="Или введите ваш SQL запрос здесь..."></textarea>
     <button id="check-query">Проверить запрос</button>
     <button id="reset-query">Сбросить</button>
     <div class="feedback" id="feedback"></div>
-
-    <!-- Пример задания -->
-    <div style="margin-top: 30px; padding: 15px; background: #263238; border-radius: 8px;">
-      <h3>Задание 1:</h3>
-      <p>Соберите запрос, который выбирает все поля из таблицы <strong>users</strong>, где email равен <strong>'admin'</strong></p>
-    </div>
   </div>
 
   <script>
@@ -180,10 +366,36 @@
       const blocksPanel = document.getElementById('blocks-panel');
       const queryBuilder = document.getElementById('query-builder');
       const generatedQuery = document.getElementById('generated-query');
+      const manualQuery = document.getElementById('manual-query');
       const checkButton = document.getElementById('check-query');
       const resetButton = document.getElementById('reset-query');
       const feedback = document.getElementById('feedback');
+      const task1Button = document.getElementById('task1-button');
+      const task2Button = document.getElementById('task2-button');
+      const task3Button = document.getElementById('task3-button');
+      const task1 = document.getElementById('task1');
+      const task2 = document.getElementById('task2');
+      const task3 = document.getElementById('task3');
       let draggedItem = null;
+
+      // Переключение между заданиями
+      task1Button.addEventListener('click', function () {
+        task1.style.display = 'block';
+        task2.style.display = 'none';
+        task3.style.display = 'none';
+      });
+
+      task2Button.addEventListener('click', function () {
+        task1.style.display = 'none';
+        task2.style.display = 'block';
+        task3.style.display = 'none';
+      });
+
+      task3Button.addEventListener('click', function () {
+        task1.style.display = 'none';
+        task2.style.display = 'none';
+        task3.style.display = 'block';
+      });
 
       // Добавляем dragstart и dragend всем блокам
       blocksPanel.querySelectorAll('.sql-block').forEach(block => {
@@ -244,20 +456,36 @@
           query += block.textContent + ' ';
         });
         generatedQuery.textContent = query.trim() || 'Ваш запрос появится здесь...';
+        manualQuery.value = generatedQuery.textContent;
       }
 
       checkButton.addEventListener('click', function () {
-        const userQuery = generatedQuery.textContent.toLowerCase();
-        if (userQuery === "select * from users where email = 'admin'") {
+        const userQuery = manualQuery.value.toLowerCase();
+        const currentTask = task1.style.display === 'block' ? 1 : task2.style.display === 'block' ? 2 : 3;
+
+        if (currentTask === 1 && userQuery === "select * from users where email = 'admin'") {
+          showFeedback('Правильно! Отличная работа!', true);
+        } else if (currentTask === 2 && userQuery === "select name, sum(price) as total from users join orders on users.id = orders.user_id group by name having sum(price) > 1000") {
+          showFeedback('Правильно! Отличная работа!', true);
+        } else if (currentTask === 3 && userQuery === "select users.name, products.name from users left join products on users.id = products.user_id where products.name like 'a%'") {
           showFeedback('Правильно! Отличная работа!', true);
         } else {
-          showFeedback('Почти получилось! Попробуйте: SELECT * FROM users WHERE email = \'admin\'', false);
+          let feedbackMessage = '';
+          if (currentTask === 1) {
+            feedbackMessage = 'Почти получилось! Попробуйте: SELECT * FROM users WHERE email = \'admin\'';
+          } else if (currentTask === 2) {
+            feedbackMessage = 'Почти получилось! Попробуйте: SELECT name, SUM(price) AS total FROM users JOIN orders ON users.id = orders.user_id GROUP BY name HAVING SUM(price) > 1000';
+          } else if (currentTask === 3) {
+            feedbackMessage = 'Почти получилось! Попробуйте: SELECT users.name, products.name FROM users LEFT JOIN products ON users.id = products.user_id WHERE products.name LIKE \'A%\'';
+          }
+          showFeedback(feedbackMessage, false);
         }
       });
 
       resetButton.addEventListener('click', function () {
         queryBuilder.innerHTML = '<p>Перетащите блоки сюда</p>';
         generatedQuery.textContent = 'Ваш запрос появится здесь...';
+        manualQuery.value = '';
         feedback.style.display = 'none';
       });
 
