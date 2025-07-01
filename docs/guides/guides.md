@@ -21,6 +21,8 @@
 - [HTTP Status Codes](statuscode.md)
 - [WebSocket](websocket_guide.md)
 
+## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Тестирование</div>
+- [Техники тест-дизайна](g_test_design.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Автотестирование</div>
 - [Pytest](pytest_guide.md)
@@ -34,6 +36,7 @@
 - [Flask](flask.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Документация</div>
+- [Тест-кейс](g_test_case.md)
 - [SDLC](sdlc.md)
 
 ---
