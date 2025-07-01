@@ -9,6 +9,7 @@
 - [Postman](postman.md)
 - [Charles](charles.md)
 - [Locust](locust.md)
+- [Yandex-tank](yandex_tank.md)
 - [Pairwise Testing](pairwise.md)
 - [Kafka](apache_kafka_guide.md)
 - [Git](git_guide.md)
