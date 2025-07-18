@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='green'/><circle cx='30' cy='30' r='5' fill='white'/><circle cx='70' cy='30' r='5' fill='white'/><path d='M30 50 Q50 70 70 50' stroke='white' stroke-width='3' fill='none'/></svg>" type="image/svg+xml">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренировочная страница для тестировщиков</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .dashboard-item {
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            width: 50%;
+        }
+        .logs {
+            margin-top: 40px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .log-entry {
+            padding: 5px 0;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тренировочная страница для тестировщиков</h1>
+    <div class="container">
+        <!-- Кнопки -->
+        <div class="section">
+            <h2>Кнопки</h2>
+            <button onclick="logAction('click', 'Кнопка 1')">Кнопка 1</button>
+            <button onclick="logAction('click', 'Кнопка 2')">Кнопка 2</button>
+            <button onclick="logAction('click', 'Кнопка 3')">Кнопка 3</button>
+        </div>
+
+        <!-- Ползунки -->
+        <div class="section">
+            <h2>Ползунки</h2>
+            <label for="slider1">Ползунок 1:</label>
+            <input type="range" id="slider1" min="0" max="100" value="50" oninput="logAction('change', 'Ползунок 1', this.value)">
+            <label for="slider2">Ползунок 2:</label>
+            <input type="range" id="slider2" min="0" max="100" value="50" oninput="logAction('change', 'Ползунок 2', this.value)">
+        </div>
+
+        <!-- Переключатели -->
+        <div class="section">
+            <h2>Переключатели</h2>
+            <label class="switch">
+                <input type="checkbox" onchange="logAction('toggle', 'Переключатель 1', this.checked ? 'вкл' : 'выкл')">
+                <span class="slider"></span>
+            </label>
+            <label class="switch">
+                <input type="checkbox" checked onchange="logAction('toggle', 'Переключатель 2', this.checked ? 'вкл' : 'выкл')">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <!-- Выпадающий список -->
+        <div class="section">
+            <h2>Выпадающий список</h2>
+            <select onchange="logAction('select', 'Список', this.value)">
+                <option value="option1">Опция 1</option>
+                <option value="option2">Опция 2</option>
+                <option value="option3">Опция 3</option>
+            </select>
+        </div>
+
+        <!-- Радиокнопки -->
+        <div class="section">
+            <h2>Радиокнопки</h2>
+            <label><input type="radio" name="radioGroup" value="option1" onchange="logAction('radio', 'Радио', this.value)"> Опция 1</label>
+            <label><input type="radio" name="radioGroup" value="option2" onchange="logAction('radio', 'Радио', this.value)"> Опция 2</label>
+            <label><input type="radio" name="radioGroup" value="option3" onchange="logAction('radio', 'Радио', this.value)"> Опция 3</label>
+        </div>
+
+        <!-- Чекбоксы -->
+        <div class="section">
+            <h2>Чекбоксы</h2>
+            <label><input type="checkbox" onchange="logAction('checkbox', 'Чекбокс 1', this.checked ? 'вкл' : 'выкл')"> Опция 1</label>
+            <label><input type="checkbox" onchange="logAction('checkbox', 'Чекбокс 2', this.checked ? 'вкл' : 'выкл')"> Опция 2</label>
+            <label><input type="checkbox" onchange="logAction('checkbox', 'Чекбокс 3', this.checked ? 'вкл' : 'выкл')"> Опция 3</label>
+        </div>
+
+        <!-- Дополнительные элементы -->
+        <div class="section">
+            <h2>Дополнительно</h2>
+            <input type="text" placeholder="Введите текст" oninput="logAction('input', 'Текстовое поле', this.value)">
+            <br><br>
+            <input type="date" onchange="logAction('input', 'Дата', this.value)">
+            <br><br>
+            <input type="color" onchange="logAction('input', 'Цвет', this.value)">
+            <br><br>
+            <input type="file" onchange="logAction('input', 'Файл', this.files[0]?.name || 'отмена')">
+        </div>
+    </div>
+
+    <!-- Логи -->
+    <div class="logs" id="logs">
+        <h2>Лог действий</h2>
+    </div>
+
+    <script>
+        function logAction(action, element, value = '') {
+            const logs = document.getElementById('logs');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = `${new Date().toLocaleTimeString()} — ${action}: "${element}" → ${value}`;
+            logs.prepend(logEntry);
+        }
+    </script>
+</body>
+</html>
