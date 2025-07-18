@@ -4,32 +4,58 @@
     <meta charset="UTF-8">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='green'/><circle cx='30' cy='30' r='5' fill='white'/><circle cx='70' cy='30' r='5' fill='white'/><path d='M30 50 Q50 70 70 50' stroke='white' stroke-width='3' fill='none'/></svg>" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тренировочная страница для тестировщиков</title>
+    <title>ТестДрайв PRO</title>
     <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --dark-color: #333;
+            --light-color: #f0f0f0;
+            --danger-color: #f44336;
+            --warning-color: #ff9800;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
         }
+        
+        h1, h2, h3 {
+            color: var(--dark-color);
+        }
+        
         .container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
         }
+        
         .section {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
             width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
         .section h2 {
             margin-top: 0;
-            color: #333;
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
         }
+        
         button {
-            background-color: #4CAF50;
+            background-color: var(--primary-color);
             border: none;
             color: white;
             padding: 10px 20px;
@@ -40,25 +66,76 @@
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        
         button:hover {
             background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+        
+        button.danger {
+            background-color: var(--danger-color);
+        }
+        
+        button.danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        button.warning {
+            background-color: var(--warning-color);
+        }
+        
+        button.warning:hover {
+            background-color: #e68a00;
+        }
+        
+        button.secondary {
+            background-color: var(--secondary-color);
+        }
+        
+        button.secondary:hover {
+            background-color: #0b7dda;
+        }
+        
         input[type="range"] {
             width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+            margin: 10px 0;
         }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #388e3c;
+        }
+        
         .switch {
             position: relative;
             display: inline-block;
             width: 60px;
             height: 34px;
+            margin: 5px 10px 5px 0;
         }
+        
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+        
         .slider {
             position: absolute;
             cursor: pointer;
@@ -70,6 +147,7 @@
             transition: .4s;
             border-radius: 34px;
         }
+        
         .slider:before {
             position: absolute;
             content: "";
@@ -81,34 +159,47 @@
             transition: .4s;
             border-radius: 50%;
         }
+        
         input:checked + .slider {
-            background-color: #2196F3;
+            background-color: var(--secondary-color);
         }
+        
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+        
         .dashboard {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+        
         .dashboard-item {
             background-color: #e0e0e0;
             padding: 10px;
             border-radius: 5px;
         }
-        .progress-bar {
+        
+        .progress-container {
             width: 100%;
             background-color: #ddd;
             border-radius: 5px;
-            margin-top: 10px;
+            margin: 10px 0;
         }
-        .progress {
+        
+        .progress-bar {
             height: 20px;
-            background-color: #4CAF50;
+            background-color: var(--primary-color);
             border-radius: 5px;
             width: 50%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
         }
+        
         .logs {
             margin-top: 40px;
             max-height: 300px;
@@ -118,101 +209,959 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        
         .log-entry {
-            padding: 5px 0;
+            padding: 8px 0;
             font-size: 14px;
             border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
         }
+        
+        .log-entry:hover {
+            background-color: #f9f9f9;
+        }
+        
         .log-entry:last-child {
             border-bottom: none;
+        }
+        
+        .log-entry.info {
+            color: var(--secondary-color);
+        }
+        
+        .log-entry.success {
+            color: var(--primary-color);
+        }
+        
+        .log-entry.warning {
+            color: var(--warning-color);
+        }
+        
+        .log-entry.error {
+            color: var(--danger-color);
+        }
+        
+        select, input[type="text"], input[type="date"], input[type="color"], input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+        
+        select:focus, input[type="text"]:focus, input[type="date"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #0da853;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .tab.active {
+            background-color: #b8cc06;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background-color: var(--danger-color);
+        }
+        
+        .notification.warning {
+            background-color: var(--warning-color);
+        }
+        
+        .notification.info {
+            background-color: var(--secondary-color);
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+        }
+        
+        .toggle-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .toggle-option {
+            padding: 8px 15px;
+            background: #eee;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .toggle-option.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .dark-mode {
+            background-color: #222;
+            color: #eee;
+        }
+        
+        .dark-mode .section, .dark-mode .logs, .dark-mode .card {
+            background-color: #333;
+            color: #eee;
+        }
+        
+        .dark-mode .section h2, .dark-mode h1, .dark-mode h2, .dark-mode h3 {
+            color: #eee;
+        }
+        
+        .dark-mode .dashboard-item, .dark-mode input, .dark-mode select {
+            background-color: #444;
+            color: #eee;
+            border-color: #555;
+        }
+        
+        .dark-mode .log-entry:hover {
+            background-color: #444;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .section {
+                width: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Тренировочная страница для тестировщиков</h1>
-    <div class="container">
-        <!-- Кнопки -->
-        <div class="section">
-            <h2>Кнопки</h2>
-            <button onclick="logAction('click', 'Кнопка 1')">Кнопка 1</button>
-            <button onclick="logAction('click', 'Кнопка 2')">Кнопка 2</button>
-            <button onclick="logAction('click', 'Кнопка 3')">Кнопка 3</button>
-        </div>
+    <div class="tab-container">
+        <button class="tab active" onclick="openTab(event, 'controls')">Элементы управления</button>
+        <button class="tab" onclick="openTab(event, 'dashboard')">Панель состояния</button>
+        <button class="tab" onclick="openTab(event, 'settings')">Настройки</button>
+        <button class="tab" onclick="toggleDarkMode()">Тёмный режим</button>
+    </div>
 
-        <!-- Ползунки -->
-        <div class="section">
-            <h2>Ползунки</h2>
-            <label for="slider1">Ползунок 1:</label>
-            <input type="range" id="slider1" min="0" max="100" value="50" oninput="logAction('change', 'Ползунок 1', this.value)">
-            <label for="slider2">Ползунок 2:</label>
-            <input type="range" id="slider2" min="0" max="100" value="50" oninput="logAction('change', 'Ползунок 2', this.value)">
+    <div id="controls" class="tab-content active">
+        <h1>ТестДрайв PRO</h1>
+        
+        <div class="toggle-group">
+            <div class="toggle-option active" onclick="setViewMode('grid')">Сетка</div>
+            <div class="toggle-option" onclick="setViewMode('list')">Список</div>
         </div>
+        
+        <div class="grid-container" id="view-container">
+            <!-- Кнопки -->
+            <div class="section card">
+                <h2>Кнопки</h2>
+                <div class="tooltip">
+                    <button onclick="logAction('click', 'Основная кнопка', '', 'success'); showNotification('Основная кнопка нажата', 'success')">Основная</button>
+                    <span class="tooltiptext">Нажмите для действия</span>
+                </div>
+                <button class="secondary" onclick="logAction('click', 'Вторичная кнопка', '', 'info'); showNotification('Вторичная кнопка нажата', 'info')">Вторичная</button>
+                <button class="danger" onclick="logAction('click', 'Опасная кнопка', '', 'error'); showNotification('Опасное действие!', 'error')">Опасная</button>
+                <button class="warning" onclick="logAction('click', 'Предупреждение', '', 'warning'); showNotification('Внимание!', 'warning')">Предупреждение</button>
+                <button onclick="startProgressBar()">Запустить прогресс</button>
+            </div>
 
-        <!-- Переключатели -->
-        <div class="section">
-            <h2>Переключатели</h2>
-            <label class="switch">
-                <input type="checkbox" onchange="logAction('toggle', 'Переключатель 1', this.checked ? 'вкл' : 'выкл')">
-                <span class="slider"></span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" checked onchange="logAction('toggle', 'Переключатель 2', this.checked ? 'вкл' : 'выкл')">
-                <span class="slider"></span>
-            </label>
+            <!-- Ползунки -->
+            <div class="section card">
+                <h2>Ползунки</h2>
+                <label for="slider1">Громкость: <span id="slider1Value">50</span>%</label>
+                <input type="range" id="slider1" min="0" max="100" value="50" oninput="updateSliderValue('slider1', 'slider1Value'); logAction('change', 'Громкость', this.value, 'info')">
+                
+                <label for="slider2">Яркость: <span id="slider2Value">50</span>%</label>
+                <input type="range" id="slider2" min="0" max="100" value="50" oninput="updateSliderValue('slider2', 'slider2Value'); logAction('change', 'Яркость', this.value, 'info')">
+                
+                <label for="slider3">Контрастность: <span id="slider3Value">75</span>%</label>
+                <input type="range" id="slider3" min="0" max="100" value="75" oninput="updateSliderValue('slider3', 'slider3Value'); logAction('change', 'Контрастность', this.value, 'info')">
+            </div>
+
+            <!-- Переключатели -->
+            <div class="section card">
+                <h2>Переключатели</h2>
+                <label class="switch">
+                    <input type="checkbox" id="toggle1" onchange="logAction('toggle', 'Wi-Fi', this.checked ? 'вкл' : 'выкл', this.checked ? 'success' : 'error')">
+                    <span class="slider"></span>
+                </label>
+                <span>Wi-Fi</span>
+                
+                <br>
+                
+                <label class="switch">
+                    <input type="checkbox" id="toggle2" checked onchange="logAction('toggle', 'Bluetooth', this.checked ? 'вкл' : 'выкл', this.checked ? 'success' : 'error')">
+                    <span class="slider"></span>
+                </label>
+                <span>Bluetooth</span>
+                
+                <br>
+                
+                <label class="switch">
+                    <input type="checkbox" id="toggle3" onchange="logAction('toggle', 'Режим полёта', this.checked ? 'вкл' : 'выкл', this.checked ? 'error' : 'success')">
+                    <span class="slider"></span>
+                </label>
+                <span>Режим полёта</span>
+            </div>
+
+            <!-- Выпадающий список -->
+            <div class="section card">
+                <h2>Выпадающий список</h2>
+                <select onchange="logAction('select', 'Тема', this.value, 'info'); changeTheme(this.value)">
+                    <option value="light">Светлая тема</option>
+                    <option value="dark">Тёмная тема</option>
+                    <option value="blue">Синяя тема</option>
+                    <option value="green">Зелёная тема</option>
+                </select>
+                
+                <h3 style="margin-top: 20px;">Выбор языка</h3>
+                <select onchange="logAction('select', 'Язык', this.value, 'info')">
+                    <option value="ru">Русский</option>
+                    <option value="en">Английский</option>
+                    <option value="es">Испанский</option>
+                    <option value="fr">Французский</option>
+                </select>
+            </div>
+
+            <!-- Радиокнопки -->
+            <div class="section card">
+                <h2>Радиокнопки</h2>
+                <h3>Выберите размер:</h3>
+                <label><input type="radio" name="sizeGroup" value="small" onchange="logAction('radio', 'Размер', this.value, 'info')"> Маленький</label><br>
+                <label><input type="radio" name="sizeGroup" value="medium" checked onchange="logAction('radio', 'Размер', this.value, 'info')"> Средний</label><br>
+                <label><input type="radio" name="sizeGroup" value="large" onchange="logAction('radio', 'Размер', this.value, 'info')"> Большой</label>
+                
+                <h3 style="margin-top: 15px;">Выберите способ доставки:</h3>
+                <label><input type="radio" name="deliveryGroup" value="pickup" onchange="logAction('radio', 'Доставка', this.value, 'info')"> Самовывоз</label><br>
+                <label><input type="radio" name="deliveryGroup" value="courier" onchange="logAction('radio', 'Доставка', this.value, 'info')"> Курьер</label><br>
+                <label><input type="radio" name="deliveryGroup" value="post" onchange="logAction('radio', 'Доставка', this.value, 'info')"> Почта</label>
+            </div>
+
+            <!-- Чекбоксы -->
+            <div class="section card">
+                <h2>Чекбоксы</h2>
+                <h3>Настройки уведомлений:</h3>
+                <label><input type="checkbox" onchange="logAction('checkbox', 'Email уведомления', this.checked ? 'вкл' : 'выкл', this.checked ? 'success' : 'error')"> Email уведомления</label><br>
+                <label><input type="checkbox" checked onchange="logAction('checkbox', 'SMS уведомления', this.checked ? 'вкл' : 'выкл', this.checked ? 'success' : 'error')"> SMS уведомления</label><br>
+                <label><input type="checkbox" onchange="logAction('checkbox', 'Push уведомления', this.checked ? 'вкл' : 'выкл', this.checked ? 'success' : 'error')"> Push уведомления</label>
+                
+                <h3 style="margin-top: 15px;">Интересы:</h3>
+                <label><input type="checkbox" onchange="logAction('checkbox', 'Спорт', this.checked ? 'выбрано' : 'убрано', 'info')"> Спорт</label><br>
+                <label><input type="checkbox" onchange="logAction('checkbox', 'Технологии', this.checked ? 'выбрано' : 'убрано', 'info')"> Технологии</label><br>
+                <label><input type="checkbox" onchange="logAction('checkbox', 'Искусство', this.checked ? 'выбрано' : 'убрано', 'info')"> Искусство</label>
+            </div>
+
+            <!-- Дополнительные элементы -->
+            <div class="section card">
+                <h2>Дополнительно</h2>
+                <input type="text" placeholder="Введите ваше имя" oninput="logAction('input', 'Имя', this.value, 'info')">
+                
+                <input type="date" onchange="logAction('input', 'Дата рождения', this.value, 'info')">
+                
+                <input type="color" value="#4CAF50" onchange="logAction('input', 'Любимый цвет', this.value, 'info'); document.body.style.setProperty('--primary-color', this.value)">
+                
+                <input type="file" onchange="logAction('input', 'Файл', this.files[0]?.name || 'отмена', 'info')">
+                
+                <div class="progress-container" style="margin-top: 15px;">
+                    <div class="progress-bar" id="progressBar">50%</div>
+                </div>
+            </div>
+
+            <!-- Форма входа -->
+            <div class="section card">
+                <h2>Форма входа</h2>
+                <input type="text" placeholder="Логин" id="loginInput" oninput="logAction('input', 'Логин', this.value, 'info')">
+                
+                <input type="password" placeholder="Пароль" id="passwordInput" oninput="logAction('input', 'Пароль', '******', 'warning')">
+                
+                <button onclick="attemptLogin()" style="width: 100%; margin-top: 10px;">Войти</button>
+                
+                <label style="display: block; margin-top: 10px;">
+                    <input type="checkbox" onchange="logAction('checkbox', 'Запомнить меня', this.checked ? 'вкл' : 'выкл', 'info')"> Запомнить меня
+                </label>
+            </div>
         </div>
+    </div>
 
-        <!-- Выпадающий список -->
-        <div class="section">
-            <h2>Выпадающий список</h2>
-            <select onchange="logAction('select', 'Список', this.value)">
-                <option value="option1">Опция 1</option>
-                <option value="option2">Опция 2</option>
-                <option value="option3">Опция 3</option>
-            </select>
+    <div id="dashboard" class="tab-content">
+        <h1>Панель состояния</h1>
+        
+        <div class="grid-container">
+            <div class="section card">
+                <h2>Статистика</h2>
+                <p>Всего действий: <span id="totalActions">0</span></p>
+                <p>Кликов: <span id="clickCount">0</span></p>
+                <p>Изменений: <span id="changeCount">0</span></p>
+                <p>Переключений: <span id="toggleCount">0</span></p>
+            </div>
+            
+            <div class="section card">
+                <h2>Система</h2>
+                <p>Время работы: <span id="uptime">00:00:00</span></p>
+                <p>Память: <span id="memoryUsage">45%</span></p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 45%">45%</div>
+                </div>
+                <p>CPU: <span id="cpuUsage">22%</span></p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 22%">22%</div>
+                </div>
+            </div>
+            
+            <div class="section card">
+                <h2>Быстрые действия</h2>
+                <button onclick="resetStats()">Сбросить статистику</button>
+                <button class="danger" onclick="clearLogs()">Очистить логи</button>
+                <button class="secondary" onclick="exportLogs()">Экспорт логов</button>
+            </div>
+            
+            <div class="section card">
+                <h2>График активности</h2>
+                <canvas id="activityChart" width="200" height="150" style="width: 100%; height: 150px;"></canvas>
+            </div>
         </div>
+    </div>
 
-        <!-- Радиокнопки -->
-        <div class="section">
-            <h2>Радиокнопки</h2>
-            <label><input type="radio" name="radioGroup" value="option1" onchange="logAction('radio', 'Радио', this.value)"> Опция 1</label>
-            <label><input type="radio" name="radioGroup" value="option2" onchange="logAction('radio', 'Радио', this.value)"> Опция 2</label>
-            <label><input type="radio" name="radioGroup" value="option3" onchange="logAction('radio', 'Радио', this.value)"> Опция 3</label>
-        </div>
-
-        <!-- Чекбоксы -->
-        <div class="section">
-            <h2>Чекбоксы</h2>
-            <label><input type="checkbox" onchange="logAction('checkbox', 'Чекбокс 1', this.checked ? 'вкл' : 'выкл')"> Опция 1</label>
-            <label><input type="checkbox" onchange="logAction('checkbox', 'Чекбокс 2', this.checked ? 'вкл' : 'выкл')"> Опция 2</label>
-            <label><input type="checkbox" onchange="logAction('checkbox', 'Чекбокс 3', this.checked ? 'вкл' : 'выкл')"> Опция 3</label>
-        </div>
-
-        <!-- Дополнительные элементы -->
-        <div class="section">
-            <h2>Дополнительно</h2>
-            <input type="text" placeholder="Введите текст" oninput="logAction('input', 'Текстовое поле', this.value)">
-            <br><br>
-            <input type="date" onchange="logAction('input', 'Дата', this.value)">
-            <br><br>
-            <input type="color" onchange="logAction('input', 'Цвет', this.value)">
-            <br><br>
-            <input type="file" onchange="logAction('input', 'Файл', this.files[0]?.name || 'отмена')">
+    <div id="settings" class="tab-content">
+        <h1>Настройки</h1>
+        
+        <div class="grid-container">
+            <div class="section card">
+                <h2>Внешний вид</h2>
+                <label>
+                    <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()"> Тёмный режим
+                </label>
+                
+                <h3 style="margin-top: 15px;">Цветовая схема</h3>
+                <select onchange="changeTheme(this.value)">
+                    <option value="default">По умолчанию</option>
+                    <option value="blue">Синяя</option>
+                    <option value="green">Зелёная</option>
+                    <option value="red">Красная</option>
+                </select>
+                
+                <h3 style="margin-top: 15px;">Размер шрифта</h3>
+                <input type="range" min="12" max="24" value="16" oninput="document.body.style.fontSize = this.value + 'px'">
+            </div>
+            
+            <div class="section card">
+                <h2>Уведомления</h2>
+                <label>
+                    <input type="checkbox" checked> Включить уведомления
+                </label>
+                
+                <h3 style="margin-top: 15px;">Типы уведомлений</h3>
+                <label>
+                    <input type="checkbox" checked> Системные
+                </label><br>
+                <label>
+                    <input type="checkbox" checked> Предупреждения
+                </label><br>
+                <label>
+                    <input type="checkbox" checked> Ошибки
+                </label>
+                
+                <h3 style="margin-top: 15px;">Звук уведомлений</h3>
+                <label>
+                    <input type="radio" name="sound" checked> Включён
+                </label><br>
+                <label>
+                    <input type="radio" name="sound"> Выключен
+                </label>
+            </div>
+            
+            <div class="section card">
+                <h2>Экспорт/Импорт</h2>
+                <button onclick="exportSettings()">Экспорт настроек</button>
+                <button onclick="importSettings()">Импорт настроек</button>
+                
+                <h3 style="margin-top: 15px;">Сброс</h3>
+                <button class="danger" onclick="resetSettings()">Сбросить настройки</button>
+                <p style="font-size: 12px; color: #777;">Это действие нельзя отменить</p>
+            </div>
+            
+            <div class="section card">
+                <h2>О программе</h2>
+                <p><strong>ТестДрайв PRO</strong></p>
+                <p>Версия: 2.0.0</p>
+                <p>Дата сборки: 2023-11-15</p>
+                <p>Лицензия: MIT</p>
+                
+                <button style="margin-top: 15px;" onclick="checkForUpdates()">Проверить обновления</button>
+            </div>
         </div>
     </div>
 
     <!-- Логи -->
     <div class="logs" id="logs">
-        <h2>Лог действий</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Лог действий</h2>
+            <div>
+                <button onclick="clearLogs()" style="padding: 5px 10px; font-size: 12px;">Очистить</button>
+                <button onclick="exportLogs()" style="padding: 5px 10px; font-size: 12px;">Экспорт</button>
+                <button onclick="toggleLogFilters()" style="padding: 5px 10px; font-size: 12px;">Фильтры</button>
+            </div>
+        </div>
+        
+        <div id="logFilters" style="display: none; background: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+            <label><input type="checkbox" class="logFilter" value="info" checked> Информация</label>
+            <label><input type="checkbox" class="logFilter" value="success" checked> Успех</label>
+            <label><input type="checkbox" class="logFilter" value="warning" checked> Предупреждения</label>
+            <label><input type="checkbox" class="logFilter" value="error" checked> Ошибки</label>
+        </div>
     </div>
+    
+    <div id="notification" class="notification"></div>
 
     <script>
-        function logAction(action, element, value = '') {
+        // Глобальные переменные
+        let actionCounts = {
+            total: 0,
+            click: 0,
+            change: 0,
+            toggle: 0,
+            select: 0,
+            radio: 0,
+            checkbox: 0,
+            input: 0
+        };
+        
+        let startTime = new Date();
+        let activityData = {
+            labels: [],
+            data: []
+        };
+        
+        // Инициализация при загрузке
+        window.onload = function() {
+            updateUptime();
+            setInterval(updateUptime, 1000);
+            initializeChart();
+            simulateSystemStats();
+            
+            // Загружаем сохранённые логи из localStorage
+            const savedLogs = localStorage.getItem('appLogs');
+            if (savedLogs) {
+                document.getElementById('logs').innerHTML += savedLogs;
+            }
+            
+            // Восстанавливаем счётчики
+            const savedCounts = localStorage.getItem('actionCounts');
+            if (savedCounts) {
+                actionCounts = JSON.parse(savedCounts);
+                updateStatsDisplay();
+            }
+        };
+        
+        // Функция логирования действий
+        function logAction(action, element, value = '', type = 'info') {
+            actionCounts.total++;
+            actionCounts[action]++;
+            
+            updateStatsDisplay();
+            saveActionCounts();
+            
             const logs = document.getElementById('logs');
             const logEntry = document.createElement('div');
-            logEntry.className = 'log-entry';
+            logEntry.className = `log-entry ${type}`;
             logEntry.textContent = `${new Date().toLocaleTimeString()} — ${action}: "${element}" → ${value}`;
-            logs.prepend(logEntry);
+            logs.appendChild(logEntry);
+            
+            // Сохраняем логи в localStorage
+            saveLogs();
+            
+            // Обновляем данные активности
+            updateActivityData(action);
+        }
+        
+        // Обновление данных активности
+        function updateActivityData(action) {
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            if (activityData.labels.length === 0 || activityData.labels[activityData.labels.length - 1] !== currentHour) {
+                activityData.labels.push(currentHour);
+                activityData.data.push(1);
+            } else {
+                activityData.data[activityData.data.length - 1]++;
+            }
+            
+            updateChart();
+        }
+        
+        // Обновление отображения статистики
+        function updateStatsDisplay() {
+            document.getElementById('totalActions').textContent = actionCounts.total;
+            document.getElementById('clickCount').textContent = actionCounts.click;
+            document.getElementById('changeCount').textContent = actionCounts.change;
+            document.getElementById('toggleCount').textContent = actionCounts.toggle;
+        }
+        
+        // Сохранение счётчиков действий
+        function saveActionCounts() {
+            localStorage.setItem('actionCounts', JSON.stringify(actionCounts));
+        }
+        
+        // Сохранение логов
+        function saveLogs() {
+            const logsContainer = document.getElementById('logs');
+            const logs = logsContainer.querySelectorAll('.log-entry');
+            let logsHTML = '';
+            
+            logs.forEach(log => {
+                logsHTML += log.outerHTML;
+            });
+            
+            localStorage.setItem('appLogs', logsHTML);
+        }
+        
+        // Очистка логов
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '<h2>Лог действий</h2>';
+            localStorage.removeItem('appLogs');
+            logAction('system', 'Логи очищены', '', 'warning');
+        }
+        
+        // Экспорт логов
+        function exportLogs() {
+            const logsContainer = document.getElementById('logs');
+            const logs = logsContainer.querySelectorAll('.log-entry');
+            let logText = 'Лог действий ТестДрайв PRO\n\n';
+            
+            logs.forEach(log => {
+                logText += log.textContent + '\n';
+            });
+            
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `testdrive_logs_${new Date().toISOString().slice(0, 10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            logAction('system', 'Логи экспортированы', '', 'success');
+        }
+        
+        // Обновление времени работы
+        function updateUptime() {
+            const now = new Date();
+            const diff = now - startTime;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('uptime').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Симуляция системной статистики
+        function simulateSystemStats() {
+            setInterval(() => {
+                const memory = 30 + Math.floor(Math.random() * 30);
+                const cpu = 10 + Math.floor(Math.random() * 30);
+                
+                document.getElementById('memoryUsage').textContent = `${memory}%`;
+                document.querySelector('#dashboard .progress-bar:nth-of-type(1)').style.width = `${memory}%`;
+                document.querySelector('#dashboard .progress-bar:nth-of-type(1)').textContent = `${memory}%`;
+                
+                document.getElementById('cpuUsage').textContent = `${cpu}%`;
+                document.querySelector('#dashboard .progress-bar:nth-of-type(2)').style.width = `${cpu}%`;
+                document.querySelector('#dashboard .progress-bar:nth-of-type(2)').textContent = `${cpu}%`;
+            }, 3000);
+        }
+        
+        // Управление вкладками
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+        
+        // Показ уведомлений
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Обновление значения ползунка
+        function updateSliderValue(sliderId, valueId) {
+            const slider = document.getElementById(sliderId);
+            const valueElement = document.getElementById(valueId);
+            valueElement.textContent = slider.value;
+        }
+        
+        // Запуск прогресс-бара
+        function startProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    logAction('progress', 'Прогресс-бар', 'завершён', 'success');
+                    showNotification('Процесс завершён!', 'success');
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                    progressBar.textContent = width + '%';
+                    
+                    if (width === 50) {
+                        logAction('progress', 'Прогресс-бар', '50%', 'info');
+                    }
+                }
+            }, 50);
+            
+            logAction('progress', 'Прогресс-бар', 'запущен', 'info');
+        }
+        
+        // Попытка входа
+        function attemptLogin() {
+            const login = document.getElementById('loginInput').value;
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!login || !password) {
+                logAction('auth', 'Вход', 'неудача: пустые поля', 'error');
+                showNotification('Заполните все поля!', 'error');
+                return;
+            }
+            
+            // Симуляция проверки
+            setTimeout(() => {
+                if (password.length < 6) {
+                    logAction('auth', 'Вход', 'неудача: слабый пароль', 'error');
+                    showNotification('Пароль слишком короткий!', 'error');
+                } else {
+                    logAction('auth', 'Вход', 'успех', 'success');
+                    showNotification(`Добро пожаловать, ${login}!`, 'success');
+                }
+            }, 1000);
+        }
+        
+        // Сброс статистики
+        function resetStats() {
+            actionCounts = {
+                total: 0,
+                click: 0,
+                change: 0,
+                toggle: 0,
+                select: 0,
+                radio: 0,
+                checkbox: 0,
+                input: 0
+            };
+            
+            updateStatsDisplay();
+            saveActionCounts();
+            logAction('system', 'Статистика сброшена', '', 'warning');
+            showNotification('Статистика сброшена', 'warning');
+        }
+        
+        // Инициализация графика
+        function initializeChart() {
+            const ctx = document.getElementById('activityChart').getContext('2d');
+            window.activityChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: activityData.labels.map(h => `${h}:00`),
+                    datasets: [{
+                        label: 'Активность (действий/час)',
+                        data: activityData.data,
+                        backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Обновление графика
+        function updateChart() {
+            if (window.activityChart) {
+                window.activityChart.data.labels = activityData.labels.map(h => `${h}:00`);
+                window.activityChart.data.datasets[0].data = activityData.data;
+                window.activityChart.update();
+            }
+        }
+        
+        // Переключение тёмного режима
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+            
+            if (isDark) {
+                logAction('settings', 'Тёмный режим', 'включён', 'info');
+                showNotification('Тёмный режим включён', 'info');
+            } else {
+                logAction('settings', 'Тёмный режим', 'выключен', 'info');
+                showNotification('Тёмный режим выключен', 'info');
+            }
+        }
+        
+        // Проверка тёмного режима при загрузке
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+        
+        // Изменение темы
+        function changeTheme(theme) {
+            document.body.className = '';
+            
+            switch (theme) {
+                case 'dark':
+                    document.body.classList.add('dark-mode');
+                    break;
+                case 'blue':
+                    document.body.style.setProperty('--primary-color', '#2196F3');
+                    break;
+                case 'green':
+                    document.body.style.setProperty('--primary-color', '#4CAF50');
+                    break;
+                case 'red':
+                    document.body.style.setProperty('--primary-color', '#f44336');
+                    break;
+                default:
+                    document.body.style.setProperty('--primary-color', '#4CAF50');
+            }
+            
+            logAction('settings', 'Тема изменена', theme, 'info');
+        }
+        
+        // Установка режима просмотра
+        function setViewMode(mode) {
+            const container = document.getElementById('view-container');
+            const options = document.querySelectorAll('.toggle-option');
+            
+            options.forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (mode === 'list') {
+                container.style.display = 'block';
+                container.querySelectorAll('.card').forEach(card => {
+                    card.style.width = 'auto';
+                });
+            } else {
+                container.style.display = 'grid';
+                container.querySelectorAll('.card').forEach(card => {
+                    card.style.width = '';
+                });
+            }
+        }
+        
+        // Фильтрация логов
+        function toggleLogFilters() {
+            const filters = document.getElementById('logFilters');
+            filters.style.display = filters.style.display === 'none' ? 'block' : 'none';
+            
+            // Применяем фильтры при переключении
+            if (filters.style.display === 'block') {
+                applyLogFilters();
+            }
+        }
+        
+        function applyLogFilters() {
+            const filterCheckboxes = document.querySelectorAll('.logFilter:checked');
+            const enabledFilters = Array.from(filterCheckboxes).map(cb => cb.value);
+            
+            document.querySelectorAll('.log-entry').forEach(entry => {
+                const hasClass = enabledFilters.some(filter => entry.classList.contains(filter));
+                entry.style.display = hasClass ? '' : 'none';
+            });
+        }
+        
+        // Назначаем обработчики для фильтров
+        document.querySelectorAll('.logFilter').forEach(filter => {
+            filter.addEventListener('change', applyLogFilters);
+        });
+        
+        // Экспорт настроек
+        function exportSettings() {
+            const settings = {
+                darkMode: localStorage.getItem('darkMode'),
+                logs: localStorage.getItem('appLogs'),
+                actionCounts: localStorage.getItem('actionCounts')
+            };
+            
+            const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `testdrive_settings_${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            logAction('settings', 'Настройки экспортированы', '', 'success');
+            showNotification('Настройки экспортированы', 'success');
+        }
+        
+        // Импорт настроек
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = event => {
+                    try {
+                        const settings = JSON.parse(event.target.result);
+                        
+                        if (settings.darkMode) {
+                            localStorage.setItem('darkMode', settings.darkMode);
+                            document.body.classList.toggle('dark-mode', settings.darkMode === 'enabled');
+                        }
+                        
+                        if (settings.logs) {
+                            localStorage.setItem('appLogs', settings.logs);
+                            document.getElementById('logs').innerHTML = '<h2>Лог действий</h2>' + settings.logs;
+                        }
+                        
+                        if (settings.actionCounts) {
+                            localStorage.setItem('actionCounts', settings.actionCounts);
+                            actionCounts = JSON.parse(settings.actionCounts);
+                            updateStatsDisplay();
+                        }
+                        
+                        logAction('settings', 'Настройки импортированы', '', 'success');
+                        showNotification('Настройки импортированы', 'success');
+                    } catch (error) {
+                        logAction('settings', 'Ошибка импорта', error.message, 'error');
+                        showNotification('Ошибка при импорте настроек', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        // Сброс настроек
+        function resetSettings() {
+            if (confirm('Вы уверены, что хотите сбросить все настройки?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+        
+        // Проверка обновлений
+        function checkForUpdates() {
+            logAction('system', 'Проверка обновлений', 'запущена', 'info');
+            showNotification('Проверка обновлений...', 'info');
+            
+            // Симуляция проверки
+            setTimeout(() => {
+                logAction('system', 'Проверка обновлений', 'завершена', 'success');
+                showNotification('У вас установлена последняя версия', 'success');
+            }, 2000);
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
