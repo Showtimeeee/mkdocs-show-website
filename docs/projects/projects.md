@@ -15,7 +15,6 @@
 ---
 
 #### - [Муравьиная Колония (Ants-Bro)🐜](ant_colony/ants.html)
-#### - [ДНК (DNA-Bro)🧬](..//graphs/dna/dna.html)
 #### - [Хакер-мод (Terminal-Bro)💻](../hacking/hacking.md)
 #### - [Переключатели (Control-Lab-Bro)🕹️](switches/switches_sliders.html)
 #### - [Шестеренки (Gears-Move-Bro)⚙️](gears/gears_move.html)
