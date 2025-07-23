@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Симулятор двигателя внутреннего сгорания</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        canvas {
+            background-color: #252525;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+        button, .slider-container {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        .slider-container {
+            padding: 15px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            min-width: 250px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        .engine-block {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .spark {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: yellow;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        .valve {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background-color: #888;
+            border-radius: 5px 5px 0 0;
+        }
+        .flywheel-mark {
+            position: absolute;
+            width: 5px;
+            height: 15px;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Симулятор 4-цилиндрового ДВС</h1>
+    <div class="container">
+        <div class="engine-block">
+            <canvas id="engineCanvas" width="900" height="600"></canvas>
+            <div class="spark" id="spark1"></div>
+            <div class="spark" id="spark2"></div>
+            <div class="spark" id="spark3"></div>
+            <div class="spark" id="spark4"></div>
+        </div>
+        <div class="controls">
+            <div class="slider-container">
+                <label for="speedControl">Скорость (об/мин):</label>
+                <input type="range" id="speedControl" min="100" max="5000" value="1500">
+                <span id="speedValue">1500</span>
+            </div>
+            <button id="startBtn">▶️ Старт</button>
+            <button id="stopBtn">⏹️ Стоп</button>
+            <button id="resetBtn">🔄 Сброс</button>
+        </div>
+        <table id="engineParams">
+            <thead>
+                <tr>
+                    <th>Параметр</th>
+                    <th>Значение</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Обороты двигателя</td>
+                    <td id="engineRPM">1500 об/мин</td>
+                </tr>
+                <tr>
+                    <td>Такт</td>
+                    <td id="engineCycle">Впуск</td>
+                </tr>
+                <tr>
+                    <td>Угол коленвала</td>
+                    <td id="crankshaftAngle">0°</td>
+                </tr>
+                <tr>
+                    <td>Положение поршня</td>
+                    <td id="pistonPosition">0 мм</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('engineCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const speedControl = document.getElementById('speedControl');
+        const speedValue = document.getElementById('speedValue');
+
+        // Элементы искры
+        const spark1 = document.getElementById('spark1');
+        const spark2 = document.getElementById('spark2');
+        const spark3 = document.getElementById('spark3');
+        const spark4 = document.getElementById('spark4');
+
+        let animationId = null;
+        let isRunning = false;
+        let engineTime = 0;
+        let currentCycle = 0; // 0-впуск, 1-сжатие, 2-рабочий ход, 3-выпуск
+        const cycles = ["Впуск", "Сжатие", "Рабочий ход", "Выпуск"];
+
+        // Параметры двигателя
+        const engine = {
+            cylinders: 4,
+            bore: 80,       // Диаметр цилиндра (мм)
+            stroke: 90,      // Ход поршня (мм)
+            connectingRod: 150, // Длина шатуна (мм)
+            rpm: 1500,       // Обороты в минуту
+            maxRpm: 5000,
+            angle: 0,       // Угол поворота коленвала (рад)
+            pistons: [],
+            valves: [],
+            flywheelAngle: 0
+        };
+
+        // Инициализация цилиндров
+        function initEngine() {
+            engine.pistons = [];
+            engine.valves = [];
+            
+            for (let i = 0; i < engine.cylinders; i++) {
+                engine.pistons.push({
+                    x: 150 + i * 200,
+                    y: 200,
+                    width: engine.bore,
+                    height: 40,
+                    position: 0,
+                    cycle: (i * 2) % 4 // Распределение тактов по цилиндрам
+                });
+                
+                engine.valves.push({
+                    x: 150 + i * 200 - 30,
+                    y: 150,
+                    open: false,
+                    type: 'intake' // Впускной
+                }, {
+                    x: 150 + i * 200 + engine.bore + 10,
+                    y: 150,
+                    open: false,
+                    type: 'exhaust' // Выпускной
+                });
+            }
+        }
+
+        // Рисование блока цилиндров
+        function drawEngineBlock() {
+            ctx.fillStyle = '#333';
+            ctx.fillRect(100, 100, 700, 350);
+            
+            // Рисуем цилиндры
+            ctx.strokeStyle = '#888';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < engine.cylinders; i++) {
+                const piston = engine.pistons[i];
+                ctx.strokeRect(piston.x - 10, 120, piston.width + 20, 300);
+            }
+        }
+
+        // Рисование поршней
+        function drawPistons() {
+            for (let i = 0; i < engine.pistons.length; i++) {
+                const piston = engine.pistons[i];
+                
+                // Положение поршня
+                const crankRadius = engine.stroke / 2;
+                const angle = engine.angle + (i * Math.PI); // Смещение фаз на 180° для 4-цилиндрового
+                
+                piston.position = Math.cos(angle) * crankRadius;
+                piston.y = 200 + piston.position;
+                
+                // Рисуем поршень
+                ctx.fillStyle = '#4CAF50';
+                ctx.fillRect(piston.x, piston.y, piston.width, piston.height);
+                
+                // Определяем текущий такт
+                piston.cycle = Math.floor((engine.angle / Math.PI * 2 + i) % 4);
+            }
+        }
+
+        // Рисование коленчатого вала
+        function drawCrankshaft() {
+            ctx.fillStyle = '#f44336';
+            ctx.beginPath();
+            ctx.arc(450, 400, 40, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Шатунные шейки
+            for (let i = 0; i < engine.cylinders; i++) {
+                const angle = engine.angle + (i * Math.PI);
+                const x = 450 + Math.cos(angle) * 100;
+                const y = 400 + Math.sin(angle) * 100;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Шатуны
+                const piston = engine.pistons[i];
+                ctx.strokeStyle = '#2196F3';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(piston.x + piston.width/2, piston.y);
+                ctx.stroke();
+            }
+        }
+
+        // Рисование маховика
+        function drawFlywheel() {
+            ctx.strokeStyle = '#888';
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.arc(450, 400, 80, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Метка на маховике
+            ctx.save();
+            ctx.translate(450, 400);
+            ctx.rotate(engine.flywheelAngle);
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(70, -5, 10, 10);
+            ctx.restore();
+        }
+
+        // Рисование клапанов
+        function drawValves() {
+            for (let i = 0; i < engine.valves.length; i++) {
+                const valve = engine.valves[i];
+                const pistonIdx = Math.floor(i / 2);
+                const piston = engine.pistons[pistonIdx];
+                
+                // Управление клапанами в зависимости от такта
+                if (piston.cycle === 0 && valve.type === 'intake') {
+                    valve.open = true; // Впускной открыт на такте впуска
+                } else if (piston.cycle === 3 && valve.type === 'exhaust') {
+                    valve.open = true; // Выпускной открыт на такте выпуска
+                } else {
+                    valve.open = false;
+                }
+                
+                // Рисуем клапан
+                ctx.fillStyle = valve.open ? '#FF9800' : '#888';
+                ctx.fillRect(valve.x, valve.y - (valve.open ? 15 : 5), 20, valve.open ? 25 : 15);
+            }
+        }
+
+        // Анимация искры зажигания
+        function animateSpark() {
+            for (let i = 0; i < engine.pistons.length; i++) {
+                const piston = engine.pistons[i];
+                const spark = document.getElementById(`spark${i+1}`);
+                
+                if (piston.cycle === 2 && Math.abs(piston.position) < 5) {
+                    // Рабочий ход - искра
+                    spark.style.left = `${piston.x + piston.width/2 - 5}px`;
+                    spark.style.top = `${piston.y - 10}px`;
+                    spark.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        spark.style.opacity = '0';
+                    }, 50);
+                }
+            }
+        }
+
+        // Обновление параметров двигателя
+        function updateEngineParams() {
+            document.getElementById('engineRPM').textContent = `${engine.rpm} об/мин`;
+            document.getElementById('engineCycle').textContent = cycles[currentCycle];
+            document.getElementById('crankshaftAngle').textContent = `${Math.round(engine.angle * 180 / Math.PI)}°`;
+            document.getElementById('pistonPosition').textContent = `${Math.round(engine.pistons[0].position)} мм`;
+            
+            // Обновление текущего такта (усредненного по цилиндрам)
+            currentCycle = Math.floor((engine.angle / Math.PI * 2)) % 4;
+        }
+
+        // Основной цикл анимации
+        function animate(timestamp) {
+            if (!isRunning) return;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Обновление угла коленвала
+            engine.angle += engine.rpm * 0.0005;
+            engine.flywheelAngle = engine.angle * 2;
+            
+            // Отрисовка компонентов
+            drawEngineBlock();
+            drawPistons();
+            drawValves();
+            drawCrankshaft();
+            drawFlywheel();
+            
+            // Анимация искры
+            animateSpark();
+            
+            // Обновление параметров
+            updateEngineParams();
+            
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // Инициализация
+        function init() {
+            initEngine();
+            updateEngineParams();
+        }
+
+        // Обработчики событий
+        startBtn.addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                animate();
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            isRunning = false;
+            cancelAnimationFrame(animationId);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            isRunning = false;
+            cancelAnimationFrame(animationId);
+            engine.angle = 0;
+            engine.flywheelAngle = 0;
+            init();
+            animate();
+        });
+
+        speedControl.addEventListener('input', function() {
+            engine.rpm = parseInt(this.value);
+            speedValue.textContent = this.value;
+        });
+
+        // Запуск приложения
+        init();
+    </script>
+</body>
+</html>
