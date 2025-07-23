@@ -18,6 +18,7 @@
 #### - [Хакер-мод (Terminal-Bro)💻](../hacking/hacking.md)
 #### - [Переключатели (Control-Lab-Bro)🕹️](switches/switches_sliders.html)
 #### - [Шестеренки (Gears-Move-Bro)⚙️](gears/gears_move.html)
+#### - [ДВС (Motor-App-Bro)🏍️](engineers_app/motor_bro.html)
 
 ---
 
