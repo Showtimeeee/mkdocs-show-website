@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Сжать изображение</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3C!--%20%D0%A0%D0%B0%D0%BC%D0%BA%D0%B0%20--%3E%3Crect%20x='10'%20y='20'%20width='80'%20height='60'%20fill='none'%20stroke='%234fc3f7'%20stroke-width='8'%20rx='5'/%3E%3C!--%20%D0%A1%D1%82%D1%80%D0%B5%D0%BB%D0%BA%D0%B0%20%D1%81%D0%BB%D0%B5%D0%B2%D0%B0%20--%3E%3Cg%3E%3CanimateTransform%20attributeName='transform'%20attributeType='XML'%20type='translate'%20values='0,0;%20-5,0;%200,0'%20dur='1.2s'%20repeatCount='indefinite'%20/%3E%3Cpolygon%20points='30,45%2020,35%2020,40%2028,44'%20fill='%23ff9800'/%3E%3Cpolygon%20points='30,55%2020,60%2020,65%2030,55'%20fill='%23ff9800'/%3E%3C/g%3E%3C!--%20%D0%A1%D1%82%D1%80%D0%B5%D0%BB%D0%BA%D0%B0%20%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%B0%20--%3E%3Cg%20transform='translate(80,0)'%3E%3CanimateTransform%20attributeName='transform'%20attributeType='XML'%20type='translate'%20values='0,0;%205,0;%200,0'%20dur='1.2s'%20repeatCount='indefinite'%20/%3E%3Cpolygon%20points='-10,-5%200,0%200,5%20-8,1'%20fill='%23ff9800'/%3E%3Cpolygon%20points='-10,5%200,0%200,5%20-10,10'%20fill='%23ff9800'/%3E%3C/g%3E%3C/svg%3E" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: #1a1a2e;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #4fc3f7;
+    }
+
+    p {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    /* Загрузка */
+    #upload-area {
+      border: 3px dashed #4fc3f7;
+      border-radius: 15px;
+      padding: 50px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #4fc3f7;
+    }
+
+    #upload-area:hover {
+      background: rgba(79, 195, 247, 0.1);
+      transform: translateY(-5px);
+    }
+
+    #upload-area i {
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+
+    #upload-area p {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    /* Информация и изображения */
+    .image-container {
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .image-box {
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 10px;
+      background: #16213e;
+      max-width: 100%;
+    }
+
+    .image-box h3 {
+      margin-bottom: 10px;
+      color: #66bb6a;
+      font-size: 18px;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 8px;
+    }
+
+    .size-info {
+      font-size: 14px;
+      color: #bbb;
+      margin-top: 5px;
+    }
+
+    /* Панель управления */
+    .controls {
+      display: none;
+      margin-top: 30px;
+      background: #16213e;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #4fc3f7;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slider-container input[type="range"] {
+      flex: 1;
+      height: 8px;
+      border-radius: 4px;
+      background: #333;
+      outline: none;
+    }
+
+    .slider-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #4fc3f7;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(79, 195, 247, 0.5);
+    }
+
+    .value {
+      width: 50px;
+      text-align: center;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Кнопки */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #upload-btn {
+      background: #4fc3f7;
+      color: #1a1a2e;
+    }
+
+    #upload-btn:hover {
+      background: #02a1e0;
+      transform: translateY(-3px);
+    }
+
+    #download-btn {
+      background: #66bb6a;
+      color: #1a1a2e;
+    }
+
+    #download-btn:hover {
+      background: #3d9970;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-compress-alt"></i> Сжать изображение</h1>
+    <p>Загрузите изображение — уменьшите его размер без потери внешнего вида</p>
+
+    <div id="upload-area" onclick="document.getElementById('file-input').click();">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>Нажмите или перетащите изображение</p>
+    </div>
+    <input type="file" id="file-input" accept="image/*" />
+
+    <div class="image-container">
+      <div class="image-box" id="original-box" style="display: none;">
+        <h3>Оригинал</h3>
+        <img id="original-preview" alt="Оригинал" />
+        <div class="size-info" id="original-size"></div>
+      </div>
+
+      <div class="image-box" id="compressed-box" style="display: none;">
+        <h3>Сжатое</h3>
+        <img id="compressed-preview" alt="Сжатое" />
+        <div class="size-info" id="compressed-size"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="quality">Качество: <span id="quality-value">80%</span></label>
+        <div class="slider-container">
+          <input type="range" id="quality" min="10" max="100" value="80" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="scale">Масштаб: <span id="scale-value">100%</span></label>
+        <div class="slider-container">
+          <input type="range" id="scale" min="10" max="100" value="100" />
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button id="upload-btn" onclick="document.getElementById('file-input').click();">
+          <i class="fas fa-upload"></i> Заменить
+        </button>
+        <button id="download-btn">
+          <i class="fas fa-download"></i> Скачать сжатое
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const originalPreview = document.getElementById('original-preview');
+    const compressedPreview = document.getElementById('compressed-preview');
+    const originalBox = document.getElementById('original-box');
+    const compressedBox = document.getElementById('compressed-box');
+    const controls = document.querySelector('.controls');
+    const downloadBtn = document.getElementById('download-btn');
+
+    const qualityInput = document.getElementById('quality');
+    const scaleInput = document.getElementById('scale');
+    const qualityValue = document.getElementById('quality-value');
+    const scaleValue = document.getElementById('scale-value');
+
+    const originalSize = document.getElementById('original-size');
+    const compressedSize = document.getElementById('compressed-size');
+
+    let originalImage = new Image();
+
+    // Отображение значений
+    qualityInput.addEventListener('input', () => {
+      qualityValue.textContent = qualityInput.value + '%';
+      if (originalImage.src) compressImage();
+    });
+
+    scaleInput.addEventListener('input', () => {
+      scaleValue.textContent = scaleInput.value + '%';
+      if (originalImage.src) compressImage();
+    });
+
+    // Загрузка изображения
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        originalImage.onload = function() {
+          // Показываем оригинал
+          originalPreview.src = originalImage.src;
+          originalBox.style.display = 'block';
+
+          // Показываем размер оригинала
+          originalSize.textContent = `Размер: ${formatBytes(file.size)} (${originalImage.naturalWidth}×${originalImage.naturalHeight})`;
+
+          // Запускаем сжатие
+          compressImage();
+          controls.style.display = 'block';
+        };
+        originalImage.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Функция сжатия
+    function compressImage() {
+      const quality = qualityInput.value / 100;
+      const scale = scaleInput.value / 100;
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Масштабирование
+      const width = originalImage.naturalWidth * scale;
+      const height = originalImage.naturalHeight * scale;
+
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(originalImage, 0, 0, width, height);
+
+      // Экспортируем как JPEG с заданным качеством
+      const dataUrl = canvas.toDataURL('image/jpeg', quality);
+
+      // Показываем сжатое изображение
+      compressedPreview.src = dataUrl;
+      compressedBox.style.display = 'block';
+
+      // Оцениваем размер сжатого файла
+      const byteString = atob(dataUrl.split(',')[1]);
+      const size = byteString.length;
+      compressedSize.textContent = `Размер: ${formatBytes(size)} (${Math.round(width)}×${Math.round(height)})`;
+
+      // Сохраняем для скачивания
+      downloadBtn.onclick = () => {
+        const link = document.createElement('a');
+        link.download = 'compressed_image.jpg';
+        link.href = dataUrl;
+        link.click();
+      };
+    }
+
+    // Форматирование байтов
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+  </script>
+</body>
+</html>
