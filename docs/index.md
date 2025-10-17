@@ -1,5 +1,5 @@
 <div>
-  <h1 class="neon-text-gold" style="font-size: 3rem; margin-bottom: 10px;"
+  <h1 class="neon-text-purple" style="font-size: 3rem; margin-bottom: 10px;"
       onmouseout="this.textContent='Welcome! ☕'">
     Welcome! ☕
   </h1>
@@ -63,9 +63,15 @@ pytest -v -s --tb=long -rA --color=yes --durations=10
 
 ---
 
-## <h2 class="neon-text-blue">Random Music For Code Crusaders</h2>
+<div style="display: flex; align-items: center;">
+    <h2 class="neon-text-blue">Productive Work Music</h2>
+    <script src="js/equalizer.js"></script>
+    <div id="music-equalizer"></div>
+</div>
 
-![type:video](https://www.youtube.com/embed/BLqktDBIew8?si=QUZOM0gDxEc5nflA)
+![type:video](https://www.youtube.com/embed/2FuZO0E1DXQ?si=CFM5So0zcESaZL9v)
+
+![type:video](https://www.youtube.com/embed/6WrPTKljH3Q?si=VHa9Bhu6aQwx8yCW)
 
 ---
 
@@ -120,3 +126,4 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
         v4.1
     </div>
 </div>
+
