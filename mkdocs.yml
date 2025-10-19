@@ -49,7 +49,6 @@ nav:
   - Паттерны🧩: patterns/patterns.md
   - Алгоритмы👨‍💻: algorithms/algorithms.md
   - Диаграммы📊: graphs/grafs.md
-  - 3D-Моделирование🧊: 3d-modeling/models.md
   - Книги📚: download_books/books.md
   - Напиши мне✍️: feedback/feedback.md
   
@@ -77,4 +76,5 @@ plugins:
   
 
 copyright: Copyright &copy; 2025 <a href="">Vadim</a>.
+
 
