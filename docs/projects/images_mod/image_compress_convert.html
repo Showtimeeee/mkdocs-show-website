@@ -6,6 +6,7 @@
   <title>Сжать изображение</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3C!--%20%D0%A0%D0%B0%D0%BC%D0%BA%D0%B0%20--%3E%3Crect%20x='10'%20y='20'%20width='80'%20height='60'%20fill='none'%20stroke='%234fc3f7'%20stroke-width='8'%20rx='5'/%3E%3C!--%20%D0%A1%D1%82%D1%80%D0%B5%D0%BB%D0%BA%D0%B0%20%D1%81%D0%BB%D0%B5%D0%B2%D0%B0%20--%3E%3Cg%3E%3CanimateTransform%20attributeName='transform'%20attributeType='XML'%20type='translate'%20values='0,0;%20-5,0;%200,0'%20dur='1.2s'%20repeatCount='indefinite'%20/%3E%3Cpolygon%20points='30,45%2020,35%2020,40%2028,44'%20fill='%23ff9800'/%3E%3Cpolygon%20points='30,55%2020,60%2020,65%2030,55'%20fill='%23ff9800'/%3E%3C/g%3E%3C!--%20%D0%A1%D1%82%D1%80%D0%B5%D0%BB%D0%BA%D0%B0%20%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%B0%20--%3E%3Cg%20transform='translate(80,0)'%3E%3CanimateTransform%20attributeName='transform'%20attributeType='XML'%20type='translate'%20values='0,0;%205,0;%200,0'%20dur='1.2s'%20repeatCount='indefinite'%20/%3E%3Cpolygon%20points='-10,-5%200,0%200,5%20-8,1'%20fill='%23ff9800'/%3E%3Cpolygon%20points='-10,5%200,0%200,5%20-10,10'%20fill='%23ff9800'/%3E%3C/g%3E%3C/svg%3E" type="image/svg+xml">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -32,6 +33,12 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       overflow: hidden;
       padding: 30px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
@@ -57,6 +64,8 @@
       cursor: pointer;
       transition: all 0.3s ease;
       color: #4fc3f7;
+      position: relative;
+      overflow: hidden;
     }
 
     #upload-area:hover {
@@ -64,9 +73,24 @@
       transform: translateY(-5px);
     }
 
+    #upload-area.active {
+      background: rgba(79, 195, 247, 0.2);
+      border-color: #66bb6a;
+    }
+
     #upload-area i {
       font-size: 50px;
       margin-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    #upload-area.active i {
+      animation: bounce 0.5s ease infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
     }
 
     #upload-area p {
@@ -93,6 +117,14 @@
       padding: 10px;
       background: #16213e;
       max-width: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .image-box.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .image-box h3 {
@@ -105,6 +137,11 @@
       max-width: 100%;
       max-height: 300px;
       border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.02);
     }
 
     .size-info {
@@ -120,6 +157,14 @@
       background: #16213e;
       padding: 20px;
       border-radius: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .controls.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .control-group {
@@ -146,6 +191,11 @@
       border-radius: 4px;
       background: #333;
       outline: none;
+      transition: background 0.3s ease;
+    }
+
+    .slider-container input[type="range"]:hover {
+      background: #444;
     }
 
     .slider-container input[type="range"]::-webkit-slider-thumb {
@@ -156,6 +206,12 @@
       border-radius: 50%;
       cursor: pointer;
       box-shadow: 0 0 5px rgba(79, 195, 247, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(79, 195, 247, 0.8);
     }
 
     .value {
@@ -184,6 +240,26 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    button:active::after {
+      width: 300px;
+      height: 300px;
     }
 
     #upload-btn {
@@ -194,6 +270,7 @@
     #upload-btn:hover {
       background: #02a1e0;
       transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
     }
 
     #download-btn {
@@ -204,28 +281,206 @@
     #download-btn:hover {
       background: #3d9970;
       transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(102, 187, 106, 0.4);
+    }
+
+    /* Прогресс бар */
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      margin-top: 10px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4fc3f7, #66bb6a);
+      width: 0%;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    /* Сравнение размеров */
+    .comparison {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+
+    .comparison-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .comparison-value {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .comparison-label {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .savings {
+      color: #66bb6a;
+    }
+
+    /* Уведомления */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      background: #16213e;
+      border-left: 4px solid #66bb6a;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.error {
+      border-left-color: #f44336;
+    }
+
+    /* Техническая информация */
+    .tech-info {
+      margin-top: 30px;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+    }
+
+    .tech-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 10px 15px;
+      background: rgba(79, 195, 247, 0.1);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .tech-toggle:hover {
+      background: rgba(79, 195, 247, 0.2);
+    }
+
+    .tech-toggle h3 {
+      color: #4fc3f7;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .tech-toggle i {
+      color: #4fc3f7;
+      transition: transform 0.3s ease;
+    }
+
+    .tech-toggle.active i {
+      transform: rotate(180deg);
+    }
+
+    .tech-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      background: rgba(22, 33, 62, 0.5);
+      border-radius: 0 0 8px 8px;
+    }
+
+    .tech-content.show {
+      max-height: 500px;
+    }
+
+    .tech-details {
+      padding: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .tech-details table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .tech-details th, .tech-details td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    .tech-details th {
+      color: #4fc3f7;
+      font-weight: 600;
+    }
+
+    .tech-details .version {
+      color: #66bb6a;
+      font-weight: 700;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .image-container {
+        flex-direction: column;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .comparison {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1><i class="fas fa-compress-alt"></i> Сжать изображение</h1>
-    <p>Загрузите изображение — уменьшите его размер без потери внешнего вида</p>
+    <p>Загрузите изображение - уменьшите его размер без потери качества</p>
 
     <div id="upload-area" onclick="document.getElementById('file-input').click();">
       <i class="fas fa-cloud-upload-alt"></i>
       <p>Нажмите или перетащите изображение</p>
+      <div class="progress-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
     </div>
     <input type="file" id="file-input" accept="image/*" />
 
     <div class="image-container">
-      <div class="image-box" id="original-box" style="display: none;">
+      <div class="image-box" id="original-box">
         <h3>Оригинал</h3>
         <img id="original-preview" alt="Оригинал" />
         <div class="size-info" id="original-size"></div>
       </div>
 
-      <div class="image-box" id="compressed-box" style="display: none;">
+      <div class="image-box" id="compressed-box">
         <h3>Сжатое</h3>
         <img id="compressed-preview" alt="Сжатое" />
         <div class="size-info" id="compressed-size"></div>
@@ -247,6 +502,21 @@
         </div>
       </div>
 
+      <div class="comparison">
+        <div class="comparison-item">
+          <div class="comparison-value" id="original-size-value">0 KB</div>
+          <div class="comparison-label">Оригинал</div>
+        </div>
+        <div class="comparison-item">
+          <div class="comparison-value" id="compressed-size-value">0 KB</div>
+          <div class="comparison-label">Сжатый</div>
+        </div>
+        <div class="comparison-item">
+          <div class="comparison-value savings" id="savings-value">0%</div>
+          <div class="comparison-label">Экономия</div>
+        </div>
+      </div>
+
       <div class="button-group">
         <button id="upload-btn" onclick="document.getElementById('file-input').click();">
           <i class="fas fa-upload"></i> Заменить
@@ -256,16 +526,77 @@
         </button>
       </div>
     </div>
+
+    <!-- Техническая информация -->
+    <div class="tech-info">
+      <div class="tech-toggle" id="tech-toggle">
+        <h3><i class="fas fa-info-circle"></i> О приложении:</h3>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="tech-content" id="tech-content">
+        <div class="tech-details">
+          <table>
+            <tr>
+              <th>Версия приложения:</th>
+              <td class="version">v2.1.0</td>
+            </tr>
+            <tr>
+              <th>Дата сборки:</th>
+              <td id="build-date">Загрузка...</td>
+            </tr>
+            <tr>
+              <th>Поддерживаемые форматы:</th>
+              <td>JPG, PNG, GIF, BMP, WebP</td>
+            </tr>
+            <tr>
+              <th>Алгоритм сжатия:</th>
+              <td>Canvas API + JPEG кодирование</td>
+            </tr>
+            <tr>
+              <th>Качество по умолчанию:</th>
+              <td>80%</td>
+            </tr>
+            <tr>
+              <th>Поддержка браузеров:</th>
+              <td>Chrome 50+, Firefox 55+, Safari 11+, Edge 79+</td>
+            </tr>
+            <tr>
+              <th>Технологии:</th>
+              <td>HTML5, CSS3, JavaScript (ES6+)</td>
+            </tr>
+            <tr>
+              <th>Лицензия:</th>
+              <td>MIT</td>
+            </tr>
+          </table>
+          <div style="margin-top: 15px; font-size: 12px; color: #888;">
+            <p><strong>Примечание:</strong> Все операции выполняются локально в вашем браузере. Изображения не загружаются на сервер.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notification" id="notification">
+    <div id="notification-text">Изображение успешно загружено!</div>
   </div>
 
   <script>
     const fileInput = document.getElementById('file-input');
+    const uploadArea = document.getElementById('upload-area');
     const originalPreview = document.getElementById('original-preview');
     const compressedPreview = document.getElementById('compressed-preview');
     const originalBox = document.getElementById('original-box');
     const compressedBox = document.getElementById('compressed-box');
     const controls = document.querySelector('.controls');
     const downloadBtn = document.getElementById('download-btn');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
+    const notification = document.getElementById('notification');
+    const notificationText = document.getElementById('notification-text');
+    const techToggle = document.getElementById('tech-toggle');
+    const techContent = document.getElementById('tech-content');
+    const buildDateElement = document.getElementById('build-date');
 
     const qualityInput = document.getElementById('quality');
     const scaleInput = document.getElementById('scale');
@@ -274,8 +605,30 @@
 
     const originalSize = document.getElementById('original-size');
     const compressedSize = document.getElementById('compressed-size');
+    const originalSizeValue = document.getElementById('original-size-value');
+    const compressedSizeValue = document.getElementById('compressed-size-value');
+    const savingsValue = document.getElementById('savings-value');
 
     let originalImage = new Image();
+    let originalFileSize = 0;
+
+    // Установка даты сборки
+    document.addEventListener('DOMContentLoaded', function() {
+      const buildDate = new Date().toLocaleDateString('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      buildDateElement.textContent = buildDate;
+    });
+
+    // Переключение технической информации
+    techToggle.addEventListener('click', function() {
+      this.classList.toggle('active');
+      techContent.classList.toggle('show');
+    });
 
     // Отображение значений
     qualityInput.addEventListener('input', () => {
@@ -288,29 +641,98 @@
       if (originalImage.src) compressImage();
     });
 
+    // Drag and Drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('active');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('active');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('active');
+      
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        handleFileUpload(e.dataTransfer.files[0]);
+      }
+    });
+
     // Загрузка изображения
     fileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
+      
+      handleFileUpload(file);
+    });
+
+    function handleFileUpload(file) {
+      if (!file.type.match('image.*')) {
+        showNotification('Пожалуйста, выберите изображение!', true);
+        return;
+      }
+
+      // Проверка размера файла
+      if (file.size > 10 * 1024 * 1024) {
+        showNotification('Файл слишком большой! Максимальный размер: 10 МБ', true);
+        return;
+      }
+
+      // Показываем прогресс бар
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
 
       const reader = new FileReader();
+      
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percentLoaded = Math.round((e.loaded / e.total) * 100);
+          progressBar.style.width = percentLoaded + '%';
+        }
+      };
+      
       reader.onload = function(event) {
+        progressBar.style.width = '100%';
+        
+        setTimeout(() => {
+          progressContainer.style.display = 'none';
+          showNotification('Изображение успешно загружено!');
+        }, 500);
+        
         originalImage.onload = function() {
-          // Показываем оригинал
+          // Показываем оригинал с анимацией
           originalPreview.src = originalImage.src;
-          originalBox.style.display = 'block';
+          originalBox.classList.add('show');
+
+          // Сохраняем размер оригинала
+          originalFileSize = file.size;
 
           // Показываем размер оригинала
           originalSize.textContent = `Размер: ${formatBytes(file.size)} (${originalImage.naturalWidth}×${originalImage.naturalHeight})`;
+          originalSizeValue.textContent = formatBytes(file.size);
 
           // Запускаем сжатие
           compressImage();
+          
+          // Показываем панель управления с анимацией
           controls.style.display = 'block';
+          setTimeout(() => {
+            controls.classList.add('show');
+          }, 100);
         };
         originalImage.src = event.target.result;
       };
+      
+      reader.onerror = function() {
+        progressContainer.style.display = 'none';
+        showNotification('Ошибка при загрузке файла!', true);
+      };
+      
       reader.readAsDataURL(file);
-    });
+    }
 
     // Функция сжатия
     function compressImage() {
@@ -331,14 +753,19 @@
       // Экспортируем как JPEG с заданным качеством
       const dataUrl = canvas.toDataURL('image/jpeg', quality);
 
-      // Показываем сжатое изображение
+      // Показываем сжатое изображение с анимацией
       compressedPreview.src = dataUrl;
-      compressedBox.style.display = 'block';
+      compressedBox.classList.add('show');
 
       // Оцениваем размер сжатого файла
       const byteString = atob(dataUrl.split(',')[1]);
       const size = byteString.length;
       compressedSize.textContent = `Размер: ${formatBytes(size)} (${Math.round(width)}×${Math.round(height)})`;
+      compressedSizeValue.textContent = formatBytes(size);
+
+      // Рассчитываем экономию
+      const savings = Math.round((1 - size / originalFileSize) * 100);
+      savingsValue.textContent = `${savings}%`;
 
       // Сохраняем для скачивания
       downloadBtn.onclick = () => {
@@ -346,6 +773,7 @@
         link.download = 'compressed_image.jpg';
         link.href = dataUrl;
         link.click();
+        showNotification('Изображение скачано!');
       };
     }
 
@@ -356,6 +784,21 @@
       const sizes = ['Bytes', 'KB', 'MB'];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Показать уведомление
+    function showNotification(message, isError = false) {
+      notificationText.textContent = message;
+      notification.className = 'notification';
+      notification.classList.add(isError ? 'error' : 'show');
+      
+      setTimeout(() => {
+        notification.classList.add('show');
+      }, 10);
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
     }
   </script>
 </body>
