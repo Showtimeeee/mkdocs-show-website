@@ -19,6 +19,5 @@
 ## Ссылки
 
 - [Исходный код на GitHub](https://github.com/Showtimeeee/Tanks_p_vs_p_pygame)
----
 
 *Оставьте отзыв, если вам понравилась игра!*
