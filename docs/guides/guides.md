@@ -3,6 +3,8 @@
 
 ---
 
+![AFK Bro Bot](images/bg-js.jpg)
+
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Инструменты и технологии</div>
 - [Docker](docker.md)
 - [Kubernetes](kuber.md)
@@ -41,3 +43,4 @@
 - [SDLC](sdlc.md)
 
 ---
+
