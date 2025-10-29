@@ -21,8 +21,10 @@
 #### - [Шестеренки (Gears-Move-Bro)⚙️](gears/gears_move.html)
 #### - [ДВС (Motor-App-Bro)🏍️](engineers_app/motor_bro.html)
 #### - [Сжать изображение (Compress-Image-Сonverter-Bro)🗜️](images_mod/image_compress_convert.html)
+#### - [Генератор Данных (Generator-Bro-Data)🎰](project6.md)
 
 ---
 
 *Если у вас есть вопросы или предложения, напишите мне!*
+
 
