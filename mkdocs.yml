@@ -62,7 +62,6 @@ extra_javascript:
   - js/bubble_sort.js
 
 markdown_extensions:
-  - neoteroi.timeline
   - codehilite:
       guess_lang: false
       linenums: true
@@ -76,5 +75,6 @@ plugins:
   
 
 copyright: Copyright &copy; 2025 <a href="">Vadim</a>.
+
 
 
