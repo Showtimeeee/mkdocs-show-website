@@ -1,4 +1,4 @@
-# Проект 1: "Pet-Desktop-Ver-2-0"
+# Pet-Desktop-Ver-2-0
 
 ![Pet-Desktop-Ver-2-0"](images/pet_desktop.png)
 
@@ -23,5 +23,6 @@
 - [Исходный код на GitHub](https://github.com/Showtimeeee/Pet-Desktop-Ver-2-0)
 
 ---
+
 
 *Оставьте отзыв, если вам понравилась программа!*
