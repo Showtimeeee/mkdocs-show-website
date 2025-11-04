@@ -1,4 +1,4 @@
-# Проект 3: "Jumper-Pygame"
+# Jumper-Pygame
 
 ![Jumper-Pygame"](images/jumper_screen.png)
 
@@ -23,5 +23,6 @@
 - [Исходный код на GitHub](https://github.com/Showtimeeee/Pet-Desktop-Ver-2-0)
 - [Скачать EXE-файл](https://drive.google.com/drive/folders/1liVAmQv0wetmFW7pG-Z1HL9viNGFZl3S)
 ---
+
 
 *Оставьте отзыв, если вам понравилась программа!*
