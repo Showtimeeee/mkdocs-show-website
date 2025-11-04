@@ -1,4 +1,4 @@
-# Проект 4: "Tanks_p_vs_p_pygame"
+# "Tanks_p_vs_p_pygame"
 
 ![Tanks-Pygame"](images/tanks.png)
 
@@ -21,3 +21,4 @@
 - [Исходный код на GitHub](https://github.com/Showtimeeee/Tanks_p_vs_p_pygame)
 
 *Оставьте отзыв, если вам понравилась игра!*
+
