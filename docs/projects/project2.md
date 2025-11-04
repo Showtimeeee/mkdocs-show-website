@@ -1,4 +1,4 @@
-# Проект 2: Pass-Bro-Generator
+# Pass-Bro-Generator
 
 ![Генератор паролей](images/bro_generator.png)
 
@@ -23,3 +23,4 @@
 ---
 
 *Если нужна помощь с настройкой, свяжитесь со мной!*
+
