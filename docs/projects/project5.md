@@ -1,3 +1,5 @@
+# AFK-Bro-Bot
+
 <img width="536" height="854" alt="Снимок экрана (146)" src="https://github.com/user-attachments/assets/5dbf3f62-f7c0-426f-a034-e70019b7a401" />
 
 ## Автоматически поддерживает активность системы, имитируя работу пользователя.
@@ -11,3 +13,4 @@
 - Поддержание статуса онлайн в мессенджерах и программах.
 
 [Исходный код на GitHub](https://github.com/Showtimeeee/AFK-Bro-Bot)
+
