@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Farm - Ухаживай за монстриками!</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👾</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FFB6C1, #87CEEB);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            gap: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            color: #FF69B4;
+            text-shadow: 2px 2px 0 #FFD700, 4px 4px 0 rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF69B4;
+        }
+        
+        .game-area {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+        }
+        
+        .farm-container {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .farm-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .monster-pen {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #E0F7FA, #B2EBF2);
+            border: 3px solid #4DD0E1;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            padding: 10px;
+        }
+        
+        .monster-pen:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #FF69B4;
+        }
+        
+        .monster-pen.occupied {
+            background: linear-gradient(135deg, #FFF9C4, #FFECB3);
+        }
+        
+        .monster {
+            width: 80px;
+            height: 80px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: all 0.5s;
+            position: relative;
+        }
+        
+        .monster.baby {
+            transform: scale(0.7);
+        }
+        
+        .monster.teen {
+            transform: scale(0.9);
+        }
+        
+        .monster.adult {
+            transform: scale(1.1);
+        }
+        
+        .monster.happy {
+            animation: bounce 1s infinite;
+        }
+        
+        .monster.hungry {
+            animation: shake 0.5s infinite;
+        }
+        
+        .monster-status {
+            position: absolute;
+            bottom: 5px;
+            font-size: 0.7rem;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .status-bar {
+            width: 80%;
+            height: 6px;
+            background: #E0E0E0;
+            border-radius: 3px;
+            margin: 2px 0;
+            overflow: hidden;
+        }
+        
+        .status-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        
+        .hunger-fill {
+            background: #FF9800;
+        }
+        
+        .happiness-fill {
+            background: #4CAF50;
+        }
+        
+        .controls {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .control-section {
+            background: #FFECB3;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .control-section h3 {
+            color: #FF69B4;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .monster-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .monster-type {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px;
+            background: #FFF;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+        }
+        
+        .monster-type:hover {
+            transform: scale(1.1);
+        }
+        
+        .monster-type.selected {
+            box-shadow: 0 0 0 3px #FF69B4;
+        }
+        
+        .monster-type.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .monster-type.disabled:hover {
+            transform: none;
+        }
+        
+        .monster-icon {
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 5px;
+        }
+        
+        .monster-name {
+            font-size: 0.7rem;
+            text-align: center;
+        }
+        
+        .monster-cost {
+            font-size: 0.7rem;
+            color: #FF69B4;
+            font-weight: bold;
+        }
+        
+        .care-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .care-btn {
+            background: #4DD0E1;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .care-btn:hover {
+            background: #26C6DA;
+            transform: translateY(-2px);
+        }
+        
+        .care-btn:disabled {
+            background: #B0BEC5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .care-icon {
+            font-size: 1.2rem;
+        }
+        
+        .time-control {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-value {
+            font-weight: bold;
+            color: #FF69B4;
+            min-width: 40px;
+        }
+        
+        button {
+            background: #FF69B4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            background: #FF1493;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        .inventory {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .inventory-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #FFF;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            width: 80px;
+        }
+        
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 5px;
+        }
+        
+        .item-count {
+            font-weight: bold;
+            color: #FF69B4;
+        }
+        
+        .collection {
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+        
+        .collection h4 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .collection-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
+            border-radius: 10px;
+            background: #FFF;
+        }
+        
+        .collection-item.unlocked {
+            background: #C8E6C9;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: center;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #FF69B4;
+        }
+        
+        .shop-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .shop-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #FFECB3;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .shop-item:hover {
+            transform: scale(1.05);
+            background: #FFD54F;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(150%);
+            transition: transform 0.5s;
+            z-index: 1001;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px #FFD700); }
+            to { filter: drop-shadow(0 0 15px #FFD700); }
+        }
+        
+        /* Светящиеся элементы */
+        .glow {
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+        }
+        
+        .light {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FFD700;
+            box-shadow: 0 0 10px 5px #FFD700;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Расположение светлячков */
+        .light:nth-child(1) { top: 10%; left: 5%; }
+        .light:nth-child(2) { top: 20%; right: 10%; }
+        .light:nth-child(3) { bottom: 15%; left: 15%; }
+        .light:nth-child(4) { bottom: 25%; right: 5%; }
+        .light:nth-child(5) { top: 40%; left: 20%; }
+        .light:nth-child(6) { top: 60%; right: 20%; }
+        
+        /* Стили для разных монстриков */
+        .monster-fluffy { background: conic-gradient(#FF69B4, #FFB6C1, #FF69B4); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; }
+        .monster-spiky { background: radial-gradient(#4DD0E1, #26C6DA); clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
+        .monster-round { background: radial-gradient(#FF9800, #FF5722); border-radius: 50%; }
+        .monster-plant { background: conic-gradient(#4CAF50, #8BC34A, #4CAF50); border-radius: 40% 40% 60% 60% / 60% 60% 40% 40%; }
+    </style>
+</head>
+<body>
+    <!-- Светлячки -->
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    
+    <div class="game-container">
+        <div class="header">
+            <h1 class="glow">Monster Farm</h1>
+            <p>Ухаживай за милыми монстриками!</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div>Очки счастья</div>
+                <div class="stat-value" id="happiness">100</div>
+            </div>
+            <div class="stat-item">
+                <div>Монеты</div>
+                <div class="stat-value" id="coins">150</div>
+            </div>
+            <div class="stat-item">
+                <div>Уровень фермы</div>
+                <div class="stat-value" id="level">1</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="farm-container">
+                <h2>Ферма монстриков</h2>
+                <div class="farm-grid" id="farm-grid">
+                    <!-- Загоны будут сгенерированы через JavaScript -->
+                </div>
+                <button id="care-all-btn">Покормить всех</button>
+            </div>
+            
+            <div class="controls">
+                <div class="control-section">
+                    <h3>Виды монстриков</h3>
+                    <div class="monster-types" id="monster-types">
+                        <!-- Типы монстров будут сгенерированы через JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3>Уход за монстриком</h3>
+                    <div class="care-actions">
+                        <button class="care-btn" id="feed-btn" disabled>
+                            <span class="care-icon">🍕</span>
+                            <span>Покормить</span>
+                        </button>
+                        <button class="care-btn" id="play-btn" disabled>
+                            <span class="care-icon">🎮</span>
+                            <span>Поиграть</span>
+                        </button>
+                        <button class="care-btn" id="clean-btn" disabled>
+                            <span class="care-icon">✨</span>
+                            <span>Почистить</span>
+                        </button>
+                        <button class="care-btn" id="heal-btn" disabled>
+                            <span class="care-icon">❤️</span>
+                            <span>Полечить</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3>Скорость игры</h3>
+                    <div class="time-control">
+                        <div class="slider-container">
+                            <span>Медленно</span>
+                            <input type="range" id="time-scale" min="1" max="10" value="5">
+                            <span>Быстро</span>
+                            <span class="slider-value" id="time-scale-value">5x</span>
+                        </div>
+                        <p>Измените скорость роста монстриков</p>
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3>Инвентарь</h3>
+                    <div class="inventory" id="inventory">
+                        <!-- Инвентарь будет сгенерирован через JavaScript -->
+                    </div>
+                    
+                    <div class="collection">
+                        <h4>Коллекция монстриков</h4>
+                        <div class="collection-grid" id="collection">
+                            <!-- Коллекция будет сгенерирована через JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="shop-btn">Магазин</button>
+                <button id="evolve-btn" disabled>Эволюционировать</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно магазина -->
+    <div class="modal" id="shop-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-shop">&times;</span>
+            <h2>Магазин монстриков</h2>
+            <p>Покупайте еду и предметы для ухода!</p>
+            
+            <div class="shop-items" id="shop-items">
+                <!-- Товары магазина будут сгенерированы через JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Уведомления -->
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        // Игровые данные
+        const gameState = {
+            happiness: 100,
+            coins: 150,
+            level: 1,
+            selectedMonsterType: null,
+            selectedPen: null,
+            timeScale: 5,
+            monsters: [],
+            inventory: {
+                food: 5,
+                toys: 3,
+                medicine: 2
+            },
+            collection: {},
+            pens: []
+        };
+
+        // Типы монстриков
+        const monsterTypes = {
+            fluffy: {
+                name: 'Пушистик',
+                cost: 20,
+                growthTime: 15,
+                value: 30,
+                happinessGain: 10,
+                color: '#FF69B4',
+                class: 'monster-fluffy'
+            },
+            spiky: {
+                name: 'Колючка',
+                cost: 25,
+                growthTime: 12,
+                value: 35,
+                happinessGain: 8,
+                color: '#4DD0E1',
+                class: 'monster-spiky'
+            },
+            round: {
+                name: 'Круглик',
+                cost: 30,
+                growthTime: 18,
+                value: 40,
+                happinessGain: 12,
+                color: '#FF9800',
+                class: 'monster-round'
+            },
+            plant: {
+                name: 'Растишка',
+                cost: 35,
+                growthTime: 20,
+                value: 50,
+                happinessGain: 15,
+                color: '#4CAF50',
+                class: 'monster-plant'
+            }
+        };
+
+        // Инициализация игры
+        function initGame() {
+            createFarmGrid();
+            createMonsterSelection();
+            createInventoryDisplay();
+            createCollectionDisplay();
+            createShopItems();
+            updateUI();
+            
+            // Обработчики событий
+            document.getElementById('care-all-btn').addEventListener('click', careAllMonsters);
+            document.getElementById('shop-btn').addEventListener('click', openShop);
+            document.getElementById('close-shop').addEventListener('click', closeShop);
+            document.getElementById('evolve-btn').addEventListener('click', evolveMonster);
+            
+            // Обработчики ухода
+            document.getElementById('feed-btn').addEventListener('click', () => careMonster('feed'));
+            document.getElementById('play-btn').addEventListener('click', () => careMonster('play'));
+            document.getElementById('clean-btn').addEventListener('click', () => careMonster('clean'));
+            document.getElementById('heal-btn').addEventListener('click', () => careMonster('heal'));
+            
+            const timeScaleSlider = document.getElementById('time-scale');
+            timeScaleSlider.addEventListener('input', function() {
+                gameState.timeScale = parseInt(this.value);
+                document.getElementById('time-scale-value').textContent = this.value + 'x';
+            });
+            
+            // Игровой цикл
+            setInterval(gameLoop, 1000);
+        }
+
+        // Создание сетки фермы
+        function createFarmGrid() {
+            const farmGrid = document.getElementById('farm-grid');
+            farmGrid.innerHTML = '';
+            
+            for (let i = 0; i < 6; i++) {
+                const pen = document.createElement('div');
+                pen.className = 'monster-pen';
+                pen.dataset.index = i;
+                
+                pen.innerHTML = `
+                    <div class="pen-label">Загон ${i + 1}</div>
+                    <div class="pen-content">Пусто</div>
+                `;
+                
+                pen.addEventListener('click', function() {
+                    selectPen(this);
+                });
+                
+                farmGrid.appendChild(pen);
+                gameState.pens.push({
+                    element: pen,
+                    monster: null,
+                    occupied: false
+                });
+            }
+        }
+
+        // Создание выбора монстриков
+        function createMonsterSelection() {
+            const monsterTypesContainer = document.getElementById('monster-types');
+            monsterTypesContainer.innerHTML = '';
+            
+            for (const [key, monster] of Object.entries(monsterTypes)) {
+                const monsterElement = document.createElement('div');
+                monsterElement.className = 'monster-type';
+                monsterElement.dataset.type = key;
+                
+                monsterElement.innerHTML = `
+                    <div class="monster-icon ${monster.class}"></div>
+                    <div class="monster-name">${monster.name}</div>
+                    <div class="monster-cost">${monster.cost} монет</div>
+                `;
+                
+                monsterElement.addEventListener('click', function() {
+                    selectMonsterType(this);
+                });
+                
+                monsterTypesContainer.appendChild(monsterElement);
+            }
+            
+            updateMonsterAvailability();
+        }
+
+        // Обновление доступности монстриков
+        function updateMonsterAvailability() {
+            document.querySelectorAll('.monster-type').forEach(monsterElement => {
+                const monsterType = monsterElement.dataset.type;
+                const monster = monsterTypes[monsterType];
+                
+                if (gameState.coins < monster.cost) {
+                    monsterElement.classList.add('disabled');
+                } else {
+                    monsterElement.classList.remove('disabled');
+                }
+            });
+        }
+
+        // Создание отображения инвентаря
+        function createInventoryDisplay() {
+            const inventory = document.getElementById('inventory');
+            inventory.innerHTML = '';
+            
+            const items = [
+                { key: 'food', name: 'Еда', icon: '🍕', count: gameState.inventory.food },
+                { key: 'toys', name: 'Игрушки', icon: '🎮', count: gameState.inventory.toys },
+                { key: 'medicine', name: 'Лекарства', icon: '❤️', count: gameState.inventory.medicine }
+            ];
+            
+            for (const item of items) {
+                const inventoryItem = document.createElement('div');
+                inventoryItem.className = 'inventory-item';
+                
+                inventoryItem.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div>${item.name}</div>
+                    <div class="item-count">${item.count}</div>
+                `;
+                
+                inventory.appendChild(inventoryItem);
+            }
+        }
+
+        // Создание отображения коллекции
+        function createCollectionDisplay() {
+            const collection = document.getElementById('collection');
+            collection.innerHTML = '';
+            
+            // Инициализация коллекции, если она пустая
+            if (Object.keys(gameState.collection).length === 0) {
+                for (const key in monsterTypes) {
+                    gameState.collection[key] = {
+                        unlocked: false,
+                        count: 0
+                    };
+                }
+            }
+            
+            for (const [key, monster] of Object.entries(monsterTypes)) {
+                const collectionItem = document.createElement('div');
+                collectionItem.className = `collection-item ${gameState.collection[key].unlocked ? 'unlocked' : ''}`;
+                
+                collectionItem.innerHTML = `
+                    <div class="monster-icon ${monster.class}"></div>
+                    <div class="monster-name">${monster.name}</div>
+                    <div class="item-count">${gameState.collection[key].count}</div>
+                `;
+                
+                collection.appendChild(collectionItem);
+            }
+        }
+
+        // Создание товаров магазина
+        function createShopItems() {
+            const shopItems = document.getElementById('shop-items');
+            shopItems.innerHTML = '';
+            
+            const shopItemsData = [
+                { type: 'food', name: 'Корм', cost: 5, effect: '+1 еда', icon: '🍕' },
+                { type: 'toy', name: 'Игрушка', cost: 8, effect: '+1 игрушка', icon: '🎮' },
+                { type: 'medicine', name: 'Лекарство', cost: 12, effect: '+1 лекарство', icon: '❤️' },
+                { type: 'upgrade', name: 'Улучшение', cost: 50, effect: '+1 уровень', icon: '⭐' }
+            ];
+            
+            for (const item of shopItemsData) {
+                const shopItem = document.createElement('div');
+                shopItem.className = 'shop-item';
+                shopItem.dataset.type = item.type;
+                
+                shopItem.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div>${item.name}</div>
+                    <div>${item.effect}</div>
+                    <div>${item.cost} монет</div>
+                    <button class="buy-btn" data-type="${item.type}">Купить</button>
+                `;
+                
+                shopItems.appendChild(shopItem);
+            }
+            
+            // Добавляем обработчики для кнопок покупки
+            document.querySelectorAll('.buy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    buyItem(this.dataset.type);
+                });
+            });
+        }
+
+        // Выбор типа монстрика
+        function selectMonsterType(monsterElement) {
+            if (monsterElement.classList.contains('disabled')) {
+                showNotification('Недостаточно монет для покупки этого монстрика!');
+                return;
+            }
+            
+            // Снимаем выделение со всех монстриков
+            document.querySelectorAll('.monster-type').forEach(monster => {
+                monster.classList.remove('selected');
+            });
+            
+            // Выделяем выбранного монстрика
+            monsterElement.classList.add('selected');
+            gameState.selectedMonsterType = monsterElement.dataset.type;
+            
+            showNotification(`Выбран: ${monsterTypes[gameState.selectedMonsterType].name}`);
+        }
+
+        // Выбор загона
+        function selectPen(penElement) {
+            const index = parseInt(penElement.dataset.index);
+            const pen = gameState.pens[index];
+            
+            // Снимаем выделение со всех загонов
+            document.querySelectorAll('.monster-pen').forEach(pen => {
+                pen.classList.remove('selected');
+            });
+            
+            // Выделяем выбранный загон
+            penElement.classList.add('selected');
+            gameState.selectedPen = index;
+            
+            // Если загон пустой и выбран тип монстрика
+            if (!pen.occupied && gameState.selectedMonsterType) {
+                buyMonster(index, gameState.selectedMonsterType);
+                return;
+            }
+            
+            // Если в загоне есть монстрик
+            if (pen.occupied) {
+                enableCareButtons();
+                showNotification(`Выбран монстрик в загоне ${index + 1}`);
+            }
+        }
+
+        // Покупка монстрика
+        function buyMonster(penIndex, monsterType) {
+            const pen = gameState.pens[penIndex];
+            const monster = monsterTypes[monsterType];
+            
+            // Проверяем, достаточно ли монет
+            if (gameState.coins < monster.cost) {
+                showNotification(`Недостаточно монет для покупки ${monster.name}!`);
+                return;
+            }
+            
+            // Списание монет
+            gameState.coins -= monster.cost;
+            
+            // Создаем монстрика
+            pen.monster = {
+                type: monsterType,
+                stage: 'baby',
+                growth: 0,
+                maxGrowth: monster.growthTime,
+                hunger: 100,
+                happiness: 100,
+                health: 100
+            };
+            
+            pen.occupied = true;
+            pen.element.classList.add('occupied');
+            updatePenAppearance(penIndex);
+            
+            // Разблокируем в коллекции
+            if (!gameState.collection[monsterType].unlocked) {
+                gameState.collection[monsterType].unlocked = true;
+                createCollectionDisplay();
+            }
+            
+            updateUI();
+            updateMonsterAvailability();
+            
+            showNotification(`Куплен: ${monster.name}! (-${monster.cost} монет)`);
+        }
+
+        // Уход за монстриком
+        function careMonster(action) {
+            if (gameState.selectedPen === null) return;
+            
+            const pen = gameState.pens[gameState.selectedPen];
+            if (!pen.occupied) return;
+            
+            const monster = pen.monster;
+            let message = '';
+            let success = false;
+            
+            switch (action) {
+                case 'feed':
+                    if (gameState.inventory.food > 0) {
+                        gameState.inventory.food--;
+                        monster.hunger = Math.min(100, monster.hunger + 30);
+                        monster.happiness += 5;
+                        message = 'Монстрик покормлен!';
+                        success = true;
+                    } else {
+                        message = 'Нет еды в инвентаре!';
+                    }
+                    break;
+                    
+                case 'play':
+                    if (gameState.inventory.toys > 0) {
+                        gameState.inventory.toys--;
+                        monster.happiness = Math.min(100, monster.happiness + 25);
+                        message = 'Монстрик поиграл!';
+                        success = true;
+                    } else {
+                        message = 'Нет игрушек в инвентаре!';
+                    }
+                    break;
+                    
+                case 'clean':
+                    monster.happiness += 10;
+                    monster.health = Math.min(100, monster.health + 5);
+                    message = 'Монстрик почищен!';
+                    success = true;
+                    break;
+                    
+                case 'heal':
+                    if (gameState.inventory.medicine > 0) {
+                        gameState.inventory.medicine--;
+                        monster.health = Math.min(100, monster.health + 40);
+                        message = 'Монстрик полечен!';
+                        success = true;
+                    } else {
+                        message = 'Нет лекарств в инвентаре!';
+                    }
+                    break;
+            }
+            
+            if (success) {
+                updatePenAppearance(gameState.selectedPen);
+                createInventoryDisplay();
+                updateUI();
+            }
+            
+            showNotification(message);
+        }
+
+        // Уход за всеми монстриками
+        function careAllMonsters() {
+            let caredCount = 0;
+            
+            gameState.pens.forEach((pen, index) => {
+                if (pen.occupied && pen.monster.hunger < 80) {
+                    if (gameState.inventory.food > 0) {
+                        gameState.inventory.food--;
+                        pen.monster.hunger = Math.min(100, pen.monster.hunger + 30);
+                        pen.monster.happiness += 5;
+                        caredCount++;
+                    }
+                }
+            });
+            
+            if (caredCount > 0) {
+                createInventoryDisplay();
+                updateUI();
+                showNotification(`Покормлено ${caredCount} монстриков!`);
+            } else {
+                showNotification('Все монстрики сыты или нет еды!');
+            }
+        }
+
+        // Эволюция монстрика
+        function evolveMonster() {
+            if (gameState.selectedPen === null) return;
+            
+            const pen = gameState.pens[gameState.selectedPen];
+            if (!pen.occupied || pen.monster.stage !== 'adult') return;
+            
+            const monsterType = pen.monster.type;
+            const monster = monsterTypes[monsterType];
+            
+            // Награда за эволюцию
+            gameState.coins += monster.value;
+            gameState.happiness += monster.happinessGain;
+            gameState.collection[monsterType].count++;
+            
+            // Сбрасываем монстрика
+            pen.monster = null;
+            pen.occupied = false;
+            pen.element.classList.remove('occupied');
+            updatePenAppearance(gameState.selectedPen);
+            
+            disableCareButtons();
+            createCollectionDisplay();
+            updateUI();
+            
+            showNotification(`Монстрик эволюционировал! +${monster.value} монет, +${monster.happinessGain} счастья`);
+        }
+
+        // Покупка предмета в магазине
+        function buyItem(itemType) {
+            const items = {
+                food: { cost: 5, effect: () => gameState.inventory.food++ },
+                toy: { cost: 8, effect: () => gameState.inventory.toys++ },
+                medicine: { cost: 12, effect: () => gameState.inventory.medicine++ },
+                upgrade: { cost: 50, effect: () => gameState.level++ }
+            };
+            
+            const item = items[itemType];
+            
+            if (gameState.coins >= item.cost) {
+                gameState.coins -= item.cost;
+                item.effect();
+                
+                updateUI();
+                createInventoryDisplay();
+                updateMonsterAvailability();
+                
+                showNotification(`Куплен предмет! (-${item.cost} монет)`);
+            } else {
+                showNotification('Недостаточно монет!');
+            }
+        }
+
+        // Включение кнопок ухода
+        function enableCareButtons() {
+            document.getElementById('feed-btn').disabled = false;
+            document.getElementById('play-btn').disabled = false;
+            document.getElementById('clean-btn').disabled = false;
+            document.getElementById('heal-btn').disabled = false;
+            document.getElementById('evolve-btn').disabled = false;
+        }
+
+        // Отключение кнопок ухода
+        function disableCareButtons() {
+            document.getElementById('feed-btn').disabled = true;
+            document.getElementById('play-btn').disabled = true;
+            document.getElementById('clean-btn').disabled = true;
+            document.getElementById('heal-btn').disabled = true;
+            document.getElementById('evolve-btn').disabled = true;
+        }
+
+        // Открытие магазина
+        function openShop() {
+            document.getElementById('shop-modal').style.display = 'flex';
+        }
+
+        // Закрытие магазина
+        function closeShop() {
+            document.getElementById('shop-modal').style.display = 'none';
+        }
+
+        // Обновление внешнего вида загона
+        function updatePenAppearance(penIndex) {
+            const pen = gameState.pens[penIndex];
+            const penElement = pen.element;
+            
+            // Очищаем содержимое загона
+            penElement.querySelector('.pen-content').innerHTML = '';
+            
+            if (pen.occupied) {
+                const monster = pen.monster;
+                const monsterType = monsterTypes[monster.type];
+                
+                const monsterElement = document.createElement('div');
+                monsterElement.className = `monster ${monsterType.class} ${monster.stage}`;
+                
+                // Определяем эмоциональное состояние
+                if (monster.happiness >= 80) {
+                    monsterElement.classList.add('happy');
+                } else if (monster.hunger <= 30) {
+                    monsterElement.classList.add('hungry');
+                }
+                
+                const statusElement = document.createElement('div');
+                statusElement.className = 'monster-status';
+                
+                statusElement.innerHTML = `
+                    <div>${monsterType.name} (${monster.stage})</div>
+                    <div class="status-bar">
+                        <div class="status-fill hunger-fill" style="width: ${monster.hunger}%"></div>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-fill happiness-fill" style="width: ${monster.happiness}%"></div>
+                    </div>
+                `;
+                
+                penElement.querySelector('.pen-content').appendChild(monsterElement);
+                penElement.querySelector('.pen-content').appendChild(statusElement);
+                
+                // Обновляем кнопку эволюции
+                document.getElementById('evolve-btn').disabled = monster.stage !== 'adult';
+            } else {
+                penElement.querySelector('.pen-content').textContent = 'Пусто';
+            }
+        }
+
+        // Игровой цикл
+        function gameLoop() {
+            let monstersUpdated = false;
+            
+            gameState.pens.forEach((pen, index) => {
+                if (pen.occupied) {
+                    const monster = pen.monster;
+                    
+                    // Уменьшаем показатели со временем
+                    monster.hunger = Math.max(0, monster.hunger - gameState.timeScale * 0.5);
+                    monster.happiness = Math.max(0, monster.happiness - gameState.timeScale * 0.3);
+                    
+                    // Увеличиваем рост
+                    monster.growth += gameState.timeScale;
+                    
+                    // Определяем стадию роста
+                    if (monster.growth < monster.maxGrowth * 0.3) {
+                        monster.stage = 'baby';
+                    } else if (monster.growth < monster.maxGrowth) {
+                        monster.stage = 'teen';
+                    } else {
+                        monster.stage = 'adult';
+                    }
+                    
+                    // Обновляем внешний вид
+                    updatePenAppearance(index);
+                    monstersUpdated = true;
+                }
+            });
+            
+            // Обновляем общее счастье фермы
+            if (monstersUpdated) {
+                updateFarmHappiness();
+                updateUI();
+            }
+        }
+
+        // Обновление счастья фермы
+        function updateFarmHappiness() {
+            let totalHappiness = 0;
+            let monsterCount = 0;
+            
+            gameState.pens.forEach(pen => {
+                if (pen.occupied) {
+                    totalHappiness += pen.monster.happiness;
+                    monsterCount++;
+                }
+            });
+            
+            gameState.happiness = monsterCount > 0 ? Math.round(totalHappiness / monsterCount) : 100;
+        }
+
+        // Обновление интерфейса
+        function updateUI() {
+            document.getElementById('happiness').textContent = gameState.happiness;
+            document.getElementById('coins').textContent = gameState.coins;
+            document.getElementById('level').textContent = gameState.level;
+        }
+
+        // Показать уведомление
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Запуск игры при загрузке страницы
+        window.onload = initGame;
+    </script>
+</body>
+</html>
