@@ -25,6 +25,7 @@
             align-items: center;
             padding: 10px;
             transition: background-image 1.5s ease-in-out;
+            cursor: none;
         }
 
         body::before {
@@ -36,6 +37,48 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.4);
             z-index: -1;
+        }
+
+        /* Курсоры */
+        .player-cursor, .computer-cursor {
+            position: fixed;
+            width: 25px;
+            height: 25px;
+            pointer-events: none;
+            z-index: 30;
+            transition: transform 0.1s ease;
+        }
+
+        .player-cursor {
+            background: radial-gradient(circle, #4d94ff, #0066ff);
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(77, 148, 255, 0.8);
+        }
+
+        .computer-cursor {
+            background: radial-gradient(circle, #ff6b6b, #ff0000);
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 29;
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
         }
 
         /* Эффект костра */
@@ -162,6 +205,31 @@
             color: #ffd700;
         }
 
+        .computer-coin-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 10, 5, 0.8);
+            border: 2px solid #ff6b6b;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.1em;
+            z-index: 20;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .computer-coin-counter::before {
+            content: '₿';
+            font-size: 1.3em;
+            color: #ff6b6b;
+        }
+
         .coin-bonus {
             position: fixed;
             color: #ffd700;
@@ -171,6 +239,10 @@
             z-index: 25;
             pointer-events: none;
             animation: bonusFloat 1.5s ease-out forwards;
+        }
+
+        .computer-coin-bonus {
+            color: #ff6b6b;
         }
 
         @keyframes bonusFloat {
@@ -724,6 +796,7 @@
         @media (max-width: 768px) {
             body {
                 padding: 5px;
+                cursor: default;
             }
             
             .tavern-container {
@@ -779,11 +852,14 @@
                 font-size: 0.8em;
             }
             
-            .coin-counter {
+            .coin-counter, .computer-coin-counter {
                 top: 10px;
-                left: 10px;
                 font-size: 1em;
                 padding: 8px 12px;
+            }
+            
+            .player-cursor, .computer-cursor {
+                display: none;
             }
         }
 
@@ -832,8 +908,11 @@
     </style>
 </head>
 <body>
+    <div class="player-cursor" id="playerCursor"></div>
+    <div class="computer-cursor" id="computerCursor"></div>
     <div class="fire-effect" id="fireEffect"></div>
     <div class="coin-counter" id="coinCounter">0</div>
+    <div class="computer-coin-counter" id="computerCoinCounter">0</div>
     <div class="bg-indicator" id="bgIndicator">Фон 1/9</div>
 
     <div class="modal" id="rulesModal">
@@ -848,11 +927,13 @@
 
             <div class="rules-section">
                 <h3>🪙 Золотые монетки</h3>
-                <p>По таверне летают золотые монетки! Ловите их для получения бонусов:</p>
+                <p>По таверне летают золотые монетки! Соревнуйтесь с трактирщиком за их сбор:</p>
                 <ul class="rules-list">
-                    <li>💰 <strong>Обычная монетка</strong> - +1 к общей мане</li>
-                    <li>🌟 <strong>Золотая монетка</strong> - +2 к общей мане</li>
-                    <li>⚡ <strong>Бонусные очки</strong> - +3 очка к счету</li>
+                    <li>💰 <strong>Обычная монетка</strong> - +1 к максимальной мане</li>
+                    <li>🌟 <strong>Золотая монетка</strong> - +2 к максимальной мане</li>
+                    <li>⚡ <strong>Бонусная монетка</strong> - +3 очка к счету</li>
+                    <li>🎯 <strong>Гонка за монетками</strong> - Трактирщик тоже пытается собрать монетки!</li>
+                    <li>⚔️ <strong>Соревнование</strong> - Кто первый кликнет на монетку, тот ее и получает</li>
                 </ul>
             </div>
 
@@ -900,7 +981,7 @@
                     <li>Каждый раунд максимальная мана увеличивается на 1</li>
                     <li>В начале хода мана полностью восстанавливается</li>
                     <li>Можно разыгрывать несколько карт за ход</li>
-                    <li>Максимальная мана ограничена 10 единицами</li>
+                    <li>Максимальная мана ограничена 12 единицами</li>
                     <li>Монетки увеличивают максимальную ману!</li>
                 </ul>
             </div>
@@ -941,7 +1022,7 @@
                     <li>Планируйте комбинации заранее</li>
                     <li>Следите за маной - не тратьте всё на одну карту</li>
                     <li>Анализируйте поле противника перед завершением хода</li>
-                    <li>Ловите монетки - они дают стратегическое преимущество!</li>
+                    <li>Будьте быстрее трактирщика в сборе монеток!</li>
                     <li>Помните - комбинации приносят больше очков, чем отдельные карты!</li>
                 </ul>
             </div>
@@ -1010,7 +1091,8 @@
                     battlefield: [],
                     mana: 5,
                     maxMana: 5,
-                    score: 0
+                    score: 0,
+                    coins: 0
                 };
                 
                 this.computer = {
@@ -1018,14 +1100,15 @@
                     battlefield: [],
                     mana: 5,
                     maxMana: 5,
-                    score: 0
+                    score: 0,
+                    coins: 0
                 };
                 
                 this.turn = 'player';
                 this.round = 1;
                 this.currentBgIndex = 0;
-                this.coinsCollected = 0;
                 this.activeCoins = [];
+                this.computerTarget = null;
                 this.backgrounds = [
                     './images/iskustve.jpg',
                     './images/andrew-krivulya-inn-art-3-d-taverna.jpg',
@@ -1059,6 +1142,7 @@
                 this.startBackgroundRotation();
                 this.startFireEffect();
                 this.startCoinSpawning();
+                this.startComputerAI();
                 this.startNewGame();
             }
 
@@ -1082,6 +1166,9 @@
                 this.closeRules = document.getElementById('closeRules');
                 this.fireEffect = document.getElementById('fireEffect');
                 this.coinCounter = document.getElementById('coinCounter');
+                this.computerCoinCounter = document.getElementById('computerCoinCounter');
+                this.playerCursor = document.getElementById('playerCursor');
+                this.computerCursor = document.getElementById('computerCursor');
             }
 
             setupEventListeners() {
@@ -1097,11 +1184,50 @@
                     }
                 });
                 
+                // Следим за движением мыши игрока
+                document.addEventListener('mousemove', (e) => {
+                    this.playerCursor.style.left = `${e.clientX - 12}px`;
+                    this.playerCursor.style.top = `${e.clientY - 12}px`;
+                    
+                    // Создаем след курсора
+                    if (Math.random() > 0.7) {
+                        this.createCursorTrail(e.clientX, e.clientY, 'player');
+                    }
+                });
+                
+                document.addEventListener('click', (e) => {
+                    this.playerCursor.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        this.playerCursor.style.transform = 'scale(1)';
+                    }, 100);
+                });
+                
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.hideRules();
                     }
                 });
+            }
+
+            createCursorTrail(x, y, type) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = `${x - 4}px`;
+                trail.style.top = `${y - 4}px`;
+                
+                if (type === 'player') {
+                    trail.style.background = 'rgba(77, 148, 255, 0.6)';
+                } else {
+                    trail.style.background = 'rgba(255, 107, 107, 0.6)';
+                }
+                
+                document.body.appendChild(trail);
+                
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.remove();
+                    }
+                }, 500);
             }
 
             startFireEffect() {
@@ -1145,12 +1271,10 @@
             }
 
             startCoinSpawning() {
-                // Первая монетка появляется через 3 секунды после начала игры
                 setTimeout(() => {
                     this.spawnCoin();
                 }, 3000);
                 
-                // Дальше монетки появляются случайно каждые 5-15 секунд
                 setInterval(() => {
                     if (this.activeCoins.length < 3 && Math.random() > 0.5) {
                         this.spawnCoin();
@@ -1158,11 +1282,92 @@
                 }, 5000);
             }
 
+            startComputerAI() {
+                setInterval(() => {
+                    if (this.activeCoins.length > 0 && !this.computerTarget) {
+                        this.findCoinTarget();
+                    }
+                    
+                    if (this.computerTarget) {
+                        this.moveComputerToCoin();
+                    }
+                }, 50);
+            }
+
+            findCoinTarget() {
+                // Компьютер выбирает ближайшую монетку
+                const computerRect = this.computerCursor.getBoundingClientRect();
+                const computerX = computerRect.left + computerRect.width / 2;
+                const computerY = computerRect.top + computerRect.height / 2;
+                
+                let closestCoin = null;
+                let closestDistance = Infinity;
+                
+                this.activeCoins.forEach(coin => {
+                    const coinRect = coin.getBoundingClientRect();
+                    const coinX = coinRect.left + coinRect.width / 2;
+                    const coinY = coinRect.top + coinRect.height / 2;
+                    
+                    const distance = Math.sqrt(
+                        Math.pow(coinX - computerX, 2) + Math.pow(coinY - computerY, 2)
+                    );
+                    
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestCoin = coin;
+                    }
+                });
+                
+                if (closestCoin && closestDistance < 500) { // Только если монетка в пределах 500px
+                    this.computerTarget = closestCoin;
+                }
+            }
+
+            moveComputerToCoin() {
+                if (!this.computerTarget || !this.computerTarget.parentNode) {
+                    this.computerTarget = null;
+                    return;
+                }
+                
+                const computerRect = this.computerCursor.getBoundingClientRect();
+                const coinRect = this.computerTarget.getBoundingClientRect();
+                
+                const computerX = computerRect.left + computerRect.width / 2;
+                const computerY = computerRect.top + computerRect.height / 2;
+                const coinX = coinRect.left + coinRect.width / 2;
+                const coinY = coinRect.top + coinRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(coinX - computerX, 2) + Math.pow(coinY - computerY, 2)
+                );
+                
+                // Скорость движения компьютера (зависит от расстояния)
+                const speed = Math.min(15, distance / 10);
+                
+                if (distance < 30) { // Если близко к монетке - собираем ее
+                    this.collectCoinByComputer(this.computerTarget);
+                    this.computerTarget = null;
+                    return;
+                }
+                
+                // Двигаем курсор к монетке
+                const angle = Math.atan2(coinY - computerY, coinX - computerX);
+                const newX = computerX + Math.cos(angle) * speed;
+                const newY = computerY + Math.sin(angle) * speed;
+                
+                this.computerCursor.style.left = `${newX - 12}px`;
+                this.computerCursor.style.top = `${newY - 12}px`;
+                
+                // Создаем след с вероятностью
+                if (Math.random() > 0.8) {
+                    this.createCursorTrail(newX, newY, 'computer');
+                }
+            }
+
             spawnCoin() {
                 const coin = document.createElement('div');
                 coin.className = 'coin';
                 
-                // Случайная позиция на экране (избегаем краев)
                 const margin = 100;
                 const x = margin + Math.random() * (window.innerWidth - margin * 2);
                 const y = margin + Math.random() * (window.innerHeight - margin * 2);
@@ -1170,21 +1375,16 @@
                 coin.style.left = `${x}px`;
                 coin.style.top = `${y}px`;
                 
-                // Случайный тип монетки (70% обычная, 20% золотая, 10% бонусная)
                 const coinType = Math.random();
                 let coinValue = 1;
-                let coinClass = '';
                 
                 if (coinType < 0.7) {
-                    // Обычная монетка
                     coinValue = 1;
                 } else if (coinType < 0.9) {
-                    // Золотая монетка
                     coinValue = 2;
                     coin.style.background = 'radial-gradient(circle at 30% 30%, #ffec8b, #ffd700, #daa520)';
                     coin.style.boxShadow = '0 0 20px rgba(255, 215, 0, 1), inset -5px -5px 10px rgba(0, 0, 0, 0.3)';
                 } else {
-                    // Бонусная монетка
                     coinValue = 3;
                     coin.style.background = 'radial-gradient(circle at 30% 30%, #87ceeb, #4682b4, #4169e1)';
                     coin.style.boxShadow = '0 0 25px rgba(135, 206, 235, 0.8), inset -5px -5px 10px rgba(0, 0, 0, 0.3)';
@@ -1192,64 +1392,55 @@
                 
                 coin.dataset.value = coinValue;
                 
-                // Обработчик клика по монетке
-                coin.addEventListener('click', () => this.collectCoin(coin, coinValue));
+                // Обработчик клика для игрока
+                coin.addEventListener('click', () => this.collectCoinByPlayer(coin, coinValue));
                 
                 document.body.appendChild(coin);
                 this.activeCoins.push(coin);
                 
-                // Автоматическое исчезновение через 10 секунд
                 setTimeout(() => {
                     if (coin.parentNode && !coin.classList.contains('coin-collected')) {
                         coin.remove();
                         this.activeCoins = this.activeCoins.filter(c => c !== coin);
+                        if (this.computerTarget === coin) {
+                            this.computerTarget = null;
+                        }
                     }
                 }, 10000);
             }
 
-            collectCoin(coin, value) {
+            collectCoinByPlayer(coin, value) {
                 if (coin.classList.contains('coin-collected')) return;
                 
                 coin.classList.add('coin-collected');
                 this.playCoinSound();
                 
-                // Увеличиваем счетчик монеток
-                this.coinsCollected++;
-                this.coinCounter.textContent = this.coinsCollected;
+                this.player.coins++;
+                this.coinCounter.textContent = this.player.coins;
                 
-                // Применяем бонус в зависимости от типа монетки
                 let bonusText = '';
                 let logMessage = '';
                 
                 if (value === 1) {
-                    // +1 к максимальной мане
                     this.player.maxMana = Math.min(12, this.player.maxMana + 1);
                     this.player.mana = this.player.maxMana;
                     bonusText = '+1 мана';
-                    logMessage = '💰 Игрок нашел монетку! +1 к максимальной мане';
+                    logMessage = '💰 Игрок собирает монетку! +1 к максимальной мане';
                 } else if (value === 2) {
-                    // +2 к максимальной мане
                     this.player.maxMana = Math.min(12, this.player.maxMana + 2);
                     this.player.mana = this.player.maxMana;
                     bonusText = '+2 маны';
-                    logMessage = '🌟 Игрок нашел золотую монетку! +2 к максимальной мане';
+                    logMessage = '🌟 Игрок собирает золотую монетку! +2 к максимальной мане';
                 } else {
-                    // +3 очка
                     this.player.score += 3;
                     bonusText = '+3 очка';
-                    logMessage = '⚡ Игрок нашел бонусную монетку! +3 очка к счету';
+                    logMessage = '⚡ Игрок собирает бонусную монетку! +3 очка к счету';
                 }
                 
-                // Показываем бонусный текст
-                this.showBonusText(coin, bonusText);
-                
-                // Логируем событие
+                this.showBonusText(coin, bonusText, 'player');
                 this.addLogEntry(logMessage, 'coin');
-                
-                // Обновляем UI
                 this.updateUI();
                 
-                // Удаляем монетку после анимации
                 setTimeout(() => {
                     if (coin.parentNode) {
                         coin.remove();
@@ -1258,9 +1449,52 @@
                 }, 600);
             }
 
-            showBonusText(coin, text) {
+            collectCoinByComputer(coin) {
+                if (coin.classList.contains('coin-collected')) return;
+                
+                coin.classList.add('coin-collected');
+                this.playCoinSound();
+                
+                this.computer.coins++;
+                this.computerCoinCounter.textContent = this.computer.coins;
+                
+                const value = parseInt(coin.dataset.value);
+                let bonusText = '';
+                let logMessage = '';
+                
+                if (value === 1) {
+                    this.computer.maxMana = Math.min(12, this.computer.maxMana + 1);
+                    this.computer.mana = this.computer.maxMana;
+                    bonusText = '+1 мана';
+                    logMessage = '💀 Трактирщик собирает монетку! +1 к его максимальной мане';
+                } else if (value === 2) {
+                    this.computer.maxMana = Math.min(12, this.computer.maxMana + 2);
+                    this.computer.mana = this.computer.maxMana;
+                    bonusText = '+2 маны';
+                    logMessage = '😠 Трактирщик собирает золотую монетку! +2 к его максимальной мане';
+                } else {
+                    this.computer.score += 3;
+                    bonusText = '+3 очка';
+                    logMessage = '👿 Трактирщик собирает бонусную монетку! +3 очка к его счету';
+                }
+                
+                this.showBonusText(coin, bonusText, 'computer');
+                this.addLogEntry(logMessage, 'defeat');
+                this.updateUI();
+                
+                setTimeout(() => {
+                    if (coin.parentNode) {
+                        coin.remove();
+                        this.activeCoins = this.activeCoins.filter(c => c !== coin);
+                    }
+                }, 600);
+                
+                this.computerTarget = null;
+            }
+
+            showBonusText(coin, text, collector) {
                 const bonus = document.createElement('div');
-                bonus.className = 'coin-bonus';
+                bonus.className = `coin-bonus ${collector === 'computer' ? 'computer-coin-bonus' : ''}`;
                 bonus.textContent = text;
                 
                 const rect = coin.getBoundingClientRect();
@@ -1277,7 +1511,6 @@
             }
 
             playCoinSound() {
-                // Создаем простой звук монетки с помощью Web Audio API
                 try {
                     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     const oscillator = audioContext.createOscillator();
@@ -1334,24 +1567,30 @@
             }
 
             startNewGame() {
-                // Удаляем все активные монетки
                 this.activeCoins.forEach(coin => {
                     if (coin.parentNode) {
                         coin.remove();
                     }
                 });
                 this.activeCoins = [];
+                this.computerTarget = null;
                 
-                this.player = { hand: [], battlefield: [], mana: 5, maxMana: 5, score: 0 };
-                this.computer = { hand: [], battlefield: [], mana: 5, maxMana: 5, score: 0 };
+                this.player = { hand: [], battlefield: [], mana: 5, maxMana: 5, score: 0, coins: 0 };
+                this.computer = { hand: [], battlefield: [], mana: 5, maxMana: 5, score: 0, coins: 0 };
                 this.turn = 'player';
                 this.round = 1;
-                this.coinsCollected = 0;
+                
                 this.coinCounter.textContent = '0';
+                this.computerCoinCounter.textContent = '0';
+                
+                // Стартовые позиции курсоров
+                this.computerCursor.style.left = '50%';
+                this.computerCursor.style.top = '20%';
                 
                 this.dealCards();
                 this.updateUI();
                 this.addLogEntry('🎲 Начинается новая магическая дуэль!', 'system');
+                this.addLogEntry('⚔️ Соревнуйтесь с трактирщиком за золотые монетки!', 'system');
             }
 
             dealCards() {
@@ -1467,9 +1706,8 @@
                 
                 this.round++;
                 
-                // Увеличиваем ману (но не больше лимита от монеток)
                 this.player.maxMana = Math.min(12, this.player.maxMana + 1);
-                this.computer.maxMana = Math.min(10, this.computer.maxMana + 1);
+                this.computer.maxMana = Math.min(12, this.computer.maxMana + 1);
                 
                 this.player.mana = this.player.maxMana;
                 this.computer.mana = this.computer.maxMana;
