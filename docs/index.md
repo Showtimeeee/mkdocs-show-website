@@ -23,11 +23,11 @@
   <img src="images/haker2.jpg" alt="Хакер" class="avatar" style="width: 800px;">
 </div>
 
-<div style="text-align: center;">
+<!-- <div style="text-align: center;">
   <a href="https://git.io/typing-svg">
     <img src="https://readme-typing-svg.demolab.com/?lines=Этот+сайт+-+практический+справочник+по+IT.;Здесь+нет+воды+-+только+применимые+знания,;которые+помогут+вам.&center=true&width=600&height=60&duration=4000&pause=1000&color=B57EDC" alt="Typing SVG" />
   </a>
-</div>
+</div> -->
 
 ---
 
@@ -136,6 +136,7 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
         v4.1
     </div>
 </div>
+
 
 
 
