@@ -2,6 +2,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 _Здесь вы можете скачать полезные книги по программированию и другим темам._
 
+
+---
+
+## «Arduino блокнот программиста» Brian W. Evans
+⭐⭐⭐
+
+![i0](images/ard.png)
+
+- [Скачать PDF](https://arduinolab.pw/wp-content/uploads/2018/12/arduino_notebook_rus_v1-1.pdf)
+
 ---
 
 ## «Грокаем алгоритмы» Адитья Бхаргава
@@ -92,6 +102,7 @@ _Здесь вы можете скачать полезные книги по п
 ![i9](images/autofactory-logo.png)
 
 - [Скачать PDF](https://www.litres.ru/book/filip-kindred-dik/avtofabrika-28738640/?lfrom_processed=290248264)
+
 
 
 
