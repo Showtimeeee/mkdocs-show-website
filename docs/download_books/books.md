@@ -64,26 +64,6 @@ _Здесь вы можете скачать полезные книги по п
 
 ---
 
-## Выявление и эксплуатация SQL-инъекций в приложениях
-
-⭐
-
-![i6](images/sql1.jpg)
-
-- [Скачать PDF](https://npo-echelon.ru/doc/echelon-sql.pdf)
-
----
-
-## Уязвимость SQL-инъекция: Практическое руководство для хакеров
-
-⭐⭐
-
-![i7](images/sql2.jpg)
-
-- [Скачать PDF](https://vk.com/doc54631840_592147092?hash=BfjYFzWYFVzdqzqq4Lotm2iaihOOnViBJtfFDqK7h1X&dl=TEZkzssZBSbewTMe9pnrKzDzsgGnC8rwrtTItqlULMs)
-
----
-
 ## Комикс «Паять просто»
 
 ⭐
@@ -102,6 +82,7 @@ _Здесь вы можете скачать полезные книги по п
 ![i9](images/autofactory-logo.png)
 
 - [Скачать PDF](https://www.litres.ru/book/filip-kindred-dik/avtofabrika-28738640/?lfrom_processed=290248264)
+
 
 
 
