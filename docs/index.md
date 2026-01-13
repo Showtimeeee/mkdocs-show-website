@@ -133,9 +133,10 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 <div class="version-container">
     <div class="version-info">
-        v4.1
+        v4.2
     </div>
 </div>
+
 
 
 
