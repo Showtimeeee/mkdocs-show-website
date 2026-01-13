@@ -35,7 +35,7 @@ extra:
               name: Нет
               data: 0
               note: Жаль, что вам не понравилось...
-  copyright: "Copyright © 2025 Vadim."
+  copyright: "Copyright © 2026 Vadim."
   generator: false  # Скрываем надпись "Made with MkDocs"
   translations:
     toc: "Содержание страницы"
@@ -74,7 +74,8 @@ plugins:
   - mermaid2
   
 
-copyright: Copyright &copy; 2025 <a href="">Vadim</a>.
+copyright: Copyright &copy; 2026 <a href="">Vadim</a>.
+
 
 
 
