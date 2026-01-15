@@ -68,23 +68,6 @@ pytest -v -s --tb=long -rA --color=yes --durations=10
 
 ---
 
-<div class="music-accordion">
-    <div class="accordion-header" onclick="toggleMusicAccordion()">
-    <h2 class="neon-text-blue">Productive Work Music</h2>
-    </div>
-    
-  <div class="accordion-content">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/2FuZO0E1DXQ?si=CFM5So0zcESaZL9v" frameborder="0" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/6WrPTKljH3Q?si=VHa9Bhu6aQwx8yCW" frameborder="0" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/tLYL_3NcJck?si=dSy030Whb15qnc7-" frameborder="0" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/n7_GtsDStsk?si=wmw5kti0fhBtVO0Q" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </div>
-</div>
-
----
-
 ## <h2 class="neon-text-purple">Open-source / Инструменты</h2>
 
 
@@ -136,6 +119,7 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
         v4.2
     </div>
 </div>
+
 
 
 
