@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='green'/><circle cx='30' cy='30' r='5' fill='white'/><circle cx='70' cy='30' r='5' fill='white'/><path d='M30 50 Q50 70 70 50' stroke='white' stroke-width='3' fill='none'/></svg>" type="image/svg+xml">
+  <title>Этапы принятия Бага</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #1e1e2f;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .pipeline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 900px;
+      margin: 40px auto;
+      position: relative;
+    }
+
+    .pipeline::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 4px;
+      width: 100%;
+      background: #444;
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .step {
+      position: relative;
+      z-index: 1;
+      background-color: #333;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .step.active {
+      background-color: #0f0;
+      color: #000;
+      font-weight: bold;
+      transform: scale(1.2);
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 25px;
+      border: 2px dashed #444;
+      border-radius: 12px;
+      background-color: #2a2a3d;
+      box-shadow: 0 0 20px #0f0;
+      margin: 0 auto 20px auto;
+    }
+
+    .emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0c0;
+    }
+
+    .chart-container {
+      width: 80%;
+      margin: 40px auto;
+      background-color: #2a2a3d;
+      padding: 20px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Этапы принятия Бага 🐛</h1>
+
+  <div class="pipeline" id="pipeline">
+    <!-- Сюда будут добавляться шаги -->
+  </div>
+
+  <div class="container">
+    <div id="stage" class="stage"></div>
+    <button onclick="nextStage()">Следующая стадия</button>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="bugChart"></canvas>
+  </div>
+
+  <script>
+    const stages = [
+      { emoji: "🧠", title: "1) Вдохновение", desc: "«Вот я сделаю крутую фичу за час!»" },
+      { emoji: "⌨️", title: "2) Кодирование", desc: "Пишешь код в 3 ночи, чувствуешь себя гением" },
+      { emoji: "✅", title: "3) Локальный тест", desc: "«У меня всё работает!» (локально)" },
+      { emoji: "🚀", title: "4) Деплой на dev", desc: "Заливаешь на dev, гордо пишешь «Ready for QA»" },
+      { emoji: "🕵️‍♂️", title: "5) QA начинает тестить", desc: "QA находит баг через 5 секунд..." },
+      { emoji: "🙅‍♂️", title: "6) Отрицание", desc: "«Невозможно! У меня всё работало!»" },
+      { emoji: "😡", title: "7) Гнев", desc: "«Как они вообще такое проверяют?!»" },
+      { emoji: "🤝", title: "8) Торговля", desc: "«Может, это не баг? Может, так и задумано было?»" },
+      { emoji: "😢", title: "9) Депрессия", desc: "«Я же просто хотел помочь проекту…»" },
+      { emoji: "🛠️", title: "10) Принятие", desc: "«Хорошо, попробую воспроизвести. Хотя бы без console.log»" },
+      { emoji: "🔁", title: "11) Фикс и перезалив", desc: "Фиксанул один баг — получил два новых. Welcome to Dev Life!" },
+      { emoji: "🔄", title: "12) Цикл повторяется", desc: "QA снова нашёл баг. Но уже в другой части кода." },
+      { emoji: "🎓", title: "13) Озарение", desc: "«Может, мне пойти в тестировщики? Там хотя бы нет багов в коде» 😂" },
+      { emoji: "🎉", title: "🎉 Поздравляем!", desc: "Вы прошли полный жизненный цикл бага. Теперь можно снова писать код." }
+    ];
+
+    let currentStage = 0;
+
+    // Создаем точки на графике
+    const pipeline = document.getElementById('pipeline');
+    stages.forEach((_, index) => {
+      const step = document.createElement('div');
+      step.classList.add('step');
+      step.id = `step-${index}`;
+      step.innerText = index + 1;
+      pipeline.appendChild(step);
+    });
+
+    function nextStage() {
+      if (currentStage >= stages.length) return;
+
+      const stageDiv = document.getElementById('stage');
+
+      stageDiv.classList.remove('active');
+      setTimeout(() => {
+        const stage = stages[currentStage];
+        stageDiv.innerHTML = `
+          <div class="emoji">${stage.emoji}</div>
+          <h2>${stage.title}</h2>
+          <p>${stage.desc}</p>
+        `;
+        stageDiv.classList.add('active');
+
+        // Подсветка текущего шага на графике
+        const steps = document.querySelectorAll('.step');
+        steps.forEach((s, i) => {
+          s.classList.toggle('active', i === currentStage);
+        });
+
+        currentStage++;
+      }, 300);
+    }
+
+    window.onload = () => {
+      nextStage();
+
+      // Создание графика
+      const ctx = document.getElementById('bugChart').getContext('2d');
+      const bugChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['10K', '20K', '30K', '40K', '50K', '60K', '70K', '80K', '90K', '100K'],
+          datasets: [{
+            label: 'Количество багов',
+            data: [5, 15, 35, 70, 120, 190, 280, 390, 520, 680],
+            backgroundColor: 'rgba(0, 255, 0, 0.2)',
+            borderColor: 'rgba(0, 255, 0, 1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Рост количества багов относительно увеличения строк кода',
+              font: {
+                size: 18
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Багів: ${context.raw} (приблизно ${Math.round(context.raw/context.parsed.x)} багів на 1K коду)`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Количество строк кода (тыс.)'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Количество багов'
+              },
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    };
+  </script>
+</body>
+</html>

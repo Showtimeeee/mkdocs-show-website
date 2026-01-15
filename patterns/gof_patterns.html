@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gang of Four Паттерны</title>
+
+  <!-- Фавиконка -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+
+  <style>
+    :root {
+      --bg: #1e1e2f;
+      --card-bg: #2a2a3d;
+      --text: #f5f5f5;
+      --accent: #6c63ff;
+      --hover: #574fd6;
+      --btn-bg: #3a3a5a;
+      --btn-hover: #50507a;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f9f9f9;
+        --card-bg: #ffffff;
+        --text: #222;
+        --accent: #5a56e0;
+        --hover: #4b47cc;
+        --btn-bg: #e0e0e0;
+        --btn-hover: #d0d0d0;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .tab-button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      background: var(--btn-bg);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .tab-button:hover,
+    .tab-button.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .pattern-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px var(--shadow);
+      transition: transform 0.3s;
+    }
+
+    .pattern-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pattern-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .pattern-desc {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Паттерны Gang of Four</h1>
+<p style="text-align:center; margin-top: -1rem;">23 шаблона проектирования из знаменитой книги Design Patterns</p>
+
+<div class="tabs">
+  <button class="tab-button active" data-group="creational">Порождающие</button>
+  <button class="tab-button" data-group="structural">Структурные</button>
+  <button class="tab-button" data-group="behavioral">Поведенческие</button>
+</div>
+
+<div class="patterns-grid" id="patterns-container"></div>
+
+<!-- Мини-тест -->
+<div style="margin-top: 4rem; padding: 2rem; background: var(--card-bg); border-radius: 10px; box-shadow: 0 4px 10px var(--shadow);">
+  <h2>🧪 Проверь свои знания!</h2>
+
+  <div id="quiz" style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+    <div id="quiz-pattern" style="font-weight: bold; font-size: 1.2rem;"></div>
+
+    <div id="quiz-buttons" style="display: flex; gap: 1rem;"></div>
+
+    <div id="quiz-result" style="margin-top: 1rem; font-weight: bold;"></div>
+    <button onclick="nextQuestion()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--accent); color: white; border: none; border-radius: 6px;">Следующий вопрос</button>
+  </div>
+</div>
+
+<script>
+  const patterns = {
+    creational: [
+      { title: "Абстрактная фабрика", desc: "Создаёт семейства связанных объектов без указания конкретных классов." },
+      { title: "Строитель", desc: "Разделяет создание сложного объекта от его представления." },
+      { title: "Фабричный метод", desc: "Определяет интерфейс для создания объекта, но позволяет подклассам изменять тип создаваемого объекта." },
+      { title: "Прототип", desc: "Создаёт объекты путём клонирования существующего экземпляра." },
+      { title: "Одиночка", desc: "Гарантирует, что у класса будет только один экземпляр, и предоставляет к нему глобальный доступ." },
+      { title: "Простая фабрика", desc: "Не формальный паттерн, создающий объекты по заданному параметру." }
+    ],
+    structural: [
+      { title: "Адаптер", desc: "Позволяет объектам с несовместимыми интерфейсами работать вместе." },
+      { title: "Мост", desc: "Разделяет абстракцию и её реализацию так, чтобы их можно было изменять независимо." },
+      { title: "Компоновщик", desc: "Составляет объекты в древовидные структуры для представления иерархии части-целое." },
+      { title: "Декоратор", desc: "Добавляет поведение объекту динамически." },
+      { title: "Фасад", desc: "Предоставляет простой интерфейс для сложной системы." },
+      { title: "Летучий объект", desc: "Уменьшает потребление памяти за счёт разделения общего состояния." },
+      { title: "Заместитель", desc: "Контролирует доступ к другому объекту." }
+    ],
+    behavioral: [
+      { title: "Цепочка обязанностей", desc: "Передаёт запрос по цепочке обработчиков, пока один из них не обработает его." },
+      { title: "Команда", desc: "Превращает запросы в объекты, позволяя передавать их как аргументы и ставить в очередь." },
+      { title: "Итератор", desc: "Предоставляет способ последовательного доступа ко всем элементам коллекции без раскрытия её внутренней структуры." },
+      { title: "Посредник", desc: "Упрощает взаимодействие множества компонентов, централизуя коммуникацию." },
+      { title: "Хранитель", desc: "Сохраняет и восстанавливает состояние объекта, не нарушая инкапсуляции." },
+      { title: "Наблюдатель", desc: "Один объект уведомляет другие объекты о любых изменениях своего состояния." },
+      { title: "Состояние", desc: "Изменяет поведение объекта в зависимости от его состояния." },
+      { title: "Стратегия", desc: "Определяет семейство алгоритмов, делает их взаимозаменяемыми." },
+      { title: "Шаблонный метод", desc: "Определяет основу алгоритма и позволяет подклассам переопределять некоторые шаги." },
+      { title: "Посетитель", desc: "Добавляет операции к объектам без изменения их классов." },
+      { title: "Интерпретатор", desc: "Определяет представление грамматики и интерпретирует предложения на этом языке." }
+    ]
+  };
+
+  const container = document.getElementById('patterns-container');
+  const buttons = document.querySelectorAll('.tab-button');
+
+  function showGroup(group) {
+    container.innerHTML = '';
+    patterns[group].forEach(pattern => {
+      const card = document.createElement('div');
+      card.className = 'pattern-card';
+      card.innerHTML = `
+        <div class="pattern-title">${pattern.title}</div>
+        <div class="pattern-desc">${pattern.desc}</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      button.classList.add('active');
+      showGroup(button.dataset.group);
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    showGroup('creational');
+  });
+
+  // ========== ТЕСТ ==========
+
+  const allPatterns = [
+    ...patterns.creational.map(p => ({...p, group: 'creational'})),
+    ...patterns.structural.map(p => ({...p, group: 'structural'})),
+    ...patterns.behavioral.map(p => ({...p, group: 'behavioral'}))
+  ];
+
+  const quizButtonsContainer = document.getElementById('quiz-buttons');
+  const quizPatternTitle = document.getElementById('quiz-pattern');
+  const quizResult = document.getElementById('quiz-result');
+
+  const groups = ['creational', 'structural', 'behavioral'];
+  let currentPattern = null;
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function nextQuestion() {
+    quizResult.textContent = '';
+    currentPattern = allPatterns[Math.floor(Math.random() * allPatterns.length)];
+
+    quizPatternTitle.textContent = currentPattern.title;
+
+    const wrongGroups = shuffle(groups.filter(g => g !== currentPattern.group));
+    const options = shuffle([currentPattern.group, wrongGroups[0], wrongGroups[1]]);
+
+    quizButtonsContainer.innerHTML = '';
+
+    options.forEach(option => {
+      const btn = document.createElement('button');
+      btn.textContent = { creational: 'Порождающие', structural: 'Структурные', behavioral: 'Поведенческие' }[option];
+      btn.classList.add('tab-button'); // <-- стиль как у основных табов
+
+      btn.addEventListener('click', () => {
+        if (option === currentPattern.group) {
+          quizResult.textContent = '✅ Верно!';
+          quizResult.style.color = 'lightgreen';
+        } else {
+          quizResult.textContent = `❌ Неверно. Это ${{ creational: 'Порождающий', structural: 'Структурный', behavioral: 'Поведенческий' }[currentPattern.group]} паттерн.`;
+          quizResult.style.color = 'tomato';
+        }
+      });
+
+      quizButtonsContainer.appendChild(btn);
+    });
+  }
+
+  // Первый запуск
+  nextQuestion();
+</script>
+
+</body>
+</html>
