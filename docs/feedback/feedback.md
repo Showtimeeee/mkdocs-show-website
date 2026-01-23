@@ -41,7 +41,7 @@
         document.getElementById('status').textContent = 'Сообщение успешно отправлено! Спасибо за обратную связь! 😊';
         document.getElementById('feedback-form').reset();
       }, function (error) {
-        document.getElementById('status').textContent = 'Ошибка при отправке сообщения. Попробуйте еще раз! 😔';
+        document.getElementById('status').textContent = 'Севрис временно не доступен: 502 Bad Gateway. Напишитие email';
         console.error('Error:', error);
       });
   }
