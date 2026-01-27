@@ -1,0 +1,1506 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://showtimeeee.github.io/mkdocs-show-website/guides/playwright_testing_python/">
+      
+      
+      
+      
+      <link rel="icon" href="../../images/logo-ico.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Гайд по Playwright (Python) - Showtime-Bro</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/base.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-CRWF7DFZHT"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-CRWF7DFZHT",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-CRWF7DFZHT",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#playwright-python" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Showtime-Bro" class="md-header__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Showtime-Bro
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Гайд по Playwright (Python)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Showtime-Bro" class="md-nav__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    Showtime-Bro
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная🍕
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статьи📝
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Гайды🛠️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проекты🤖
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../opros/examinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тренажеры🎓
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patterns/patterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Паттерны🧩
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Алгоритмы👨‍💻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../graphs/grafs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Диаграммы📊
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download_books/books/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Книги📚
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Напиши мне✍️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-playwright" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Основные концепции Playwright
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-playwright" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Установка Playwright
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Написание первого теста
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-playwright" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Система локаторов в Playwright
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Система локаторов в Playwright">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1. Основные типы локаторов
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1. Основные типы локаторов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Текстовые локаторы
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aria-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ролевые локаторы (ARIA-роли)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Локаторы по атрибутам
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Специальные локаторы
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2. Композитные локаторы
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2. Композитные локаторы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Фильтрация элементов
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Цепочки локаторов
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3. Работа с динамическими элементами
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3. Работа с динамическими элементами">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Локаторы с учетом состояния
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Кастомные CSS-псевдоклассы
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.4. Лучшие практики
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Система проверок и утверждений
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Система проверок и утверждений">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-api-expect" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1. API Expect (основной подход)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1. API Expect (основной подход)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Базовые проверки
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Проверки видимости и состояния
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Проверки коллекций
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2. Автоматические ожидания
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.3. Продвинутые проверки
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.3. Продвинутые проверки">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Проверки снимков
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Проверки сети
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Кастомные условия
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.4. Лучшие практики проверок
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Локаторы и поиск элементов
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Локаторы и поиск элементов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1. Основные методы поиска
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2. Цепочки локаторов
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3. Лучшие практики локаторов
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Автоматические ожидания
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Автоматические ожидания">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.1. Явные ожидания
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      7.2. Кастомные ожидания
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Работа с сетевыми запросами
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Работа с сетевыми запросами">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.1. Перехват запросов
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      8.2. Мокирование ответов
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Параметризация тестов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Плагины и интеграции
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Плагины и интеграции">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.1. Популярные плагины
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      10.2. Пример конфигурации
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Советы по оптимизации
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Пример комплексного теста
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="playwright-python">Гайд по Playwright (Python)</h1>
+<div><img src="https://raw.githubusercontent.com/devicons/devicon/ca28c779441053191ff11710fe24a9e6c23690d6/icons/playwright/playwright-original.svg" title="Playwright" alt="Playwright" width="500" height="500"> 
+</div>
+
+<p>Playwright — это современный фреймворк для автоматизации тестирования веб-приложений, разработанный Microsoft. Он поддерживает все современные браузеры (Chromium, Firefox, WebKit) и предоставляет мощный API для автоматизации взаимодействия с веб-страницами. Playwright на Python сочетает в себе простоту использования с богатыми возможностями для тестирования сложных веб-приложений.</p>
+<h2 id="1-playwright">1. <strong>Основные концепции Playwright</strong></h2>
+<p>Прежде чем начать работу с Playwright, важно понять его ключевые компоненты:</p>
+<ul>
+<li><strong>Браузерный контекст</strong>: Изолированная сессия браузера (аналог профиля пользователя)</li>
+<li><strong>Страницы (Pages)</strong>: Отдельные вкладки/окна в браузере</li>
+<li><strong>Селекторы</strong>: Механизмы поиска элементов на странице (CSS, XPath, text и др.)</li>
+<li><strong>Автоматические ожидания</strong>: Встроенные механизмы ожидания элементов и состояний</li>
+<li><strong>Перехват сетевых запросов</strong>: Возможность мониторинга и мокирования API-запросов</li>
+<li><strong>Генерация событий</strong>: Эмуляция действий пользователя (клики, ввод текста и т.д.)</li>
+</ul>
+<h2 id="2-playwright">2. <strong>Установка Playwright</strong></h2>
+<p>Для начала работы установите Playwright через pip:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>pytest-playwright
+</code></pre></div>
+<p>Установите необходимые браузеры:</p>
+<div class="highlight"><pre><span></span><code>playwright<span class="w"> </span>install
+</code></pre></div>
+<h2 id="3">3. <strong>Написание первого теста</strong></h2>
+<p>Создайте файл <code>test_example.py</code> с базовым тестом:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">expect</span><span class="p">,</span> <span class="n">Page</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_example</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="n">Page</span><span class="p">):</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">"https://playwright.dev/"</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_title</span><span class="p">(</span><span class="s2">"Playwright"</span><span class="p">)</span>
+
+    <span class="n">search_button</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Search"</span><span class="p">)</span>
+    <span class="n">search_button</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+    <span class="n">search_box</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_by_placeholder</span><span class="p">(</span><span class="s2">"Search docs"</span><span class="p">)</span>
+    <span class="n">search_box</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"locators"</span><span class="p">)</span>
+
+    <span class="n">first_result</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".search-results li"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">first_result</span><span class="p">)</span><span class="o">.</span><span class="n">to_contain_text</span><span class="p">(</span><span class="s2">"Locators"</span><span class="p">)</span>
+</code></pre></div>
+<p>Запустите тест:</p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>test_example.py
+</code></pre></div>
+<h2 id="4-playwright">4. <strong>Система локаторов в Playwright</strong></h2>
+<p>Playwright предлагает современный подход к поиску элементов, который значительно отличается от традиционных методов Selenium. Вот полный обзор возможностей:</p>
+<h3 id="41">4.1. <strong>Основные типы локаторов</strong></h3>
+<h4 id="_1"><strong>Текстовые локаторы</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Точное совпадение текста</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_text</span><span class="p">(</span><span class="s2">"Submit Form"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># Частичное совпадение (регистронезависимое)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_text</span><span class="p">(</span><span class="s2">"mit for"</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">hover</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="aria-"><strong>Ролевые локаторы (ARIA-роли)</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Стандартные роли WAI-ARIA</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Close"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"checkbox"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Agree"</span><span class="p">)</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+
+<span class="c1"># Комбинирование с атрибутами</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"textbox"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Email"</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"test@example.com"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_2"><strong>Локаторы по атрибутам</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Placeholder</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_placeholder</span><span class="p">(</span><span class="s2">"Enter your name"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"Alex"</span><span class="p">)</span>
+
+<span class="c1"># Title</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_title</span><span class="p">(</span><span class="s2">"Tooltip content"</span><span class="p">)</span><span class="o">.</span><span class="n">hover</span><span class="p">()</span>
+
+<span class="c1"># Label</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="s2">"Password *"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"secret123"</span><span class="p">)</span>
+
+<span class="c1"># Alt текст изображений</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_alt_text</span><span class="p">(</span><span class="s2">"Company logo"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="_3"><strong>Специальные локаторы</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># data-testid (рекомендуемый подход)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_test_id</span><span class="p">(</span><span class="s2">"nav-menu"</span><span class="p">)</span><span class="o">.</span><span class="n">get_by_text</span><span class="p">(</span><span class="s2">"Home"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># CSS и XPath (как fallback)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"#main &gt; .btn-primary:visible"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"//button[contains(@class, 'submit')]"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="42">4.2. <strong>Композитные локаторы</strong></h3>
+<h4 id="_4"><strong>Фильтрация элементов</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># По тексту</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">has_text</span><span class="o">=</span><span class="s2">"Pending"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># По дочерним элементам</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"div.card"</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">has</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".priority-high"</span><span class="p">))</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># Комбинированные условия</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"li.item"</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+    <span class="n">has_text</span><span class="o">=</span><span class="s2">"Order"</span><span class="p">,</span>
+    <span class="n">has</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Details"</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="_5"><strong>Цепочки локаторов</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Иерархический поиск</span>
+<span class="n">modal</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".modal-content"</span><span class="p">)</span>
+<span class="n">modal</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="s2">"Username"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"user1"</span><span class="p">)</span>
+
+<span class="c1"># Реляционные локаторы</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"div.item"</span><span class="p">)</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span>  <span class="c1"># Родительский элемент</span>
+</code></pre></div>
+<h3 id="43">4.3. <strong>Работа с динамическими элементами</strong></h3>
+<h4 id="_6"><strong>Локаторы с учетом состояния</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Только видимые элементы</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"button:visible"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># Элементы с определенным состоянием</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"input:enabled"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"checkbox:checked"</span><span class="p">)</span><span class="o">.</span><span class="n">uncheck</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="css-"><strong>Кастомные CSS-псевдоклассы</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Элементы, содержащие другие элементы</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"div:has(.icon-warning)"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># Элементы рядом с другими</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"input:right-of(:text('Username'))"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="44">4.4. <strong>Лучшие практики</strong></h3>
+<ol>
+<li>
+<p><strong>Приоритетность стратегий</strong>:
+   </p><div class="highlight"><pre><span></span><code>1. get_by_role() + get_by_text()
+2. get_by_test_id()
+3. get_by_label()/get_by_placeholder()
+4. CSS/XPath (только когда другие не работают)
+</code></pre></div>
+</li>
+<li>
+<p><strong>Паттерны именования</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># Хорошо</span>
+<span class="n">submit_btn</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Submit"</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">))</span>
+
+<span class="c1"># Плохо</span>
+<span class="n">btn</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"//*[@id='app']/div[3]/button[2]"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Переиспользование локаторов</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># В conftest.py</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_input</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">page</span><span class="o">.</span><span class="n">get_by_placeholder</span><span class="p">(</span><span class="s2">"Search products..."</span><span class="p">)</span>
+
+<span class="c1"># В тестах</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_search</span><span class="p">(</span><span class="n">search_input</span><span class="p">):</span>
+    <span class="n">search_input</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"Playwright"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Отладка локаторов</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># Проверка количества найденных элементов</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".item"</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+
+<span class="c1"># Визуализация поиска</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"button"</span><span class="p">)</span><span class="o">.</span><span class="n">highlight</span><span class="p">()</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="5">5. <strong>Система проверок и утверждений</strong></h2>
+<p>Playwright предоставляет две основные системы проверок: <code>expect</code> и автоматические ожидания.</p>
+<h3 id="51-api-expect">5.1. <strong>API Expect (основной подход)</strong></h3>
+<h4 id="_7"><strong>Базовые проверки</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".status"</span><span class="p">))</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"Payment successful"</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_url</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"/order/\d+$"</span><span class="p">))</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"img.logo"</span><span class="p">))</span><span class="o">.</span><span class="n">to_have_attribute</span><span class="p">(</span><span class="s2">"src"</span><span class="p">,</span> <span class="s2">"logo.png"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_8"><strong>Проверки видимости и состояния</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".popup"</span><span class="p">))</span><span class="o">.</span><span class="n">to_be_visible</span><span class="p">()</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".loader"</span><span class="p">))</span><span class="o">.</span><span class="n">to_be_hidden</span><span class="p">()</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"input#agree"</span><span class="p">))</span><span class="o">.</span><span class="n">to_be_checked</span><span class="p">()</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">))</span><span class="o">.</span><span class="n">to_be_disabled</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="_9"><strong>Проверки коллекций</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="n">rows</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"table tr"</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_count</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">not_to_have_count</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"First item"</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">to_contain_text</span><span class="p">([</span><span class="s2">"Item 1"</span><span class="p">,</span> <span class="s2">"Item 2"</span><span class="p">])</span>
+</code></pre></div>
+<h3 id="52">5.2. <strong>Автоматические ожидания</strong></h3>
+<p>Все действия Playwright автоматически ожидают готовности элементов:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Автоматически ждет:</span>
+<span class="c1"># - пока элемент появится в DOM</span>
+<span class="c1"># - станет видимым</span>
+<span class="c1"># - перестанет быть анимированным</span>
+<span class="c1"># - будет получать события</span>
+<span class="n">page</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="s2">"button.submit"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="53">5.3. <strong>Продвинутые проверки</strong></h3>
+<h4 id="_10"><strong>Проверки снимков</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Текстовые снимки</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".output"</span><span class="p">))</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"Expected result"</span><span class="p">)</span>
+
+<span class="c1"># Визуальные снимки (требует playwright-screenshot)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_screenshot</span><span class="p">(</span><span class="s2">"homepage.png"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_11"><strong>Проверки сети</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ожидание запроса</span>
+<span class="k">with</span> <span class="n">page</span><span class="o">.</span><span class="n">expect_request</span><span class="p">(</span><span class="s2">"**/api/data"</span><span class="p">)</span> <span class="k">as</span> <span class="n">req</span><span class="p">:</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="s2">"button.fetch-data"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">req</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">"GET"</span>
+
+<span class="c1"># Ожидание ответа</span>
+<span class="k">with</span> <span class="n">page</span><span class="o">.</span><span class="n">expect_response</span><span class="p">(</span><span class="s2">"**/api/save"</span><span class="p">)</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="s2">"button.save"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">resp</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">200</span>
+</code></pre></div>
+<h4 id="_12"><strong>Кастомные условия</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_loading_complete</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"() =&gt; !window.isLoading"</span><span class="p">)</span>
+
+<span class="n">page</span><span class="o">.</span><span class="n">wait_for_function</span><span class="p">(</span><span class="n">is_loading_complete</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="54">5.4. <strong>Лучшие практики проверок</strong></h3>
+<ol>
+<li>
+<p><strong>Принцип одной проверки на тест</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># Хорошо</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_order_complete</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="n">complete_msg</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".order-complete"</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">complete_msg</span><span class="p">)</span><span class="o">.</span><span class="n">to_be_visible</span><span class="p">()</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">complete_msg</span><span class="p">)</span><span class="o">.</span><span class="n">to_contain_text</span><span class="p">(</span><span class="s2">"Thank you"</span><span class="p">)</span>
+
+<span class="c1"># Плохо (множество несвязанных проверок)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_multiple_things</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="n">expect</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">to_be_visible</span><span class="p">()</span>
+    <span class="n">expect</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">()</span>
+    <span class="n">expect</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_count</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Именованные проверки</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">assert_order_status</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".order-status"</span><span class="p">))</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_orders</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">assert_order_status</span><span class="p">):</span>
+    <span class="n">assert_order_status</span><span class="p">(</span><span class="s2">"Processing"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Гибкие таймауты</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># Глобальный таймаут</span>
+<span class="n">expect</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">15_000</span><span class="p">)</span>
+
+<span class="c1"># Локальный таймаут</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"Done"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30_000</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Информативные сообщения</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="n">expect</span><span class="p">(</span><span class="n">search_results</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Should display 10 search results"</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_count</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Негативные проверки</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".error"</span><span class="p">))</span><span class="o">.</span><span class="n">not_to_be_visible</span><span class="p">()</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">not_to_have_url</span><span class="p">(</span><span class="s2">"/error"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<p>Эти системы проверок делают тесты Playwright максимально читаемыми и устойчивыми к изменениям в приложении.</p>
+<h2 id="6">6. <strong>Локаторы и поиск элементов</strong></h2>
+<p>Playwright предлагает несколько способов поиска элементов:</p>
+<h3 id="61">6.1. <strong>Основные методы поиска</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># По тексту</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_text</span><span class="p">(</span><span class="s2">"Submit"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># По атрибуту [placeholder]</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_placeholder</span><span class="p">(</span><span class="s2">"Username"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"user"</span><span class="p">)</span>
+
+<span class="c1"># По label</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="s2">"Password"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"secret"</span><span class="p">)</span>
+
+<span class="c1"># По роли ARIA</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Sign in"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># По title атрибуту</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_title</span><span class="p">(</span><span class="s2">"Info"</span><span class="p">)</span><span class="o">.</span><span class="n">hover</span><span class="p">()</span>
+
+<span class="c1"># По CSS или XPath</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"button.submit"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"//button[contains(text(),'Submit')]"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="62">6.2. <strong>Цепочки локаторов</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ищем форму, затем поле внутри нее</span>
+<span class="n">form</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".auth-form"</span><span class="p">)</span>
+<span class="n">form</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"textbox"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"username"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>
+
+<span class="c1"># Фильтрация элементов</span>
+<span class="n">active_items</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"li.item"</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">has_text</span><span class="o">=</span><span class="s2">"Active"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="63">6.3. <strong>Лучшие практики локаторов</strong></h3>
+<ol>
+<li><strong>Приоритеты методов</strong>:</li>
+<li><code>get_by_role()</code> - лучший выбор для доступных элементов</li>
+<li><code>get_by_text()</code> - для элементов с уникальным текстом</li>
+<li><code>get_by_test_id()</code> - для специальных data-атрибутов</li>
+<li>
+<p>CSS/XPath - когда другие методы не подходят</p>
+</li>
+<li>
+<p><strong>Избегайте хрупких селекторов</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="c1"># Плохо - зависит от структуры DOM</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">"body &gt; div &gt; div &gt; button"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+<span class="c1"># Хорошо - использует семантические атрибуты</span>
+<span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Submit"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Используйте пользовательские атрибуты</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">button</span> <span class="na">data-testid</span><span class="o">=</span><span class="s">"submit-button"</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div>
+   <div class="highlight"><pre><span></span><code><span class="n">page</span><span class="o">.</span><span class="n">get_by_test_id</span><span class="p">(</span><span class="s2">"submit-button"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="7">7. <strong>Автоматические ожидания</strong></h2>
+<p>Playwright автоматически ожидает готовности элементов перед действиями. Дополнительные возможности:</p>
+<h3 id="71">7.1. <strong>Явные ожидания</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ожидание появления элемента</span>
+<span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".loading-spinner"</span><span class="p">)</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s2">"hidden"</span><span class="p">)</span>
+
+<span class="c1"># Ожидание текста в элементе</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".status"</span><span class="p">))</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"Success"</span><span class="p">)</span>
+
+<span class="c1"># Ожидание URL</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_url</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"/success$"</span><span class="p">))</span>
+
+<span class="c1"># Ожидание загрузки страницы</span>
+<span class="n">page</span><span class="o">.</span><span class="n">wait_for_url</span><span class="p">(</span><span class="s2">"**/dashboard"</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="72">7.2. <strong>Кастомные ожидания</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ожидание кастомного условия</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_loading_finished</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"() =&gt; window.isLoading === false"</span><span class="p">)</span>
+
+<span class="n">page</span><span class="o">.</span><span class="n">wait_for_function</span><span class="p">(</span><span class="n">is_loading_finished</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="8">8. <strong>Работа с сетевыми запросами</strong></h2>
+<p>Playwright позволяет перехватывать и мокировать API-запросы:</p>
+<h3 id="81">8.1. <strong>Перехват запросов</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_api_intercept</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="n">Page</span><span class="p">):</span>
+    <span class="c1"># Перехватываем все запросы к API</span>
+    <span class="k">with</span> <span class="n">page</span><span class="o">.</span><span class="n">expect_request</span><span class="p">(</span><span class="s2">"**/api/users/*"</span><span class="p">)</span> <span class="k">as</span> <span class="n">request</span><span class="p">:</span>
+        <span class="n">page</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="s2">"button.load-users"</span><span class="p">)</span>
+
+    <span class="n">intercepted_request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">assert</span> <span class="n">intercepted_request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">"GET"</span>
+</code></pre></div>
+<h3 id="82">8.2. <strong>Мокирование ответов</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_api_mock</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="n">Page</span><span class="p">):</span>
+    <span class="c1"># Мокируем API ответ</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">"**/api/users"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">route</span><span class="p">:</span> <span class="n">route</span><span class="o">.</span><span class="n">fulfill</span><span class="p">(</span>
+        <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">content_type</span><span class="o">=</span><span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="n">body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Mocked User"</span><span class="p">}]),</span>
+    <span class="p">))</span>
+
+    <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">"/users-page"</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">locator</span><span class="p">(</span><span class="s2">".user-name"</span><span class="p">))</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"Mocked User"</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="9">9. <strong>Параметризация тестов</strong></h2>
+<p>Как и в Pytest, тесты можно параметризировать:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">"username,password"</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"user1"</span><span class="p">,</span> <span class="s2">"pass1"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"test_user"</span><span class="p">,</span> <span class="s2">"secure_pass"</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_login</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="n">Page</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">"/login"</span><span class="p">)</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="s2">"Username"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">get_by_label</span><span class="p">(</span><span class="s2">"Password"</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"button"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Login"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_url</span><span class="p">(</span><span class="s2">"/dashboard"</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="10">10. <strong>Плагины и интеграции</strong></h2>
+<h3 id="101">10.1. <strong>Популярные плагины</strong></h3>
+<ul>
+<li><strong>pytest-playwright</strong>: Основная интеграция Playwright с pytest</li>
+<li><strong>pytest-base-url</strong>: Управление базовыми URL для тестов</li>
+<li><strong>pytest-parallel</strong>: Параллельное выполнение тестов</li>
+<li><strong>allure-pytest</strong>: Генерация отчетов Allure</li>
+</ul>
+<h3 id="102">10.2. <strong>Пример конфигурации</strong></h3>
+<p><code>conftest.py</code>:
+</p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Playwright</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">browser_context_args</span><span class="p">(</span><span class="n">browser_context_args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="o">**</span><span class="n">browser_context_args</span><span class="p">,</span>
+        <span class="s2">"viewport"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"width"</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span> <span class="s2">"height"</span><span class="p">:</span> <span class="mi">1080</span><span class="p">},</span>
+        <span class="s2">"ignore_https_errors"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">}</span>
+</code></pre></div>
+<h2 id="11">11. <strong>Советы по оптимизации</strong></h2>
+<ol>
+<li>
+<p><strong>Используйте один браузер для всех тестов</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">"session"</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">browser</span><span class="p">(</span><span class="n">playwright</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">playwright</span><span class="o">.</span><span class="n">chromium</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Включайте трассировку для отладки</strong>:
+   </p><div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--tracing<span class="o">=</span>on
+</code></pre></div>
+</li>
+<li>
+<p><strong>Используйте storage state для аутентификации</strong>:
+   </p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_auth</span><span class="p">(</span><span class="n">browser</span><span class="p">):</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">browser</span><span class="o">.</span><span class="n">new_context</span><span class="p">()</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">new_page</span><span class="p">()</span>
+    <span class="c1"># Выполняем логин</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">storage_state</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">"auth.json"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Параллелизация тестов</strong>:
+   </p><div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--numprocesses<span class="o">=</span>auto
+</code></pre></div>
+</li>
+<li>
+<p><strong>Генерация отчетов</strong>:
+   </p><div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>--html<span class="o">=</span>report.html<span class="w"> </span>--self-contained-html
+</code></pre></div>
+</li>
+</ol>
+<h2 id="12">12. <strong>Пример комплексного теста</strong></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">playwright.sync_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">expect</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">e2e</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_complete_flow</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="c1"># Навигация и проверка заголовка</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">"https://demo.playwright.dev/todomvc"</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_title</span><span class="p">(</span><span class="s2">"React • TodoMVC"</span><span class="p">)</span>
+
+    <span class="c1"># Добавление задач</span>
+    <span class="n">new_todo</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_by_placeholder</span><span class="p">(</span><span class="s2">"What needs to be done?"</span><span class="p">)</span>
+    <span class="n">new_todo</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"Buy milk"</span><span class="p">)</span>
+    <span class="n">new_todo</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="s2">"Enter"</span><span class="p">)</span>
+    <span class="n">new_todo</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="s2">"Pay bills"</span><span class="p">)</span>
+    <span class="n">new_todo</span><span class="o">.</span><span class="n">press</span><span class="p">(</span><span class="s2">"Enter"</span><span class="p">)</span>
+
+    <span class="c1"># Проверка добавленных задач</span>
+    <span class="n">todo_items</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_by_test_id</span><span class="p">(</span><span class="s2">"todo-item"</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">todo_items</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">todo_items</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_text</span><span class="p">(</span><span class="s2">"Buy milk"</span><span class="p">)</span>
+
+    <span class="c1"># Отметка задачи как выполненной</span>
+    <span class="n">todo_items</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"checkbox"</span><span class="p">)</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+
+    <span class="c1"># Фильтрация задач</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"link"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Active"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">todo_items</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Очистка выполненных задач</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">get_by_role</span><span class="p">(</span><span class="s2">"link"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Completed"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+    <span class="n">page</span><span class="o">.</span><span class="n">get_by_text</span><span class="p">(</span><span class="s2">"Clear completed"</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">todo_items</span><span class="p">)</span><span class="o">.</span><span class="n">to_have_count</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<p>Этот гайд охватывает основные аспекты работы с Playwright на Python. Фреймворк продолжает развиваться, поэтому рекомендуется следить за обновлениями в <a href="https://playwright.dev/python/docs/intro">официальной документации</a>.</p></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Вам нравится эта страница?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Да" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Нет" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 15V3h4v12zM15 3a2 2 0 0 1 2 2v10c0 .55-.22 1.05-.59 1.41L9.83 23l-1.06-1.06c-.27-.27-.44-.64-.44-1.06l.03-.31.95-4.57H3a2 2 0 0 1-2-2v-2c0-.26.05-.5.14-.73l3.02-7.05C4.46 3.5 5.17 3 6 3zm0 2H5.97L3 12v2h8.78l-1.13 5.32L15 14.97z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Спасибо! Я рад, что вам понравилось.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Жаль, что вам не понравилось...
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href="">Vadim</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.footer", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../../js/bubble_sort.js"></script>
+      
+    
+  </body>
+</html>
