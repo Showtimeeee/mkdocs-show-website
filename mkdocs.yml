@@ -50,6 +50,7 @@ nav:
   - Алгоритмы👨‍💻: algorithms/algorithms.md
   - Диаграммы📊: graphs/grafs.md
   - Книги📚: download_books/books.md
+  - Радио📻: radio/bro_radio.md
   - Напиши мне✍️: feedback/feedback.md
   
 
@@ -75,6 +76,7 @@ plugins:
   
 
 copyright: Copyright &copy; 2026 <a href="">Vadim</a>.
+
 
 
 
