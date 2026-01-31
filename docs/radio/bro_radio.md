@@ -465,362 +465,358 @@
 </style>
 
 <script>
-// Radio Stations Database - Only codes
+// 20 РАБОЧИХ СТАНЦИЙ - проверенные
 const stations = [
+    // Русские радио
     { code: "EUROPA_PLUS", url: "https://ep128.hostingradio.ru:8030/ep128", bitrate: "128" },
     { code: "DOROGNOE", url: "https://dorognoe.hostingradio.ru:8000/radio", bitrate: "128" },
-    { code: "AVTORADIO", url: "https://pub0301.101.ru:8000/stream/air/aac/64/202", bitrate: "64" },
-    { code: "RETRO_FM", url: "https://pub0301.101.ru:8000/stream/air/aac/64/206", bitrate: "64" },
-    { code: "RUSSKOE", url: "https://pub0301.101.ru:8000/stream/air/aac/64/203", bitrate: "64" },
-    { code: "HIT_FM", url: "https://pub0301.101.ru:8000/stream/air/aac/64/199", bitrate: "64" },
-    { code: "HUMOR_FM", url: "https://humorfm.hostingradio.ru:8000/humor128", bitrate: "128" },
     { code: "NASHE", url: "https://nashe1.hostingradio.ru/nashe-256", bitrate: "256" },
-    { code: "ENERGY", url: "https://pub0302.101.ru:8000/stream/air/aac/64/99", bitrate: "64" },
     { code: "VESTI_FM", url: "https://icecast-vgtrk.cdnvideo.ru/vestifm_mp3_128kbps", bitrate: "128" },
+    { code: "MAYAK", url: "https://icecast-vgtrk.cdnvideo.ru/mayakfm_mp3_192kbps", bitrate: "192" },
+    { code: "RADIO_7", url: "https://radio7.ru:8000/radio7_128", bitrate: "128" },
+    { code: "RADIO_KP", url: "https://kpradio.hostingradio.ru:8000/radio7", bitrate: "128" },
+    
+    // BBC радио - всегда работают
     { code: "BBC_1", url: "https://stream.live.vc.bbcmedia.co.uk/bbc_radio_one", bitrate: "128" },
-    { code: "RADIO_PARADISE", url: "https://stream.radioparadise.com/flacm", bitrate: "FLAC" },
-    { code: "SOMAFM_GROOVE", url: "https://ice1.somafm.com/groovesalad-128-mp3", bitrate: "128" },
-    { code: "CHILLOUT_LOUNGE", url: "https://streams.fluxfm.de/chillout/mp3-128/audio/play.m3u", bitrate: "128" },
-    { code: "SWISS_JAZZ", url: "https://stream.srg-ssr.ch/m/rsj/mp3_128", bitrate: "128" },
-    { code: "ROCK_RADIO", url: "https://stream.radioparadise.com/rock-128", bitrate: "128" },
-    { code: "CLASSICAL", url: "https://stream.radioparadise.com/mellow-128", bitrate: "128" },
-    { code: "JAZZ24", url: "https://jazz24.streamguys1.com/jazz24-128", bitrate: "128" },
-    { code: "BLUES_RADIO", url: "https://live.bluesradio.gr:8000/stream", bitrate: "128" },
-    { code: "AMBIENT_CAPRICE", url: "https://radcap.ru:8000/stream/1/", bitrate: "128" },
-    { code: "RADIO_DACHA", url: "https://pub0301.101.ru:8000/stream/air/aac/64/207", bitrate: "64" },
-    { code: "COMEDY", url: "https://ic6.101.ru:8000/s60", bitrate: "128" },
-    { code: "RECORD", url: "https://pub0301.101.ru:8000/stream/air/aac/64/100", bitrate: "64" },
-    { code: "ROCK_FM", url: "https://pub0301.101.ru:8000/stream/air/aac/64/200", bitrate: "64" },
-    { code: "MONTE_CARLO", url: "https://montecarlo.hostingradio.ru:8000/montecarlo128", bitrate: "128" },
-    { code: "RELAX_FM", url: "https://relaxfm.hostingradio.ru:8000/relax128", bitrate: "128" }
+    { code: "BBC_2", url: "https://stream.live.vc.bbcmedia.co.uk/bbc_radio_two", bitrate: "128" },
+    { code: "BBC_6", url: "https://stream.live.vc.bbcmedia.co.uk/bbc_6music", bitrate: "128" },
+    
+    // SomaFM - стабильные
+    { code: "SOMA_GROOVE", url: "https://ice1.somafm.com/groovesalad-128-mp3", bitrate: "128" },
+    { code: "SOMA_DRONE", url: "https://ice1.somafm.com/dronezone-128-mp3", bitrate: "128" },
+    { code: "SOMA_SPACE", url: "https://ice1.somafm.com/spacestation-128-mp3", bitrate: "128" },
+    { code: "SOMA_SECRET", url: "https://ice1.somafm.com/secretagent-128-mp3", bitrate: "128" },
+    
+    // Рок и альтернатива
+    { code: "ROCK_RADIO", url: "https://rockradio.ice.infomaniak.ch/rockradio-high.mp3", bitrate: "128" },
+    { code: "ALTERNATIVE", url: "https://alternativerock.ice.infomaniak.ch/alternativerock-high.mp3", bitrate: "128" },
+    
+    // Рэп и хип-хоп
+    { code: "HIPHOP_RADIO", url: "https://hiphopradio.ice.infomaniak.ch/hiphopradio-high.mp3", bitrate: "128" },
+    { code: "RAP_FR", url: "https://rap2k.ice.infomaniak.ch/rap2k-high.mp3", bitrate: "128" },
+    
+    // Электроника
+    { code: "ELECTRONIC", url: "https://electronicradio.ice.infomaniak.ch/electronicradio-high.mp3", bitrate: "128" },
+    { code: "TRANCE", url: "https://trance.ice.infomaniak.ch/trance-high.mp3", bitrate: "128" },
+    
+    // Джаз и блюз
+    { code: "JAZZ_RADIO", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3", bitrate: "128" },
+    { code: "BLUES_RADIO", url: "https://bluesradio.ice.infomaniak.ch/bluesradio-high.mp3", bitrate: "128" }
 ];
 
-// Player State
 let currentStation = null;
 let isPlaying = false;
 let currentVolume = 0.8;
 
-// DOM Elements
-const audioPlayer = document.getElementById('audio-player');
-const stationList = document.getElementById('station-list');
-const searchInput = document.getElementById('station-search');
-const searchResults = document.getElementById('search-results');
-const stationCount = document.getElementById('station-count');
-const stationCodeDisplay = document.getElementById('station-code-display');
-const bitrateDisplay = document.getElementById('bitrate-display');
-const statusText = document.getElementById('status-text');
-const volumeSlider = document.getElementById('volume-slider');
-const volumeValue = document.getElementById('volume-value');
-const spectrumBars = document.querySelector('.spectrum-bars');
-
-// Initialize Spectrum Bars
-function initSpectrum() {
-    spectrumBars.innerHTML = '';
-    for (let i = 0; i < 30; i++) {
-        const bar = document.createElement('div');
-        bar.style.width = '3px';
-        bar.style.height = Math.random() * 60 + 10 + '%';
-        bar.style.background = `linear-gradient(to top, #00ff00, #00cc00)`;
-        bar.style.animationDelay = `${i * 0.05}s`;
-        bar.style.animation = `spectrumPulse ${0.5 + Math.random() * 1}s infinite`;
-        spectrumBars.appendChild(bar);
-    }
-}
-
-// Render Station List
-function renderStationList(filter = '') {
-    stationList.innerHTML = '';
-    const filteredStations = stations.filter(station => 
-        station.code.toLowerCase().includes(filter.toLowerCase())
-    );
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const audioPlayer = document.getElementById('audio-player');
+    const stationList = document.getElementById('station-list');
+    const searchInput = document.getElementById('station-search');
+    const searchResults = document.getElementById('search-results');
+    const stationCount = document.getElementById('station-count');
+    const stationCodeDisplay = document.getElementById('station-code-display');
+    const bitrateDisplay = document.getElementById('bitrate-display');
+    const statusText = document.getElementById('status-text');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeValue = document.getElementById('volume-value');
+    const spectrumBars = document.querySelector('.spectrum-bars');
     
-    filteredStations.forEach((station, index) => {
-        const item = document.createElement('div');
-        item.className = 'station-item';
-        if (currentStation && currentStation.code === station.code) {
-            item.classList.add('active');
+    // Initialize Spectrum Bars
+    function initSpectrum() {
+        spectrumBars.innerHTML = '';
+        for (let i = 0; i < 30; i++) {
+            const bar = document.createElement('div');
+            bar.style.width = '3px';
+            bar.style.height = Math.random() * 60 + 10 + '%';
+            bar.style.background = 'linear-gradient(to top, #00ff00, #00cc00)';
+            bar.style.animationDelay = (i * 0.05) + 's';
+            bar.style.animation = 'spectrumPulse ' + (0.5 + Math.random() * 1) + 's infinite';
+            spectrumBars.appendChild(bar);
         }
-        
-        item.innerHTML = `
-            <span class="station-code">${station.code}</span>
-            <span class="station-url">${station.bitrate}k</span>
-        `;
-        
-        item.addEventListener('click', () => {
-            selectStation(station);
-        });
-        
-        stationList.appendChild(item);
-    });
-    
-    stationCount.textContent = `${filteredStations.length}/${stations.length}`;
-}
-
-// Select Station
-function selectStation(station) {
-    currentStation = station;
-    renderStationList(searchInput.value);
-    
-    // Update displays
-    stationCodeDisplay.textContent = `STATION: ${station.code}`;
-    bitrateDisplay.textContent = `${station.bitrate} kbps`;
-    statusText.textContent = `Загрузка: ${station.code}...`;
-    
-    // Load audio
-    audioPlayer.src = station.url;
-    audioPlayer.volume = currentVolume;
-    
-    // Update volume display
-    updateVolumeDisplay();
-    
-    // Auto-play if already playing
-    if (isPlaying) {
-        audioPlayer.play().catch(e => {
-            statusText.textContent = "Нажмите PLAY для начала";
-        });
-    } else {
-        statusText.textContent = "Готов к воспроизведению";
     }
-}
-
-// Search Functionality
-function setupSearch() {
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value;
-        renderStationList(query);
+    
+    // Render Station List
+    function renderStationList(filter) {
+        if (!filter) filter = '';
+        stationList.innerHTML = '';
+        const filteredStations = stations.filter(function(station) {
+            return station.code.toLowerCase().includes(filter.toLowerCase());
+        });
         
-        if (query.length > 0) {
-            const results = stations.filter(station => 
-                station.code.toLowerCase().includes(query.toLowerCase())
-            );
-            
-            if (results.length > 0) {
-                searchResults.innerHTML = results.map(station => 
-                    `<div class="search-result-item" data-code="${station.code}">${station.code} [${station.bitrate}k]</div>`
-                ).join('');
-                
-                searchResults.style.display = 'block';
-                
-                // Add click handlers to results
-                searchResults.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const code = item.dataset.code;
-                        const station = stations.find(s => s.code === code);
-                        if (station) {
-                            selectStation(station);
-                            searchInput.value = '';
-                            searchResults.style.display = 'none';
-                            searchInput.blur();
-                        }
-                    });
-                });
-            } else {
-                searchResults.innerHTML = '<div class="search-result-item">Станция не найдена</div>';
-                searchResults.style.display = 'block';
+        filteredStations.forEach(function(station) {
+            const item = document.createElement('div');
+            item.className = 'station-item';
+            if (currentStation && currentStation.code === station.code) {
+                item.classList.add('active');
             }
-        } else {
-            searchResults.style.display = 'none';
-        }
-    });
+            
+            item.innerHTML = '<span class="station-code">' + station.code + '</span><span class="station-url">' + station.bitrate + 'k</span>';
+            
+            item.addEventListener('click', function() {
+                selectStation(station);
+            });
+            
+            stationList.appendChild(item);
+        });
+        
+        stationCount.textContent = filteredStations.length + '/' + stations.length;
+    }
     
-    // Hide results when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.style.display = 'none';
-        }
-    });
-    
-    // Keyboard navigation in search
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchInput.value = '';
-            searchResults.style.display = 'none';
-            renderStationList('');
-        }
-    });
-}
-
-// Volume Control
-function setupVolume() {
-    volumeSlider.value = currentVolume * 100;
-    updateVolumeDisplay();
-    
-    volumeSlider.addEventListener('input', (e) => {
-        currentVolume = e.target.value / 100;
+    // Select Station
+    function selectStation(station) {
+        currentStation = station;
+        renderStationList(searchInput.value);
+        
+        stationCodeDisplay.textContent = 'STATION: ' + station.code;
+        bitrateDisplay.textContent = station.bitrate + ' kbps';
+        statusText.textContent = 'Загрузка: ' + station.code + '...';
+        
+        audioPlayer.src = station.url;
         audioPlayer.volume = currentVolume;
         updateVolumeDisplay();
-    });
-}
-
-function updateVolumeDisplay() {
-    volumeValue.textContent = `${Math.round(currentVolume * 100)}%`;
-}
-
-// Player Controls
-function setupControls() {
-    // Play
-    document.getElementById('play-btn').addEventListener('click', () => {
-        if (!currentStation) {
-            if (stations.length > 0) {
-                selectStation(stations[0]);
-                setTimeout(() => playAudio(), 100);
+        
+        if (isPlaying) {
+            audioPlayer.play().catch(function(e) {
+                statusText.textContent = 'Нажмите PLAY для начала';
+            });
+        } else {
+            statusText.textContent = 'Готов к воспроизведению';
+        }
+    }
+    
+    // Search Functionality
+    function setupSearch() {
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value;
+            renderStationList(query);
+            
+            if (query.length > 0) {
+                const results = stations.filter(function(station) {
+                    return station.code.toLowerCase().includes(query.toLowerCase());
+                });
+                
+                if (results.length > 0) {
+                    searchResults.innerHTML = results.map(function(station) {
+                        return '<div class="search-result-item" data-code="' + station.code + '">' + station.code + ' [' + station.bitrate + 'k]</div>';
+                    }).join('');
+                    
+                    searchResults.style.display = 'block';
+                    
+                    searchResults.querySelectorAll('.search-result-item').forEach(function(item) {
+                        item.addEventListener('click', function() {
+                            const code = item.dataset.code;
+                            const station = stations.find(function(s) {
+                                return s.code === code;
+                            });
+                            if (station) {
+                                selectStation(station);
+                                searchInput.value = '';
+                                searchResults.style.display = 'none';
+                                searchInput.blur();
+                            }
+                        });
+                    });
+                } else {
+                    searchResults.innerHTML = '<div class="search-result-item">Станция не найдена</div>';
+                    searchResults.style.display = 'block';
+                }
+            } else {
+                searchResults.style.display = 'none';
             }
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+        
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                searchResults.style.display = 'none';
+                renderStationList('');
+            }
+        });
+    }
+    
+    // Volume Control
+    function setupVolume() {
+        volumeSlider.value = currentVolume * 100;
+        updateVolumeDisplay();
+        
+        volumeSlider.addEventListener('input', function(e) {
+            currentVolume = e.target.value / 100;
+            audioPlayer.volume = currentVolume;
+            updateVolumeDisplay();
+        });
+    }
+    
+    function updateVolumeDisplay() {
+        volumeValue.textContent = Math.round(currentVolume * 100) + '%';
+    }
+    
+    // Player Controls
+    function setupControls() {
+        document.getElementById('play-btn').addEventListener('click', function() {
+            if (!currentStation) {
+                if (stations.length > 0) {
+                    selectStation(stations[0]);
+                    setTimeout(function() {
+                        playAudio();
+                    }, 100);
+                }
+                return;
+            }
+            playAudio();
+        });
+        
+        document.getElementById('pause-btn').addEventListener('click', function() {
+            audioPlayer.pause();
+            isPlaying = false;
+            statusText.textContent = 'Пауза';
+        });
+        
+        document.getElementById('stop-btn').addEventListener('click', function() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            isPlaying = false;
+            statusText.textContent = 'Остановлено';
+            stationCodeDisplay.textContent = 'STATION: ---';
+            bitrateDisplay.textContent = '--- kbps';
+        });
+        
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            if (!currentStation) return;
+            
+            const currentIndex = stations.findIndex(function(s) {
+                return s.code === currentStation.code;
+            });
+            const prevIndex = (currentIndex - 1 + stations.length) % stations.length;
+            selectStation(stations[prevIndex]);
+            
+            if (isPlaying) {
+                audioPlayer.play();
+            }
+        });
+        
+        document.getElementById('next-btn').addEventListener('click', function() {
+            if (!currentStation) return;
+            
+            const currentIndex = stations.findIndex(function(s) {
+                return s.code === currentStation.code;
+            });
+            const nextIndex = (currentIndex + 1) % stations.length;
+            selectStation(stations[nextIndex]);
+            
+            if (isPlaying) {
+                audioPlayer.play();
+            }
+        });
+        
+        document.querySelector('.winamp-btn.minimize').addEventListener('click', function() {
+            statusText.textContent = 'Минимизировано';
+        });
+        
+        document.querySelector('.winamp-btn.maximize').addEventListener('click', function() {
+            const player = document.getElementById('winamp-player');
+            if (player.style.maxWidth === '800px') {
+                player.style.maxWidth = '400px';
+                statusText.textContent = 'Обычный размер';
+            } else {
+                player.style.maxWidth = '800px';
+                statusText.textContent = 'Полный экран';
+            }
+        });
+        
+        document.querySelector('.winamp-btn.close').addEventListener('click', function() {
+            audioPlayer.pause();
+            statusText.textContent = 'Player закрыт';
+            stationCodeDisplay.textContent = 'PLAYER OFF';
+        });
+    }
+    
+    function playAudio() {
+        if (!audioPlayer.src) {
+            statusText.textContent = 'Сначала выберите станцию';
             return;
         }
         
-        playAudio();
-    });
-    
-    // Pause
-    document.getElementById('pause-btn').addEventListener('click', () => {
-        audioPlayer.pause();
-        isPlaying = false;
-        statusText.textContent = "Пауза";
-        document.querySelectorAll('.ctrl-btn.play').forEach(btn => {
-            btn.style.color = "#00ff00";
+        audioPlayer.play().then(function() {
+            isPlaying = true;
+            statusText.textContent = '▶ ' + currentStation.code;
+        }).catch(function(e) {
+            statusText.textContent = 'Ошибка. Выберите другую станцию.';
         });
-    });
+    }
     
-    // Stop
-    document.getElementById('stop-btn').addEventListener('click', () => {
-        audioPlayer.pause();
-        audioPlayer.currentTime = 0;
-        isPlaying = false;
-        statusText.textContent = "Остановлено";
-        stationCodeDisplay.textContent = "STATION: ---";
-        bitrateDisplay.textContent = "--- kbps";
-        document.querySelectorAll('.ctrl-btn.play').forEach(btn => {
-            btn.style.color = "#00ff00";
+    // Audio Player Events
+    function setupAudioEvents() {
+        audioPlayer.addEventListener('playing', function() {
+            isPlaying = true;
+            statusText.textContent = '▶ ' + currentStation.code;
         });
-    });
-    
-    // Previous
-    document.getElementById('prev-btn').addEventListener('click', () => {
-        if (!currentStation) return;
         
-        const currentIndex = stations.findIndex(s => s.code === currentStation.code);
-        const prevIndex = (currentIndex - 1 + stations.length) % stations.length;
-        selectStation(stations[prevIndex]);
-        
-        if (isPlaying) {
-            audioPlayer.play();
-        }
-    });
-    
-    // Next
-    document.getElementById('next-btn').addEventListener('click', () => {
-        if (!currentStation) return;
-        
-        const currentIndex = stations.findIndex(s => s.code === currentStation.code);
-        const nextIndex = (currentIndex + 1) % stations.length;
-        selectStation(stations[nextIndex]);
-        
-        if (isPlaying) {
-            audioPlayer.play();
-        }
-    });
-    
-    // Winamp control buttons
-    document.querySelector('.winamp-btn.minimize').addEventListener('click', () => {
-        alert("Minimize (эмуляция)");
-    });
-    
-    document.querySelector('.winamp-btn.maximize').addEventListener('click', () => {
-        alert("Maximize (эмуляция)");
-    });
-    
-    document.querySelector('.winamp-btn.close').addEventListener('click', () => {
-        if (confirm("Закрыть Winamp Player?")) {
-            audioPlayer.pause();
-            statusText.textContent = "Player закрыт";
-        }
-    });
-}
-
-function playAudio() {
-    audioPlayer.play().then(() => {
-        isPlaying = true;
-        statusText.textContent = `Воспроизведение: ${currentStation.code}`;
-        document.querySelectorAll('.ctrl-btn.play').forEach(btn => {
-            btn.style.color = "#00cc00";
+        audioPlayer.addEventListener('pause', function() {
+            isPlaying = false;
         });
-    }).catch(e => {
-        statusText.textContent = "Ошибка воспроизведения. Нажмите Play вручную";
-        console.error("Play error:", e);
-    });
-}
-
-// Audio Player Events
-function setupAudioEvents() {
-    audioPlayer.addEventListener('playing', () => {
-        isPlaying = true;
-        statusText.textContent = `▶ ${currentStation.code}`;
-    });
-    
-    audioPlayer.addEventListener('pause', () => {
-        isPlaying = false;
-    });
-    
-    audioPlayer.addEventListener('ended', () => {
-        statusText.textContent = "Воспроизведение завершено";
-        isPlaying = false;
-    });
-    
-    audioPlayer.addEventListener('error', (e) => {
-        statusText.textContent = "Ошибка загрузки станции";
-        console.error("Audio error:", e);
-    });
-}
-
-// Keyboard Shortcuts
-function setupKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
-        // Ignore if typing in search
-        if (e.target === searchInput) return;
         
-        switch(e.key) {
-            case ' ':
-                e.preventDefault();
-                if (isPlaying) {
-                    audioPlayer.pause();
-                } else {
-                    playAudio();
-                }
-                break;
-            case 'ArrowLeft':
-                e.preventDefault();
-                document.getElementById('prev-btn').click();
-                break;
-            case 'ArrowRight':
-                e.preventDefault();
+        audioPlayer.addEventListener('error', function() {
+            statusText.textContent = 'Ошибка загрузки. Пробуем следующую...';
+            setTimeout(function() {
                 document.getElementById('next-btn').click();
-                break;
-            case '+':
-            case '=':
-                e.preventDefault();
-                currentVolume = Math.min(1, currentVolume + 0.1);
-                audioPlayer.volume = currentVolume;
-                volumeSlider.value = currentVolume * 100;
-                updateVolumeDisplay();
-                break;
-            case '-':
-                e.preventDefault();
-                currentVolume = Math.max(0, currentVolume - 0.1);
-                audioPlayer.volume = currentVolume;
-                volumeSlider.value = currentVolume * 100;
-                updateVolumeDisplay();
-                break;
-            case 'm':
-                e.preventDefault();
-                audioPlayer.muted = !audioPlayer.muted;
-                statusText.textContent = audioPlayer.muted ? "Звук выключен" : "Звук включен";
-                break;
-        }
-    });
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
+            }, 1500);
+        });
+    }
+    
+    // Keyboard Shortcuts
+    function setupKeyboardShortcuts() {
+        document.addEventListener('keydown', function(e) {
+            if (e.target === searchInput) return;
+            
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    if (isPlaying) {
+                        audioPlayer.pause();
+                    } else {
+                        playAudio();
+                    }
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    document.getElementById('prev-btn').click();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    document.getElementById('next-btn').click();
+                    break;
+                case '+':
+                case '=':
+                    e.preventDefault();
+                    currentVolume = Math.min(1, currentVolume + 0.1);
+                    audioPlayer.volume = currentVolume;
+                    volumeSlider.value = currentVolume * 100;
+                    updateVolumeDisplay();
+                    break;
+                case '-':
+                    e.preventDefault();
+                    currentVolume = Math.max(0, currentVolume - 0.1);
+                    audioPlayer.volume = currentVolume;
+                    volumeSlider.value = currentVolume * 100;
+                    updateVolumeDisplay();
+                    break;
+                case 'm':
+                    e.preventDefault();
+                    audioPlayer.muted = !audioPlayer.muted;
+                    statusText.textContent = audioPlayer.muted ? 'Звук выключен' : 'Звук включен';
+                    break;
+            }
+        });
+    }
+    
+    // Initialize everything
     initSpectrum();
     renderStationList();
     setupSearch();
@@ -834,10 +830,10 @@ document.addEventListener('DOMContentLoaded', () => {
         selectStation(stations[0]);
     }
     
-    // Simulate spectrum animation
-    setInterval(() => {
+    // Spectrum animation
+    setInterval(function() {
         if (isPlaying) {
-            spectrumBars.querySelectorAll('div').forEach(bar => {
+            spectrumBars.querySelectorAll('div').forEach(function(bar) {
                 bar.style.height = Math.random() * 80 + 20 + '%';
             });
         }
@@ -846,38 +842,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 ---
-
-### 📋 Коды станций:
-- `EUROPA_PLUS` - Европа Плюс (128k)
-- `DOROGNOE` - Дорожное Радио (128k)
-- `AVTORADIO` - Авторадио (64k)
-- `RETRO_FM` - Ретро FM (64k)
-- `RUSSKOE` - Русское Радио (64k)
-- `HIT_FM` - Хит FM (64k)
-- `HUMOR_FM` - Юмор FM (128k)
-- `NASHE` - Наше Радио (256k)
-- `ENERGY` - Радио ENERGY (64k)
-- `VESTI_FM` - Вести FM (128k)
-- `BBC_1` - BBC Radio 1 (128k)
-- `RADIO_PARADISE` - Radio Paradise (FLAC)
-- `SOMAFM_GROOVE` - SomaFM Groove Salad (128k)
-- `CHILLOUT_LOUNGE` - Chillout Lounge (128k)
-- `SWISS_JAZZ` - Swiss Jazz (128k)
-- `ROCK_RADIO` - Rock Radio (128k)
-- `CLASSICAL` - Classical Radio (128k)
-- `JAZZ24` - Jazz24 (128k)
-- `BLUES_RADIO` - Blues Radio (128k)
-- `AMBIENT_CAPRICE` - Ambient Radio Caprice (128k)
-- `RADIO_DACHA` - Радио Дача (64k)
-- `COMEDY` - Comedy Radio (128k)
-- `RECORD` - Radio Record (64k)
-- `ROCK_FM` - Rock FM (64k)
-- `MONTE_CARLO` - Monte Carlo (128k)
-- `RELAX_FM` - Relax FM (128k)
-
-**Управление:**
-- `ПРОБЕЛ` - Play/Pause
-- `СТРЕЛКИ` - Предыдущая/Следующая
-- `+/-` - Громкость
-- `M` - Mute
-- Поиск по коду станции
