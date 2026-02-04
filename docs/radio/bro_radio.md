@@ -1,4 +1,5 @@
-# 🎵 Bro-Radio
+# <div class="animate__animated animate__bounce">Bro-Radio📻</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 <div id="winamp-player">
     <!-- Winamp Header -->
@@ -66,6 +67,56 @@
     <!-- Hidden Audio Player -->
     <audio id="audio-player" preload="none"></audio>
 </div>
+
+<!-- Футер -->
+<div class="winamp-footer">
+    Полная версия Радио: 
+    <a href="https://bro-radio.netlify.app/" target="_blank" class="footer-link">
+        https://bro-radio.netlify.app/
+    </a>
+</div>
+
+<style>
+/* Footer Styles */
+.winamp-footer {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+    background: var(--winamp-dark);
+    color: var(--winamp-text);
+    border: 2px solid var(--winamp-border);
+    border-top: none;
+    max-width: 400px;
+    margin: -20px auto 20px auto;
+    padding: 8px 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.footer-link {
+    color: var(--winamp-accent);
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--winamp-yellow);
+    text-shadow: 0 0 8px var(--winamp-yellow);
+    text-decoration: underline;
+}
+
+/* Responsive adjustment */
+@media (max-width: 420px) {
+    .winamp-footer {
+        max-width: 94%;
+        margin: -20px auto 20px auto;
+        font-size: 11px;
+    }
+}
+</style>
 
 <style>
 /* Winamp Dark Theme */
@@ -465,43 +516,55 @@
 </style>
 
 <script>
-// 20 РАБОЧИХ СТАНЦИЙ - проверенные
+// РАБОЧИЕ СТАНЦИИ - BBC заменены
 const stations = [
-    // Русские радио
-    { code: "EUROPA_PLUS", url: "https://ep128.hostingradio.ru:8030/ep128", bitrate: "128" },
-    { code: "DOROGNOE", url: "https://dorognoe.hostingradio.ru:8000/radio", bitrate: "128" },
-    { code: "NASHE", url: "https://nashe1.hostingradio.ru/nashe-256", bitrate: "256" },
-    { code: "VESTI_FM", url: "https://icecast-vgtrk.cdnvideo.ru/vestifm_mp3_128kbps", bitrate: "128" },
-    { code: "MAYAK", url: "https://icecast-vgtrk.cdnvideo.ru/mayakfm_mp3_192kbps", bitrate: "192" },
-    { code: "RADIO_7", url: "https://radio7.ru:8000/radio7_128", bitrate: "128" },
-    { code: "RADIO_KP", url: "https://kpradio.hostingradio.ru:8000/radio7", bitrate: "128" },
-    
-    // BBC радио - всегда работают
-    { code: "BBC_1", url: "https://stream.live.vc.bbcmedia.co.uk/bbc_radio_one", bitrate: "128" },
-    { code: "BBC_2", url: "https://stream.live.vc.bbcmedia.co.uk/bbc_radio_two", bitrate: "128" },
-    { code: "BBC_6", url: "https://stream.live.vc.bbcmedia.co.uk/bbc_6music", bitrate: "128" },
-    
-    // SomaFM - стабильные
+    // ========== РУССКИЕ РАДИОСТАНЦИИ ==========
+    { code: "ЭНЕРДЖИ", url: "https://radio.garden/api/ara/content/listen/dl0Hcgba/channel.mp3?1770045872993", bitrate: "128" },
+    { code: "ЕВРОПА ПЛЮС", url: "https://ep128.hostingradio.ru:8030/ep128", bitrate: "128" },
+    { code: "НАШЕ РАДИО", url: "https://nashe1.hostingradio.ru/nashe-256", bitrate: "256" },
+    { code: "Новое Радио", url: "https://radio.garden/api/ara/content/listen/hTfe1XIo/channel.mp3?1770046301109", bitrate: "128" },
+    { code: "Кавказ Хит", url: "https://radio.garden/api/ara/content/listen/NOchthUJ/channel.mp3?1770046399996", bitrate: "128" },
+    { code: "Радио Книга", url: "https://radio.garden/api/ara/content/listen/8SZLRTtq/channel.mp3?1770046457214", bitrate: "128" },
+    { code: "DNB FM", url: "https://radio.garden/api/ara/content/listen/Ze7ZWy4i/channel.mp3?1770046557935", bitrate: "128" },
+    { code: "ВЕСТИ ФМ", url: "https://icecast-vgtrk.cdnvideo.ru/vestifm_mp3_128kbps", bitrate: "128" },
+
+    // ========== radio.garden ==========
+    { code: "Юмор ФМ. Stand-ups", url: "https://radio.garden/api/ara/content/listen/RBQ5JmK8/channel.mp3?1769978483974", bitrate: "128" },
+    { code: "Cyber Space", url: "https://radio.garden/api/ara/content/listen/fZylWF8k/channel.mp3?1769978366553", bitrate: "128" },
+    { code: "ARENA RADIO", url: "https://radio.garden/api/ara/content/listen/MJ6nKSDY/channel.mp3?1769976700875", bitrate: "128" },
+    { code: "Nuclear Fallout Radio", url: "https://radio.garden/api/ara/content/listen/jNdh1upw/channel.mp3?1770049011591", bitrate: "128" },
+    { code: "Metal", url: "https://radio.garden/api/ara/content/listen/WOjOFzmS/channel.mp3?1769978539192", bitrate: "128" },
+    { code: "Nature", url: "https://radio.garden/api/ara/content/listen/U5e8t9Mq/channel.mp3?1769978577694", bitrate: "128" },
+    { code: "Russian Folk", url: "https://radio.garden/api/ara/content/listen/PYsw1APK/channel.mp3?1769978651180", bitrate: "128" },
+    { code: "Агата Кристи", url: "https://radio.garden/api/ara/content/listen/OiPZ8jY5/channel.mp3?1769978730249", bitrate: "128" },
+    { code: "Русское Регги", url: "https://radio.garden/api/ara/content/listen/3PKzsSgL/channel.mp3?1769978772952", bitrate: "128" },
+    { code: "Французский Рэп", url: "https://radio.garden/api/ara/content/listen/PMV58Y70/channel.mp3?1769978817353", bitrate: "128" },
+
+    // ========== SOMA FM ========== 
     { code: "SOMA_GROOVE", url: "https://ice1.somafm.com/groovesalad-128-mp3", bitrate: "128" },
     { code: "SOMA_DRONE", url: "https://ice1.somafm.com/dronezone-128-mp3", bitrate: "128" },
     { code: "SOMA_SPACE", url: "https://ice1.somafm.com/spacestation-128-mp3", bitrate: "128" },
     { code: "SOMA_SECRET", url: "https://ice1.somafm.com/secretagent-128-mp3", bitrate: "128" },
-    
-    // Рок и альтернатива
-    { code: "ROCK_RADIO", url: "https://rockradio.ice.infomaniak.ch/rockradio-high.mp3", bitrate: "128" },
-    { code: "ALTERNATIVE", url: "https://alternativerock.ice.infomaniak.ch/alternativerock-high.mp3", bitrate: "128" },
-    
-    // Рэп и хип-хоп
-    { code: "HIPHOP_RADIO", url: "https://hiphopradio.ice.infomaniak.ch/hiphopradio-high.mp3", bitrate: "128" },
-    { code: "RAP_FR", url: "https://rap2k.ice.infomaniak.ch/rap2k-high.mp3", bitrate: "128" },
-    
-    // Электроника
-    { code: "ELECTRONIC", url: "https://electronicradio.ice.infomaniak.ch/electronicradio-high.mp3", bitrate: "128" },
-    { code: "TRANCE", url: "https://trance.ice.infomaniak.ch/trance-high.mp3", bitrate: "128" },
-    
-    // Джаз и блюз
+    { code: "SOMA_LUSH", url: "https://ice1.somafm.com/lush-128-mp3", bitrate: "128" },
+    { code: "SOMA_CHILL", url: "https://ice1.somafm.com/defcon-128-mp3", bitrate: "128" },
+    { code: "SOMA_BAGEL", url: "https://ice1.somafm.com/bagel-128-mp3", bitrate: "128" },
+    { code: "SOMA_CLIQHOP", url: "https://ice1.somafm.com/cliqhop-128-mp3", bitrate: "128" },
+    { code: "SOMA_INDIE", url: "https://ice1.somafm.com/indiepop-128-mp3", bitrate: "128" },
+    { code: "SOMA_FOLK", url: "https://ice1.somafm.com/folkfwd-128-mp3", bitrate: "128" },
+    { code: "SOMA_BEATS", url: "https://ice1.somafm.com/thetrip-128-mp3", bitrate: "128" },
+    { code: "SOMA_METAL", url: "https://ice1.somafm.com/metal-128-mp3", bitrate: "128" },
+    { code: "SOMA_THISTLE", url: "https://ice1.somafm.com/thistle-128-mp3", bitrate: "128" },
+    { code: "SOMA_SYNTH", url: "https://ice1.somafm.com/synphaera-128-mp3", bitrate: "128" },
+
+    // ========== JAZZ MANIAK ==========
+    { code: "SMOOTH JAZZ", url: "https://smoothjazz.cdnstream1.com/2634_128.mp3", bitrate: "128" },
     { code: "JAZZ_RADIO", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3", bitrate: "128" },
-    { code: "BLUES_RADIO", url: "https://bluesradio.ice.infomaniak.ch/bluesradio-high.mp3", bitrate: "128" }
+    { code: "CLASSIC_FM", url: "https://media-ssl.musicradio.com/ClassicFM", bitrate: "128" },
+    { code: "RADIO_MEUH_RAP", url: "https://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3", bitrate: "128" },
+    { code: "TSF_JAZZ_HIPHOP", url: "https://tsfjazz.ice.infomaniak.ch/tsfjazz-high.mp3", bitrate: "128" },
+
+    // ========== ВЫСОКОЕ КАЧЕСТВО ==========
+    { code: "SOMA_SPACE_320", url: "https://ice1.somafm.com/spacestation-320-mp3", bitrate: "320" },
 ];
 
 let currentStation = null;
@@ -509,7 +572,6 @@ let isPlaying = false;
 let currentVolume = 0.8;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
     const audioPlayer = document.getElementById('audio-player');
     const stationList = document.getElementById('station-list');
     const searchInput = document.getElementById('station-search');
@@ -522,7 +584,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const volumeValue = document.getElementById('volume-value');
     const spectrumBars = document.querySelector('.spectrum-bars');
     
-    // Initialize Spectrum Bars
     function initSpectrum() {
         spectrumBars.innerHTML = '';
         for (let i = 0; i < 30; i++) {
@@ -536,7 +597,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Render Station List
     function renderStationList(filter) {
         if (!filter) filter = '';
         stationList.innerHTML = '';
@@ -563,7 +623,6 @@ document.addEventListener('DOMContentLoaded', function() {
         stationCount.textContent = filteredStations.length + '/' + stations.length;
     }
     
-    // Select Station
     function selectStation(station) {
         currentStation = station;
         renderStationList(searchInput.value);
@@ -585,7 +644,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Search Functionality
     function setupSearch() {
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value;
@@ -641,7 +699,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Volume Control
     function setupVolume() {
         volumeSlider.value = currentVolume * 100;
         updateVolumeDisplay();
@@ -657,7 +714,6 @@ document.addEventListener('DOMContentLoaded', function() {
         volumeValue.textContent = Math.round(currentVolume * 100) + '%';
     }
     
-    // Player Controls
     function setupControls() {
         document.getElementById('play-btn').addEventListener('click', function() {
             if (!currentStation) {
@@ -751,7 +807,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Audio Player Events
     function setupAudioEvents() {
         audioPlayer.addEventListener('playing', function() {
             isPlaying = true;
@@ -770,7 +825,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Keyboard Shortcuts
     function setupKeyboardShortcuts() {
         document.addEventListener('keydown', function(e) {
             if (e.target === searchInput) return;
@@ -816,7 +870,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Initialize everything
     initSpectrum();
     renderStationList();
     setupSearch();
@@ -825,12 +878,10 @@ document.addEventListener('DOMContentLoaded', function() {
     setupAudioEvents();
     setupKeyboardShortcuts();
     
-    // Auto-select first station
     if (stations.length > 0) {
         selectStation(stations[0]);
     }
     
-    // Spectrum animation
     setInterval(function() {
         if (isPlaying) {
             spectrumBars.querySelectorAll('div').forEach(function(bar) {
@@ -840,5 +891,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 200);
 });
 </script>
-
----
