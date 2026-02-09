@@ -88,6 +88,11 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 **[✍️ Форма обратной связи](feedback/feedback.md)**
 
+
+---
+
+<a href="radio/bro_radio" class="neon-text-blue" style="font-size: 34px;">Радио 📻</a>
+
 ---
 
 
