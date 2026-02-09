@@ -1,66 +1,63 @@
-# <div class="animate__animated animate__bounce">Bro-Radio📻</div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
-<div id="winamp-player">
+<div id="winamp-player" style="transform: scale(1.1); transform-origin: top center; margin: 25px auto;">
     <!-- Winamp Header -->
     <div class="winamp-header">
         <div class="winamp-title">
-            <span class="winamp-text">WINAMP</span>
-            <span class="winamp-version">5.666</span>
+            <span class="winamp-text" style="font-size: 18px;">WINAMP</span>
+            <span class="winamp-version" style="font-size: 13px;">5.666</span>
         </div>
         <div class="winamp-controls">
-            <button class="winamp-btn minimize">─</button>
-            <button class="winamp-btn maximize">□</button>
-            <button class="winamp-btn close">×</button>
+            <button class="winamp-btn minimize" style="width: 22px; height: 18px; font-size: 13px;">─</button>
+            <button class="winamp-btn maximize" style="width: 22px; height: 18px; font-size: 13px;">□</button>
+            <button class="winamp-btn close" style="width: 22px; height: 18px; font-size: 15px;">×</button>
         </div>
     </div>
     
     <!-- Main Player -->
     <div class="winamp-main">
         <!-- Spectrum Display -->
-        <div class="spectrum-display">
+        <div class="spectrum-display" style="height: 70px; margin: 12px; border-width: 1px;">
             <div class="spectrum-bars"></div>
-            <div class="station-info" id="station-code-display">STATION: ---</div>
+            <div class="station-info" id="station-code-display" style="font-size: 14px; padding: 5px 10px;">STATION: ---</div>
         </div>
         
         <!-- Search Box -->
-        <div class="search-box">
-            <div class="search-icon">🔍</div>
-            <input type="text" id="station-search" placeholder="Поиск станции по коду..." autocomplete="off">
+        <div class="search-box" style="margin: 12px;">
+            <div class="search-icon" style="font-size: 14px; left: 9px; top: 7px;">🔍</div>
+            <input type="text" id="station-search" placeholder="Поиск станции по коду..." autocomplete="off" style="padding: 8px 30px 8px 30px; font-size: 13px; border-width: 1px;">
             <div class="search-results" id="search-results"></div>
         </div>
         
         <!-- Station List Window -->
-        <div class="station-window">
-            <div class="window-header">
+        <div class="station-window" style="margin: 12px; border-width: 1px;">
+            <div class="window-header" style="padding: 6px 10px; font-size: 14px; border-bottom-width: 1px;">
                 <span>📻 СТАНЦИИ [A-Z]</span>
-                <span class="station-count" id="station-count">00/00</span>
+                <span class="station-count" id="station-count" style="font-size: 14px;">00/00</span>
             </div>
-            <div class="station-list" id="station-list">
+            <div class="station-list" id="station-list" style="max-height: 220px; font-size: 13px;">
                 <!-- Stations will be loaded here -->
             </div>
         </div>
         
         <!-- Player Controls -->
-        <div class="player-controls">
-            <div class="control-row">
-                <button class="ctrl-btn play" id="play-btn" title="Play">▶</button>
-                <button class="ctrl-btn pause" id="pause-btn" title="Pause">⏸</button>
-                <button class="ctrl-btn stop" id="stop-btn" title="Stop">⏹</button>
-                <button class="ctrl-btn prev" id="prev-btn" title="Previous">⏮</button>
-                <button class="ctrl-btn next" id="next-btn" title="Next">⏭</button>
+        <div class="player-controls" style="margin: 12px; padding: 12px; border-width: 1px;">
+            <div class="control-row" style="gap: 12px; margin-bottom: 12px;">
+                <button class="ctrl-btn play" id="play-btn" title="Play" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">▶</button>
+                <button class="ctrl-btn pause" id="pause-btn" title="Pause" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏸</button>
+                <button class="ctrl-btn stop" id="stop-btn" title="Stop" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px; color: var(--winamp-text);">⏹</button>
+                <button class="ctrl-btn prev" id="prev-btn" title="Previous" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏮</button>
+                <button class="ctrl-btn next" id="next-btn" title="Next" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏭</button>
             </div>
-            <div class="volume-control">
-                <span class="vol-label">VOL</span>
-                <input type="range" id="volume-slider" min="0" max="100" value="80" class="vol-slider">
-                <span id="volume-value">80%</span>
+            <div class="volume-control" style="gap: 12px; margin-top: 12px;">
+                <span class="vol-label" style="min-width: 32px; font-size: 13px;">VOL</span>
+                <input type="range" id="volume-slider" min="0" max="100" value="80" class="vol-slider" style="height: 13px; border-width: 1px;">
+                <span id="volume-value" style="min-width: 40px; font-size: 13px;">80%</span>
             </div>
         </div>
         
         <!-- Status Bar -->
-        <div class="status-bar">
-            <span id="status-text">Готов к воспроизведению</span>
-            <span class="bitrate" id="bitrate-display">--- kbps</span>
+        <div class="status-bar" style="padding: 6px 10px; border-top-width: 1px;">
+            <span id="status-text" style="font-size: 11px;">Готов к воспроизведению</span>
+            <span class="bitrate" id="bitrate-display" style="font-size: 11px;">--- kbps</span>
         </div>
     </div>
     
@@ -75,48 +72,6 @@
         https://bro-radio.netlify.app/
     </a>
 </div>
-
-<style>
-/* Footer Styles */
-.winamp-footer {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 12px;
-    background: var(--winamp-dark);
-    color: var(--winamp-text);
-    border: 2px solid var(--winamp-border);
-    border-top: none;
-    max-width: 400px;
-    margin: -20px auto 20px auto;
-    padding: 8px 12px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.footer-link {
-    color: var(--winamp-accent);
-    text-decoration: none;
-    font-weight: bold;
-    margin-left: 5px;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-}
-
-.footer-link:hover {
-    color: var(--winamp-yellow);
-    text-shadow: 0 0 8px var(--winamp-yellow);
-    text-decoration: underline;
-}
-
-/* Responsive adjustment */
-@media (max-width: 420px) {
-    .winamp-footer {
-        max-width: 94%;
-        margin: -20px auto 20px auto;
-        font-size: 11px;
-    }
-}
-</style>
 
 <style>
 /* Winamp Dark Theme */
@@ -136,12 +91,11 @@
 
 #winamp-player {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 11px;
     background: var(--winamp-bg);
     color: var(--winamp-text);
     border: 2px solid var(--winamp-border);
     border-radius: 0;
-    max-width: 400px;
+    max-width: 420px;
     margin: 20px auto;
     user-select: none;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -151,7 +105,7 @@
 .winamp-header {
     background: linear-gradient(to right, #000066, #000033);
     color: white;
-    padding: 4px 8px;
+    padding: 5px 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -165,14 +119,12 @@
 }
 
 .winamp-text {
-    font-size: 14px;
     letter-spacing: 1px;
     color: #00ff00;
     text-shadow: 0 0 5px #00ff00;
 }
 
 .winamp-version {
-    font-size: 10px;
     margin-left: 5px;
     color: #cccccc;
 }
@@ -183,12 +135,9 @@
 }
 
 .winamp-btn {
-    width: 20px;
-    height: 16px;
     background: var(--winamp-medium);
     border: 1px solid var(--winamp-border);
     color: var(--winamp-text);
-    font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -207,8 +156,6 @@
 /* Spectrum Display */
 .spectrum-display {
     background: black;
-    height: 60px;
-    margin: 10px;
     border: 1px solid var(--winamp-border);
     position: relative;
     overflow: hidden;
@@ -243,7 +190,6 @@
     background: rgba(0, 0, 0, 0.7);
     padding: 3px 8px;
     font-family: 'Courier New', monospace;
-    font-size: 12px;
     color: #00ff00;
     text-align: center;
     letter-spacing: 1px;
@@ -251,18 +197,15 @@
 
 /* Search Box */
 .search-box {
-    margin: 10px;
     position: relative;
 }
 
 .search-box input {
     width: 100%;
-    padding: 6px 30px 6px 30px;
     background: var(--winamp-dark);
     border: 1px solid var(--winamp-border);
     color: var(--winamp-accent);
     font-family: 'Courier New', monospace;
-    font-size: 11px;
 }
 
 .search-box input::placeholder {
@@ -277,9 +220,9 @@
 .search-icon {
     position: absolute;
     left: 8px;
-    top: 6px;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--winamp-accent);
-    font-size: 12px;
 }
 
 .search-results {
@@ -297,7 +240,7 @@
 }
 
 .search-result-item {
-    padding: 5px 10px;
+    padding: 8px 12px;
     cursor: pointer;
     border-bottom: 1px solid var(--winamp-light);
 }
@@ -310,13 +253,11 @@
 /* Station Window */
 .station-window {
     background: var(--winamp-dark);
-    margin: 10px;
     border: 1px solid var(--winamp-border);
 }
 
 .window-header {
     background: var(--winamp-medium);
-    padding: 4px 8px;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid var(--winamp-border);
@@ -329,19 +270,17 @@
 }
 
 .station-list {
-    max-height: 200px;
     overflow-y: auto;
 }
 
 .station-item {
-    padding: 6px 8px;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--winamp-light);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-family: 'Courier New', monospace;
-    font-size: 11px;
 }
 
 .station-item:hover {
@@ -364,7 +303,6 @@
 }
 
 .station-url {
-    font-size: 9px;
     color: #666;
     font-family: 'Courier New', monospace;
 }
@@ -372,8 +310,6 @@
 /* Player Controls */
 .player-controls {
     background: var(--winamp-medium);
-    margin: 10px;
-    padding: 10px;
     border: 1px solid var(--winamp-border);
 }
 
@@ -385,13 +321,10 @@
 }
 
 .ctrl-btn {
-    width: 40px;
-    height: 40px;
     border-radius: 3px;
     border: 2px solid var(--winamp-border);
     background: linear-gradient(to bottom, #333, #222);
     color: var(--winamp-text);
-    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -411,8 +344,9 @@
     color: #00ff00;
 }
 
+/* Убрал красный цвет у кнопки стоп */
 .ctrl-btn.stop {
-    color: #ff3333;
+    color: var(--winamp-text); /* Обычный цвет как у остальных кнопок */
 }
 
 .volume-control {
@@ -424,12 +358,10 @@
 
 .vol-label {
     font-weight: bold;
-    min-width: 30px;
 }
 
 .vol-slider {
     flex-grow: 1;
-    height: 12px;
     -webkit-appearance: none;
     background: var(--winamp-dark);
     border: 1px solid var(--winamp-border);
@@ -454,7 +386,6 @@
 }
 
 #volume-value {
-    min-width: 35px;
     text-align: right;
     font-family: 'Courier New', monospace;
     color: var(--winamp-accent);
@@ -463,11 +394,9 @@
 /* Status Bar */
 .status-bar {
     background: var(--winamp-dark);
-    padding: 4px 8px;
     border-top: 1px solid var(--winamp-border);
     display: flex;
     justify-content: space-between;
-    font-size: 10px;
 }
 
 #status-text {
@@ -512,6 +441,37 @@
 
 .blink {
     animation: blink 1s infinite;
+}
+
+/* Footer Styles */
+.winamp-footer {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+    background: var(--winamp-dark);
+    color: var(--winamp-text);
+    border: 2px solid var(--winamp-border);
+    border-top: none;
+    max-width: 420px;
+    margin: -12px auto 20px auto;
+    padding: 8px 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.footer-link {
+    color: var(--winamp-accent);
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--winamp-yellow);
+    text-shadow: 0 0 8px var(--winamp-yellow);
+    text-decoration: underline;
 }
 </style>
 
@@ -778,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.winamp-btn.maximize').addEventListener('click', function() {
             const player = document.getElementById('winamp-player');
             if (player.style.maxWidth === '800px') {
-                player.style.maxWidth = '400px';
+                player.style.maxWidth = '420px';
                 statusText.textContent = 'Обычный размер';
             } else {
                 player.style.maxWidth = '800px';
