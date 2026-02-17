@@ -52,7 +52,7 @@ python -m venv venv
 venv\Scripts\activate
 ```
 ```
-python -m http.server 8000
+python -m http.server 8000 (http://localhost:8000/)
 ```
 ```
 pip freeze > requirements.txt
@@ -124,6 +124,7 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
         v4.2
     </div>
 </div>
+
 
 
 
