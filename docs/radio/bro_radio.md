@@ -1,76 +1,78 @@
-<div id="winamp-player" style="transform: scale(1.1); transform-origin: top center; margin: 25px auto;">
-    <!-- Winamp Header -->
-    <div class="winamp-header">
-        <div class="winamp-title">
-            <span class="winamp-text" style="font-size: 18px;">WINAMP</span>
-            <span class="winamp-version" style="font-size: 13px;">5.666</span>
+<div style="max-width: 420px; margin: 0 auto; position: relative;">
+    <!-- Winamp Player с масштабированием -->
+    <div id="winamp-player" style="transform: scale(1.1); transform-origin: top center; margin: 25px auto 60px auto;">
+        <!-- Winamp Header -->
+        <div class="winamp-header">
+            <div class="winamp-title">
+                <span class="winamp-text" style="font-size: 18px;">WINAMP</span>
+                <span class="winamp-version" style="font-size: 13px;">5.666</span>
+            </div>
+            <div class="winamp-controls">
+                <button class="winamp-btn minimize" style="width: 22px; height: 18px; font-size: 13px;">─</button>
+                <button class="winamp-btn maximize" style="width: 22px; height: 18px; font-size: 13px;">□</button>
+                <button class="winamp-btn close" style="width: 22px; height: 18px; font-size: 15px;">×</button>
+            </div>
         </div>
-        <div class="winamp-controls">
-            <button class="winamp-btn minimize" style="width: 22px; height: 18px; font-size: 13px;">─</button>
-            <button class="winamp-btn maximize" style="width: 22px; height: 18px; font-size: 13px;">□</button>
-            <button class="winamp-btn close" style="width: 22px; height: 18px; font-size: 15px;">×</button>
+        
+        <!-- Main Player -->
+        <div class="winamp-main">
+            <!-- Spectrum Display -->
+            <div class="spectrum-display" style="height: 70px; margin: 12px; border-width: 1px;">
+                <div class="spectrum-bars"></div>
+                <div class="station-info" id="station-code-display" style="font-size: 14px; padding: 5px 10px;">STATION: ---</div>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="search-box" style="margin: 12px;">
+                <div class="search-icon" style="font-size: 14px; left: 9px; top: 7px;"></div>
+                <input type="text" id="station-search" placeholder="Поиск станции по коду..." autocomplete="off" style="padding: 8px 30px 8px 30px; font-size: 13px; border-width: 1px;">
+                <div class="search-results" id="search-results"></div>
+            </div>
+            
+            <!-- Station List Window -->
+            <div class="station-window" style="margin: 12px; border-width: 1px;">
+                <div class="window-header" style="padding: 6px 10px; font-size: 14px; border-bottom-width: 1px;">
+                    <span>📻 СТАНЦИИ [A-Z]</span>
+                    <span class="station-count" id="station-count" style="font-size: 14px;">00/00</span>
+                </div>
+                <div class="station-list" id="station-list" style="max-height: 220px; font-size: 13px;">
+                    <!-- Stations will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Player Controls -->
+            <div class="player-controls" style="margin: 12px; padding: 12px; border-width: 1px;">
+                <div class="control-row" style="gap: 12px; margin-bottom: 12px;">
+                    <button class="ctrl-btn play" id="play-btn" title="Play" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">▶</button>
+                    <button class="ctrl-btn pause" id="pause-btn" title="Pause" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏸</button>
+                    <button class="ctrl-btn stop" id="stop-btn" title="Stop" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px; color: var(--winamp-text);">⏹</button>
+                    <button class="ctrl-btn prev" id="prev-btn" title="Previous" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏮</button>
+                    <button class="ctrl-btn next" id="next-btn" title="Next" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏭</button>
+                </div>
+                <div class="volume-control" style="gap: 12px; margin-top: 12px;">
+                    <span class="vol-label" style="min-width: 32px; font-size: 13px;">VOL</span>
+                    <input type="range" id="volume-slider" min="0" max="100" value="80" class="vol-slider" style="height: 13px; border-width: 1px;">
+                    <span id="volume-value" style="min-width: 40px; font-size: 13px;">80%</span>
+                </div>
+            </div>
+            
+            <!-- Status Bar -->
+            <div class="status-bar" style="padding: 6px 10px; border-top-width: 1px;">
+                <span id="status-text" style="font-size: 11px;">Готов к воспроизведению</span>
+                <span class="bitrate" id="bitrate-display" style="font-size: 11px;">--- kbps</span>
+            </div>
         </div>
+        
+        <!-- Hidden Audio Player -->
+        <audio id="audio-player" preload="none"></audio>
     </div>
-    
-    <!-- Main Player -->
-    <div class="winamp-main">
-        <!-- Spectrum Display -->
-        <div class="spectrum-display" style="height: 70px; margin: 12px; border-width: 1px;">
-            <div class="spectrum-bars"></div>
-            <div class="station-info" id="station-code-display" style="font-size: 14px; padding: 5px 10px;">STATION: ---</div>
-        </div>
-        
-        <!-- Search Box -->
-        <div class="search-box" style="margin: 12px;">
-            <div class="search-icon" style="font-size: 14px; left: 9px; top: 7px;">🔍</div>
-            <input type="text" id="station-search" placeholder="Поиск станции по коду..." autocomplete="off" style="padding: 8px 30px 8px 30px; font-size: 13px; border-width: 1px;">
-            <div class="search-results" id="search-results"></div>
-        </div>
-        
-        <!-- Station List Window -->
-        <div class="station-window" style="margin: 12px; border-width: 1px;">
-            <div class="window-header" style="padding: 6px 10px; font-size: 14px; border-bottom-width: 1px;">
-                <span>📻 СТАНЦИИ [A-Z]</span>
-                <span class="station-count" id="station-count" style="font-size: 14px;">00/00</span>
-            </div>
-            <div class="station-list" id="station-list" style="max-height: 220px; font-size: 13px;">
-                <!-- Stations will be loaded here -->
-            </div>
-        </div>
-        
-        <!-- Player Controls -->
-        <div class="player-controls" style="margin: 12px; padding: 12px; border-width: 1px;">
-            <div class="control-row" style="gap: 12px; margin-bottom: 12px;">
-                <button class="ctrl-btn play" id="play-btn" title="Play" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">▶</button>
-                <button class="ctrl-btn pause" id="pause-btn" title="Pause" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏸</button>
-                <button class="ctrl-btn stop" id="stop-btn" title="Stop" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px; color: var(--winamp-text);">⏹</button>
-                <button class="ctrl-btn prev" id="prev-btn" title="Previous" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏮</button>
-                <button class="ctrl-btn next" id="next-btn" title="Next" style="width: 48px; height: 48px; font-size: 20px; border-width: 2px;">⏭</button>
-            </div>
-            <div class="volume-control" style="gap: 12px; margin-top: 12px;">
-                <span class="vol-label" style="min-width: 32px; font-size: 13px;">VOL</span>
-                <input type="range" id="volume-slider" min="0" max="100" value="80" class="vol-slider" style="height: 13px; border-width: 1px;">
-                <span id="volume-value" style="min-width: 40px; font-size: 13px;">80%</span>
-            </div>
-        </div>
-        
-        <!-- Status Bar -->
-        <div class="status-bar" style="padding: 6px 10px; border-top-width: 1px;">
-            <span id="status-text" style="font-size: 11px;">Готов к воспроизведению</span>
-            <span class="bitrate" id="bitrate-display" style="font-size: 11px;">--- kbps</span>
-        </div>
-    </div>
-    
-    <!-- Hidden Audio Player -->
-    <audio id="audio-player" preload="none"></audio>
-</div>
 
-<!-- Футер -->
-<div class="winamp-footer">
-    Полная версия Радио: 
-    <a href="https://bro-radio.netlify.app/" target="_blank" class="footer-link">
-        https://bro-radio.netlify.app/
-    </a>
+    <div style="text-align: center; margin: 0 auto 20px auto; padding: 12px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #cccccc; font-size: 14px; background: var(--winamp-dark); border: 2px solid var(--winamp-border); width: 100%; box-sizing: border-box; position: relative; z-index: 10; clear: both;">
+        Полная версия Радио: 
+        <a href="https://bro-radio.onrender.com/" target="_blank" style="color: #00cc00; text-decoration: none; font-weight: bold; font-family: 'Courier New', monospace;">
+            https://bro-radio.onrender.com/
+        </a>
+    </div>
 </div>
 
 <style>
@@ -96,7 +98,7 @@
     border: 2px solid var(--winamp-border);
     border-radius: 0;
     max-width: 420px;
-    margin: 20px auto;
+    margin: 20px auto 0 auto;
     user-select: none;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
@@ -441,37 +443,6 @@
 
 .blink {
     animation: blink 1s infinite;
-}
-
-/* Footer Styles */
-.winamp-footer {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 12px;
-    background: var(--winamp-dark);
-    color: var(--winamp-text);
-    border: 2px solid var(--winamp-border);
-    border-top: none;
-    max-width: 420px;
-    margin: -12px auto 20px auto;
-    padding: 8px 12px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.footer-link {
-    color: var(--winamp-accent);
-    text-decoration: none;
-    font-weight: bold;
-    margin-left: 5px;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-}
-
-.footer-link:hover {
-    color: var(--winamp-yellow);
-    text-shadow: 0 0 8px var(--winamp-yellow);
-    text-decoration: underline;
 }
 </style>
 
