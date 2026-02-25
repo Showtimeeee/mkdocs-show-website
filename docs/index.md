@@ -29,7 +29,27 @@
   </a>
 </div> -->
 
----
+<div style="text-align: center; margin: 10px 0; font-family: 'Fira Code', monospace;">
+  <div id="current-datetime" style="font-size: 0.9rem; color: #888; padding: 5px; border-bottom: 1px solid rgba(255,255,255,0.1); display: inline-block;">
+    <!-- Здесь будет отображаться время и дата -->
+  </div>
+</div>
+
+<script>
+  function updateDateTime() {
+    const now = new Date();
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    
+    const dateStr = now.toLocaleDateString('ru-RU', dateOptions);
+    const timeStr = now.toLocaleTimeString('ru-RU', timeOptions);
+    
+    document.getElementById('current-datetime').innerHTML = `${dateStr} | ${timeStr}`;
+  }
+  
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+</script>
 
 ## <h2 class="neon-text-pink">Что вас ждёт на этом сайте?</h2>
 - Полезные материалы по разработке, тестированию и оптимизации процессов.
@@ -88,13 +108,7 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 **[✍️ Форма обратной связи](feedback/feedback.md)**
 
-
 ---
-
-<a href="radio/bro_radio" class="neon-text-blue" style="font-size: 34px;">Радио 📻</a>
-
----
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -121,13 +135,6 @@ MkDocs, JavaScript, Python, HTML & CSS, Markdown, GitHub Actions
 
 <div class="version-container">
     <div class="version-info">
-        v4.2
+        v4.3
     </div>
 </div>
-
-
-
-
-
-
-
