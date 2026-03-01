@@ -9,9 +9,8 @@
 
 #### - [Десктоп приложение "Pet-Desktop-Ver-2-0"](project1.md)
 #### - [Генератор паролей "Pass-Bro-Generator"](project2.md)
-#### - [Игра-платформер "Jumper-Pygame"](project3.md)
-#### - [Игра-платформер "Tanks_p_vs_p_pygame"](project4.md)
-#### - [AFK-Bot "AFK-Bro-Bot"](project5.md)
+#### - [АФК-Бот "AFK-APP-L"](project5.md)
+#### - [Pygame-платформеры](pygame_platform_games.md)
 
 ---
 
@@ -31,10 +30,6 @@
 ---
 
 *Если у вас есть вопросы или предложения, напишите мне!*
-
-
-
-
 
 
 
