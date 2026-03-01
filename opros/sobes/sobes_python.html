@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%22 y=%2275%22 font-size=%2280%22 text-anchor=%22middle%22 fill=%22%234B8BBE%22>🐍</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивное Собеседование по Python</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #bb86fc;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .host {
+            margin: 20px auto;
+        }
+
+        .host img {
+            border-radius: 50%;
+            width: 400px;
+            height: 400px;
+            object-fit: cover;
+            border: 4px solid #bb86fc;
+        }
+
+        .shake {
+            animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0px); }
+            10% { transform: translateX(12px) rotate(3deg); }
+            20% { transform: translateX(-12px) rotate(-3deg); }
+            30% { transform: translateX(12px) rotate(3deg); }
+            40% { transform: translateX(-12px) rotate(-3deg); }
+            50% { transform: translateX(12px) rotate(3deg); }
+            60% { transform: translateX(-12px) rotate(-3deg); }
+            70% { transform: translateX(12px) rotate(3deg); }
+            80% { transform: translateX(-12px) rotate(-3deg); }
+            90% { transform: translateX(12px) rotate(3deg); }
+            100% { transform: translateX(0px) rotate(0deg); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #03dac6;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            color: #cf6679;
+            margin: 10px 0;
+        }
+
+        .question {
+            margin: 30px 0;
+            font-size: 1.8em;
+            color: #03dac6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            background-color: #bb86fc;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.3em;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 2em;
+            color: #03dac6;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Интерактивное Собеседование по Python</h1>
+        <div class="host">
+            <img id="host-img" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm16cXcyMGg0YXJiMGY2cjZmNDEyMTd3cnhtM3dvcHN2YTF4N2N5cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RP1mOAIzdr2qAvlyVa/giphy.gif"  alt="Ведущий">
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+
+        <div class="timer" id="timer">⏳ Осталось: 15 сек.</div>
+
+        <div class="question" id="question">Вопрос появится здесь</div>
+        <div class="options" id="options">
+            <!-- Варианты ответов будут добавлены сюда -->
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Что такое Python?", options: ["Язык программирования", "Тип данных", "Библиотека для анализа данных", "Змея", "Фильм"], answer: 0 },
+            { question: "Какой оператор используется для комментариев в Python?", options: ["//", "#", "/* */", "--", "<!-- -->"], answer: 1 },
+            { question: "Какой тип данных изменяемый?", options: ["tuple", "str", "int", "frozenset", "list"], answer: 4 },
+            { question: "Как объявить список в Python?", options: ["{}", "[]", "()", "<>", "new Array()"], answer: 1 },
+            { question: "Что выведет print(2 ** 3)?", options: ["6", "8", "9", "5", "Ошибку"], answer: 1 },
+            { question: "Как называется цикл с предусловием?", options: ["for", "while", "do-while", "loop", "repeat-until"], answer: 1 },
+            { question: "Какая функция преобразует строку в целое число?", options: ["float()", "str()", "int()", "bool()", "chr()"], answer: 2 },
+            { question: "Что такое PEP 8?", options: ["Питонья игра", "Стиль кодирования", "Библиотека", "Тип данных", "Модуль тестирования"], answer: 1 },
+            { question: "Как вызвать ошибку в Python намеренно?", options: ["raise", "error", "throw", "assert", "fail"], answer: 0 },
+            { question: "Что вернёт выражение 'Hello'[::-1]?", options: ["Hello", "olleH", "None", "Ошибка", "dlleH"], answer: 1 },
+            { question: "Как создать генератор списка?", options: ["{}", "[]", "(()", "{x for x in range(5)}", "list(...)"], answer: 3 },
+            { question: "Какой модуль работает с датами?", options: ["time", "datetime", "calendar", "os", "dateutils"], answer: 1 },
+            { question: "Что такое декоратор?", options: ["Украшение функции", "Функция, принимающая функцию", "Цвет текста", "Декор элемента", "Красивый принт"], answer: 1 },
+            { question: "Какой метод удаляет последний элемент списка?", options: ["pop()", "delete()", "remove()", "clear()", "cut()"], answer: 0 },
+            { question: "Что делает функция zip()?", options: ["Архивирует файлы", "Объединяет коллекции", "Шифрует данные", "Создаёт кортеж", "Разархивирует"], answer: 1 },
+            { question: "Что такое lambda?", options: ["Переменная", "Анонимная функция", "Цикл", "Ключевое слово", "Магическая команда"], answer: 1 },
+            { question: "Как получить длину списка?", options: ["count()", "length()", "len()", "size()", "sizeof()"], answer: 2 },
+            { question: "Какие параметры у def func(a, b=2, *args, **kwargs):?", options: ["Стандартные", "По умолчанию", "Переменное количество", "Именованные", "Все перечисленные"], answer: 4 },
+            { question: "Что делает 'is' в Python?", options: ["Сравнивает значения", "Сравнивает идентичность объектов", "Проверяет тип", "Проверяет наличие", "Любит питонов"], answer: 1 },
+            { question: "Что такое GIL?", options: ["Глобальная блокировка интерпретатора", "Графический интерфейс", "Гигабайт информации", "Гениальный инструмент", "Главный импортный линтер"], answer: 0 },
+            { question: "Какой модуль позволяет сериализовать объекты Python?", options: ["json", "pickle", "marshal", "shelve", "dill"], answer: 1 },
+            { question: "Что выведет print([x for x in range(5)])?", options: ["[0, 1, 2, 3, 4]", "[1, 2, 3, 4, 5]", "[0, 1, 2, 3]", "Ошибка", "None"], answer: 0 },
+            { question: "Как обозначается пустое значение в Python?", options: ["null", "none", "None", "void", "nil"], answer: 2 },
+            { question: "Что делает функция super()?", options: ["Вызывает родительский класс", "Ускоряет выполнение", "Останавливает программу", "Перезапускает цикл", "Показывает рекламу"], answer: 0 },
+            { question: "Что такое *args?", options: ["Список аргументов", "Словарь аргументов", "Тип данных", "Ключевое слово", "Асинхронная функция"], answer: 0 },
+            { question: "Какой метод вызывается при создании экземпляра класса?", options: ["__init__", "__new__", "__self__", "__start__", "__create__"], answer: 0 },
+            { question: "Что такое PIP?", options: ["Интерпретатор", "Менеджер пакетов", "Редактор кода", "Библиотека", "Компилятор"], answer: 1 },
+            { question: "Какой из этих типов НЕ хешируемый?", options: ["tuple", "str", "int", "list", "frozenset"], answer: 3 },
+            { question: "Что вернёт выражение 'abc' + str(123)?", options: ["abc123", "abc+123", "Ошибка", "123abc", "None"], answer: 0 },
+            { question: "Как работает оператор 'is not'?", options: ["Сравнивает значения", "Сравнивает ссылки на объекты", "Всегда True", "Всегда False", "Любит питонов"], answer: 1 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timer;
+        const timePerQuestion = 15;
+
+        const hostImg = document.getElementById("host-img");
+
+        function loadQuestion() {
+            clearInterval(timer);
+            hostImg.classList.remove("shake");
+
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const timerElement = document.getElementById('timer');
+            const currentQ = questions[currentQuestion];
+
+            questionElement.textContent = currentQ.question;
+            optionsElement.innerHTML = '';
+
+            currentQ.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => {
+                    clearInterval(timer);
+                    hostImg.classList.remove("shake");
+                    checkAnswer(index);
+                };
+                optionsElement.appendChild(button);
+            });
+
+            startTimer(timerElement);
+            updateProgress();
+        }
+
+        function startTimer(timerElement) {
+            let timeLeft = timePerQuestion;
+
+            timerElement.textContent = `⏳ Осталось: ${timeLeft} сек.`;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft >= 0) {
+                    timerElement.textContent = `⏳ Осталось: ${timeLeft} сек.`;
+
+                    if (timeLeft === 5) {
+                        hostImg.classList.add("shake");
+                    }
+                } else {
+                    clearInterval(timer);
+                    hostImg.classList.add("shake");
+                    setTimeout(() => {
+                        hostImg.classList.remove("shake");
+                        currentQuestion++;
+                        if (currentQuestion < questions.length) {
+                            loadQuestion();
+                        } else {
+                            showResult();
+                        }
+                    }, 800);
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (selectedIndex === questions[currentQuestion].answer) {
+                score++;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const resultElement = document.getElementById('result');
+            const optionsElement = document.getElementById('options');
+            optionsElement.style.display = 'none';
+
+            if (score >= 25) {
+                resultElement.textContent = "🎉 Поздравляем! У вас ОФЕР! 🚀";
+            } else if (score >= 15) {
+                resultElement.textContent = "Нормально, но можно лучше. Мы... вам позвоним 📞";
+            } else {
+                resultElement.textContent = "Как ты смеешь тратить мое время?! Пшел отсюда! 🤬";
+            }
+
+            resultElement.style.display = 'block';
+        }
+
+        function updateProgress() {
+            const percent = ((currentQuestion + 1) / questions.length) * 100;
+            document.querySelector('.progress').style.width = percent + '%';
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

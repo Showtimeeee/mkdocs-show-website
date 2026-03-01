@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://showtimeeee.github.io/mkdocs-show-website/sitemap.xml

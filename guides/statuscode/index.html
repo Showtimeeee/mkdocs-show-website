@@ -1,0 +1,1102 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://showtimeeee.github.io/mkdocs-show-website/guides/statuscode/">
+      
+      
+      
+      
+      <link rel="icon" href="../../images/logo-ico.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Гайд по Статус-Кодам HTTP: Основы и Практическое Применение - Showtime-Bro</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/base.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-CRWF7DFZHT"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-CRWF7DFZHT",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-CRWF7DFZHT",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#-http" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Showtime-Bro" class="md-header__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Showtime-Bro
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Гайд по Статус-Кодам HTTP: Основы и Практическое Применение
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Showtime-Bro" class="md-nav__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    Showtime-Bro
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная🍕
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статьи📝
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Гайды🛠️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проекты🤖
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../opros/examinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тренажеры🎓
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patterns/patterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Паттерны🧩
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Алгоритмы👨‍💻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../graphs/grafs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Диаграммы📊
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download_books/books/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Книги📚
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../radio/bro_radio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Радио📻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Напиши мне✍️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Классификация Статус-Кодов
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Классификация Статус-Кодов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-1xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1. 1xx — Информационные
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-2xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2. 2xx — Успешные
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-3xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3. 3xx — Перенаправления
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-4xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4. 4xx — Ошибки клиента
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-5xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.5. 5xx — Ошибки сервера
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Как использовать статус-коды в разработке
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Как использовать статус-коды в разработке">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1. Анализ API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2. Тестирование
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Распространённые ошибки и их решение
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Распространённые ошибки и их решение">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-400-bad-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1. 400 Bad Request
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-401-unauthorized" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2. 401 Unauthorized
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-404-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3. 404 Not Found
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-500-internal-server-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4. 500 Internal Server Error
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Советы по использованию статус-кодов
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Советы по использованию статус-кодов">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1. Используйте правильные коды
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2. Добавляйте детали в ответ
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3. Логируйте ошибки
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Инструменты для работы со статус-кодами
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Инструменты для работы со статус-кодами">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-postman" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.1. Postman
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-charles" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.2. Charles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Практический пример
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Практический пример">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Задача: Отправить POST-запрос для создания нового пользователя через API.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Задача: Отправить POST-запрос для создания нового пользователя через API.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Шаг 1: Формируем запрос
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Шаг 2: Анализируем ответ
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="-http">Гайд по Статус-Кодам HTTP: Основы и Практическое Применение</h1>
+<hr>
+<p><img alt="Мой аватар" src="../../images/error_404.jpg"></p>
+<table>
+    <tr>
+        <th>Статус-код</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>100</strong></td>
+        <td>Продолжайте (Continue) — сервер получил начальную часть запроса и ожидает остальные данные.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>101</strong></td>
+        <td>Переключение протоколов (Switching Protocols) — сервер переключается на протокол, указанный в заголовке Upgrade.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>200</strong></td>
+        <td>ОК (OK) — запрос успешно выполнен.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>201</strong></td>
+        <td>Создано (Created) — запрос успешно выполнен, и создан новый ресурс.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>202</strong></td>
+        <td>Принято (Accepted) — запрос принят, но обработка еще не завершена.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>204</strong></td>
+        <td>Нет содержимого (No Content) — запрос успешно выполнен, но ответ не содержит данных.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>301</strong></td>
+        <td>Перемещено навсегда (Moved Permanently) — ресурс был перемещен на новый URL.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>302</strong></td>
+        <td>Найдено (Found) — ресурс временно доступен по другому URL.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>304</strong></td>
+        <td>Не изменялось (Not Modified) — ресурс не был изменен с момента последнего запроса.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>400</strong></td>
+        <td>Неверный запрос (Bad Request) — сервер не понимает запрос из-за синтаксической ошибки.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>401</strong></td>
+        <td>Не авторизован (Unauthorized) — требуется аутентификация пользователя.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>403</strong></td>
+        <td>Запрещено (Forbidden) — доступ к ресурсу запрещен.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>404</strong></td>
+        <td>Не найдено (Not Found) — запрашиваемый ресурс не найден.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>405</strong></td>
+        <td>Метод не разрешен (Method Not Allowed) — метод запроса не поддерживается для данного ресурса.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>409</strong></td>
+        <td>Конфликт (Conflict) — запрос не может быть выполнен из-за конфликта.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>422</strong></td>
+        <td>Необрабатываемый элемент (Unprocessable Entity) — запрос хорошо сформирован, но не может быть обработан из-за семантических ошибок.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>500</strong></td>
+        <td>Внутренняя ошибка сервера (Internal Server Error) — сервер столкнулся с ошибкой при обработке запроса.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>502</strong></td>
+        <td>Плохой шлюз (Bad Gateway) — сервер, выступающий в роли шлюза, получил недействительный ответ.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>503</strong></td>
+        <td>Сервис недоступен (Service Unavailable) — сервер временно недоступен.</td>
+    </tr>
+    <tr>
+        <td style="font-size: 1.5em;"><strong>504</strong></td>
+        <td>Время ожидания шлюза истекло (Gateway Timeout) — шлюз не получил своевременный ответ от другого сервера.</td>
+    </tr>
+</table>
+
+<p>Статус-коды HTTP — это числовые коды, которые сервер отправляет в ответ на запрос клиента. Они помогают понять, был ли запрос успешным, завершился ли ошибкой или требует дополнительных действий. Эти коды делятся на пять классов, каждый из которых обозначает определённый тип ответа:</p>
+<ol>
+<li><strong>1xx</strong> — Информационные.</li>
+<li><strong>2xx</strong> — Успешные.</li>
+<li><strong>3xx</strong> — Перенаправления.</li>
+<li><strong>4xx</strong> — Ошибки клиента.</li>
+<li><strong>5xx</strong> — Ошибки сервера.</li>
+</ol>
+<p>Понимание статус-кодов критически важно для разработчиков, тестировщиков и аналитиков, так как они помогают:
+- Выявлять проблемы в работе API.
+- Отлаживать приложения.
+- Оптимизировать взаимодействие между клиентом и сервером.</p>
+<hr>
+<h2 id="1-"><strong>1. Классификация Статус-Кодов</strong></h2>
+<h3 id="11-1xx"><strong>1.1. 1xx — Информационные</strong></h3>
+<p>Эти коды сообщают о том, что запрос был получен и обрабатывается. Они редко используются в повседневной практике.</p>
+<ul>
+<li><strong>100 Continue</strong>: Сервер подтверждает, что клиент может продолжить отправку запроса.</li>
+<li><strong>101 Switching Protocols</strong>: Сервер согласен на смену протокола (например, с HTTP на WebSocket).</li>
+</ul>
+<hr>
+<h3 id="12-2xx"><strong>1.2. 2xx — Успешные</strong></h3>
+<p>Эти коды указывают на успешное выполнение запроса.</p>
+<ul>
+<li><strong>200 OK</strong>: Запрос выполнен успешно.</li>
+<li><strong>201 Created</strong>: Ресурс был успешно создан (например, после POST-запроса).</li>
+<li><strong>204 No Content</strong>: Запрос выполнен, но ответ не содержит тела (например, после DELETE-запроса).</li>
+</ul>
+<hr>
+<h3 id="13-3xx"><strong>1.3. 3xx — Перенаправления</strong></h3>
+<p>Эти коды указывают, что клиент должен выполнить дополнительные действия для завершения запроса.</p>
+<ul>
+<li><strong>301 Moved Permanently</strong>: Ресурс был перемещён на новый URL навсегда.</li>
+<li><strong>302 Found</strong>: Ресурс временно доступен по другому URL.</li>
+<li><strong>304 Not Modified</strong>: Ресурс не изменился с момента последнего запроса (используется для кеширования).</li>
+</ul>
+<hr>
+<h3 id="14-4xx"><strong>1.4. 4xx — Ошибки клиента</strong></h3>
+<p>Эти коды указывают на ошибки со стороны клиента (например, неверный запрос или отсутствие прав).</p>
+<ul>
+<li><strong>400 Bad Request</strong>: Сервер не может обработать запрос из-за синтаксической ошибки.</li>
+<li><strong>401 Unauthorized</strong>: Требуется аутентификация.</li>
+<li><strong>403 Forbidden</strong>: Доступ запрещён, даже если пользователь аутентифицирован.</li>
+<li><strong>404 Not Found</strong>: Запрашиваемый ресурс не найден.</li>
+<li><strong>409 Conflict</strong>: Конфликт запроса с текущим состоянием сервера (например, дублирование данных).</li>
+</ul>
+<hr>
+<h3 id="15-5xx"><strong>1.5. 5xx — Ошибки сервера</strong></h3>
+<p>Эти коды указывают на ошибки на стороне сервера.</p>
+<ul>
+<li><strong>500 Internal Server Error</strong>: Общий код ошибки сервера.</li>
+<li><strong>502 Bad Gateway</strong>: Сервер получил недействительный ответ от вышестоящего сервера.</li>
+<li><strong>503 Service Unavailable</strong>: Сервер временно недоступен (например, из-за перегрузки).</li>
+<li><strong>504 Gateway Timeout</strong>: Сервер не получил ответ от вышестоящего сервера вовремя.</li>
+</ul>
+<hr>
+<h2 id="2-"><strong>2. Как использовать статус-коды в разработке</strong></h2>
+<h3 id="21-api"><strong>2.1. Анализ API</strong></h3>
+<p>При работе с API важно понимать, какие статус-коды возвращаются в разных ситуациях:
+- <strong>200 OK</strong>: Данные успешно получены.
+- <strong>400 Bad Request</strong>: Проверьте формат запроса.
+- <strong>401 Unauthorized</strong>: Проверьте токен авторизации.
+- <strong>500 Internal Server Error</strong>: Свяжитесь с администратором сервера.</p>
+<h3 id="22"><strong>2.2. Тестирование</strong></h3>
+<p>Используйте инструменты, такие как Postman или Charles, чтобы проверить, возвращаются ли корректные статус-коды:
+- Создайте запросы GET, POST, PUT, DELETE.
+- Проверьте ответы на соответствие документации API.</p>
+<hr>
+<h2 id="3"><strong>3. Распространённые ошибки и их решение</strong></h2>
+<h3 id="31-400-bad-request"><strong>3.1. 400 Bad Request</strong></h3>
+<p><strong>Причина:</strong> Неверный формат данных в запросе.<br>
+<strong>Решение:</strong> Проверьте JSON, заголовки и параметры запроса.</p>
+<h3 id="32-401-unauthorized"><strong>3.2. 401 Unauthorized</strong></h3>
+<p><strong>Причина:</strong> Отсутствует или неверный токен авторизации.<br>
+<strong>Решение:</strong> Убедитесь, что токен передаётся в заголовке <code>Authorization</code>.</p>
+<h3 id="33-404-not-found"><strong>3.3. 404 Not Found</strong></h3>
+<p><strong>Причина:</strong> Запрашиваемый ресурс не существует.<br>
+<strong>Решение:</strong> Проверьте URL и убедитесь, что ресурс создан.</p>
+<h3 id="34-500-internal-server-error"><strong>3.4. 500 Internal Server Error</strong></h3>
+<p><strong>Причина:</strong> Ошибка на стороне сервера.<br>
+<strong>Решение:</strong> Проверьте логи сервера или свяжитесь с администратором.</p>
+<hr>
+<h2 id="4-"><strong>4. Советы по использованию статус-кодов</strong></h2>
+<h3 id="41"><strong>4.1. Используйте правильные коды</strong></h3>
+<ul>
+<li>Всегда возвращайте соответствующие статус-коды в вашем API.</li>
+<li>Например, используйте <strong>201 Created</strong> для создания ресурса, а не <strong>200 OK</strong>.</li>
+</ul>
+<h3 id="42"><strong>4.2. Добавляйте детали в ответ</strong></h3>
+<p>Дополнительно к статус-коду возвращайте описание ошибки в теле ответа:
+</p><div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bad Request"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid email format"</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="43"><strong>4.3. Логируйте ошибки</strong></h3>
+<p>Настройте логирование для отслеживания ошибок, таких как <strong>500 Internal Server Error</strong>, чтобы быстрее находить и исправлять проблемы.</p>
+<hr>
+<h2 id="5-"><strong>5. Инструменты для работы со статус-кодами</strong></h2>
+<h3 id="51-postman"><strong>5.1. Postman</strong></h3>
+<p>Postman позволяет отправлять запросы и анализировать статус-коды.<br>
+<strong>Пример использования:</strong>
+1. Создайте запрос GET к API.
+2. Проверьте статус-код в ответе.
+3. Изучите тело ответа для дополнительной информации.</p>
+<h3 id="52-charles"><strong>5.2. Charles</strong></h3>
+<p>Charles помогает отслеживать HTTP/HTTPS-трафик и анализировать статус-коды.<br>
+<strong>Пример использования:</strong>
+1. Включите запись трафика.
+2. Найдите запрос и проверьте его статус-код.
+3. Проанализируйте заголовки и тело ответа.</p>
+<hr>
+<h2 id="6"><strong>6. Практический пример</strong></h2>
+<h3 id="post-api"><strong>Задача:</strong> Отправить POST-запрос для создания нового пользователя через API.</h3>
+<h4 id="1"><strong>Шаг 1: Формируем запрос</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/api/users</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">example.com</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<span class="na">Authorization</span><span class="o">:</span> <span class="l">Bearer YOUR_TOKEN</span>
+
+<span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john.doe@example.com"</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="2"><strong>Шаг 2: Анализируем ответ</strong></h4>
+<ul>
+<li><strong>Успешный ответ (201 Created):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john.doe@example.com"</span>
+<span class="p">}</span>
+</code></pre></div></li>
+<li><strong>Ошибка (400 Bad Request):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bad Request"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email is already taken"</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ul></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Вам нравится эта страница?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Да" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Нет" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 15V3h4v12zM15 3a2 2 0 0 1 2 2v10c0 .55-.22 1.05-.59 1.41L9.83 23l-1.06-1.06c-.27-.27-.44-.64-.44-1.06l.03-.31.95-4.57H3a2 2 0 0 1-2-2v-2c0-.26.05-.5.14-.73l3.02-7.05C4.46 3.5 5.17 3 6 3zm0 2H5.97L3 12v2h8.78l-1.13 5.32L15 14.97z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Спасибо! Я рад, что вам понравилось.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Жаль, что вам не понравилось...
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href="">Vadim</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.footer", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../../js/bubble_sort.js"></script>
+      
+    
+  </body>
+</html>

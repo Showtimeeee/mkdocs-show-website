@@ -1,0 +1,207 @@
+/* Стили для блока цитаты */
+.quote {
+    font-family: 'Georgia', serif;
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    border-left: 5px solid #6200ea; 
+    color: #48e00b; 
+    max-width: 600px; 
+}
+
+.quote blockquote {
+    font-size: 1.2em; /* Размер текста цитаты */
+    font-style: italic; /* Курсив */
+    margin: 0;
+}
+
+.quote cite {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em; /* Размер текста автора */
+    color: #48e00b; /* Серый цвет для автора */
+}
+
+
+.neon-text-blue {
+    font-size: 3em;
+    color: #00ffcc;
+    text-shadow:
+        0 0 5px #00ffcc,
+        0 0 10px #00ffcc,
+        0 0 20px #00ffcc,
+        0 0 40px #0ff,
+        0 0 80px #0ff;
+    animation: flicker 1.5s infinite;
+}
+
+.neon-text-purple {
+    font-size: 3em;
+    color: #9370DB; /* Фиолетовый цвет */
+    text-shadow:
+        0 0 5px #9370DB,
+        0 0 10px #9370DB,
+        0 0 20px #9370DB,
+        0 0 40px #8A2BE2,
+        0 0 80px #8A2BE2;
+    animation: flicker-purple 1.5s infinite;
+}
+
+.neon-text-darkpurple {
+    font-size: 3em;
+    color: #8a00ff;
+    text-shadow:
+        0 0 5px #8a00ff,
+        0 0 10px #8a00ff,
+        0 0 20px #8a00ff,
+        0 0 40px #6a0dad,
+        0 0 80px #4b0082;
+    animation: flicker-darkpurple 1.5s infinite alternate;
+}
+
+.neon-text-rainbow {
+    font-size: 3em;
+    color: #ff00ff;
+    text-shadow:
+        0 0 5px #ff00ff,
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 40px #00ffff,
+        0 0 80px #00ffff;
+    animation: flicker-rainbow 2s infinite alternate;
+}
+
+.neon-text-gold {
+    font-size: 3em;
+    color: #ffd700;
+    text-shadow:
+        0 0 5px #ffd700,
+        0 0 10px #ffd700,
+        0 0 20px #ffd700,
+        0 0 40px #ffaa00,
+        0 0 80px #ff8800;
+    animation: flicker-gold 4.5s infinite alternate;
+}
+
+.neon-text-yellow {
+    font-size: 3em;
+    color: #FFFF00; /* Желтый цвет */
+    text-shadow:
+        0 0 5px #FFFF00,
+        0 0 10px #FFFF00,
+        0 0 20px #FFFF00,
+        0 0 40px #FFD700,
+        0 0 80px #FFD700;
+    animation: flicker-yellow 1.5s infinite;
+}
+
+.neon-text-red {
+    font-size: 3em;
+    color: #FF0000; /* Красный цвет */
+    text-shadow:
+        0 0 5px #FF0000,
+        0 0 10px #FF0000,
+        0 0 20px #FF0000,
+        0 0 40px #FF4500,
+        0 0 80px #FF4500;
+    animation: flicker-red 1.5s infinite;
+}
+
+.neon-text-orange {
+    font-size: 3em;
+    color: #FFA500; /* Оранжевый цвет */
+    text-shadow:
+        0 0 5px #FFA500,
+        0 0 10px #FFA500,
+        0 0 20px #FFA500,
+        0 0 40px #FF8C00,
+        0 0 80px #FF8C00;
+    animation: flicker-orange 1.5s infinite;
+}
+
+.neon-text-green {
+    font-size: 3em;
+    color: #00FF00; /* Зеленый цвет */
+    text-shadow:
+        0 0 5px #00FF00,
+        0 0 10px #00FF00,
+        0 0 20px #00FF00,
+        0 0 40px #32CD32,
+        0 0 80px #32CD32;
+    animation: flicker-green 1.5s infinite;
+}
+
+.neon-text-pink {
+    font-size: 3em;
+    color: #FF69B4; /* Розовый цвет */
+    text-shadow:
+        0 0 5px #FF69B4,
+        0 0 10px #FF69B4,
+        0 0 20px #FF69B4,
+        0 0 40px #FF1493,
+        0 0 80px #FF1493;
+    animation: flicker-pink 1.5s infinite;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 5px #00ffcc,
+            0 0 10px #00ffcc,
+            0 0 20px #00ffcc,
+            0 0 40px #0ff,
+            0 0 80px #0ff;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+
+/* Стили для контейнера версии */
+.version-container {
+    text-align: center; /* Центрируем содержимое по горизонтали */
+    margin-top: 20px; /* Добавляем отступ сверху */
+  }
+  
+  /* Стили для блока с версией */
+  .version-info {
+    display: inline-block; /* Чтобы элемент занимал только необходимую ширину */
+    padding: 8px 16px; /* Увеличиваем внутренние отступы */
+    background-color: #ae1ff0; /* Темно-синий цвет фона */
+    border: 1px solid #9a10a733; /* Полупрозрачная белая граница */
+    border-radius: 20px; /* Более закругленные углы */
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff; /* Белый текст */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легкая тень для объема */
+    transition: all 0.3s ease; /* Плавный переход для анимации */
+  }
+  
+/* Эффект при наведении */
+.version-info:hover {
+    background-color: #f52bc2; /* Темно-синий цвет при наведении */
+    box-shadow: 0 0 15px 5px rgba(156, 17, 121, 0.5); /* Мягкое свечение */
+    transform: translateY(-2px); /* Легкое поднятие вверх */
+    cursor: pointer; /* Курсор меняется на указатель */
+  }
+
+  @keyframes flicker-iceblue {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; text-shadow: 0 0 10px #00f2ff, 0 0 20px #00b7ff; }
+}
+
+@keyframes flicker-acid {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; text-shadow: 0 0 15px #39ff14, 0 0 30px #00ff7f; }
+}
+
+@keyframes flicker-rainbow {
+    0%, 100% { color: #ff00ff; text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff; }
+    50% { color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff; }
+}
+
+@keyframes flicker-gold {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; text-shadow: 0 0 15px #ffd700, 0 0 30px #ffaa00; }
+}
