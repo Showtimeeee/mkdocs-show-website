@@ -1,3 +1,7 @@
-## [Jumper-Pygame](project3.md)
----
-## [Tanks_p_vs_p_pygame](project4.md)
+![MyCollagesPygame](images/MyCollagesPygame.jpg)
+
+## [Jumper-pygame 🐇](project3.md)
+
+## [Tanks-pvp-pygame 💥](project4.md)
+
+## [Flappy-crow-pygame 🦅](flappy_crow_pygame.md)
