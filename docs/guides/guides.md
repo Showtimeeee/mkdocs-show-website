@@ -34,6 +34,7 @@
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Авторизация</div>
 - [Session](session_auth.md)
+- [JWT](jwt_auth.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Веб-фреймворки</div>
 - [Flask](flask.md)
@@ -43,5 +44,6 @@
 - [SDLC](sdlc.md)
 
 ---
+
 
 
