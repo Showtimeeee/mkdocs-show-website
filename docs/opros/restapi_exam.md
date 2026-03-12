@@ -8,12 +8,13 @@
     <style>
         /* Общие стили */
         #quiz-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px;
             border: 1px solid #ccc;
             border-radius: 10px;
             background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         #question-container ul {
@@ -22,18 +23,28 @@
         }
 
         #question-container li {
-            margin: 10px 0;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        #question-container li:hover {
+            background-color: #f0f0f0;
         }
 
         #next-button {
             display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
+            margin: 30px auto 20px;
+            padding: 12px 30px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
 
         #next-button:hover {
@@ -42,12 +53,41 @@
 
         #result-container {
             text-align: center;
+            padding: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
         }
 
         /* Стили для тёмной темы */
         [data-md-color-scheme="slate"] #quiz-container {
             border-color: #424242;
             background-color: #212121;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         [data-md-color-scheme="slate"] .md-typeset {
@@ -58,6 +98,10 @@
             color: #e0e0e0;
         }
 
+        [data-md-color-scheme="slate"] #question-container li:hover {
+            background-color: #2d2d2d;
+        }
+
         [data-md-color-scheme="slate"] #next-button {
             background-color: #1e88e5;
         }
@@ -65,21 +109,35 @@
         [data-md-color-scheme="slate"] #result-container {
             color: #e0e0e0;
         }
+
+        [data-md-color-scheme="slate"] h1 {
+            color: #e0e0e0;
+        }
+
+        [data-md-color-scheme="slate"] .description {
+            color: #b0b0b0;
+        }
+
+        [data-md-color-scheme="slate"] .progress-bar {
+            background-color: #424242;
+        }
     </style>
 </head>
 <body>
-    <div class="animate__animated animate__bounce">Тест по REST API</div>
-
-    <p>Пройди тест по REST API, состоящий из 15 вопросов, которые проверят твои знания. После завершения теста ты получишь оценку твоего уровня.</p>
+    <h1 class="animate__animated animate__bounce">📚 Тест по REST API</h1>
+    <p class="description">Пройди тест из 25 вопросов и проверь свой уровень знаний. После завершения ты получишь детальную оценку.</p>
 
     <div id="quiz-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress" style="width: 0%;"></div>
+        </div>
         <div id="question-container"></div>
-        <button id="next-button">Следующий вопрос</button>
+        <button id="next-button">Следующий вопрос →</button>
         <div id="result-container" style="display: none;"></div>
     </div>
 
     <script>
-        // Вопросы теста
+        // Расширенный набор вопросов по REST API
         const questions = [
             {
                 question: "Что такое REST?",
@@ -103,13 +161,13 @@
             },
             {
                 question: "Какой HTTP-статус указывает на успешное выполнение запроса?",
-                options: ["200 OK", "404 Not Found", "500 Internal Server Error", "403 Forbidden"],
-                answer: "200 OK"
+                options: ["200", "404", "500", "403"],
+                answer: "200"
             },
             {
                 question: "Какой HTTP-статус указывает на то, что ресурс не найден?",
-                options: ["404 Not Found", "403 Forbidden", "500 Internal Server Error", "200 OK"],
-                answer: "404 Not Found"
+                options: ["404", "403", "500", "200"],
+                answer: "404"
             },
             {
                 question: "Что такое endpoint в REST API?",
@@ -122,7 +180,7 @@
                 answer: "JSON"
             },
             {
-                question: "Какой HTTP-метод используется для обновления существующего ресурса?",
+                question: "Какой HTTP-метод используется для полного обновления существующего ресурса?",
                 options: ["PUT", "POST", "PATCH", "GET"],
                 answer: "PUT"
             },
@@ -153,17 +211,69 @@
             },
             {
                 question: "Какой HTTP-метод является идемпотентным?",
-                options: ["GET", "POST", "DELETE", "PATCH"],
+                options: ["GET", "POST", "PATCH", "DELETE"],
                 answer: "GET"
+            },
+            {
+                question: "Какой HTTP статус код означает 'Успешное создание ресурса'?",
+                options: ["201", "200", "202", "204"],
+                answer: "201"
+            },
+            {
+                question: "Что означает статус код 401?",
+                options: ["Unauthorized (не авторизован)", "Forbidden (доступ запрещён)", "Bad Request", "Payment Required"],
+                answer: "Unauthorized (не авторизован)"
+            },
+            {
+                question: "В чём основное различие между PUT и PATCH?",
+                options: ["PUT обновляет ресурс полностью, PATCH - частично", "PUT создаёт ресурс, PATCH обновляет", "PUT безопасный метод, PATCH - нет", "PUT используется только для создания, PATCH для удаления"],
+                answer: "PUT обновляет ресурс полностью, PATCH - частично"
+            },
+            {
+                question: "Какой заголовок клиент может использовать для указания предпочитаемого формата ответа?",
+                options: ["Accept", "Content-Type", "Prefer", "Accept-Language"],
+                answer: "Accept"
+            },
+            {
+                question: "Что означает статус код 500?",
+                options: ["Internal Server Error", "Bad Gateway", "Service Unavailable", "Gateway Timeout"],
+                answer: "Internal Server Error"
+            },
+            {
+                question: "Какой принцип НЕ является обязательным ограничением REST?",
+                options: ["SOAP", "Отсутствие состояния (Stateless)", "Клиент-сервер", "Кэширование"],
+                answer: "SOAP"
+            },
+            {
+                question: "Как правильно спроектировать endpoint для получения информации о пользователе с ID 123?",
+                options: ["/users/123", "/getUser?id=123", "/user?id=123", "/users/get/123"],
+                answer: "/users/123"
+            },
+            {
+                question: "Что означает статус код 403?",
+                options: ["Forbidden (доступ запрещён)", "Not Found", "Bad Request", "Method Not Allowed"],
+                answer: "Forbidden (доступ запрещён)"
+            },
+            {
+                question: "Какой HTTP метод обычно используется для удаления ресурса?",
+                options: ["DELETE", "REMOVE", "ERASE", "CLEAR"],
+                answer: "DELETE"
+            },
+            {
+                question: "Что такое query параметр в URL?",
+                options: ["Часть URL после ? для фильтрации данных", "Часть пути к ресурсу", "Заголовок запроса", "Метод HTTP"],
+                answer: "Часть URL после ? для фильтрации данных"
             }
         ];
 
         let currentQuestionIndex = 0;
         let score = 0;
+        let userAnswers = new Array(questions.length).fill(null);
 
         const questionContainer = document.getElementById("question-container");
         const nextButton = document.getElementById("next-button");
         const resultContainer = document.getElementById("result-container");
+        const progressBar = document.getElementById("progress");
 
         // Функция для перемешивания массива
         function shuffleArray(array) {
@@ -174,31 +284,55 @@
             return array;
         }
 
+        function updateProgress() {
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
         function loadQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
             // Перемешиваем варианты ответа
             const shuffledOptions = shuffleArray([...currentQuestion.options]);
+            
+            // Проверяем, был ли уже выбран ответ на этот вопрос
+            const previousAnswer = userAnswers[currentQuestionIndex];
 
             questionContainer.innerHTML = `
                 <h3>${currentQuestionIndex + 1}. ${currentQuestion.question}</h3>
                 <ul>
-                    ${shuffledOptions.map(option => `<li><label><input type="radio" name="answer" value="${option}"> ${option}</label></li>`).join("")}
+                    ${shuffledOptions.map(option => `
+                        <li>
+                            <label>
+                                <input type="radio" name="answer" value="${option}" 
+                                    ${previousAnswer === option ? 'checked' : ''}> 
+                                ${option}
+                            </label>
+                        </li>
+                    `).join("")}
                 </ul>
             `;
+            
+            updateProgress();
         }
 
         nextButton.addEventListener("click", () => {
             const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            
             if (!selectedAnswer) {
-                alert("Выберите ответ!");
+                alert("Пожалуйста, выберите ответ!");
                 return;
             }
 
+            // Сохраняем ответ пользователя
+            userAnswers[currentQuestionIndex] = selectedAnswer.value;
+
+            // Проверяем правильность ответа
             if (selectedAnswer.value === questions[currentQuestionIndex].answer) {
                 score++;
             }
 
             currentQuestionIndex++;
+            
             if (currentQuestionIndex < questions.length) {
                 loadQuestion();
             } else {
@@ -210,23 +344,78 @@
             questionContainer.style.display = "none";
             nextButton.style.display = "none";
             resultContainer.style.display = "block";
+            
+            // Обновляем прогресс бар до 100%
+            progressBar.style.width = "100%";
 
-            let message = "";
-            if (score >= 13) {
-                message = "Отлично! Вы настоящий эксперт в REST API 🚀";
-            } else if (score >= 8) {
-                message = "Хорошо! У вас есть хорошие знания, но есть куда расти. 🌟";
+            const percentage = Math.round((score / questions.length) * 100);
+
+            let level = "";
+            let recommendation = "";
+            let emoji = "";
+
+            if (percentage >= 90) {
+                level = "Эксперт";
+                recommendation = "Ваши знания по REST API впечатляют! Вы готовы проектировать сложные API и обучать других.";
+                emoji = "🏆";
+            } else if (percentage >= 75) {
+                level = "Продвинутый";
+                recommendation = "Хорошая работа! У вас твёрдые знания, но есть ещё несколько моментов для изучения.";
+                emoji = "🚀";
+            } else if (percentage >= 50) {
+                level = "Средний";
+                recommendation = "Неплохо! Вы знаете основы, но рекомендуется углубить знания в некоторых областях.";
+                emoji = "📚";
+            } else if (percentage >= 25) {
+                level = "Начинающий";
+                recommendation = "Вы только начинаете путь в мир REST API. Продолжайте изучение!";
+                emoji = "🌱";
             } else {
-                message = "Попробуйте ещё раз! Возможно, стоит углубить свои знания. 💡";
+                level = "Новичок";
+                recommendation = "Не расстраивайтесь! REST API - важная тема, и с практикой ваши знания улучшатся.";
+                emoji = "💪";
+            }
+
+            // Детальный разбор результатов
+            let detailedFeedback = "";
+            if (score < questions.length) {
+                detailedFeedback = "<h3>Вопросы для повторения:</h3><ul>";
+                for (let i = 0; i < questions.length; i++) {
+                    if (userAnswers[i] !== questions[i].answer) {
+                        detailedFeedback += `
+                            <li style="margin-bottom: 15px; text-align: left;">
+                                <strong>Вопрос ${i + 1}:</strong> ${questions[i].question}<br>
+                                <span style="color: #f44336;">❌ Ваш ответ: ${userAnswers[i] || 'Не отвечен'}</span><br>
+                                <span style="color: #4caf50;">✅ Правильный ответ: ${questions[i].answer}</span>
+                            </li>
+                        `;
+                    }
+                }
+                detailedFeedback += "</ul>";
             }
 
             resultContainer.innerHTML = `
-                <h2>Результаты теста</h2>
-                <p>Правильных ответов: ${score}/${questions.length}</p>
-                <p>${message}</p>
+                <h2>📊 Результаты теста</h2>
+                <div style="font-size: 24px; margin: 20px 0;">${emoji}</div>
+                <h3 style="color: #007bff;">${level}</h3>
+                <p style="font-size: 20px;"><strong>Правильных ответов: ${score}/${questions.length} (${percentage}%)</strong></p>
+                <p style="font-style: italic; margin: 20px 0;">${recommendation}</p>
+                ${score < questions.length ? detailedFeedback : '<p style="color: #4caf50; font-size: 18px;">🎉 Поздравляем с идеальным результатом!</p>'}
+                <button onclick="location.reload()" style="
+                    margin-top: 20px;
+                    padding: 12px 30px;
+                    background-color: #4caf50;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    font-weight: bold;
+                ">🔄 Пройти тест заново</button>
             `;
         }
 
+        // Загружаем первый вопрос
         loadQuestion();
     </script>
 </body>
