@@ -1,9 +1,10 @@
 # <div class="animate__animated animate__bounce">Гайды🛠️</div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
+
 ---
 
-![AFK Bro Bot](images/bg-js.jpg)
+![guides-bg-js](images/bg-js.jpg)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Инструменты и технологии</div>
 - [Docker](docker.md)
@@ -26,6 +27,7 @@
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Тестирование</div>
 - [Техники тест-дизайна](g_test_design.md)
+- [Пирамида тестирования](graphs/testing_pyramid.html)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Автотестирование</div>
 - [Pytest](pytest_guide.md)
@@ -45,5 +47,5 @@
 
 ---
 
-
-
+## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Разное</div>
+- [График популярности языков программирования](graphs/bar_chart.md)
