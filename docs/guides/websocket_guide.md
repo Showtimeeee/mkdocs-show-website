@@ -1,6 +1,6 @@
 # **Гайд по WebSocket: ключевые концепции и практическое применение**
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/WebSocket_colored_logo.svg/640px-WebSocket_colored_logo.svg.png" title="WebSocket" alt="WebSocket" width="222" height="222" />
+![WebSocket-logo](images/web-socket-logo.png)
 
 WebSocket — это протокол двусторонней связи поверх TCP, позволяющий устанавливать постоянное соединение между клиентом и сервером. Широко используется для чатов, уведомлений, онлайн-игр и реальных обновлений данных. В этом гайде разберём ключевые аспекты WebSocket и примеры реализации.
 
