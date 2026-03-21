@@ -40,7 +40,8 @@
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Веб-фреймворки</div>
 - [Flask](flask.md)
-
+- [FastAPI](g_fastapi.md)
+  
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Документация</div>
 - [Тест-кейс](g_test_case.md)
 - [SDLC](sdlc.md)
