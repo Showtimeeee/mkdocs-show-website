@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="dna" href="images/pub_5878406.png"/>
+    <title>Магия Таверны - Карточная Игра</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: url('./images/iskustve.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #e8d8b6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            transition: background-image 1.5s ease-in-out;
+            cursor: none;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Курсоры */
+        .player-cursor, .computer-cursor {
+            position: fixed;
+            width: 25px;
+            height: 25px;
+            pointer-events: none;
+            z-index: 30;
+            transition: transform 0.1s ease;
+        }
+
+        .player-cursor {
+            background: radial-gradient(circle, #4d94ff, #0066ff);
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(77, 148, 255, 0.8);
+        }
+
+        .computer-cursor {
+            background: radial-gradient(circle, #ff6b6b, #ff0000);
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 29;
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        /* Эффект костра */
+        .fire-effect {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 5;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .fire-particle {
+            position: absolute;
+            bottom: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff8c00, #ff4500, transparent 70%);
+            opacity: 0.7;
+            filter: blur(5px);
+            animation: floatUp linear infinite;
+        }
+
+        .fire-glow {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 150px;
+            background: radial-gradient(ellipse at center, rgba(255, 140, 0, 0.4) 0%, rgba(255, 69, 0, 0.2) 40%, transparent 70%);
+            filter: blur(15px);
+            animation: flicker 3s ease-in-out infinite alternate;
+        }
+
+        /* Эффект монеток */
+        .coin {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #daa520, #b8860b);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 15;
+            box-shadow: 
+                0 0 15px rgba(255, 215, 0, 0.8),
+                inset -5px -5px 10px rgba(0, 0, 0, 0.3),
+                inset 3px 3px 5px rgba(255, 255, 255, 0.2);
+            animation: coinFloat 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #8b7500;
+            font-size: 0.9em;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .coin::before {
+            content: '₿';
+            font-size: 1.2em;
+        }
+
+        .coin:hover {
+            transform: scale(1.2);
+            box-shadow: 
+                0 0 25px rgba(255, 215, 0, 1),
+                inset -5px -5px 10px rgba(0, 0, 0, 0.3),
+                inset 3px 3px 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .coin-collected {
+            animation: coinCollect 0.6s ease-out forwards !important;
+        }
+
+        @keyframes coinFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+        }
+
+        @keyframes coinCollect {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .coin-counter {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(20, 10, 5, 0.8);
+            border: 2px solid #d4af37;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1em;
+            z-index: 20;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .coin-counter::before {
+            content: '₿';
+            font-size: 1.3em;
+            color: #ffd700;
+        }
+
+        .computer-coin-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 10, 5, 0.8);
+            border: 2px solid #ff6b6b;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.1em;
+            z-index: 20;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .computer-coin-counter::before {
+            content: '₿';
+            font-size: 1.3em;
+            color: #ff6b6b;
+        }
+
+        .coin-bonus {
+            position: fixed;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 25;
+            pointer-events: none;
+            animation: bonusFloat 1.5s ease-out forwards;
+        }
+
+        .computer-coin-bonus {
+            color: #ff6b6b;
+        }
+
+        @keyframes bonusFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(1.2);
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-200px) translateX(var(--drift)) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 0.6;
+                transform: translateX(-50%) scale(1);
+            }
+            25% {
+                opacity: 0.8;
+                transform: translateX(-52%) scale(1.05);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateX(-48%) scale(0.95);
+            }
+            75% {
+                opacity: 0.7;
+                transform: translateX(-51%) scale(1.02);
+            }
+        }
+
+        .tavern-container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(20, 10, 5, 0.7);
+            border: 1px solid rgba(139, 69, 19, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            min-height: 90vh;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+        }
+
+        .tavern-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tavern-title {
+            font-size: 2em;
+            color: #d4af37;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+            margin-bottom: 5px;
+            font-family: 'Cambria', serif;
+        }
+
+        .tavern-subtitle {
+            font-size: 1em;
+            color: #b8860b;
+            font-style: italic;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .help-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(212, 175, 55, 0.3);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .help-button:hover {
+            background: rgba(212, 175, 55, 0.5);
+            transform: scale(1.1);
+        }
+
+        .main-game-area {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 10px;
+            min-height: 0;
+        }
+
+        .battlefield {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(20, 10, 5, 0.4);
+            border-radius: 8px;
+            border: 1px solid rgba(139, 69, 19, 0.4);
+            flex: 1;
+            min-height: 200px;
+        }
+
+        .player-side, .computer-side {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+            padding: 8px;
+            align-content: start;
+        }
+
+        .player-hand {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            padding: 10px;
+            background: rgba(20, 10, 5, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(139, 69, 19, 0.4);
+            min-height: 140px;
+            flex-shrink: 0;
+        }
+
+        .card {
+            width: 100px;
+            height: 140px;
+            background: linear-gradient(135deg, #8b4513, #654321);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .card:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 3px 3px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .card.in-hand {
+            background: linear-gradient(135deg, #2d5016, #1a2f0d);
+        }
+
+        .card.played {
+            background: linear-gradient(135deg, #1a2f0d, #0d1f05);
+        }
+
+        .card.computer {
+            background: linear-gradient(135deg, #501616, #2f0d0d);
+        }
+
+        .card-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .card-suit {
+            font-size: 1.6em;
+            color: #e8d8b6;
+        }
+
+        .card-cost {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ff6b6b;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            border: 1px solid #ff6b6b;
+        }
+
+        .card-name {
+            font-size: 0.75em;
+            text-align: center;
+            color: #e8d8b6;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .game-status {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+            padding: 10px;
+            background: rgba(20, 10, 5, 0.6);
+            border-radius: 8px;
+            border: 1px solid rgba(139, 69, 19, 0.4);
+            flex-shrink: 0;
+            margin-top: 10px;
+        }
+
+        .player-stats, .computer-stats {
+            text-align: center;
+        }
+
+        .mana {
+            font-size: 1.6em;
+            color: #4d94ff;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            margin: 5px 0;
+        }
+
+        .mana-icon {
+            font-size: 1.4em;
+            margin-right: 5px;
+        }
+
+        .mana-value {
+            font-size: 1.1em;
+            background: rgba(77, 148, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 15px;
+            border: 2px solid #4d94ff;
+        }
+
+        .score {
+            font-size: 1.6em;
+            color: #d4af37;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            margin: 5px 0;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, rgba(139, 69, 19, 0.8), rgba(160, 82, 45, 0.8));
+            color: #e8d8b6;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            font-family: 'Cambria', serif;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(139, 69, 19, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        .action-button:hover {
+            background: linear-gradient(45deg, rgba(160, 82, 45, 0.9), rgba(139, 69, 19, 0.9));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .action-button:disabled {
+            background: rgba(90, 90, 90, 0.6);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .combinations {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .combination {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            border-radius: 10px;
+            padding: 3px 8px;
+            font-size: 0.7em;
+            color: #e8d8b6;
+        }
+
+        .game-log {
+            background: rgba(20, 10, 5, 0.6);
+            border: 1px solid rgba(139, 69, 19, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            height: 80px;
+            overflow-y: auto;
+            margin-top: 8px;
+            backdrop-filter: blur(3px);
+            scroll-behavior: smooth;
+            flex-shrink: 0;
+        }
+
+        .game-log::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .game-log::-webkit-scrollbar-track {
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 2px;
+        }
+
+        .game-log::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 2px;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .log-title {
+            color: #d4af37;
+            font-size: 0.9em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .clear-log-button {
+            background: rgba(139, 69, 19, 0.5);
+            color: #e8d8b6;
+            border: 1px solid #8b4513;
+            border-radius: 8px;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-log-button:hover {
+            background: rgba(139, 69, 19, 0.7);
+        }
+
+        .log-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .log-entry {
+            padding: 4px 6px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 2px solid #d4af37;
+            font-size: 0.75em;
+            line-height: 1.2;
+            animation: slideIn 0.3s ease;
+        }
+
+        .log-entry:first-child {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 2px solid #ff6b6b;
+            font-weight: bold;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-5px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .turn-indicator {
+            text-align: center;
+            font-size: 0.9em;
+            color: #d4af37;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            margin-bottom: 6px;
+            padding: 4px 10px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .audio-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(20, 10, 5, 0.85);
+            padding: 8px 0;
+            border-top: 1px solid rgba(139, 69, 19, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+        }
+
+        .audio-footer audio {
+            width: 250px;
+            height: 40px;
+        }
+
+        .bg-indicator {
+            position: fixed;
+            bottom: 50px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #e8d8b6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 10, 5, 0.95);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #ff6b6b;
+            transform: scale(1.1);
+        }
+
+        .rules-title {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .rules-section {
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(139, 69, 19, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .rules-section h3 {
+            color: #b8860b;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .rules-section p {
+            margin-bottom: 6px;
+            line-height: 1.4;
+            font-size: 0.9em;
+        }
+
+        .rules-list {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .rules-list li {
+            margin-bottom: 6px;
+            line-height: 1.3;
+            font-size: 0.9em;
+        }
+
+        .combination-example {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1200px) {
+            .tavern-container {
+                max-width: 95%;
+                padding: 15px;
+            }
+            
+            .card {
+                width: 90px;
+                height: 125px;
+            }
+            
+            .player-hand {
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                cursor: default;
+            }
+            
+            .tavern-container {
+                max-width: 100%;
+                padding: 10px;
+                min-height: 95vh;
+            }
+            
+            .card {
+                width: 80px;
+                height: 110px;
+            }
+            
+            .battlefield {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .player-hand {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 8px;
+            }
+            
+            .game-status {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .card-value {
+                font-size: 1.6em;
+            }
+            
+            .card-suit {
+                font-size: 1.4em;
+            }
+            
+            .mana, .score {
+                font-size: 1.4em;
+            }
+            
+            .fire-effect {
+                height: 150px;
+            }
+            
+            .fire-glow {
+                width: 200px;
+                height: 100px;
+            }
+            
+            .coin {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8em;
+            }
+            
+            .coin-counter, .computer-coin-counter {
+                top: 10px;
+                font-size: 1em;
+                padding: 8px 12px;
+            }
+            
+            .player-cursor, .computer-cursor {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 70px;
+                height: 95px;
+            }
+            
+            .player-hand {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            }
+            
+            .card-value {
+                font-size: 1.4em;
+            }
+            
+            .card-suit {
+                font-size: 1.2em;
+            }
+            
+            .card-name {
+                font-size: 0.65em;
+            }
+            
+            .action-button {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+            
+            .fire-effect {
+                height: 120px;
+            }
+            
+            .fire-glow {
+                width: 150px;
+                height: 80px;
+            }
+            
+            .coin {
+                width: 30px;
+                height: 30px;
+                font-size: 0.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="player-cursor" id="playerCursor"></div>
+    <div class="computer-cursor" id="computerCursor"></div>
+    <div class="fire-effect" id="fireEffect"></div>
+    <div class="coin-counter" id="coinCounter">0</div>
+    <div class="computer-coin-counter" id="computerCoinCounter">0</div>
+    <div class="bg-indicator" id="bgIndicator">Фон 1/9</div>
+
+    <div class="modal" id="rulesModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeRules">&times;</button>
+            <h2 class="rules-title">📜 Правила Магии Таверны</h2>
+            
+            <div class="rules-section">
+                <h3>🎯 Цель игры</h3>
+                <p>Победить трактирщика, набрав больше очков за счет разыгрывания карт и сбора комбинаций.</p>
+            </div>
+
+            <div class="rules-section">
+                <h3>🪙 Золотые монетки</h3>
+                <p>По таверне летают золотые монетки! Соревнуйтесь с трактирщиком за их сбор:</p>
+                <ul class="rules-list">
+                    <li>💰 <strong>Обычная монетка</strong> - +1 к максимальной мане</li>
+                    <li>🌟 <strong>Золотая монетка</strong> - +2 к максимальной мане</li>
+                    <li>⚡ <strong>Бонусная монетка</strong> - +3 очка к счету</li>
+                    <li>🎯 <strong>Гонка за монетками</strong> - Трактирщик тоже пытается собрать монетки!</li>
+                    <li>⚔️ <strong>Соревнование</strong> - Кто первый кликнет на монетку, тот ее и получает</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>🃏 Система карт</h3>
+                <p>В колоде 6 типов карт с разной силой и стоимостью:</p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0;">
+                    <div style="background: linear-gradient(135deg, #8b4513, #654321); border: 2px solid #d4af37; border-radius: 6px; padding: 8px; text-align: center;">
+                        <div style="font-size: 1.2em; font-weight: bold; color: #d4af37;">2 ⚔️</div>
+                        <div style="font-size: 0.8em;">Воин</div>
+                        <div style="color: #ff6b6b; font-size: 0.7em;">1⚡</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #8b4513, #654321); border: 2px solid #d4af37; border-radius: 6px; padding: 8px; text-align: center;">
+                        <div style="font-size: 1.2em; font-weight: bold; color: #d4af37;">3 🏹</div>
+                        <div style="font-size: 0.8em;">Лучник</div>
+                        <div style="color: #ff6b6b; font-size: 0.7em;">2⚡</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #8b4513, #654321); border: 2px solid #d4af37; border-radius: 6px; padding: 8px; text-align: center;">
+                        <div style="font-size: 1.2em; font-weight: bold; color: #d4af37;">4 🔮</div>
+                        <div style="font-size: 0.8em;">Маг</div>
+                        <div style="color: #ff6b6b; font-size: 0.7em;">3⚡</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #8b4513, #654321); border: 2px solid #d4af37; border-radius: 6px; padding: 8px; text-align: center;">
+                        <div style="font-size: 1.2em; font-weight: bold; color: #d4af37;">5 🛡️</div>
+                        <div style="font-size: 0.8em;">Рыцарь</div>
+                        <div style="color: #ff6b6b; font-size: 0.7em;">4⚡</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #8b4513, #654321); border: 2px solid #d4af37; border-radius: 6px; padding: 8px; text-align: center;">
+                        <div style="font-size: 1.2em; font-weight: bold; color: #d4af37;">6 🐉</div>
+                        <div style="font-size: 0.8em;">Дракон</div>
+                        <div style="color: #ff6b6b; font-size: 0.7em;">5⚡</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #8b4513, #654321); border: 2px solid #d4af37; border-radius: 6px; padding: 8px; text-align: center;">
+                        <div style="font-size: 1.2em; font-weight: bold; color: #d4af37;">7 🦄</div>
+                        <div style="font-size: 0.8em;">Единорог</div>
+                        <div style="color: #ff6b6b; font-size: 0.7em;">5⚡</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <h3>⚡ Система маны</h3>
+                <ul class="rules-list">
+                    <li>Начинаете с 5 единиц маны</li>
+                    <li>Каждый раунд максимальная мана увеличивается на 1</li>
+                    <li>В начале хода мана полностью восстанавливается</li>
+                    <li>Можно разыгрывать несколько карт за ход</li>
+                    <li>Максимальная мана ограничена 12 единицами</li>
+                    <li>Монетки увеличивают максимальную ману!</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>🎴 Комбинации и бонусы</h3>
+                <p>Собирайте одинаковые карты для получения бонусных очков:</p>
+                
+                <div class="combination-example">
+                    <strong>Тройка воинов</strong> - 3 карты "Воин" = +5 очков
+                </div>
+                <div class="combination-example">
+                    <strong>Дуэль магов</strong> - 2 карты "Маг" = +8 очков
+                </div>
+                <div class="combination-example">
+                    <strong>Стражи замка</strong> - 2 карты "Рыцарь" = +10 очков
+                </div>
+                <div class="combination-example">
+                    <strong>Легенды</strong> - 2 карты "Дракон" или "Единорог" = +12 очков
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <h3>🔄 Ход игры</h3>
+                <ul class="rules-list">
+                    <li><strong>Ваш ход:</strong> Разыгрывайте карты из руки, тратя ману</li>
+                    <li><strong>Завершение хода:</strong> Нажмите "Завершить ход", когда закончите</li>
+                    <li><strong>Ход противника:</strong> Трактирщик разыгрывает свои карты</li>
+                    <li><strong>Подсчет очков:</strong> Сравниваются силы карт на поле + бонусы комбинаций</li>
+                    <li><strong>Новый раунд:</strong> Мана восстанавливается и увеличивается максимум</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>🏆 Стратегические советы</h3>
+                <ul class="rules-list">
+                    <li>Сбалансируйте сильные и слабые карты в руке</li>
+                    <li>Планируйте комбинации заранее</li>
+                    <li>Следите за маной - не тратьте всё на одну карту</li>
+                    <li>Анализируйте поле противника перед завершением хода</li>
+                    <li>Будьте быстрее трактирщика в сборе монеток!</li>
+                    <li>Помните - комбинации приносят больше очков, чем отдельные карты!</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px;">
+                <p style="font-style: italic; color: #b8860b;">"Удачной игры, путник! Пусть золото и магия таверны будут с тобой!"</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tavern-container">
+        <header class="tavern-header">
+            <h1 class="tavern-title">🃏 Магия Таверны 🍻</h1>
+            <p class="tavern-subtitle">Собери сильнейшие комбинации и победи трактирщика!</p>
+            <button class="help-button" id="helpButton">?</button>
+        </header>
+
+        <div class="main-game-area">
+            <div class="battlefield">
+                <div class="computer-side" id="computerSide"></div>
+                <div class="player-side" id="playerSide"></div>
+            </div>
+
+            <div class="player-hand" id="playerHand"></div>
+
+            <div class="game-status">
+                <div class="computer-stats">
+                    <div class="score" id="computerScore">0</div>
+                    <div class="mana">
+                        <span class="mana-icon">⚡</span>
+                        <span class="mana-value" id="computerManaValue">5/5</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="turn-indicator" id="turnIndicator">Ваш ход</div>
+                    <button class="action-button" id="endTurnButton">Завершить ход</button>
+                    <button class="action-button" id="newGameButton">Новая игра</button>
+                    <div class="combinations" id="activeCombinations"></div>
+                </div>
+
+                <div class="player-stats">
+                    <div class="score" id="playerScore">0</div>
+                    <div class="mana">
+                        <span class="mana-icon">⚡</span>
+                        <span class="mana-value" id="playerManaValue">5/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-log">
+                <div class="log-header">
+                    <h3 class="log-title">Хроники магической дуэли:</h3>
+                    <button class="clear-log-button" id="clearLogButton">Очистить</button>
+                </div>
+                <div class="log-entries" id="gameLog"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class CardGame {
+            constructor() {
+                this.player = {
+                    hand: [],
+                    battlefield: [],
+                    mana: 5,
+                    maxMana: 5,
+                    score: 0,
+                    coins: 0
+                };
+                
+                this.computer = {
+                    hand: [],
+                    battlefield: [],
+                    mana: 5,
+                    maxMana: 5,
+                    score: 0,
+                    coins: 0
+                };
+                
+                this.turn = 'player';
+                this.round = 1;
+                this.currentBgIndex = 0;
+                this.activeCoins = [];
+                this.computerTarget = null;
+                this.backgrounds = [
+                    './images/iskustve.jpg',
+                    './images/andrew-krivulya-inn-art-3-d-taverna.jpg',
+                    './images/devushka-elf-mag-boy-taverna.jpg',
+                    './images/dota2-igra-fantasy-brewmaster.jpg',
+                    './images/katrin-dance.jpg',
+                    './images/the-witcher-3-wild-hunt-3864.jpg',
+                    './images/the-witcher-geralt-taverna.jpg',
+                    './images/viking-kokteyl-taverna.jpg',
+                    './images/igra-devushka-taverna-the-elder-scrolls-v-skyrim-zlfiika-gam.jpg',
+                ];
+
+                this.cardTypes = [
+                    { name: 'Воин', value: 2, cost: 1, suit: '⚔️' },
+                    { name: 'Лучник', value: 3, cost: 2, suit: '🏹' },
+                    { name: 'Маг', value: 4, cost: 3, suit: '🔮' },
+                    { name: 'Рыцарь', value: 5, cost: 4, suit: '🛡️' },
+                    { name: 'Дракон', value: 6, cost: 5, suit: '🐉' },
+                    { name: 'Единорог', value: 7, cost: 5, suit: '🦄' }
+                ];
+                
+                this.combinations = {
+                    'Тройка воинов': { cards: 3, value: 2, bonus: 5 },
+                    'Дуэль магов': { cards: 2, value: 4, bonus: 8 },
+                    'Стражи замка': { cards: 2, value: 5, bonus: 10 },
+                    'Легенды': { cards: 2, value: 6, bonus: 12 }
+                };
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.startBackgroundRotation();
+                this.startFireEffect();
+                this.startCoinSpawning();
+                this.startComputerAI();
+                this.startNewGame();
+            }
+
+            initializeElements() {
+                this.playerHand = document.getElementById('playerHand');
+                this.playerSide = document.getElementById('playerSide');
+                this.computerSide = document.getElementById('computerSide');
+                this.playerScore = document.getElementById('playerScore');
+                this.computerScore = document.getElementById('computerScore');
+                this.playerManaValue = document.getElementById('playerManaValue');
+                this.computerManaValue = document.getElementById('computerManaValue');
+                this.endTurnButton = document.getElementById('endTurnButton');
+                this.newGameButton = document.getElementById('newGameButton');
+                this.turnIndicator = document.getElementById('turnIndicator');
+                this.activeCombinations = document.getElementById('activeCombinations');
+                this.gameLog = document.getElementById('gameLog');
+                this.clearLogButton = document.getElementById('clearLogButton');
+                this.bgIndicator = document.getElementById('bgIndicator');
+                this.helpButton = document.getElementById('helpButton');
+                this.rulesModal = document.getElementById('rulesModal');
+                this.closeRules = document.getElementById('closeRules');
+                this.fireEffect = document.getElementById('fireEffect');
+                this.coinCounter = document.getElementById('coinCounter');
+                this.computerCoinCounter = document.getElementById('computerCoinCounter');
+                this.playerCursor = document.getElementById('playerCursor');
+                this.computerCursor = document.getElementById('computerCursor');
+            }
+
+            setupEventListeners() {
+                this.endTurnButton.addEventListener('click', () => this.endTurn());
+                this.newGameButton.addEventListener('click', () => this.startNewGame());
+                this.clearLogButton.addEventListener('click', () => this.clearLog());
+                
+                this.helpButton.addEventListener('click', () => this.showRules());
+                this.closeRules.addEventListener('click', () => this.hideRules());
+                this.rulesModal.addEventListener('click', (e) => {
+                    if (e.target === this.rulesModal) {
+                        this.hideRules();
+                    }
+                });
+                
+                // Следим за движением мыши игрока
+                document.addEventListener('mousemove', (e) => {
+                    this.playerCursor.style.left = `${e.clientX - 12}px`;
+                    this.playerCursor.style.top = `${e.clientY - 12}px`;
+                    
+                    // Создаем след курсора
+                    if (Math.random() > 0.7) {
+                        this.createCursorTrail(e.clientX, e.clientY, 'player');
+                    }
+                });
+                
+                document.addEventListener('click', (e) => {
+                    this.playerCursor.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        this.playerCursor.style.transform = 'scale(1)';
+                    }, 100);
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.hideRules();
+                    }
+                });
+            }
+
+            createCursorTrail(x, y, type) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = `${x - 4}px`;
+                trail.style.top = `${y - 4}px`;
+                
+                if (type === 'player') {
+                    trail.style.background = 'rgba(77, 148, 255, 0.6)';
+                } else {
+                    trail.style.background = 'rgba(255, 107, 107, 0.6)';
+                }
+                
+                document.body.appendChild(trail);
+                
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.remove();
+                    }
+                }, 500);
+            }
+
+            startFireEffect() {
+                for (let i = 0; i < 25; i++) {
+                    this.createFireParticle();
+                }
+                
+                setInterval(() => {
+                    if (Math.random() > 0.3) {
+                        this.createFireParticle();
+                    }
+                }, 200);
+            }
+
+            createFireParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'fire-particle';
+                
+                const size = Math.random() * 15 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                const left = Math.random() * 100;
+                particle.style.left = `${left}%`;
+                
+                const drift = (Math.random() - 0.5) * 100;
+                particle.style.setProperty('--drift', `${drift}px`);
+                
+                const duration = Math.random() * 3 + 2;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particle.style.animationDelay = `${Math.random() * 2}s`;
+                
+                this.fireEffect.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, duration * 1000 + 2000);
+            }
+
+            startCoinSpawning() {
+                setTimeout(() => {
+                    this.spawnCoin();
+                }, 3000);
+                
+                setInterval(() => {
+                    if (this.activeCoins.length < 3 && Math.random() > 0.5) {
+                        this.spawnCoin();
+                    }
+                }, 5000);
+            }
+
+            startComputerAI() {
+                setInterval(() => {
+                    if (this.activeCoins.length > 0 && !this.computerTarget) {
+                        this.findCoinTarget();
+                    }
+                    
+                    if (this.computerTarget) {
+                        this.moveComputerToCoin();
+                    }
+                }, 50);
+            }
+
+            findCoinTarget() {
+                // Компьютер выбирает ближайшую монетку
+                const computerRect = this.computerCursor.getBoundingClientRect();
+                const computerX = computerRect.left + computerRect.width / 2;
+                const computerY = computerRect.top + computerRect.height / 2;
+                
+                let closestCoin = null;
+                let closestDistance = Infinity;
+                
+                this.activeCoins.forEach(coin => {
+                    const coinRect = coin.getBoundingClientRect();
+                    const coinX = coinRect.left + coinRect.width / 2;
+                    const coinY = coinRect.top + coinRect.height / 2;
+                    
+                    const distance = Math.sqrt(
+                        Math.pow(coinX - computerX, 2) + Math.pow(coinY - computerY, 2)
+                    );
+                    
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestCoin = coin;
+                    }
+                });
+                
+                if (closestCoin && closestDistance < 500) { // Только если монетка в пределах 500px
+                    this.computerTarget = closestCoin;
+                }
+            }
+
+            moveComputerToCoin() {
+                if (!this.computerTarget || !this.computerTarget.parentNode) {
+                    this.computerTarget = null;
+                    return;
+                }
+                
+                const computerRect = this.computerCursor.getBoundingClientRect();
+                const coinRect = this.computerTarget.getBoundingClientRect();
+                
+                const computerX = computerRect.left + computerRect.width / 2;
+                const computerY = computerRect.top + computerRect.height / 2;
+                const coinX = coinRect.left + coinRect.width / 2;
+                const coinY = coinRect.top + coinRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(coinX - computerX, 2) + Math.pow(coinY - computerY, 2)
+                );
+                
+                // Скорость движения компьютера (зависит от расстояния)
+                const speed = Math.min(15, distance / 10);
+                
+                if (distance < 30) { // Если близко к монетке - собираем ее
+                    this.collectCoinByComputer(this.computerTarget);
+                    this.computerTarget = null;
+                    return;
+                }
+                
+                // Двигаем курсор к монетке
+                const angle = Math.atan2(coinY - computerY, coinX - computerX);
+                const newX = computerX + Math.cos(angle) * speed;
+                const newY = computerY + Math.sin(angle) * speed;
+                
+                this.computerCursor.style.left = `${newX - 12}px`;
+                this.computerCursor.style.top = `${newY - 12}px`;
+                
+                // Создаем след с вероятностью
+                if (Math.random() > 0.8) {
+                    this.createCursorTrail(newX, newY, 'computer');
+                }
+            }
+
+            spawnCoin() {
+                const coin = document.createElement('div');
+                coin.className = 'coin';
+                
+                const margin = 100;
+                const x = margin + Math.random() * (window.innerWidth - margin * 2);
+                const y = margin + Math.random() * (window.innerHeight - margin * 2);
+                
+                coin.style.left = `${x}px`;
+                coin.style.top = `${y}px`;
+                
+                const coinType = Math.random();
+                let coinValue = 1;
+                
+                if (coinType < 0.7) {
+                    coinValue = 1;
+                } else if (coinType < 0.9) {
+                    coinValue = 2;
+                    coin.style.background = 'radial-gradient(circle at 30% 30%, #ffec8b, #ffd700, #daa520)';
+                    coin.style.boxShadow = '0 0 20px rgba(255, 215, 0, 1), inset -5px -5px 10px rgba(0, 0, 0, 0.3)';
+                } else {
+                    coinValue = 3;
+                    coin.style.background = 'radial-gradient(circle at 30% 30%, #87ceeb, #4682b4, #4169e1)';
+                    coin.style.boxShadow = '0 0 25px rgba(135, 206, 235, 0.8), inset -5px -5px 10px rgba(0, 0, 0, 0.3)';
+                }
+                
+                coin.dataset.value = coinValue;
+                
+                // Обработчик клика для игрока
+                coin.addEventListener('click', () => this.collectCoinByPlayer(coin, coinValue));
+                
+                document.body.appendChild(coin);
+                this.activeCoins.push(coin);
+                
+                setTimeout(() => {
+                    if (coin.parentNode && !coin.classList.contains('coin-collected')) {
+                        coin.remove();
+                        this.activeCoins = this.activeCoins.filter(c => c !== coin);
+                        if (this.computerTarget === coin) {
+                            this.computerTarget = null;
+                        }
+                    }
+                }, 10000);
+            }
+
+            collectCoinByPlayer(coin, value) {
+                if (coin.classList.contains('coin-collected')) return;
+                
+                coin.classList.add('coin-collected');
+                this.playCoinSound();
+                
+                this.player.coins++;
+                this.coinCounter.textContent = this.player.coins;
+                
+                let bonusText = '';
+                let logMessage = '';
+                
+                if (value === 1) {
+                    this.player.maxMana = Math.min(12, this.player.maxMana + 1);
+                    this.player.mana = this.player.maxMana;
+                    bonusText = '+1 мана';
+                    logMessage = '💰 Игрок собирает монетку! +1 к максимальной мане';
+                } else if (value === 2) {
+                    this.player.maxMana = Math.min(12, this.player.maxMana + 2);
+                    this.player.mana = this.player.maxMana;
+                    bonusText = '+2 маны';
+                    logMessage = '🌟 Игрок собирает золотую монетку! +2 к максимальной мане';
+                } else {
+                    this.player.score += 3;
+                    bonusText = '+3 очка';
+                    logMessage = '⚡ Игрок собирает бонусную монетку! +3 очка к счету';
+                }
+                
+                this.showBonusText(coin, bonusText, 'player');
+                this.addLogEntry(logMessage, 'coin');
+                this.updateUI();
+                
+                setTimeout(() => {
+                    if (coin.parentNode) {
+                        coin.remove();
+                        this.activeCoins = this.activeCoins.filter(c => c !== coin);
+                    }
+                }, 600);
+            }
+
+            collectCoinByComputer(coin) {
+                if (coin.classList.contains('coin-collected')) return;
+                
+                coin.classList.add('coin-collected');
+                this.playCoinSound();
+                
+                this.computer.coins++;
+                this.computerCoinCounter.textContent = this.computer.coins;
+                
+                const value = parseInt(coin.dataset.value);
+                let bonusText = '';
+                let logMessage = '';
+                
+                if (value === 1) {
+                    this.computer.maxMana = Math.min(12, this.computer.maxMana + 1);
+                    this.computer.mana = this.computer.maxMana;
+                    bonusText = '+1 мана';
+                    logMessage = '💀 Трактирщик собирает монетку! +1 к его максимальной мане';
+                } else if (value === 2) {
+                    this.computer.maxMana = Math.min(12, this.computer.maxMana + 2);
+                    this.computer.mana = this.computer.maxMana;
+                    bonusText = '+2 маны';
+                    logMessage = '😠 Трактирщик собирает золотую монетку! +2 к его максимальной мане';
+                } else {
+                    this.computer.score += 3;
+                    bonusText = '+3 очка';
+                    logMessage = '👿 Трактирщик собирает бонусную монетку! +3 очка к его счету';
+                }
+                
+                this.showBonusText(coin, bonusText, 'computer');
+                this.addLogEntry(logMessage, 'defeat');
+                this.updateUI();
+                
+                setTimeout(() => {
+                    if (coin.parentNode) {
+                        coin.remove();
+                        this.activeCoins = this.activeCoins.filter(c => c !== coin);
+                    }
+                }, 600);
+                
+                this.computerTarget = null;
+            }
+
+            showBonusText(coin, text, collector) {
+                const bonus = document.createElement('div');
+                bonus.className = `coin-bonus ${collector === 'computer' ? 'computer-coin-bonus' : ''}`;
+                bonus.textContent = text;
+                
+                const rect = coin.getBoundingClientRect();
+                bonus.style.left = `${rect.left + rect.width / 2}px`;
+                bonus.style.top = `${rect.top}px`;
+                
+                document.body.appendChild(bonus);
+                
+                setTimeout(() => {
+                    if (bonus.parentNode) {
+                        bonus.remove();
+                    }
+                }, 1500);
+            }
+
+            playCoinSound() {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'triangle';
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                } catch (e) {
+                    console.log('Web Audio API не поддерживается');
+                }
+            }
+
+            showRules() {
+                this.rulesModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            hideRules() {
+                this.rulesModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            clearLog() {
+                this.gameLog.innerHTML = '';
+                this.addLogEntry('Лог очищен. Начинаем новую хронику!', 'system');
+            }
+
+            startBackgroundRotation() {
+                setInterval(() => {
+                    this.changeBackground();
+                }, 5000);
+            }
+
+            changeBackground() {
+                this.currentBgIndex = (this.currentBgIndex + 1) % this.backgrounds.length;
+                const nextBg = this.backgrounds[this.currentBgIndex];
+                
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    document.body.style.backgroundImage = `url('${nextBg}')`;
+                    this.bgIndicator.textContent = `Фон ${this.currentBgIndex + 1}/${this.backgrounds.length}`;
+                };
+                tempImg.src = nextBg;
+            }
+
+            startNewGame() {
+                this.activeCoins.forEach(coin => {
+                    if (coin.parentNode) {
+                        coin.remove();
+                    }
+                });
+                this.activeCoins = [];
+                this.computerTarget = null;
+                
+                this.player = { hand: [], battlefield: [], mana: 5, maxMana: 5, score: 0, coins: 0 };
+                this.computer = { hand: [], battlefield: [], mana: 5, maxMana: 5, score: 0, coins: 0 };
+                this.turn = 'player';
+                this.round = 1;
+                
+                this.coinCounter.textContent = '0';
+                this.computerCoinCounter.textContent = '0';
+                
+                // Стартовые позиции курсоров
+                this.computerCursor.style.left = '50%';
+                this.computerCursor.style.top = '20%';
+                
+                this.dealCards();
+                this.updateUI();
+                this.addLogEntry('🎲 Начинается новая магическая дуэль!', 'system');
+                this.addLogEntry('⚔️ Соревнуйтесь с трактирщиком за золотые монетки!', 'system');
+            }
+
+            dealCards() {
+                for (let i = 0; i < 5; i++) {
+                    this.player.hand.push(this.getRandomCard());
+                    this.computer.hand.push(this.getRandomCard());
+                }
+            }
+
+            getRandomCard() {
+                const cardType = this.cardTypes[Math.floor(Math.random() * this.cardTypes.length)];
+                return {
+                    ...cardType,
+                    id: Math.random().toString(36).substr(2, 9)
+                };
+            }
+
+            playCard(card, isPlayer = true) {
+                const player = isPlayer ? this.player : this.computer;
+                
+                if (player.mana >= card.cost) {
+                    player.mana -= card.cost;
+                    player.battlefield.push(card);
+                    player.hand = player.hand.filter(c => c.id !== card.id);
+                    
+                    this.addLogEntry(`${isPlayer ? '🧙 Игрок' : '🍻 Трактирщик'} разыгрывает ${card.name} ${card.suit} (${card.cost}⚡)`);
+                    this.updateUI();
+                    this.checkCombinations(isPlayer);
+                }
+            }
+
+            checkCombinations(isPlayer) {
+                const player = isPlayer ? this.player : this.computer;
+                const battlefield = player.battlefield;
+                
+                player.score = battlefield.reduce((sum, card) => sum + card.value, 0);
+                
+                for (const [comboName, combo] of Object.entries(this.combinations)) {
+                    const count = battlefield.filter(card => card.value === combo.value).length;
+                    if (count >= combo.cards) {
+                        player.score += combo.bonus;
+                        this.showCombination(comboName, combo.bonus, isPlayer);
+                    }
+                }
+            }
+
+            showCombination(comboName, bonus, isPlayer) {
+                const comboElement = document.createElement('div');
+                comboElement.className = 'combination';
+                comboElement.textContent = `${comboName} +${bonus}`;
+                this.activeCombinations.appendChild(comboElement);
+                
+                setTimeout(() => {
+                    comboElement.remove();
+                }, 3000);
+                
+                this.addLogEntry(`🎴 ${isPlayer ? 'Игрок' : 'Трактирщик'} собирает комбинацию "${comboName}"! +${bonus} очков`);
+            }
+
+            endTurn() {
+                if (this.turn === 'player') {
+                    this.turn = 'computer';
+                    this.turnIndicator.textContent = 'Ход трактирщика';
+                    this.endTurnButton.disabled = true;
+                    
+                    this.addLogEntry('➡️ Игрок завершает ход', 'system');
+                    
+                    setTimeout(() => {
+                        this.computerTurn();
+                    }, 1000);
+                }
+            }
+
+            computerTurn() {
+                const playableCards = this.computer.hand.filter(card => card.cost <= this.computer.mana);
+                
+                if (playableCards.length > 0) {
+                    const cardToPlay = playableCards.reduce((max, card) => 
+                        card.cost > max.cost ? card : max, playableCards[0]);
+                    
+                    this.playCard(cardToPlay, false);
+                    
+                    if (this.computer.mana > 0 && this.computer.hand.some(card => card.cost <= this.computer.mana)) {
+                        setTimeout(() => this.computerTurn(), 1000);
+                    } else {
+                        this.endComputerTurn();
+                    }
+                } else {
+                    this.endComputerTurn();
+                }
+            }
+
+            endComputerTurn() {
+                this.addLogEntry('⬅️ Трактирщик завершает ход', 'system');
+                this.resolveRound();
+            }
+
+            resolveRound() {
+                const playerScore = this.player.score;
+                const computerScore = this.computer.score;
+                
+                let roundResult = '';
+                if (playerScore > computerScore) {
+                    roundResult = `🎉 Игрок выигрывает раунд ${this.round}! (${playerScore} vs ${computerScore})`;
+                    this.addLogEntry(roundResult, 'victory');
+                } else if (computerScore > playerScore) {
+                    roundResult = `💀 Трактирщик выигрывает раунд ${this.round}! (${playerScore} vs ${computerScore})`;
+                    this.addLogEntry(roundResult, 'defeat');
+                } else {
+                    roundResult = `⚖️ Ничья в раунде ${this.round}! (${playerScore} vs ${computerScore})`;
+                    this.addLogEntry(roundResult, 'draw');
+                }
+                
+                this.round++;
+                
+                this.player.maxMana = Math.min(12, this.player.maxMana + 1);
+                this.computer.maxMana = Math.min(12, this.computer.maxMana + 1);
+                
+                this.player.mana = this.player.maxMana;
+                this.computer.mana = this.computer.maxMana;
+                
+                if (this.player.hand.length < 5) {
+                    this.player.hand.push(this.getRandomCard());
+                }
+                if (this.computer.hand.length < 5) {
+                    this.computer.hand.push(this.getRandomCard());
+                }
+                
+                this.turn = 'player';
+                this.turnIndicator.textContent = 'Ваш ход';
+                this.endTurnButton.disabled = false;
+                
+                this.updateUI();
+                this.addLogEntry(`⚡ Мана увеличилась! Теперь ${this.player.maxMana}/${this.player.maxMana}`, 'system');
+            }
+
+            createCardElement(card, isPlayer = true, inHand = true) {
+                const cardElement = document.createElement('div');
+                cardElement.className = `card ${isPlayer ? 'in-hand' : 'computer'} ${inHand ? '' : 'played'}`;
+                cardElement.innerHTML = `
+                    <div class="card-cost">${card.cost}⚡</div>
+                    <div class="card-value">${card.value}</div>
+                    <div class="card-suit">${card.suit}</div>
+                    <div class="card-name">${card.name}</div>
+                `;
+                
+                if (inHand && isPlayer && this.turn === 'player' && this.player.mana >= card.cost) {
+                    cardElement.style.cursor = 'pointer';
+                    cardElement.addEventListener('click', () => this.playCard(card, true));
+                } else {
+                    cardElement.style.cursor = 'default';
+                }
+                
+                return cardElement;
+            }
+
+            updateUI() {
+                this.playerHand.innerHTML = '';
+                this.player.hand.forEach(card => {
+                    this.playerHand.appendChild(this.createCardElement(card, true, true));
+                });
+                
+                this.playerSide.innerHTML = '';
+                this.player.battlefield.forEach(card => {
+                    this.playerSide.appendChild(this.createCardElement(card, true, false));
+                });
+                
+                this.computerSide.innerHTML = '';
+                this.computer.battlefield.forEach(card => {
+                    this.computerSide.appendChild(this.createCardElement(card, false, false));
+                });
+                
+                this.playerScore.textContent = this.player.score;
+                this.computerScore.textContent = this.computer.score;
+                this.playerManaValue.textContent = `${this.player.mana}/${this.player.maxMana}`;
+                this.computerManaValue.textContent = `${this.computer.mana}/${this.computer.maxMana}`;
+                
+                this.endTurnButton.disabled = this.turn !== 'player';
+            }
+
+            addLogEntry(message, type = 'info') {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                
+                let emoji = '';
+                switch(type) {
+                    case 'victory':
+                        emoji = '🎉 ';
+                        break;
+                    case 'defeat':
+                        emoji = '💀 ';
+                        break;
+                    case 'draw':
+                        emoji = '⚖️ ';
+                        break;
+                    case 'system':
+                        emoji = '⚡ ';
+                        break;
+                    case 'coin':
+                        emoji = '💰 ';
+                        break;
+                    default:
+                        emoji = '';
+                }
+                
+                logEntry.textContent = emoji + message;
+                
+                this.gameLog.insertBefore(logEntry, this.gameLog.firstChild);
+                this.gameLog.parentElement.scrollTop = 0;
+                
+                if (this.gameLog.children.length > 12) {
+                    this.gameLog.removeChild(this.gameLog.lastChild);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new CardGame();
+        });
+    </script>
+    <div class="audio-footer">
+        <audio controls preload="metadata" id="audioPlayer" autoplay loop>
+            <source src="audio/bb4.mp3" type="audio/mpeg">
+            Ваш браузер не поддерживает воспроизведение звука.
+        </audio>
+    </div>
+</body>
+</html>
