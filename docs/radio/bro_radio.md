@@ -447,13 +447,12 @@
 </style>
 
 <script>
-// === РАБОЧИЕ СТАНЦИИ (без временных токенов) ===
+
 const stations = [
     // ========== РУССКИЕ РАДИОСТАНЦИИ ==========
-    { code: "ЭНЕРДЖИ", url: "https://radio.garden/api/ara/content/listen/dl0Hcgba/channel.mp3", bitrate: "128" },
+    { code: "Новое Радио", url: "https://radio.garden/api/ara/content/listen/hTfe1XIo/channel.mp3", bitrate: "128" },
     { code: "ЕВРОПА ПЛЮС", url: "https://ep128.hostingradio.ru:8030/ep128", bitrate: "128" },
     { code: "НАШЕ РАДИО", url: "https://nashe1.hostingradio.ru/nashe-256", bitrate: "256" },
-    { code: "Новое Радио", url: "https://radio.garden/api/ara/content/listen/hTfe1XIo/channel.mp3", bitrate: "128" },
     { code: "Кавказ Хит", url: "https://radio.garden/api/ara/content/listen/NOchthUJ/channel.mp3", bitrate: "128" },
     { code: "Радио Книга", url: "https://radio.garden/api/ara/content/listen/8SZLRTtq/channel.mp3", bitrate: "128" },
     { code: "DNB FM", url: "https://radio.garden/api/ara/content/listen/Ze7ZWy4i/channel.mp3", bitrate: "128" },
