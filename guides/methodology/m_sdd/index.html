@@ -1,0 +1,983 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://showtimeeee.github.io/mkdocs-show-website/guides/methodology/m_sdd/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../images/logo-ico.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Гайд по API: Spec-Driven Development (Разработка через спецификацию) - Showtime-Bro</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../../css/base.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-CRWF7DFZHT"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-CRWF7DFZHT",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-CRWF7DFZHT",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-spec-driven-development" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../../.." title="Showtime-Bro" class="md-header__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../../images/logo1.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Showtime-Bro
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Гайд по API: Spec-Driven Development (Разработка через спецификацию)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Showtime-Bro" class="md-nav__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../../images/logo1.png" alt="logo">
+
+    </a>
+    Showtime-Bro
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная🍕
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../articles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статьи📝
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Гайды🛠️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проекты🤖
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../opros/examinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тренажеры🎓
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../patterns/patterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Паттерны🧩
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithms/algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Алгоритмы👨‍💻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../download_books/books/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Книги📚
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../radio/bro_radio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Радио📻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../feedback/feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Напиши мне✍️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ключевые концепции
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openapi-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура спецификации (OpenAPI Example)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Схема работы (Step-by-Step)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Инструменты экосистемы SDD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-first-vs-spec-driven" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сравнение: Code-First vs Spec-Driven
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdd-aqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование в мире SDD (Для AQA)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sdd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Разбор важных практик SDD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❓ Вопросы с собеседований (ТОП-10)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❓ Вопросы с собеседований (ТОП-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-spec-driven-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Что такое Spec-Driven Development и зачем он нужен?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sdd-code-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Чем SDD отличается от Code-First?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-mock-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Что такое Mock Server и зачем он нужен?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-api-sdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Как тестировать API, если используется SDD?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-openapi-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Что такое OpenAPI (Swagger)?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-sdd-breaking-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Как в SDD обрабатывать breaking changes?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-aqa-sdd" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Какую роль играет AQA в SDD?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-spectral" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Что такое Spectral?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-code-first-swagger-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. В чем проблема подхода Code-First с аннотациями (Swagger annotations)?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Как обеспечить, чтобы реальный сервер всегда соответствовал спецификации в CI/CD?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заключение
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="api-spec-driven-development">Гайд по API: Spec-Driven Development (Разработка через спецификацию)</h1>
+<p><img alt="sdd_logo" src="../../images/sdd-logo.png"></p>
+<p><strong>Spec-Driven Development (SDD)</strong> — это методология разработки программного обеспечения, в которой <strong>спецификация (контракт) API является источником истины (Single Source of Truth)</strong>. В отличие от классического подхода "сначала код, потом документация", здесь сначала создается или согласовывается спецификация (например, в формате OpenAPI/Swagger), и только затем на ее основе пишется код (как на бэкенде, так и на фронтенде).</p>
+<p>Главная фишка SDD в том, что она позволяет командам (бэкенд, фронтенд, мобильные разработчики, AQA) работать параллельно, опираясь на единый, живой документ, который всегда актуален, потому что именно он управляет процессом разработки.</p>
+<h2 id="_1">Ключевые концепции</h2>
+<p>Чтобы понять, как работает SDD, нужно разобраться с тремя основными ролями спецификации:</p>
+<ul>
+<li><strong>Contract-First (Контракт в первую очередь)</strong>: Подход, при котором написание кода начинается только после того, как спецификация API согласована со всеми стейкхолдерами (фронтенд, безопасность, тестирование).</li>
+<li><strong>Single Source of Truth (Единый источник истины)</strong>: Спецификация (файл <code>openapi.yaml</code> или <code>proto</code>) является единственным документом, описывающим API. Документация, моки (заглушки) и даже код валидаторов генерируются из нее автоматически.</li>
+<li><strong>Mock Server (Сервер-заглушка)</strong>: Инструмент, который по спецификации мгновенно создает работающий фейковый API. Это позволяет фронтенд-разработчикам начинать интеграцию, даже пока бэкенд еще пишет код.</li>
+<li><strong>Code Generation (Генерация кода)</strong>: Автоматическое создание скелета контроллеров (для бэкенда), типов (TypeScript для фронтенда) или клиентских SDK на основе спецификации.</li>
+</ul>
+<h2 id="openapi-example">Структура спецификации (OpenAPI Example)</h2>
+<p>Спецификация обычно представляет собой файл в формате YAML или JSON. В ней описывается всё: эндпоинты, методы, заголовки, тела запросов, коды ответов и модели данных.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">openapi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0.0</span>
+<span class="nt">info</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">User API</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0</span>
+<span class="nt">paths</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">/users/{id}</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">get</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get user by ID</span>
+<span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
+<span class="w">          </span><span class="nt">in</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
+<span class="w">          </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">          </span><span class="nt">schema</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<span class="w">      </span><span class="nt">responses</span><span class="p">:</span>
+<span class="w">        </span><span class="s">'200'</span><span class="p p-Indicator">:</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Successful response</span>
+<span class="w">          </span><span class="nt">content</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">application/json</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">schema</span><span class="p">:</span><span class="w">           </span><span class="c1"># &lt;-- Это Single Source of Truth для модели данных</span>
+<span class="w">                </span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="s">'#/components/schemas/User'</span>
+<span class="w">        </span><span class="s">'404'</span><span class="p p-Indicator">:</span>
+<span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">User not found</span>
+<span class="nt">components</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schemas</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">User</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">      </span><span class="nt">required</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name</span>
+</code></pre></div>
+<p><em>Важно:</em> В SDD эта спецификация лежит в репозитории и ревьюится на Pull Request'ах так же строго, как и обычный код. Изменение спецификации без обсуждения с фронтендом считается нарушением процесса.</p>
+<h2 id="step-by-step">Схема работы (Step-by-Step)</h2>
+<p>Процесс разработки фичи в парадигме SDD выглядит так:</p>
+<ol>
+<li><strong>Анализ и проектирование</strong>: Команда (бэкенд, фронтенд, аналитик) обсуждает новую фичу. Вместо того чтобы сразу лезть в код, они идут в редактор спецификаций (Stoplight, Swagger Editor).</li>
+<li><strong>Создание спецификации</strong>: Бэкенд-разработчик пишет или правит <code>openapi.yaml</code>, описывая новый эндпоинт, структуру запроса и ответа.</li>
+<li><strong>Согласование (Review)</strong>: Фронтенд-разработчик смотрит спецификацию. Если ему не хватает поля или неудобен формат даты, он отклоняет PR со спецификацией. Обсуждение идет на уровне структуры JSON, а не на уровне кода Python/Java.</li>
+<li><strong>Генерация мок-сервера</strong>: После мержа спецификации CI/CD автоматически поднимает <strong>Mock Server</strong>. Фронтенд сразу же начинает писать код, отправляя запросы на этот мок-сервер, получая реалистичные ответы.</li>
+<li><strong>Параллельная разработка</strong>:<ul>
+<li><strong>Бэкенд</strong> использует спецификацию для генерации скелета контроллеров (интерфейсов) и пишет бизнес-логику, следя за тем, чтобы код соответствовал контракту.</li>
+<li><strong>Фронтенд</strong> использует спецификацию для генерации TypeScript-типов (типизация) или SDK. Он уверен, что когда бэкенд закончит, структура данных не поменяется.</li>
+</ul>
+</li>
+<li><strong>Тестирование контракта (Contract Testing)</strong>: AQA или сам бэкенд запускают тесты, которые проверяют, что реальный работающий сервер соответствует спецификации (не возвращает лишних полей, правильно валидирует обязательные параметры).</li>
+</ol>
+<h2 id="sdd">Инструменты экосистемы SDD</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Инструмент</strong></th>
+<th><strong>Назначение</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OpenAPI (Swagger)</strong></td>
+<td>Самый популярный стандарт описания REST API.</td>
+</tr>
+<tr>
+<td><strong>AsyncAPI</strong></td>
+<td>Аналог OpenAPI, но для событийных архитектур (Kafka, WebSockets).</td>
+</tr>
+<tr>
+<td><strong>GraphQL Schema</strong></td>
+<td>Для GraphQL API спецификация — это сама схема (Type Definitions).</td>
+</tr>
+<tr>
+<td><strong>Protocol Buffers (Protobuf)</strong></td>
+<td>Используется в gRPC. Файл <code>.proto</code> — это спецификация.</td>
+</tr>
+<tr>
+<td><strong>Stoplight / Postman</strong></td>
+<td>Визуальные редакторы для дизайна API по принципу SDD.</td>
+</tr>
+<tr>
+<td><strong>Prism / Microcks</strong></td>
+<td>Инструменты для поднятия Mock-серверов на основе спецификации.</td>
+</tr>
+<tr>
+<td><strong>Dredd / Spectral</strong></td>
+<td>Инструменты для тестирования: проверяют, соответствует ли реальный API спецификации (Dredd) и линтинг спецификации (Spectral).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="code-first-vs-spec-driven">Сравнение: Code-First vs Spec-Driven</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Критерий</strong></th>
+<th><strong>Spec-Driven (Contract-First)</strong></th>
+<th><strong>Code-First (Code-First)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Источник правды</strong></td>
+<td>Файл спецификации (YAML/JSON).</td>
+<td>Код приложения (Java, Python, PHP).</td>
+</tr>
+<tr>
+<td><strong>Документация</strong></td>
+<td>Генерируется автоматически, всегда свежая.</td>
+<td>Часто устаревает, требует ручного обновления (Swagger-аннотации в коде).</td>
+</tr>
+<tr>
+<td><strong>Параллельная разработка</strong></td>
+<td>Возможна (фронтенд работает на моках).</td>
+<td>Затруднена (фронтенд ждет готового бэкенда).</td>
+</tr>
+<tr>
+<td><strong>Контроль изменений</strong></td>
+<td>Высокий. Любое изменение API видно в диффе спецификации.</td>
+<td>Низкий. Изменение может "спрятаться" в глубине кода.</td>
+</tr>
+<tr>
+<td><strong>Скорость старта</strong></td>
+<td>Медленный старт (надо написать спецификацию).</td>
+<td>Быстрый старт (написал код — оно работает).</td>
+</tr>
+<tr>
+<td><strong>Кто вносит изменения</strong></td>
+<td>Требует согласования между командами.</td>
+<td>Бэкенд может изменить API незаметно для фронта.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sdd-aqa">Тестирование в мире SDD (Для AQA)</h2>
+<p>Для тестировщика SDD — это рай, потому что неопределенность исчезает. Тестирование превращается в проверку соответствия спецификации.</p>
+<ol>
+<li>
+<p><strong>Линтинг спецификации (Spectral):</strong></p>
+<ul>
+<li>Проверяем, что спецификация написана по правилам (naming conventions, обязательность версионирования).</li>
+<li>Автоматически на CI: <code>spectral lint openapi.yaml</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Контрактное тестирование (Dredd / Pact):</strong></p>
+<ul>
+<li><strong>Dredd</strong>: Запускает реальный сервер и прогоняет все примеры из спецификации, проверяя статус-коды и структуру ответов.
+<div class="highlight"><pre><span></span><code>dredd<span class="w"> </span>openapi.yaml<span class="w"> </span>http://localhost:8080
+</code></pre></div></li>
+<li><strong>Pact</strong>: Используется для микросервисов. Проверяет, что потребитель (фронтенд) и провайдер (бэкенд) понимают друг друга.</li>
+</ul>
+</li>
+<li>
+<p><strong>Генерация тестовых данных:</strong></p>
+<ul>
+<li>Используя спецификацию, можно автоматически генерировать валидные и невалидные JSON-объекты для тестов (например, библиотеки <code>Faker</code> + схема JSON Schema).</li>
+</ul>
+</li>
+<li>
+<p><strong>Что проверять:</strong></p>
+<ul>
+<li><strong>Обязательность полей</strong>: Если в схеме поле <code>required: true</code>, а бэкенд отдал <code>null</code> — тест должен упасть.</li>
+<li><strong>Типы данных</strong>: Если в схеме <code>type: integer</code>, а пришел <code>"string"</code> — тест падает.</li>
+<li><strong>Дополнительные поля</strong>: В SDD действует принцип "Сервер не должен отдавать поля, которых нет в спецификации" (это ломает строгую типизацию на клиенте). Нужно проверять, нет ли <code>extra fields</code>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="sdd_1">🚀 Разбор важных практик SDD</h2>
+<ul>
+<li><strong>Версионирование API</strong>: Спецификация помогает реализовывать версионирование (например, <code>/v1/users</code> и <code>/v2/users</code>). Старую спецификацию можно хранить как артефакт.</li>
+<li><strong>Примеры (Examples)</strong>: В спецификации обязательно нужно добавлять <code>examples</code>. Это не просто документация, эти примеры используются инструментами тестирования (Dredd) и Mock-серверами (Prism) для генерации реалистичных ответов.</li>
+<li><strong><code>$ref</code> (Reusability)</strong>: Используйте ссылки, чтобы не дублировать модели. Если структура <code>User</code> изменится, она изменится везде автоматически.</li>
+</ul>
+<hr>
+<h2 id="-10">❓ Вопросы с собеседований (ТОП-10)</h2>
+<p>Этот блок поможет вам подготовиться к собеседованию на позиции Manual/QA Automation и Junior/Middle Developer.</p>
+<h3 id="1-spec-driven-development">1. Что такое Spec-Driven Development и зачем он нужен?</h3>
+<p><strong>Ответ:</strong>
+Это подход, при котором спецификация API создается до написания кода и является единым источником правды. Он нужен для синхронизации работы фронтенда и бэкенда, автоматической генерации документации и возможности тестировать контракты, исключая ошибки интеграции на ранних этапах.</p>
+<h3 id="2-sdd-code-first">2. Чем SDD отличается от Code-First?</h3>
+<p><strong>Ответ:</strong>
+При <strong>Code-First</strong> бэкенд пишет код, а документация (Swagger) генерируется из аннотаций к коду. При <strong>SDD</strong> сначала пишется файл спецификации (OpenAPI), а код (скелет приложения) генерируется из него. SDD дает больше контроля над контрактом, но требует дополнительных усилий на начальном этапе.</p>
+<h3 id="3-mock-server">3. Что такое Mock Server и зачем он нужен?</h3>
+<p><strong>Ответ:</strong>
+Mock Server — это заглушка API, которая поднимается на основе спецификации. Она имитирует поведение реального сервера, возвращая примеры данных. Это позволяет фронтенд-разработчикам и тестировщикам начинать работу и писать автотесты <strong>до того</strong>, как бэкенд написал реальную бизнес-логику.</p>
+<h3 id="4-api-sdd">4. Как тестировать API, если используется SDD?</h3>
+<p><strong>Ответ:</strong>
+Тестирование сводится к проверке соответствия <strong>контракту</strong>. Используются инструменты вроде <strong>Dredd</strong>, который прогоняет тесты из спецификации, или <strong>Pact</strong> для потребительского тестирования. Также обязательно тестируется, что сервер не возвращает лишних полей (strict mode) и правильно валидирует типы данных согласно схеме.</p>
+<h3 id="5-openapi-swagger">5. Что такое OpenAPI (Swagger)?</h3>
+<p><strong>Ответ:</strong>
+Это спецификация (стандарт) для описания RESTful API. Она описывает эндпоинты, входные параметры, форматы запросов и ответов в машиночитаемом формате (YAML/JSON). Это "язык", на котором фронтенд и бэкенд договариваются о контракте.</p>
+<h3 id="6-sdd-breaking-changes">6. Как в SDD обрабатывать breaking changes?</h3>
+<p><strong>Ответ:</strong>
+Breaking changes (удаление поля, изменение типа с int на string) не могут быть внесены просто так. В SDD процесс требует создания <strong>новой версии API</strong> (например, <code>/v2/resource</code>). Старая спецификация продолжает существовать для старых клиентов. Изменения проходят код-ревью, где архитектор проверяет совместимость.</p>
+<h3 id="7-aqa-sdd">7. Какую роль играет AQA в SDD?</h3>
+<p><strong>Ответ:</strong>
+AQA в SDD перестает быть "нажимателем кнопок". Он участвует в ревью спецификации на этапе дизайна (проверяет тестируемость), настраивает контрактные тесты (Dredd) в CI/CD, а также может генерировать тестовые данные прямо из схемы спецификации, автоматизируя создание большого количества сценариев.</p>
+<h3 id="8-spectral">8. Что такое Spectral?</h3>
+<p><strong>Ответ:</strong>
+Это линтер для OpenAPI спецификаций. Он проверяет, соблюдены ли в файле <code>openapi.yaml</code> правила оформления (наличие <code>operationId</code>, правильные форматы <code>response</code>), а также кастомные правила команды (например, запрет на <code>GET</code> с телом запроса). Это помогает держать API в едином стиле.</p>
+<h3 id="9-code-first-swagger-annotations">9. В чем проблема подхода Code-First с аннотациями (Swagger annotations)?</h3>
+<p><strong>Ответ:</strong>
+Главная проблема в том, что контракт API "размазан" по коду в виде аннотаций (<code>@ApiOperation</code>, <code>@ApiParam</code>). Это приводит к дублированию кода и логики. Часто документация перестает обновляться, так как разработчики забывают править аннотации при изменении кода. Кроме того, для того чтобы показать контракт фронтенду, бэкенд должен сначала написать код и поднять сервер.</p>
+<h3 id="10-cicd">10. Как обеспечить, чтобы реальный сервер всегда соответствовал спецификации в CI/CD?</h3>
+<p><strong>Ответ:</strong>
+Настраивается пайплайн, который после сборки приложения запускает <strong>Contract Tests</strong> (например, Dredd или Postman Newman). Dredd читает спецификацию, отправляет реальные запросы на запущенный инстанс приложения и проверяет, что ответы соответствуют описанию. Если соответствие нарушено (появилось лишнее поле), пайплайн падает, и деплой блокируется.</p>
+<hr>
+<h2 id="_2">Заключение</h2>
+<p>Spec-Driven Development — это не просто про написание документации. Это про культуру инженерии, где на первом месте стоит <strong>коммуникация через контракт</strong>. Внедрение SDD позволяет ускорить разработку за счет параллелизации задач, повысить качество интеграции благодаря автоматической генерации тестов и навсегда забыть о проблеме "устаревшей документации". Для тестировщика это подход превращает хаос неопределенности в четкую систему проверок на основе машиночитаемого стандарта.</p></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Вам нравится эта страница?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Да" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Нет" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 15V3h4v12zM15 3a2 2 0 0 1 2 2v10c0 .55-.22 1.05-.59 1.41L9.83 23l-1.06-1.06c-.27-.27-.44-.64-.44-1.06l.03-.31.95-4.57H3a2 2 0 0 1-2-2v-2c0-.26.05-.5.14-.73l3.02-7.05C4.46 3.5 5.17 3 6 3zm0 2H5.97L3 12v2h8.78l-1.13 5.32L15 14.97z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Спасибо! Я рад, что вам понравилось.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Жаль, что вам не понравилось...
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href="">Vadim</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.footer", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../../../js/bubble_sort.js"></script>
+      
+    
+  </body>
+</html>
