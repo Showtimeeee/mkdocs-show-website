@@ -63,8 +63,8 @@
             </div>
         </div>
         
-        <!-- Hidden Audio Player -->
-        <audio id="audio-player" preload="none"></audio>
+        <!-- Hidden Audio Player (CORS-friendly) -->
+        <audio id="audio-player" preload="none" crossorigin="anonymous"></audio>
     </div>
 
     <div style="text-align: center; margin: 0 auto 20px auto; padding: 12px 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #cccccc; font-size: 14px; background: var(--winamp-dark); border: 2px solid var(--winamp-border); width: 100%; box-sizing: border-box; position: relative; z-index: 10; clear: both;">
@@ -72,6 +72,7 @@
         <a href="https://bro-radio.onrender.com/" target="_blank" style="color: #00cc00; text-decoration: none; font-weight: bold; font-family: 'Courier New', monospace;">
             https://bro-radio.onrender.com/
         </a>
+        <span class="footer-year" style="margin-left: 15px; color: #666;">© <span id="current-year"></span></span>
     </div>
 </div>
 
@@ -346,9 +347,8 @@
     color: #00ff00;
 }
 
-/* Убрал красный цвет у кнопки стоп */
 .ctrl-btn.stop {
-    color: var(--winamp-text); /* Обычный цвет как у остальных кнопок */
+    color: var(--winamp-text);
 }
 
 .volume-control {
@@ -447,29 +447,29 @@
 </style>
 
 <script>
-// РАБОЧИЕ СТАНЦИИ - BBC заменены
+// === РАБОЧИЕ СТАНЦИИ (без временных токенов) ===
 const stations = [
     // ========== РУССКИЕ РАДИОСТАНЦИИ ==========
-    { code: "ЭНЕРДЖИ", url: "https://radio.garden/api/ara/content/listen/dl0Hcgba/channel.mp3?1770045872993", bitrate: "128" },
+    { code: "ЭНЕРДЖИ", url: "https://radio.garden/api/ara/content/listen/dl0Hcgba/channel.mp3", bitrate: "128" },
     { code: "ЕВРОПА ПЛЮС", url: "https://ep128.hostingradio.ru:8030/ep128", bitrate: "128" },
     { code: "НАШЕ РАДИО", url: "https://nashe1.hostingradio.ru/nashe-256", bitrate: "256" },
-    { code: "Новое Радио", url: "https://radio.garden/api/ara/content/listen/hTfe1XIo/channel.mp3?1770046301109", bitrate: "128" },
-    { code: "Кавказ Хит", url: "https://radio.garden/api/ara/content/listen/NOchthUJ/channel.mp3?1770046399996", bitrate: "128" },
-    { code: "Радио Книга", url: "https://radio.garden/api/ara/content/listen/8SZLRTtq/channel.mp3?1770046457214", bitrate: "128" },
-    { code: "DNB FM", url: "https://radio.garden/api/ara/content/listen/Ze7ZWy4i/channel.mp3?1770046557935", bitrate: "128" },
+    { code: "Новое Радио", url: "https://radio.garden/api/ara/content/listen/hTfe1XIo/channel.mp3", bitrate: "128" },
+    { code: "Кавказ Хит", url: "https://radio.garden/api/ara/content/listen/NOchthUJ/channel.mp3", bitrate: "128" },
+    { code: "Радио Книга", url: "https://radio.garden/api/ara/content/listen/8SZLRTtq/channel.mp3", bitrate: "128" },
+    { code: "DNB FM", url: "https://radio.garden/api/ara/content/listen/Ze7ZWy4i/channel.mp3", bitrate: "128" },
     { code: "ВЕСТИ ФМ", url: "https://icecast-vgtrk.cdnvideo.ru/vestifm_mp3_128kbps", bitrate: "128" },
 
     // ========== radio.garden ==========
-    { code: "Юмор ФМ. Stand-ups", url: "https://radio.garden/api/ara/content/listen/RBQ5JmK8/channel.mp3?1769978483974", bitrate: "128" },
-    { code: "Cyber Space", url: "https://radio.garden/api/ara/content/listen/fZylWF8k/channel.mp3?1769978366553", bitrate: "128" },
-    { code: "ARENA RADIO", url: "https://radio.garden/api/ara/content/listen/MJ6nKSDY/channel.mp3?1769976700875", bitrate: "128" },
-    { code: "Nuclear Fallout Radio", url: "https://radio.garden/api/ara/content/listen/jNdh1upw/channel.mp3?1770049011591", bitrate: "128" },
-    { code: "Metal", url: "https://radio.garden/api/ara/content/listen/WOjOFzmS/channel.mp3?1769978539192", bitrate: "128" },
-    { code: "Nature", url: "https://radio.garden/api/ara/content/listen/U5e8t9Mq/channel.mp3?1769978577694", bitrate: "128" },
-    { code: "Russian Folk", url: "https://radio.garden/api/ara/content/listen/PYsw1APK/channel.mp3?1769978651180", bitrate: "128" },
-    { code: "Агата Кристи", url: "https://radio.garden/api/ara/content/listen/OiPZ8jY5/channel.mp3?1769978730249", bitrate: "128" },
-    { code: "Русское Регги", url: "https://radio.garden/api/ara/content/listen/3PKzsSgL/channel.mp3?1769978772952", bitrate: "128" },
-    { code: "Французский Рэп", url: "https://radio.garden/api/ara/content/listen/PMV58Y70/channel.mp3?1769978817353", bitrate: "128" },
+    { code: "Юмор ФМ. Stand-ups", url: "https://radio.garden/api/ara/content/listen/RBQ5JmK8/channel.mp3", bitrate: "128" },
+    { code: "Cyber Space", url: "https://radio.garden/api/ara/content/listen/fZylWF8k/channel.mp3", bitrate: "128" },
+    { code: "ARENA RADIO", url: "https://radio.garden/api/ara/content/listen/MJ6nKSDY/channel.mp3", bitrate: "128" },
+    { code: "Nuclear Fallout Radio", url: "https://radio.garden/api/ara/content/listen/jNdh1upw/channel.mp3", bitrate: "128" },
+    { code: "Metal", url: "https://radio.garden/api/ara/content/listen/WOjOFzmS/channel.mp3", bitrate: "128" },
+    { code: "Nature", url: "https://radio.garden/api/ara/content/listen/U5e8t9Mq/channel.mp3", bitrate: "128" },
+    { code: "Russian Folk", url: "https://radio.garden/api/ara/content/listen/PYsw1APK/channel.mp3", bitrate: "128" },
+    { code: "Агата Кристи", url: "https://radio.garden/api/ara/content/listen/OiPZ8jY5/channel.mp3", bitrate: "128" },
+    { code: "Русское Регги", url: "https://radio.garden/api/ara/content/listen/3PKzsSgL/channel.mp3", bitrate: "128" },
+    { code: "Французский Рэп", url: "https://radio.garden/api/ara/content/listen/PMV58Y70/channel.mp3", bitrate: "128" },
 
     // ========== SOMA FM ========== 
     { code: "SOMA_GROOVE", url: "https://ice1.somafm.com/groovesalad-128-mp3", bitrate: "128" },
@@ -498,11 +498,17 @@ const stations = [
     { code: "SOMA_SPACE_320", url: "https://ice1.somafm.com/spacestation-320-mp3", bitrate: "320" },
 ];
 
+// === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ===
 let currentStation = null;
 let isPlaying = false;
 let currentVolume = 0.8;
 
+// === ИНИЦИАЛИЗАЦИЯ ===
 document.addEventListener('DOMContentLoaded', function() {
+    // Динамический год
+    const yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    
     const audioPlayer = document.getElementById('audio-player');
     const stationList = document.getElementById('station-list');
     const searchInput = document.getElementById('station-search');
@@ -515,6 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const volumeValue = document.getElementById('volume-value');
     const spectrumBars = document.querySelector('.spectrum-bars');
     
+    // === СПЕКТР (декоративный) ===
     function initSpectrum() {
         spectrumBars.innerHTML = '';
         for (let i = 0; i < 30; i++) {
@@ -528,6 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // === СПИСОК СТАНЦИЙ ===
     function renderStationList(filter) {
         if (!filter) filter = '';
         stationList.innerHTML = '';
@@ -541,19 +549,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentStation && currentStation.code === station.code) {
                 item.classList.add('active');
             }
-            
             item.innerHTML = '<span class="station-code">' + station.code + '</span><span class="station-url">' + station.bitrate + 'k</span>';
-            
-            item.addEventListener('click', function() {
-                selectStation(station);
-            });
-            
+            item.addEventListener('click', function() { selectStation(station); });
             stationList.appendChild(item);
         });
-        
         stationCount.textContent = filteredStations.length + '/' + stations.length;
     }
     
+    // === ВЫБОР СТАНЦИИ ===
     function selectStation(station) {
         currentStation = station;
         renderStationList(searchInput.value);
@@ -562,19 +565,38 @@ document.addEventListener('DOMContentLoaded', function() {
         bitrateDisplay.textContent = station.bitrate + ' kbps';
         statusText.textContent = 'Загрузка: ' + station.code + '...';
         
+        // Сброс и загрузка нового источника
+        audioPlayer.pause();
+        audioPlayer.src = '';
         audioPlayer.src = station.url;
         audioPlayer.volume = currentVolume;
         updateVolumeDisplay();
         
         if (isPlaying) {
-            audioPlayer.play().catch(function(e) {
-                statusText.textContent = 'Нажмите PLAY для начала';
-            });
+            audioPlayer.play().catch(handlePlayError);
         } else {
             statusText.textContent = 'Готов к воспроизведению';
         }
     }
     
+    // === ОБРАБОТКА ОШИБОК ВОСПРОИЗВЕДЕНИЯ ===
+    function handlePlayError(e) {
+        console.warn('Ошибка воспроизведения:', e);
+        // План Б: пробуем без crossorigin
+        if (audioPlayer.crossOrigin) {
+            audioPlayer.crossOrigin = null;
+            audioPlayer.load();
+            audioPlayer.play().catch(function() {
+                statusText.textContent = '❌ Не удалось загрузить. Следующая...';
+                setTimeout(function() { document.getElementById('next-btn').click(); }, 2000);
+            });
+            return;
+        }
+        statusText.textContent = '❌ Ошибка. Пробуем следующую...';
+        setTimeout(function() { document.getElementById('next-btn').click(); }, 2000);
+    }
+    
+    // === ПОИСК ===
     function setupSearch() {
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value;
@@ -589,15 +611,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     searchResults.innerHTML = results.map(function(station) {
                         return '<div class="search-result-item" data-code="' + station.code + '">' + station.code + ' [' + station.bitrate + 'k]</div>';
                     }).join('');
-                    
                     searchResults.style.display = 'block';
                     
                     searchResults.querySelectorAll('.search-result-item').forEach(function(item) {
                         item.addEventListener('click', function() {
                             const code = item.dataset.code;
-                            const station = stations.find(function(s) {
-                                return s.code === code;
-                            });
+                            const station = stations.find(function(s) { return s.code === code; });
                             if (station) {
                                 selectStation(station);
                                 searchInput.value = '';
@@ -630,10 +649,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // === ГРОМКОСТЬ ===
     function setupVolume() {
         volumeSlider.value = currentVolume * 100;
         updateVolumeDisplay();
-        
         volumeSlider.addEventListener('input', function(e) {
             currentVolume = e.target.value / 100;
             audioPlayer.volume = currentVolume;
@@ -645,14 +664,13 @@ document.addEventListener('DOMContentLoaded', function() {
         volumeValue.textContent = Math.round(currentVolume * 100) + '%';
     }
     
+    // === УПРАВЛЕНИЕ ===
     function setupControls() {
         document.getElementById('play-btn').addEventListener('click', function() {
             if (!currentStation) {
                 if (stations.length > 0) {
                     selectStation(stations[0]);
-                    setTimeout(function() {
-                        playAudio();
-                    }, 100);
+                    setTimeout(function() { playAudio(); }, 100);
                 }
                 return;
             }
@@ -662,44 +680,32 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('pause-btn').addEventListener('click', function() {
             audioPlayer.pause();
             isPlaying = false;
-            statusText.textContent = 'Пауза';
+            statusText.textContent = '⏸ Пауза';
         });
         
         document.getElementById('stop-btn').addEventListener('click', function() {
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
             isPlaying = false;
-            statusText.textContent = 'Остановлено';
+            statusText.textContent = '⏹ Остановлено';
             stationCodeDisplay.textContent = 'STATION: ---';
             bitrateDisplay.textContent = '--- kbps';
         });
         
         document.getElementById('prev-btn').addEventListener('click', function() {
             if (!currentStation) return;
-            
-            const currentIndex = stations.findIndex(function(s) {
-                return s.code === currentStation.code;
-            });
+            const currentIndex = stations.findIndex(function(s) { return s.code === currentStation.code; });
             const prevIndex = (currentIndex - 1 + stations.length) % stations.length;
             selectStation(stations[prevIndex]);
-            
-            if (isPlaying) {
-                audioPlayer.play();
-            }
+            if (isPlaying) audioPlayer.play();
         });
         
         document.getElementById('next-btn').addEventListener('click', function() {
             if (!currentStation) return;
-            
-            const currentIndex = stations.findIndex(function(s) {
-                return s.code === currentStation.code;
-            });
+            const currentIndex = stations.findIndex(function(s) { return s.code === currentStation.code; });
             const nextIndex = (currentIndex + 1) % stations.length;
             selectStation(stations[nextIndex]);
-            
-            if (isPlaying) {
-                audioPlayer.play();
-            }
+            if (isPlaying) audioPlayer.play();
         });
         
         document.querySelector('.winamp-btn.minimize').addEventListener('click', function() {
@@ -724,20 +730,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // === ВОСПРОИЗВЕДЕНИЕ ===
     function playAudio() {
         if (!audioPlayer.src) {
             statusText.textContent = 'Сначала выберите станцию';
             return;
         }
-        
         audioPlayer.play().then(function() {
             isPlaying = true;
             statusText.textContent = '▶ ' + currentStation.code;
-        }).catch(function(e) {
-            statusText.textContent = 'Ошибка. Выберите другую станцию.';
-        });
+        }).catch(handlePlayError);
     }
     
+    // === СОБЫТИЯ АУДИО ===
     function setupAudioEvents() {
         audioPlayer.addEventListener('playing', function() {
             isPlaying = true;
@@ -748,26 +753,21 @@ document.addEventListener('DOMContentLoaded', function() {
             isPlaying = false;
         });
         
-        audioPlayer.addEventListener('error', function() {
-            statusText.textContent = 'Ошибка загрузки. Пробуем следующую...';
-            setTimeout(function() {
-                document.getElementById('next-btn').click();
-            }, 1500);
+        audioPlayer.addEventListener('error', function(e) {
+            console.warn('Ошибка загрузки:', currentStation?.code, e);
+            statusText.textContent = '❌ Ошибка потока. Пробуем следующую...';
+            setTimeout(function() { document.getElementById('next-btn').click(); }, 1500);
         });
     }
     
+    // === КЛАВИАТУРА ===
     function setupKeyboardShortcuts() {
         document.addEventListener('keydown', function(e) {
             if (e.target === searchInput) return;
-            
             switch(e.key) {
                 case ' ':
                     e.preventDefault();
-                    if (isPlaying) {
-                        audioPlayer.pause();
-                    } else {
-                        playAudio();
-                    }
+                    if (isPlaying) { audioPlayer.pause(); } else { playAudio(); }
                     break;
                 case 'ArrowLeft':
                     e.preventDefault();
@@ -777,8 +777,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     e.preventDefault();
                     document.getElementById('next-btn').click();
                     break;
-                case '+':
-                case '=':
+                case '+': case '=':
                     e.preventDefault();
                     currentVolume = Math.min(1, currentVolume + 0.1);
                     audioPlayer.volume = currentVolume;
@@ -792,15 +791,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     volumeSlider.value = currentVolume * 100;
                     updateVolumeDisplay();
                     break;
-                case 'm':
+                case 'm': case 'M':
                     e.preventDefault();
                     audioPlayer.muted = !audioPlayer.muted;
-                    statusText.textContent = audioPlayer.muted ? 'Звук выключен' : 'Звук включен';
+                    statusText.textContent = audioPlayer.muted ? '🔇 Звук выключен' : '🔊 Звук включен';
                     break;
             }
         });
     }
     
+    // === АНИМАЦИЯ СПЕКТРА ===
+    setInterval(function() {
+        if (spectrumBars && isPlaying) {
+            spectrumBars.querySelectorAll('div').forEach(function(bar) {
+                bar.style.height = Math.random() * 80 + 20 + '%';
+            });
+        }
+    }, 200);
+    
+    // === ЗАПУСК ===
     initSpectrum();
     renderStationList();
     setupSearch();
@@ -812,13 +821,5 @@ document.addEventListener('DOMContentLoaded', function() {
     if (stations.length > 0) {
         selectStation(stations[0]);
     }
-    
-    setInterval(function() {
-        if (isPlaying) {
-            spectrumBars.querySelectorAll('div').forEach(function(bar) {
-                bar.style.height = Math.random() * 80 + 20 + '%';
-            });
-        }
-    }, 200);
 });
 </script>
