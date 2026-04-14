@@ -33,6 +33,7 @@
 - [Pytest](pytest_guide.md)
 - [API Testing (Requests)](api_testing_python.md)
 - [Playwright](playwright_testing_python.md)
+- [CI/CD](g_ci_cd.md)
 
 ## <div style="background-color: #333; padding: 10px; border-radius: 5px; color: #fff;">Авторизация</div>
 - [Session](session_auth.md)
