@@ -1,0 +1,1234 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://showtimeeee.github.io/mkdocs-show-website/guides/g_ci_cd/">
+      
+      
+      
+      
+      <link rel="icon" href="../../images/logo-ico.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Гайд по CI/CD - Showtime-Bro</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/base.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-CRWF7DFZHT"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-CRWF7DFZHT",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-CRWF7DFZHT",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cicd" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Showtime-Bro" class="md-header__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Showtime-Bro
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Гайд по CI/CD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Showtime-Bro" class="md-nav__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    Showtime-Bro
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная🍕
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статьи📝
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Гайды🛠️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проекты🤖
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../opros/examinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тренажеры🎓
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patterns/patterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Паттерны🧩
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Алгоритмы👨‍💻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download_books/books/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Книги📚
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../radio/bro_radio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Радио📻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Напиши мне✍️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ключевые концепции
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура CI/CD-пайплайна
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Схема работы (Step-by-Step)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-aqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI/CD для автотестировщика (AQA)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CI/CD для автотестировщика (AQA)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e2e-ci-github-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример: как добавить E2E-тесты в CI (GitHub Actions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cicd-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сравнение популярных CI/CD-систем
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Как тестировать пайплайны? (Для AQA)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Важные термины и паттерны
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Как создать идеальный пайплайн для автотестирования веб-приложения?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Как создать идеальный пайплайн для автотестирования веб-приложения?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 1: Стратегия триггеров (когда запускается)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 2: Структура пайплайна (стадии и параллелизм)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 3: Окружение и зависимости
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 4: Данные для тестов (фикстуры и очистка)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 5: Отчётность и артефакты
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 6: Уведомления (кто и когда узнаёт)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Слой 7: Метрики и мониторинг
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Итоговая архитектура «идеального» пайплайна
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Чек-лист для самопроверки
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Резюме для собеседования
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заключение
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="cicd">Гайд по CI/CD</h1>
+<p><img alt="cicd_logo" src="../images/cicd_logo.jpg"></p>
+<p><strong>CI/CD (Continuous Integration / Continuous Delivery / Continuous Deployment)</strong> — это практика автоматизации процессов разработки, тестирования и развертывания кода.</p>
+<p>В контексте работы автотестировщика и разработчика <strong>CI/CD</strong> — это система, которая забирает ваш код из репозитория, прогоняет все тесты, собирает артефакты и выкатывает их на окружения (dev / stage / prod). Человек перестаёт быть «узким горлом» — всё делает машина.</p>
+<p>Главная фишка CI/CD в том, что вы перестаёте бояться релизов. Коммит в <code>main</code> → автоматический запуск проверок → если всё зелено — код в продакшене.</p>
+<hr>
+<h2 id="_1">Ключевые концепции</h2>
+<p>Чтобы понимать, как работают CI/CD-пайплайны, нужно разобраться с основными понятиями.</p>
+<ul>
+<li><strong>CI (Continuous Integration)</strong> — непрерывная интеграция. Разработчики часто мержат код в общую ветку (несколько раз в день). При каждом мерже автоматически запускаются сборка и тесты. Цель — найти ошибки на ранней стадии.</li>
+<li><strong>CD (Continuous Delivery)</strong> — непрерывная доставка. Код всегда готов к выкатке в продакшен. После успешного CI артефакт автоматически деплоится на stage-окружение, а релиз в прод происходит нажатием одной кнопки (или по расписанию).</li>
+<li><strong>CD (Continuous Deployment)</strong> — непрерывное развертывание. Крайняя степень автоматизации: каждый успешный коммит в <code>main</code> автоматически улетает в продакшен. Без кнопок, без ручного approval.</li>
+<li><strong>Pipeline (пайплайн)</strong> — последовательность автоматических шагов (джобов), которые выполняются при определённых событиях (push, pull request, merge). Это «сценарий» вашего CI/CD-процесса.</li>
+<li><strong>Job (джоба)</strong> — отдельная единица работы внутри пайплайна. Например: <code>build</code>, <code>run_tests</code>, <code>deploy_to_stage</code>, <code>notify_team</code>. Джобы могут выполняться последовательно или параллельно.</li>
+<li><strong>Stage (стадия)</strong> — логическая группировка джобов. Например, стадия <code>test</code> может содержать джобы <code>unit_tests</code>, <code>integration_tests</code>, <code>e2e_tests</code>.</li>
+<li><strong>Artifact (артефакт)</strong> — результат сборки, который передаётся дальше. Docker-образ, <code>.jar</code>/<code>.exe</code>-файл, отчёты о тестах, <code>node_modules</code>. Артефакты передаются между джобами и стадиями.</li>
+<li><strong>Runner / Agent</strong> — исполнитель: машина (виртуальная, Docker-контейнер, физический сервер), на которой запускаются ваши джобы. GitHub Actions называет их <code>runners</code>, GitLab — <code>runners</code>, Jenkins — <code>agents</code>, TeamCity — <code>build agents</code>.</li>
+</ul>
+<hr>
+<h2 id="cicd-">Структура CI/CD-пайплайна</h2>
+<p>Типичный пайплайн выглядит как лесенка шагов:</p>
+<div class="highlight"><pre><span></span><code>[Push / PR в main]
+       │
+       ▼
+┌─────────────────┐
+│  Стадия: Build  │  ← Собрать код, установить зависимости
+│  - install      │  ← Сохранить артефакты
+│  - compile      │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Стадия: Test    │  ← Параллельные джобы
+│  - unit_tests   │
+│  - lint         │
+│  - integration  │
+│  - e2e (smoke)  │
+└────────┬────────┘
+         │
+         ▼ (если всё зелено)
+┌─────────────────┐
+│ Стадия: Build   │  ← Собрать production-артефакт
+│    Image        │  ← Собрать Docker-образ
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Стадия: Deploy  │  ← Выкатить на Stage
+│   to Stage      │  ← Запустить smoke-тесты
+└────────┬────────┘
+         │
+         ▼ (в Delivery — стоп, в Deployment — автоматом)
+┌─────────────────┐
+│ Стадия: Deploy  │  ← Выкатить в Production
+│   to Prod       │
+└─────────────────┘
+</code></pre></div>
+<hr>
+<h2 id="step-by-step">Схема работы (Step-by-Step)</h2>
+<p>Процесс CI/CD на примере GitHub Actions:</p>
+<ol>
+<li><strong>Разработчик</strong> пушит код в ветку <code>feature/login</code> и открывает Pull Request (PR) в <code>main</code>.</li>
+<li><strong>CI-система</strong> автоматически запускает пайплайн:</li>
+<li>Поднимает свежий runner (виртуалку с Ubuntu).</li>
+<li>Выполняет <code>checkout</code> кода.</li>
+<li>Стадия <code>build</code>: <code>npm ci</code> + <code>npm run build</code> (собирает приложение).</li>
+<li>Стадия <code>test</code>: параллельно запускает <code>unit tests</code>, <code>lint</code>, <code>integration tests</code>, <code>e2e tests</code> (Playwright/Cypress).</li>
+<li>Если все тесты прошли — в PR появляется зелёная галочка «All checks passed».</li>
+<li><strong>Ревьюер</strong> мержит PR в <code>main</code>.</li>
+<li><strong>На событие <code>push</code> в <code>main</code></strong> запускается следующий пайплайн:</li>
+<li>Собирает Docker-образ.</li>
+<li>Пушит его в registry (Docker Hub / AWS ECR / GitLab Registry).</li>
+<li>Деплоит на <code>stage</code>-окружение.</li>
+<li>Запускает smoke-тесты на stage.</li>
+<li>(Если настроен <strong>Continuous Deployment</strong>) — автоматически катит в <code>production</code>.</li>
+</ol>
+<hr>
+<h2 id="cicd-aqa">CI/CD для автотестировщика (AQA)</h2>
+<p>Для вас CI/CD — это лучший друг. Вы перестаёте запускать тесты локально и начинаете:</p>
+<ul>
+<li><strong>Запускать регресс автоматически</strong> по ночам или по расписанию.</li>
+<li><strong>Параллелить тесты</strong> на 10–50 runner'ах (вместо одной машины).</li>
+<li><strong>Получать отчёты</strong> (Allure, ReportPortal, JUnit XML) прямо в PR или в чат.</li>
+<li><strong>Деплоить тестовые стенды</strong> для каждой ветки (review apps).</li>
+</ul>
+<h3 id="e2e-ci-github-actions">Пример: как добавить E2E-тесты в CI (GitHub Actions)</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">E2E Tests on PR</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">main</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">develop</span><span class="w"> </span><span class="p p-Indicator">]</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build-and-test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Node.js</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-node@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">node-version</span><span class="p">:</span><span class="w"> </span><span class="s">'20'</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm ci</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run unit tests</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm run test:unit</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build app</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm run build</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Playwright E2E tests</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm run test:e2e</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload Playwright report</span>
+<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playwright-report</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">playwright-report/</span>
+</code></pre></div>
+<hr>
+<h2 id="cicd-_1">Сравнение популярных CI/CD-систем</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Система</strong></th>
+<th><strong>Плюсы</strong></th>
+<th><strong>Минусы</strong></th>
+<th><strong>Когда брать</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GitHub Actions</strong></td>
+<td>Тесно встроен в GitHub. Огромный marketplace. Бесплатно для public repos.</td>
+<td>Сложный синтаксис у больших пайплайнов.</td>
+<td>Маленькие и средние проекты на GitHub.</td>
+</tr>
+<tr>
+<td><strong>GitLab CI</strong></td>
+<td>Всё в одном: репозиторий + CI/CD + registry. Хороший autoscaling runner'ов.</td>
+<td>Тяжелее в администрировании.</td>
+<td>Когда вы и так на GitLab.</td>
+</tr>
+<tr>
+<td><strong>Jenkins</strong></td>
+<td>Всё можно настроить. Тысячи плагинов. Работает с чем угодно.</td>
+<td>Нужно администрировать сервер. Устаревший UX.</td>
+<td>Legacy-проекты или полное кастомное решение.</td>
+</tr>
+<tr>
+<td><strong>TeamCity</strong></td>
+<td>Отличный UI. Умные цепочки сборок.</td>
+<td>Платная (кроме малых проектов).</td>
+<td>Enterprise на JetBrains-стеке.</td>
+</tr>
+<tr>
+<td><strong>CircleCI</strong></td>
+<td>Быстрые кеши. Хороший оркестр параллельных джобов.</td>
+<td>Дорогой при большом количестве билдов.</td>
+<td>Стартапы, которым важна скорость.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="aqa">Как тестировать пайплайны? (Для AQA)</h2>
+<p>Тестировать CI/CD — не самая очевидная задача, но вот подходы.</p>
+<ol>
+<li><strong>Проверьте, что пайплайн запускается на нужных событиях</strong>:</li>
+<li>push в любую ветку;</li>
+<li>pull request (открытие, обновление, merge);</li>
+<li>расписание (cron);</li>
+<li>
+<p>ручной запуск (<code>workflow_dispatch</code>).</p>
+</li>
+<li>
+<p><strong>Проверьте failure-сценарии</strong>:</p>
+</li>
+<li>Что будет, если упадут unit-тесты? (пайплайн красный, деплой не идёт)</li>
+<li>Что будет, если сломалась сборка (<code>build</code>)?</li>
+<li>
+<p>Что будет, если истекло время выполнения джобы (<code>timeout</code>)?</p>
+</li>
+<li>
+<p><strong>Проверьте артефакты</strong>:</p>
+</li>
+<li>Сохраняются ли логи, скриншоты, видео с упавших E2E-тестов?</li>
+<li>
+<p>Можно ли скачать артефакты после завершения?</p>
+</li>
+<li>
+<p><strong>Проверьте параллельность</strong>:</p>
+</li>
+<li>Запускаются ли независимые джобы параллельно?</li>
+<li>
+<p>Не падают ли тесты из-за гонки (если пишут в одну БД)?</p>
+</li>
+<li>
+<p><strong>Проверьте кеширование</strong>:</p>
+</li>
+<li>
+<p><code>node_modules</code>, <code>pip cache</code>, <code>.gradle</code> — кешируются ли они? (иначе билд будет 10 минут вместо 1)</p>
+</li>
+<li>
+<p><strong>Проверьте security</strong>:</p>
+</li>
+<li>Секреты (API-ключи, токены) не зашиты в коде, а берутся из CI/CD secrets.</li>
+</ol>
+<hr>
+<h2 id="_2">🚀 Важные термины и паттерны</h2>
+<ul>
+<li><strong>Pipeline as Code (PaC)</strong> — пайплайн описывается в файле (<code>.yml</code>, <code>.gitlab-ci.yml</code>, <code>Jenkinsfile</code>) и лежит в репозитории рядом с кодом. Это версионирует, упрощает review и позволяет ветвить логику.</li>
+<li><strong>Matrix / Parallel Matrix</strong> — запуск одной и той же джобы с разными параметрами. Например: тесты на Node 16, 18, 20 + Windows, Mac, Linux.</li>
+<li><strong>Caching</strong> — сохранение временных файлов (зависимости, билд-кэш) между прогонами, чтобы ускорить пайплайн.</li>
+<li><strong>Artifact</strong> — файлы, которые переживают джобу: отчёты, бинарники, скриншоты.</li>
+<li><strong>Self-hosted runner</strong> — ваш собственный сервер, на котором крутится CI. Нужен, если вам нужен доступ к внутренней сети, GPU или большим ресурсам.</li>
+<li><strong>Trunk-based development</strong> — ветка <code>main</code> единственная. Разработка через короткие ветки (менее одного дня). CI/CD настроен так, чтобы быстро и безболезненно мержить.</li>
+</ul>
+<hr>
+<h2 id="-">Как создать идеальный пайплайн для автотестирования веб-приложения?</h2>
+<p>«Идеального» пайплайна не существует — он зависит от приложения, команды и бюджета. Но есть <strong>золотые принципы</strong>, которые превращают хаос в надёжную систему. Ниже — 7 ключевых слоёв.</p>
+<hr>
+<h4 id="1">Слой 1: Стратегия триггеров (когда запускается)</h4>
+<p>Один пайплайн — это слишком мало. Нужны <strong>3 типа пайплайнов</strong>:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Тип</strong></th>
+<th><strong>Триггер</strong></th>
+<th><strong>Что запускаем</strong></th>
+<th><strong>Таймаут</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fast CI</strong></td>
+<td>На каждый PR (push)</td>
+<td>Линтеры, юнит-тесты, сборка, 5–10 быстрых smoke E2E</td>
+<td>10 минут</td>
+</tr>
+<tr>
+<td><strong>Full Regression</strong></td>
+<td>По расписанию (ночь / обед) или лейблу <code>[full-tests]</code></td>
+<td>Полный регресс (все E2E, кроссбраузер, визуальные тесты)</td>
+<td>2–4 часа</td>
+</tr>
+<tr>
+<td><strong>Deployment pipeline</strong></td>
+<td>После успешного деплоя на stage/prod</td>
+<td>Smoke-тесты на свежем окружении + мониторинг</td>
+<td>15 минут</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Почему так?</strong> Если на каждый коммит гонять 2000 тестов по 2 часа — разработчики возненавидят вас. Быстрая обратная связь (&lt;10 минут) — это святое.</p>
+<hr>
+<h4 id="2">Слой 2: Структура пайплайна (стадии и параллелизм)</h4>
+<p>Пример стадий:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">stages</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint_and_unit</span><span class="w">      </span><span class="c1"># 2 минуты</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build_and_deploy</span><span class="w">   </span><span class="c1"># 5 минут (поднимает свежий стенд)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e2e_smoke</span><span class="w">          </span><span class="c1"># 3 минуты (критический путь)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e2e_parallel</span><span class="w">       </span><span class="c1"># 30 минут (10 джоб × 3 минуты)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reporting</span><span class="w">          </span><span class="c1"># 1 минута (сборка Allure/ReportPortal)</span>
+</code></pre></div>
+<p><strong>Ключевые решения:</strong></p>
+<ul>
+<li><strong>Fail-fast</strong>: если <code>lint_and_unit</code> упал — пайплайн останавливается. Зачем запускать E2E на заведомо битом коде?</li>
+<li><strong>Параллелизм с шардированием</strong>:<br>
+  Разбиваем 1000 тестов на 10 групп по 100 тестов:
+  <div class="highlight"><pre><span></span><code>job-e2e-shard-1: playwright test --shard=1/10
+job-e2e-shard-2: playwright test --shard=2/10
+...
+</code></pre></div>
+  Время выполнения падает с 60 минут до 6–8 минут.</li>
+<li><strong>Retry-политика</strong>: упавшие тесты перезапускаются 1 раз (если тест флапит из-за сети). Но не больше — иначе вы прячете реальные баги.</li>
+</ul>
+<hr>
+<h4 id="3">Слой 3: Окружение и зависимости</h4>
+<p><strong>Проблема:</strong> тесты падают на CI, но проходят локально — классика.</p>
+<p><strong>Решение — изоляция:</strong></p>
+<ul>
+<li>Каждый runner получает <strong>свежий Docker-контейнер</strong> с приложением и БД (PostgreSQL в памяти или testcontainers).</li>
+<li>Используем <strong>docker-compose</strong> для поднятия всего стека: app, db, redis, mock-сервисы.</li>
+<li><strong>Никаких общих ресурсов</strong> между параллельными шардами (разные БД, разные папки, разные user_id).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Пример для GitHub Actions с Docker Compose</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">e2e</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">services</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">postgres</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:15</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test_db_${{ github.run_id }}_${{ strategy.job-index }}</span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp:latest</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000:3000</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">npm run test:e2e</span>
+</code></pre></div>
+<hr>
+<h4 id="4">Слой 4: Данные для тестов (фикстуры и очистка)</h4>
+<p><strong>Золотое правило:</strong> тесты не должны знать о других тестах.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Подход</strong></th>
+<th><strong>Как работает</strong></th>
+<th><strong>Скорость</strong></th>
+<th><strong>Надёжность</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database transaction rollback</td>
+<td>Каждый тест в транзакции → откат в конце</td>
+<td>Очень быстро</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>Unique data per test</td>
+<td><code>user_${timestamp}_${random}</code></td>
+<td>Быстро</td>
+<td>Высокая</td>
+</tr>
+<tr>
+<td>Fresh DB per shard</td>
+<td>Поднять новую БД для каждой группы тестов</td>
+<td>Медленно</td>
+<td>Очень высокая</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Для E2E-тестов веб-приложения я выбираю комбинацию:</strong>
+- Свежая БД на каждый шард (через Docker volume или snapshot).
+- В тестах — уникальные email/username через <code>test-${Date.now()}-${crypto.randomUUID()}</code>.</p>
+<hr>
+<h4 id="5">Слой 5: Отчётность и артефакты</h4>
+<p>Пайплайн без отчётов — это чёрный ящик. Должно быть:</p>
+<ol>
+<li><strong>JUnit XML</strong> — чтобы CI понимал, сколько тестов упало/прошло.</li>
+<li><strong>Allure / ReportPortal</strong> — красивый HTML-отчёт с шагами, скриншотами, логами.</li>
+<li><strong>Скриншоты и видео</strong> упавших тестов (Playwright/Cypress/Selenide делают автоматически).</li>
+<li><strong>Trace Viewer</strong> (Playwright) — кликабельный трейс каждого действия.</li>
+<li><strong>Логи приложения</strong> (если контейнер упал — сохранить stdout/stderr как артефакт).</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload test artifacts</span>
+<span class="w">  </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-results-${{ github.run_id }}</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">test-results/</span>
+<span class="w">      </span><span class="no">playwright-report/</span>
+<span class="w">      </span><span class="no">logs/</span>
+<span class="w">    </span><span class="nt">retention-days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span>
+</code></pre></div>
+<hr>
+<h4 id="6">Слой 6: Уведомления (кто и когда узнаёт)</h4>
+<table>
+<thead>
+<tr>
+<th><strong>Событие</strong></th>
+<th><strong>Кому</strong></th>
+<th><strong>Куда</strong></th>
+<th><strong>Что пишем</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Пайплайн упал на <code>main</code></td>
+<td>Вся команда + тимлид</td>
+<td>Slack #general + email</td>
+<td>«Красный main! @here» + ссылка</td>
+</tr>
+<tr>
+<td>Пайплайн упал на PR</td>
+<td>Только автор PR</td>
+<td>Slack DM или комментарий в PR</td>
+<td>«Тесты упали, смотри отчёт»</td>
+</tr>
+<tr>
+<td>Регресс ночью упал</td>
+<td>QA-команда</td>
+<td>Slack #qa-alerts + Jira-тикет</td>
+<td>Таблица: упавшие тесты (топ-10)</td>
+</tr>
+<tr>
+<td>Всё зелено</td>
+<td>Никому (не спамим)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Важно:</strong> использовать <code>@here</code> только при падении <code>main</code>. Иначе люди привыкнут и перестанут реагировать.</p>
+<hr>
+<h4 id="7">Слой 7: Метрики и мониторинг</h4>
+<p>Вы не можете улучшить то, что не измеряете. Собирайте:</p>
+<ul>
+<li><strong>Время выполнения пайплайна</strong> (должно падать или хотя бы не расти).</li>
+<li><strong>Flaky rate</strong> — процент тестов, которые упали, а при перезапуске прошли. Норма &lt;2%. Выше — чините или удаляйте тест.</li>
+<li><strong>Стабильность окружения</strong> — сколько раз упал не тест, а CI runner / Docker / сеть.</li>
+<li><strong>Top-10 самых долгих тестов</strong> (кандидаты на оптимизацию или сплит).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Send test metrics</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">curl -X POST "https://api.datadoghq.com/api/v1/series" \</span>
+<span class="w">      </span><span class="no">-d "{\"series\":[{\"metric\":\"ci.test.duration\",\"points\":[[$(date +%s), $DURATION]]}]}"</span>
+</code></pre></div>
+<hr>
+<h4 id="_3">Итоговая архитектура «идеального» пайплайна</h4>
+<div class="highlight"><pre><span></span><code>graph TD
+    PR[Pull Request] --&gt; FastCI[Fast CI &lt;10мин]
+    FastCI --&gt; |Unit + Lint + 5 smoke E2E| PRStatus{All green?}
+    PRStatus --&gt;|No| Block[Block merge]
+    PRStatus --&gt;|Yes| Merge[Merge to main]
+    Merge --&gt; Nightly[Nightly Regression 02:00]
+    Nightly --&gt; Stage[Deploy to Stage]
+    Stage --&gt; FullE2E[Full E2E 2000 tests / 10 shards]
+    FullE2E --&gt; Report[Allure Report + Slack notify]
+    Report --&gt; |All green| Prod[Auto-deploy to Prod]
+    Report --&gt; |Has failures| Jira[Jira ticket + QA on-call]
+</code></pre></div>
+<h4 id="-_1">Чек-лист для самопроверки</h4>
+<ul>
+<li>[ ] Fast CI &lt;10 минут для 95% PR</li>
+<li>[ ] Тесты не зависят друг от друга (порядок не важен)</li>
+<li>[ ] Упавшие тесты оставляют скриншоты + видео + логи</li>
+<li>[ ] Flaky rate &lt;2% (отслеживается автоматически)</li>
+<li>[ ] Есть ночной полный регресс</li>
+<li>[ ] Уведомления не спамят, а бьют точно в цель</li>
+<li>[ ] Параллельные шарды не используют общие ресурсы</li>
+<li>[ ] Можно локально воспроизвести любой упавший тест из CI</li>
+<li>[ ] Отчёт в Allure/ReportPortal доступен по ссылке из PR</li>
+<li>[ ] На main нельзя замержить код с красным пайплайном (branch protection)</li>
+</ul>
+<h4 id="_4">Резюме для собеседования</h4>
+<blockquote>
+<p><em>«Идеальный пайплайн — это не тот, который никогда не падает, а тот, который:</em>
+1. <em>Быстро говорит разработчику, что он сломал (&lt;10 минут).</em>
+2. <em>Надёжно изолирует окружение (Docker + свежая БД).</em>
+3. <em>Понятно показывает, что именно упало и почему (скриншоты, трейсы, логи).</em>
+4. <em>Не требует ручного вмешательства — от коммита до отчёта.</em>
+5. <em>Сам сообщает о флаках и долгих тестах, чтобы их чинили.</em></p>
+<p><em>Мы в команде постоянно улучшаем метрики: время пайплайна, стабильность, flaky rate. И да, мы не гоним 2000 тестов на каждый коммит — для этого есть ночной регресс.»</em></p>
+</blockquote>
+<hr>
+<h2 id="_5">Заключение</h2>
+<p>CI/CD — это не просто «модные слова», а реальный способ перестать бояться релизов и начать получать удовольствие от разработки. Для автотестировщика CI/CD открывает возможность запускать тысячи тестов параллельно, видеть отчёты в каждом PR и спать спокойно — потому что прод не сломается без вашего ведома.</p>
+<p>Освоив этот гайд, вы сможете:
+- объяснить разницу между CI, Delivery и Deployment;
+- написать простой пайплайн для E2E-тестов;
+- ответить на вопросы на собеседовании;
+- и самое главное — перестать запускать тесты локально вручную.</p></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Вам нравится эта страница?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Да" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Нет" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 15V3h4v12zM15 3a2 2 0 0 1 2 2v10c0 .55-.22 1.05-.59 1.41L9.83 23l-1.06-1.06c-.27-.27-.44-.64-.44-1.06l.03-.31.95-4.57H3a2 2 0 0 1-2-2v-2c0-.26.05-.5.14-.73l3.02-7.05C4.46 3.5 5.17 3 6 3zm0 2H5.97L3 12v2h8.78l-1.13 5.32L15 14.97z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Спасибо! Я рад, что вам понравилось.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Жаль, что вам не понравилось...
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href="">Vadim</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.footer", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../../js/bubble_sort.js"></script>
+      
+    
+  </body>
+</html>

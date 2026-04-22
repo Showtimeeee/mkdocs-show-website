@@ -1,0 +1,966 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://showtimeeee.github.io/mkdocs-show-website/guides/session_auth/">
+      
+      
+      
+      
+      <link rel="icon" href="../../images/logo-ico.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Гайд по Авторизации: Сессии - Showtime-Bro</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/base.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-CRWF7DFZHT"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-CRWF7DFZHT",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-CRWF7DFZHT",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Showtime-Bro" class="md-header__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Showtime-Bro
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Гайд по Авторизации: Сессии
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Showtime-Bro" class="md-nav__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    Showtime-Bro
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная🍕
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статьи📝
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Гайды🛠️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проекты🤖
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../opros/examinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тренажеры🎓
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patterns/patterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Паттерны🧩
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Алгоритмы👨‍💻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download_books/books/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Книги📚
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../radio/bro_radio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Радио📻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Напиши мне✍️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Что такое сессия?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ключевые концепции
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Схема работы (Step-by-Step)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Способы хранения сессий на сервере
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs-jwt-json-web-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сравнение: Сессии vs JWT (JSON Web Tokens)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование сессионной авторизации (Для AQA)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Разбор важных HTTP-заголовков
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❓ Вопросы с собеседований (ТОП-10)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❓ Вопросы с собеседований (ТОП-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. В чем разница между аутентификацией и авторизацией?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Как работает сессионная аутентификация?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-http-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Что такое HTTP-only куки и зачем они нужны?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-stateful-stateless" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Сессии — это Stateful или Stateless? Почему?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Какие проблемы возникают при использовании сессий в кластере серверов?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-logout" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Как работает Logout при использовании сессий?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-session-cookie" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. В чем разница между session и cookie?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-csrf" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Что такое CSRF и как сессии защищаются от него?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Чем сессии лучше JWT, а чем хуже?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Как протестировать, что сессия не "залипает" и корректно протухает?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заключение
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="_1">Гайд по Авторизации: Сессии</h1>
+<p><img alt="Клиент-серверное взаимодействие" src="../images/session_logo.jpg"></p>
+<p>Авторизация и аутентификация — основа любого современного веб-приложения. Если ваш сайт или API помнит пользователя между запросами — скорее всего, там используются либо сессии, либо JWT-токены. В этом гайде мы подробно разберем, как работает <strong>аутентификация на основе сессий (session-based authentication)</strong>, где хранятся данные, как тестировать этот механизм и что спрашивают на собеседованиях.</p>
+<h2 id="_2">Что такое сессия?</h2>
+<p>В контексте веба, <strong>сессия</strong> — это полупостоянное соединение между двумя устройствами (клиентом и сервером). Сессия начинается, когда пользователь входит в систему, и заканчивается, когда он выходит из системы или закрывает браузер.</p>
+<p>Главная задача сессии — сохранять состояние между HTTP-запросами. Так как HTTP — это протокол без состояния (stateless), каждый запрос "не помнит" предыдущий. Сессии решают эту проблему.</p>
+<h2 id="_3">Ключевые концепции</h2>
+<p>Чтобы понимать, как работают сессии, нужно разобраться с тремя основными понятиями:</p>
+<ul>
+<li><strong>Session ID (Идентификатор сессии)</strong>: Уникальная строка, которую сервер создает при первом входе пользователя. Этот ID клиент отправляет на сервер с каждым запросом, чтобы сервер "узнал" пользователя.</li>
+<li><strong>Хранилище сессий (Session Store)</strong>: Место на сервере (или отдельном сервисе вроде Redis/Memcached), где хранятся данные сессии: корзина покупок, ID пользователя, права доступа и т.д.</li>
+<li><strong>Cookie (Куки)</strong>: Самый распространенный способ хранения Session ID на стороне клиента. Браузер автоматически прикрепляет Cookie к каждому запросу на домен.</li>
+<li><strong>Аутентификация vs Авторизация</strong>:<ul>
+<li><em>Аутентификация</em> — проверка, что пользователь — это тот, за кого себя выдает (логин/пароль).</li>
+<li><em>Авторизация</em> — проверка, что у пользователя есть права на действие (например, может ли он удалить пост).</li>
+</ul>
+</li>
+</ul>
+<h2 id="step-by-step">Схема работы (Step-by-Step)</h2>
+<p>Процесс сессионной аутентификации выглядит так:</p>
+<ol>
+<li><strong>Клиент (браузер)</strong> отправляет POST-запрос на сервер с логином и паролем (например, на <code>/login</code>).</li>
+<li><strong>Сервер</strong> проверяет логин и пароль в базе данных. Если данные верны:<ul>
+<li>Сервер создает уникальный <strong>Session ID</strong> (например, длинную случайную строку: <code>abc123...</code>).</li>
+<li>Сервер сохраняет этот Session ID в <strong>хранилище сессий</strong> (в оперативной памяти, базе данных или Redis) и привязывает к нему данные пользователя (например, <code>user_id: 42</code>, <code>role: admin</code>).</li>
+</ul>
+</li>
+<li><strong>Сервер</strong> отправляет ответ клиенту с заголовком <code>Set-Cookie</code>. В этом заголовке указывается Session ID.
+    <div class="highlight"><pre><span></span><code>Set-Cookie: sessionid=abc123...; HttpOnly; Secure; SameSite=Lax
+</code></pre></div></li>
+<li><strong>Браузер</strong> получает ответ, видит <code>Set-Cookie</code> и сохраняет эту куку в своем хранилище.</li>
+<li>При следующем запросе к этому же сайту (например, переходе в личный кабинет), браузер автоматически добавляет заголовок <code>Cookie</code> ко всем запросам.
+    <div class="highlight"><pre><span></span><code>Cookie: sessionid=abc123...
+</code></pre></div></li>
+<li><strong>Сервер</strong> получает запрос, достает Session ID из заголовка Cookie, ищет его в хранилище сессий.<ul>
+<li>Если сессия найдена и не истекла, сервер понимает, что это пользователь <code>user_id: 42</code>.</li>
+<li>Сервер выполняет запрос (отдает данные личного кабинета) и отправляет ответ клиенту.</li>
+</ul>
+</li>
+</ol>
+<h2 id="_4">Способы хранения сессий на сервере</h2>
+<p>Выбор хранилища критически важен для масштабирования приложения.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Тип хранилища</strong></th>
+<th><strong>Описание</strong></th>
+<th><strong>Плюсы</strong></th>
+<th><strong>Минусы</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>In-Memory (память процесса)</strong></td>
+<td>Сессии хранятся прямо в памяти серверного приложения.</td>
+<td>Самый быстрый способ. Проще всего для разработки.</td>
+<td><strong>Не масштабируется.</strong> Если серверов несколько (кластер), у каждого будет своя память. Пользователь попадет на другой сервер — сессия потеряется.</td>
+</tr>
+<tr>
+<td><strong>База данных (SQL/NoSQL)</strong></td>
+<td>Сессии хранятся в таблице БД.</td>
+<td>Централизованное хранение. Подходит для кластеров.</td>
+<td>Медленнее, чем in-memory. Создает дополнительную нагрузку на БД.</td>
+</tr>
+<tr>
+<td><strong>Redis / Memcached</strong></td>
+<td>In-memory хранилища данных (key-value).</td>
+<td><strong>Идеальный баланс.</strong> Очень быстро (данные в RAM). Поддерживают кластеризацию. Легко удалять устаревшие сессии (TTL).</td>
+<td>Требуется поднимать и администрировать отдельный сервис (Redis).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vs-jwt-json-web-tokens">Сравнение: Сессии vs JWT (JSON Web Tokens)</h2>
+<p>На собеседованиях часто просят сравнить эти два подхода.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Критерий</strong></th>
+<th><strong>Сессии</strong></th>
+<th><strong>JWT (Токены)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Где хранятся данные</strong></td>
+<td>На сервере (в хранилище сессий).</td>
+<td>В самом токене (на клиенте).</td>
+</tr>
+<tr>
+<td><strong>Состояние (State)</strong></td>
+<td>Stateful (сервер хранит состояние).</td>
+<td>Stateless (сервер не хранит состояние, только ключ для подписи).</td>
+</tr>
+<tr>
+<td><strong>Масштабирование</strong></td>
+<td>Сложнее (нужно общее хранилище сессий: Redis).</td>
+<td>Проще (любой сервер может проверить токен).</td>
+</tr>
+<tr>
+<td><strong>Инвалидация</strong></td>
+<td>Мгновенная (удалили сессию из БД — пользователь вышел).</td>
+<td>Сложная (токен живет, пока не истечет, если не использовать "черный список").</td>
+</tr>
+<tr>
+<td><strong>Размер</strong></td>
+<td>Маленький (в куке только ID).</td>
+<td>Большой (токен содержит много данных).</td>
+</tr>
+<tr>
+<td><strong>Безопасность</strong></td>
+<td>Высокая (сессия не содержит данных, только ссылка).</td>
+<td>Средняя (данные в токене, нужно подписывать и не хранить секреты).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="aqa">Тестирование сессионной авторизации (Для AQA)</h2>
+<p>Как тестировщику (автоматизатору) работать с сессиями?</p>
+<ol>
+<li>
+<p><strong>Работа с Cookie в Postman:</strong></p>
+<ul>
+<li>При отправке запроса на логин, Postman автоматически перехватит <code>Set-Cookie</code> и сохранит их в менеджере кук (Cookies).</li>
+<li>Последующие запросы к тому же домену будут автоматически отправлять эти куки. Это эмулирует работу браузера.</li>
+</ul>
+</li>
+<li>
+<p><strong>Работа с Cookie в Selenium/Playwright:</strong></p>
+<ul>
+<li>Можно сохранить куки после логина и подкладывать их в новые сессии браузера, чтобы не логиниться перед каждым тестом.
+<div class="highlight"><pre><span></span><code><span class="c1"># Пример для Playwright</span>
+<span class="c1"># Сохраняем состояние после логина</span>
+<span class="n">context</span><span class="o">.</span><span class="n">storage_state</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">"auth.json"</span><span class="p">)</span>
+
+<span class="c1"># Используем сохраненное состояние в новом тесте</span>
+<span class="n">browser</span><span class="o">.</span><span class="n">new_context</span><span class="p">(</span><span class="n">storage_state</span><span class="o">=</span><span class="s2">"auth.json"</span><span class="p">)</span>
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>Что проверять:</strong></p>
+<ul>
+<li><strong>Отсутствие сессии</strong>: Запрос без куки на защищенный ресурс должен возвращать <code>401 Unauthorized</code> или <code>302 Redirect</code> на страницу логина.</li>
+<li><strong>Время жизни (Expires)</strong>: Кука должна протухать через указанное время. Сессия на сервере тоже должна удаляться по TTL.</li>
+<li><strong>Флаги безопасности</strong>: <code>HttpOnly</code> (недоступно из JavaScript), <code>Secure</code> (только по HTTPS), <code>SameSite</code> (защита от CSRF).</li>
+<li><strong>Выход (Logout)</strong>: После вызова <code>/logout</code> сессия на сервере должна удаляться, и старый Session ID больше не должен работать.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="http-">🚀 Разбор важных HTTP-заголовков</h2>
+<p>При работе с сессиями нужно знать эти заголовки:</p>
+<ul>
+<li><strong><code>Set-Cookie</code></strong>: Исходящий заголовок от сервера к клиенту. Инструктирует браузер сохранить куку.<ul>
+<li><code>HttpOnly</code>: Куку нельзя прочитать через JavaScript (защита от XSS-атак).</li>
+<li><code>Secure</code>: Кука передается только по HTTPS.</li>
+<li><code>SameSite=Strict|Lax|None</code>: Защита от CSRF-атак.</li>
+<li><code>Expires</code> / <code>Max-Age</code>: Время жизни куки.</li>
+</ul>
+</li>
+<li><strong><code>Cookie</code></strong>: Входящий заголовок от клиента к серверу. Содержит все куки, которые браузер должен отправить для этого домена.</li>
+</ul>
+<hr>
+<h2 id="-10">❓ Вопросы с собеседований (ТОП-10)</h2>
+<p>Этот блок поможет вам подготовиться к собеседованию на позиции Manual/QA Automation и Junior/Middle Developer.</p>
+<h3 id="1">1. В чем разница между аутентификацией и авторизацией?</h3>
+<p><strong>Ответ:</strong>
+<strong>Аутентификация (Authentication)</strong> отвечает на вопрос "Кто ты?". Это процесс проверки учетных данных (логин и пароль, биометрия). <strong>Авторизация (Authorization)</strong> отвечает на вопрос "Что тебе можно делать?". Это процесс проверки прав доступа (например, может ли пользователь с ролью "Гость" удалять товары в админке).</p>
+<h3 id="2">2. Как работает сессионная аутентификация?</h3>
+<p><strong>Ответ:</strong>
+1. Клиент шлет логин/пароль.
+2. Сервер проверяет данные, создает уникальный Session ID и сохраняет его в своем хранилище.
+3. Сервер отправляет клиенту Session ID через заголовок <code>Set-Cookie</code>.
+4. Браузер автоматически прикрепляет этот ID в заголовке <code>Cookie</code> к каждому последующему запросу.
+5. Сервер получает запрос, находит по ID данные сессии и понимает, что это за пользователь.</p>
+<h3 id="3-http-only">3. Что такое HTTP-only куки и зачем они нужны?</h3>
+<p><strong>Ответ:</strong>
+Это флаг, который устанавливается для Cookie (<code>HttpOnly</code>). Если он установлен, то JavaScript в браузере (например, вредоносный скрипт) не может прочитать или украсть эту куку. Это критически важная защита от <strong>XSS-атак (межсайтового скриптинга)</strong>.</p>
+<h3 id="4-stateful-stateless">4. Сессии — это Stateful или Stateless? Почему?</h3>
+<p><strong>Ответ:</strong>
+Сессии — это <strong>Stateful (состояние хранится на сервере)</strong>. Потому что сервер хранит данные о пользователе (в памяти или Redis) и привязан к конкретному Session ID. Без этого хранилища сервер не сможет определить пользователя.</p>
+<h3 id="5">5. Какие проблемы возникают при использовании сессий в кластере серверов?</h3>
+<p><strong>Ответ:</strong>
+Основная проблема — <strong>разделение состояния (shared state)</strong>. Если пользователь залогинился на Сервере А, а его следующий запрос попал на Сервер Б, Сервер Б не узнает его, так как сессия хранится в памяти Сервера А. Решения: использовать "липкие сессии" (sticky sessions — плохо) или централизованное хранилище, например <strong>Redis</strong> (хорошо).</p>
+<h3 id="6-logout">6. Как работает Logout при использовании сессий?</h3>
+<p><strong>Ответ:</strong>
+При выходе из системы клиент отправляет запрос на сервер (обычно <code>POST /logout</code>). Сервер должен <strong>удалить Session ID из своего хранилища</strong>. Браузер также может удалить куку, но главное — чтобы на сервере сессия перестала существовать. После этого даже если злоумышленник украдет старую куку, она не сработает.</p>
+<h3 id="7-session-cookie">7. В чем разница между <code>session</code> и <code>cookie</code>?</h3>
+<p><strong>Ответ:</strong>
+<strong>Cookie</strong> — это место хранения данных на стороне клиента (браузера). <strong>Сессия</strong> — это абстракция, данные которой хранятся на сервере. В куке обычно лежит только <strong>Session ID</strong> (ключ доступа к данным сессии на сервере), а не сами данные пользователя. Не путайте: кука — это конверт, сессия — это содержимое письма в сейфе на сервере.</p>
+<h3 id="8-csrf">8. Что такое CSRF и как сессии защищаются от него?</h3>
+<p><strong>Ответ:</strong>
+<strong>CSRF (Cross-Site Request Forgery)</strong> — тип атаки, когда злоумышленник заставляет браузер жертвы отправить запрос на сайт, где жертва аутентифицирована. Защита с помощью сессий:
+1.  <strong>SameSite Cookie</strong>: Установка атрибута <code>SameSite=Strict</code> или <code>Lax</code> запрещает браузеру отправлять куку с кросс-доменными запросами.
+2.  <strong>CSRF-токены</strong>: Сервер вкладывает в формы уникальный токен, который проверяется при отправке.</p>
+<h3 id="9-jwt">9. Чем сессии лучше JWT, а чем хуже?</h3>
+<p><strong>Ответ:</strong>
+Сессии <strong>лучше</strong> простотой инвалидации (можно сразу "выбить" пользователя) и безопасностью (чувствительные данные не покидают сервер). Сессии <strong>хуже</strong> тем, что они сложнее для горизонтального масштабирования (нужен общий Redis) и требуют больше ресурсов сервера для хранения состояния.</p>
+<h3 id="10">10. Как протестировать, что сессия не "залипает" и корректно протухает?</h3>
+<p><strong>Ответ:</strong>
+1.  Залогиниться, зафиксировать время.
+2.  Подождать время, больше чем <code>Max-Age</code> (или <code>Expires</code>), указанное в куке.
+3.  Обновить страницу (или отправить запрос к API).
+4.  Ожидаемый результат: нас должно выкинуть на страницу логина или вернуться ошибка <code>401 Unauthorized</code>. Также нужно проверить, что старая кука перестала работать даже вручную (через DevTools или Insomnia).</p>
+<hr>
+<h2 id="_5">Заключение</h2>
+<p>Понимание сессий — это фундамент для работы с любым монолитным или классическим веб-приложением. В современных микросервисах чаще используется JWT, но сессии никуда не ушли и активно применяются там, где важна безопасность и контроль над пользовательскими данными в реальном времени. Освоив этот гайд, вы будете готовы к вопросам на собеседовании и сможете грамотно тестировать механизмы авторизации.</p></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Вам нравится эта страница?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Да" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Нет" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 15V3h4v12zM15 3a2 2 0 0 1 2 2v10c0 .55-.22 1.05-.59 1.41L9.83 23l-1.06-1.06c-.27-.27-.44-.64-.44-1.06l.03-.31.95-4.57H3a2 2 0 0 1-2-2v-2c0-.26.05-.5.14-.73l3.02-7.05C4.46 3.5 5.17 3 6 3zm0 2H5.97L3 12v2h8.78l-1.13 5.32L15 14.97z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Спасибо! Я рад, что вам понравилось.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Жаль, что вам не понравилось...
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href="">Vadim</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.footer", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../../js/bubble_sort.js"></script>
+      
+    
+  </body>
+</html>

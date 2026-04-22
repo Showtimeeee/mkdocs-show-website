@@ -1,0 +1,989 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://showtimeeee.github.io/mkdocs-show-website/guides/jwt_auth/">
+      
+      
+      
+      
+      <link rel="icon" href="../../images/logo-ico.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Гайд по Авторизации: JWT (JSON Web Tokens) - Showtime-Bro</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/extra.css">
+    
+      <link rel="stylesheet" href="../../css/base.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-CRWF7DFZHT"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-CRWF7DFZHT",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-CRWF7DFZHT",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#jwt-json-web-tokens" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Showtime-Bro" class="md-header__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Showtime-Bro
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Гайд по Авторизации: JWT (JSON Web Tokens)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Showtime-Bro" class="md-nav__button md-logo" aria-label="Showtime-Bro" data-md-component="logo">
+      
+  <img src="../../images/logo1.png" alt="logo">
+
+    </a>
+    Showtime-Bro
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная🍕
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../articles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статьи📝
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Гайды🛠️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проекты🤖
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../opros/examinations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тренажеры🎓
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patterns/patterns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Паттерны🧩
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/algorithms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Алгоритмы👨‍💻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download_books/books/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Книги📚
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../radio/bro_radio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Радио📻
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/feedback/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Напиши мне✍️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ключевые концепции
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура JWT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Схема работы (Step-by-Step)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refresh-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Как работают Refresh Token
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Способы хранения токенов на клиенте
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Сравнение: Сессии vs JWT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-aqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование JWT авторизации (Для AQA)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Разбор важных HTTP-заголовков
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      ❓ Вопросы с собеседований (ТОП-10)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❓ Вопросы с собеседований (ТОП-10)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Из каких частей состоит JWT?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-access-token-refresh-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. В чем разница между Access Token и Refresh Token?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jwt-stateless" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Почему JWT называют Stateless? В чем плюс?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Как работает проверка JWT на сервере?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-logout-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Как выйти из системы (logout) при использовании JWT?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-jwt-localstorage" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. В чем главная уязвимость JWT (если хранить в localStorage)?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-none-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Что такое "алгоритм none" в JWT и чем он опасен?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-refresh-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Как защитить Refresh Token?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Чем JWT лучше сессий, а чем хуже?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Как протестировать, что JWT нельзя подделать?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заключение
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div><h1 id="jwt-json-web-tokens">Гайд по Авторизации: JWT (JSON Web Tokens)</h1>
+<p><img alt="jwt_logo" src="../images/jwt_logo.png"></p>
+<p><strong>JWT (JSON Web Token)</strong> — это открытый стандарт (RFC 7519), который определяет компактный и автономный способ передачи данных между сторонами в виде JSON-объекта.</p>
+<p>В контексте авторизации, <strong>JWT</strong> — это зашифрованная (точнее, подписанная) строка, которая содержит в себе все данные о пользователе. Сервер создает этот токен и отдает клиенту, а при следующих запросах клиент просто показывает этот токен, и сервер говорит: "О, это же Вася, проходи".</p>
+<p>Главная фишка JWT в том, что серверу <strong>не нужно хранить</strong> этот токен у себя в базе или Redis. Вся необходимая информация уже лежит внутри самого токена.</p>
+<h2 id="_1">Ключевые концепции</h2>
+<p>Чтобы понимать, как работают JWT, нужно разобраться с тремя основными понятиями:</p>
+<ul>
+<li><strong>Access Token (Токен доступа)</strong>: Короткоживущий токен (живет 15-60 минут), который используется для доступа к защищенным ресурсам API. Именно его клиент отправляет в заголовке каждого запроса.</li>
+<li><strong>Refresh Token (Токен обновления)</strong>: Длинноживущий токен (живет дни или недели), который хранится в безопасном месте (HttpOnly кука или защищенное хранилище). Он нужен только для одного — получить <strong>новый Access Token</strong>, когда старый истек.</li>
+<li><strong>Подпись (Signature)</strong>: Криптографическая подпись, которая гарантирует, что токен не был подделан. Создается с помощью секретного ключа, который знает только сервер.</li>
+<li><strong>Payload (Полезная нагрузка)</strong>: JSON-объект внутри токена, который содержит данные о пользователе (например, <code>user_id</code>, <code>role</code>) и метаданные токена (<code>exp</code> — срок истечения).</li>
+</ul>
+<h2 id="jwt">Структура JWT</h2>
+<p>JWT выглядит как длинная строка, состоящая из трех частей, разделенных точками:</p>
+<p><code>xxxxx.yyyyy.zzzzz</code></p>
+<ol>
+<li><strong>Header (Заголовок)</strong>: Содержит информацию о том, как подписан токен (тип токена и алгоритм шифрования, например, HS256 или RS256).</li>
+<li><strong>Payload (Полезная нагрузка)</strong>: Содержит данные (клеймы — claims). Например, <code>{"user_id": 42, "role": "admin", "exp": 1712345678}</code>.</li>
+<li><strong>Signature (Подпись)</strong>: Создается путем кодирования Header и Payload и их шифрования с секретным ключом.</li>
+</ol>
+<p><em>Важно:</em> Данные в Payload не зашифрованы, они только закодированы в Base64. <strong>Никогда не храните в JWT пароли или секретные данные!</strong> Любой может открыть токен и прочитать его содержимое (например, на сайте <a href="https://jwt.io/">jwt.io</a>).</p>
+<h2 id="step-by-step">Схема работы (Step-by-Step)</h2>
+<p>Процесс JWT-аутентификации выглядит так:</p>
+<ol>
+<li><strong>Клиент (фронтенд)</strong> отправляет POST-запрос на сервер с логином и паролем (на <code>/login</code> или <code>/auth/token</code>).</li>
+<li><strong>Сервер</strong> проверяет логин и пароль в базе данных. Если данные верны:<ul>
+<li>Сервер создает JSON-объект (Payload) с данными пользователя и сроком годности.</li>
+<li>Сервер подписывает этот объект своим секретным ключом, создавая <strong>Access Token</strong> и <strong>Refresh Token</strong>.</li>
+</ul>
+</li>
+<li><strong>Сервер</strong> отправляет ответ клиенту. Обычно это JSON вида:
+    <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIs..."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dGhpcyBpcyBhIHJlZnJlc2g..."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">900</span>
+<span class="p">}</span>
+</code></pre></div></li>
+<li><strong>Клиент</strong> получает токены и сохраняет их. Обычно Access Token хранят в памяти приложения или в <code>localStorage</code> (менее безопасно), а Refresh Token — в HttpOnly Cookie.</li>
+<li>При следующем запросе к защищенному ресурсу (например, <code>/api/profile</code>), клиент добавляет HTTP-заголовок:
+    <div class="highlight"><pre><span></span><code>Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+</code></pre></div></li>
+<li><strong>Сервер</strong> получает запрос, достает токен из заголовка <code>Authorization</code>.<ul>
+<li>Сервер <strong>проверяет подпись</strong> токена своим секретным ключом (не подделан ли?).</li>
+<li>Сервер проверяет срок годности (<code>exp</code>) — не истек ли?</li>
+<li>Если всё ок, сервер достает из Payload <code>user_id: 42</code> и выполняет запрос (отдает данные профиля).</li>
+<li>Сервер <strong>ничего не ищет в базе или Redis</strong> для проверки сессии. Вся информация уже есть в токене.</li>
+</ul>
+</li>
+</ol>
+<h2 id="refresh-token">Как работают Refresh Token</h2>
+<p>Так как Access Token живет недолго (из соображений безопасности), нужно иметь механизм получать новый, не заставляя пользователя вводить логин/пароль каждые 15 минут.</p>
+<ol>
+<li>Клиент видит, что Access Token истек (статус <code>401 Unauthorized</code> от сервера или проверка на клиенте).</li>
+<li>Клиент отправляет запрос на специальный эндпоинт (например, <code>/auth/refresh</code>), передавая туда Refresh Token (обычно в теле запроса или в куке).</li>
+<li><strong>Сервер</strong> проверяет Refresh Token (его подпись, срок годности и наличие в "белом списке", если он ведется).</li>
+<li>Если Refresh Token валиден, сервер создает <strong>новый Access Token</strong> (и опционально новый Refresh Token — это называется <strong>Refresh Token Rotation</strong>) и отправляет их клиенту.</li>
+<li>Клиент обновляет токены и повторяет исходный запрос.</li>
+</ol>
+<h2 id="_2">Способы хранения токенов на клиенте</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Где хранить Access Token</strong></th>
+<th><strong>Плюсы</strong></th>
+<th><strong>Минусы</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>localStorage</code> / <code>sessionStorage</code></strong></td>
+<td>Просто реализовать. Доступен из JavaScript.</td>
+<td><strong>Уязвим к XSS-атакам.</strong> Любой скрипт может украсть токен.</td>
+</tr>
+<tr>
+<td><strong>In-memory (переменная в JS)</strong></td>
+<td>Не сохраняется на диске. Живет, пока открыта вкладка.</td>
+<td>Теряется при обновлении страницы (нужен Refresh Token).</td>
+</tr>
+<tr>
+<td><strong>HttpOnly Cookie</strong></td>
+<td><strong>Недоступен из JS</strong> (защита от XSS). Автоматически отправляется с запросами.</td>
+<td>Уязвим к CSRF (если не использовать <code>SameSite</code>). Сложнее отправлять на другие домены (CORS).</td>
+</tr>
+</tbody>
+</table>
+<p><em>Лучшая практика:</em> Access Token хранить в памяти, Refresh Token — в HttpOnly Cookie с флагами <code>Secure</code> и <code>SameSite=Strict</code>.</p>
+<h2 id="vs-jwt">Сравнение: Сессии vs JWT</h2>
+<p><img alt="jwt_logo2" src="../images/jwt_logo2.png"></p>
+<table>
+<thead>
+<tr>
+<th><strong>Критерий</strong></th>
+<th><strong>JWT (Токены)</strong></th>
+<th><strong>Сессии</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Где хранятся данные</strong></td>
+<td>В самом токене (на клиенте).</td>
+<td>На сервере (в хранилище сессий).</td>
+</tr>
+<tr>
+<td><strong>Состояние (State)</strong></td>
+<td>Stateless (сервер не хранит состояние).</td>
+<td>Stateful (сервер хранит состояние).</td>
+</tr>
+<tr>
+<td><strong>Масштабирование</strong></td>
+<td>Проще (любой сервер может проверить токен, зная секретный ключ).</td>
+<td>Сложнее (нужно общее хранилище сессий: Redis).</td>
+</tr>
+<tr>
+<td><strong>Инвалидация</strong></td>
+<td>Сложная (токен живет, пока не истечет. Чтобы "выбить" пользователя, нужен черный список).</td>
+<td>Мгновенная (удалили сессию из БД — пользователь вышел).</td>
+</tr>
+<tr>
+<td><strong>Размер</strong></td>
+<td>Большой (токен содержит все данные пользователя).</td>
+<td>Маленький (в куке только ID).</td>
+</tr>
+<tr>
+<td><strong>Безопасность</strong></td>
+<td>Средняя (нужно аккуратно хранить ключи на сервере и токены на клиенте).</td>
+<td>Высокая (сессия не содержит данных, только ссылка).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jwt-aqa">Тестирование JWT авторизации (Для AQA)</h2>
+<p>Как тестировщику (автоматизатору) работать с JWT?</p>
+<ol>
+<li>
+<p><strong>Работа с токенами в Postman:</strong></p>
+<ul>
+<li>После запроса на логин, напишите тест в <code>Tests</code>, чтобы сохранить токен в переменную:
+<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">jsonData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pm</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="nx">pm</span><span class="p">.</span><span class="nx">environment</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"accessToken"</span><span class="p">,</span><span class="w"> </span><span class="nx">jsonData</span><span class="p">.</span><span class="nx">access_token</span><span class="p">);</span>
+</code></pre></div></li>
+<li>В защищенных запросах добавьте заголовок вручную или через пре-скрипт:
+<div class="highlight"><pre><span></span><code>Key: Authorization, Value: Bearer {{accessToken}}
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>Работа с токенами в Playwright/Selenium:</strong></p>
+<ul>
+<li>Можно подложить токен в хранилище браузера или в заголовки запросов.
+<div class="highlight"><pre><span></span><code><span class="c1"># Пример для Playwright (перехват и подмена заголовков)</span>
+<span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">"**/api/**"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">route</span><span class="p">:</span> <span class="n">route</span><span class="o">.</span><span class="n">continue_</span><span class="p">(</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">route</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+<span class="p">))</span>
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>Что проверять:</strong></p>
+<ul>
+<li><strong>Отсутствие токена</strong>: Запрос без заголовка <code>Authorization</code> должен возвращать <code>401 Unauthorized</code>.</li>
+<li><strong>Невалидный токен</strong>: Запрос с битым токеном или токеном, подписанным другим ключом, должен возвращать <code>401</code> или <code>403</code>.</li>
+<li><strong>Истечение срока (Exp)</strong>: Подождать, пока протухнет Access Token (обычно 5-15 минут) и отправить запрос — должен прийти <code>401</code>. Затем проверить <code>/refresh</code> endpoint.</li>
+<li><strong>Подпись</strong>: Проверить, что нельзя изменить Payload (поменять <code>user_id</code> на чужой), не сломав подпись. Сервер должен это отсечь.</li>
+<li><strong>Refresh Token Rotation</strong>: Если он реализован, проверить, что старый Refresh Token перестает работать после использования.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="http-">🚀 Разбор важных HTTP-заголовков</h2>
+<p>При работе с JWT нужно знать эти заголовки:</p>
+<ul>
+<li><strong><code>Authorization</code></strong>: Входящий заголовок от клиента к серверу. Стандартный способ передачи токенов.<ul>
+<li><code>Bearer</code> — самый распространенный тип токена (Bearer token). Означает "доступ предоставляется владельцу этого токена".</li>
+</ul>
+</li>
+<li><strong><code>Set-Cookie</code></strong>: Если бэкенд решит положить Refresh Token в куку, он использует этот заголовок с флагами <code>HttpOnly</code>, <code>Secure</code>, <code>SameSite</code>.</li>
+</ul>
+<hr>
+<h2 id="-10">❓ Вопросы с собеседований (ТОП-10)</h2>
+<p>Этот блок поможет вам подготовиться к собеседованию на позиции Manual/QA Automation и Junior/Middle Developer.</p>
+<h3 id="1-jwt">1. Из каких частей состоит JWT?</h3>
+<p><strong>Ответ:</strong>
+JWT состоит из трех частей, разделенных точками: <strong>Header</strong> (информация о токене и алгоритме), <strong>Payload</strong> (полезные данные пользователя) и <strong>Signature</strong> (цифровая подпись). Структура выглядит так: <code>Header.Payload.Signature</code>.</p>
+<h3 id="2-access-token-refresh-token">2. В чем разница между Access Token и Refresh Token?</h3>
+<p><strong>Ответ:</strong>
+<strong>Access Token</strong> используется для доступа к API и живет недолго (15-60 минут). <strong>Refresh Token</strong> — это длинноживущий токен, который хранится в безопасном месте и используется <strong>исключительно</strong> для получения нового Access Token, когда старый истек, без необходимости вводить логин/пароль заново.</p>
+<h3 id="3-jwt-stateless">3. Почему JWT называют Stateless? В чем плюс?</h3>
+<p><strong>Ответ:</strong>
+JWT называют <strong>Stateless (без состояния)</strong> потому что серверу не нужно хранить информацию о сессии пользователя в базе данных или Redis. Вся информация уже зашита в сам токен. Плюс: это упрощает горизонтальное масштабирование — любой сервер в кластере может проверить токен, зная только секретный ключ.</p>
+<h3 id="4-jwt">4. Как работает проверка JWT на сервере?</h3>
+<p><strong>Ответ:</strong>
+Сервер получает токен, разбивает его на 3 части. Берет Header и Payload, заново вычисляет подпись, используя свой секретный ключ, и сравнивает её с подписью, присланной клиентом. Если они совпадают — токен не подделан. Затем сервер проверяет время истечения (<code>exp</code>) — не просрочен ли токен.</p>
+<h3 id="5-logout-jwt">5. Как выйти из системы (logout) при использовании JWT?</h3>
+<p><strong>Ответ:</strong>
+Так как JWT stateless, просто удалить токен на клиенте недостаточно (хотя это первое действие). Настоящая проблема — токен остается валидным до своего истечения. Решения:
+1.  <strong>На клиенте</strong>: удалить токены из памяти/storage.
+2.  <strong>На сервере</strong>: завести <strong>черный список (blacklist)</strong> токенов (обычно в Redis) и проверять, не отозван ли токен при каждом запросе. Это убивает идею stateless, но дает контроль.
+3.  <strong>Использовать короткое время жизни</strong> Access Token и просто перестать выдавать новые Refresh Token'ы.</p>
+<h3 id="6-jwt-localstorage">6. В чем главная уязвимость JWT (если хранить в localStorage)?</h3>
+<p><strong>Ответ:</strong>
+Главная уязвимость — <strong>XSS (межсайтовый скриптинг)</strong>. Если злоумышленник сможет внедрить скрипт на страницу, этот скрипт спокойно залезет в <code>localStorage</code>, прочитает токен и отправит его на свой сервер. Поэтому критически важные токены не хранят в localStorage, а используют HttpOnly куки.</p>
+<h3 id="7-none-jwt">7. Что такое "алгоритм none" в JWT и чем он опасен?</h3>
+<p><strong>Ответ:</strong>
+Это уязвимость, когда злоумышленник меняет в Header алгоритм <code>HS256</code> на <code>none</code>, удаляет подпись и отправляет токен. Если сервер криво настроен и допускает алгоритм <code>none</code>, он сочтет такой токен валидным. Хорошие библиотеки всегда проверяют, что алгоритм соответствует ожидаемому.</p>
+<h3 id="8-refresh-token">8. Как защитить Refresh Token?</h3>
+<p><strong>Ответ:</strong>
+1.  Хранить его в <strong>HttpOnly Cookie</strong> (защита от XSS).
+2.  Использовать флаг <strong><code>Secure</code></strong> (только по HTTPS).
+3.  Использовать флаг <strong><code>SameSite=Strict</code></strong> (защита от CSRF).
+4.  Использовать <strong>Refresh Token Rotation</strong> — выдавать новый Refresh Token при каждом запросе на обновление и инвалидировать старый.</p>
+<h3 id="9-jwt">9. Чем JWT лучше сессий, а чем хуже?</h3>
+<p><strong>Ответ:</strong>
+JWT <strong>лучше</strong> для микросервисов и распределенных систем (не нужен общий Redis) и для мобильных приложений. JWT <strong>хуже</strong> тем, что сложнее обезвредить скомпрометированный токен (нужен черный список), и он "тяжелее" по размеру, так как в нем много данных.</p>
+<h3 id="10-jwt">10. Как протестировать, что JWT нельзя подделать?</h3>
+<p><strong>Ответ:</strong>
+Нужно попытаться изменить любой символ в Payload (например, попробовать подставить чужой <code>user_id</code>) и отправить этот токен на сервер. Также можно попробовать подписать тот же самый Payload другим секретным ключом (если мы знаем алгоритм). Сервер должен вернуть ошибку <code>401 Unauthorized</code> или <code>403 Invalid Signature</code>. Также можно сходить на сайт <a href="https://jwt.io/">jwt.io</a>, вставить туда токен, поменять данные в Payload и посмотреть, как меняется подпись (зеленая галочка пропадет).</p>
+<hr>
+<h2 id="_3">Заключение</h2>
+<p>JWT стал стандартом де-факто для авторизации в современных SPA-приложениях и микросервисной архитектуре. Понимание структуры токена, принципов его подписи и правил безопасного хранения — это маст-хев для любого разработчика и серьезного тестировщика. Освоив этот гайд, вы будете готовы к вопросам на собеседовании и сможете грамотно тестировать и проектировать механизмы авторизации.</p></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Вам нравится эта страница?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Да" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9v12H1V9zm4 12a2 2 0 0 1-2-2V9c0-.55.22-1.05.59-1.41L14.17 1l1.06 1.06c.27.27.44.64.44 1.05l-.03.32L14.69 8H21a2 2 0 0 1 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21zm0-2h9.03L21 12v-2h-8.79l1.13-5.32L9 9.03z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Нет" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 15V3h4v12zM15 3a2 2 0 0 1 2 2v10c0 .55-.22 1.05-.59 1.41L9.83 23l-1.06-1.06c-.27-.27-.44-.64-.44-1.06l.03-.31.95-4.57H3a2 2 0 0 1-2-2v-2c0-.26.05-.5.14-.73l3.02-7.05C4.46 3.5 5.17 3 6 3zm0 2H5.97L3 12v2h8.78l-1.13 5.32L15 14.97z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              Спасибо! Я рад, что вам понравилось.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              Жаль, что вам не понравилось...
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 <a href="">Vadim</a>.
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.footer", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../../js/bubble_sort.js"></script>
+      
+    
+  </body>
+</html>

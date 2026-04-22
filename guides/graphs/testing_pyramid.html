@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пирамида тестирования</title>
+  <!-- Favicon в виде пирамиды -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,10 90,90 10,90' fill='%234caf50'/><polygon points='50,30 75,75 25,75' fill='%232196f3'/><polygon points='50,45 60,65 40,65' fill='%23f44336'/></svg>">
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --text-color: #333;
+      --unit-color: #4caf50;
+      --integration-color: #2196f3;
+      --e2e-color: #f44336;
+      --card-bg: #fff;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #1a1a1a;
+        --text-color: #f0f0f0;
+        --card-bg: #2d2d2d;
+        --shadow: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .pyramid-container {
+      width: 300px;
+      height: 300px;
+      margin: 2rem auto;
+      position: relative;
+    }
+
+    .pyramid {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .layer {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-bottom: 2px solid var(--bg-color);
+      box-sizing: border-box;
+    }
+
+    .layer:hover {
+      filter: brightness(1.2);
+    }
+
+    .unit {
+      height: 50%;
+      bottom: 0;
+      background: var(--unit-color);
+    }
+
+    .integration {
+      height: 30%;
+      bottom: 50%;
+      background: var(--integration-color);
+    }
+
+    .e2e {
+      height: 20%;
+      bottom: 80%;
+      background: var(--e2e-color);
+    }
+
+    .label {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+
+    .unit-label { bottom: 15%; }
+    .integration-label { bottom: 65%; }
+    .e2e-label { bottom: 90%; }
+
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      box-shadow: 0 4px 12px var(--shadow);
+      border-left: 4px solid var(--unit-color);
+    }
+
+    .info-title {
+      margin-top: 0;
+    }
+
+    .characteristics {
+      text-align: left;
+      padding-left: 1.5rem;
+    }
+
+    .characteristics li {
+      margin-bottom: 0.5rem;
+    }
+
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .tip {
+      background: var(--card-bg);
+      padding: 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .tip h3 {
+      margin-top: 0;
+      color: var(--integration-color);
+    }
+
+    @media (max-width: 600px) {
+      .pyramid-container {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Пирамида тестирования</h1>
+
+  <div class="pyramid-container">
+    <div class="pyramid">
+      <div class="layer unit" data-layer="unit"></div>
+      <div class="layer integration" data-layer="integration"></div>
+      <div class="layer e2e" data-layer="e2e"></div>
+    </div>
+    
+    <div class="label unit-label">Unit Tests (70%)</div>
+    <div class="label integration-label">Integration (20%)</div>
+    <div class="label e2e-label">E2E (10%)</div>
+  </div>
+
+  <div class="info-card" id="info">
+    <h3 class="info-title">Юнит-тесты (70%)</h3>
+    <p>Фундамент пирамиды. Тестируют отдельные функции/методы изолированно.</p>
+    <ul class="characteristics">
+      <li>✓ Быстрые в выполнении (миллисекунды)</li>
+      <li>✓ Дешёвые в поддержке</li>
+      <li>✓ Хорошая изоляция</li>
+      <li>✓ Покрывают все возможные сценарии</li>
+    </ul>
+  </div>
+
+  <div class="tips">
+    <div class="tip">
+      <h3>Баланс тестов</h3>
+      <p>Соблюдайте пропорции: 70% Unit, 20% Integration, 10% E2E тестов</p>
+    </div>
+    
+    <div class="tip">
+      <h3>Скорость выполнения</h3>
+      <p>Чем выше уровень теста, тем он медленнее. Оптимизируйте время выполнения</p>
+    </div>
+    
+    <div class="tip">
+      <h3>Поддержка</h3>
+      <p>Инвестируйте время в поддержание тестов в актуальном состоянии</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pyramidData = {
+    unit: {
+      title: "Юнит-тесты (70%)",
+      description: "Фундамент пирамиды. Тестируют отдельные функции/методы изолированно.",
+      characteristics: [
+        "✓ Быстрые в выполнении (миллисекунды)",
+        "✓ Дешёвые в поддержке",
+        "✓ Хорошая изоляция",
+        "✓ Покрывают все возможные сценарии"
+      ]
+    },
+    integration: {
+      title: "Интеграционные тесты (20%)",
+      description: "Проверяют взаимодействие между компонентами системы.",
+      characteristics: [
+        "✓ Проверяют взаимодействие модулей",
+        "✓ Медленнее юнит-тестов",
+        "✓ Требуют настройки окружения",
+        "✓ Выявляют проблемы интеграции"
+      ]
+    },
+    e2e: {
+      title: "End-to-End тесты (10%)",
+      description: "Тестируют систему целиком, имитируя действия пользователя.",
+      characteristics: [
+        "✓ Максимальная уверенность",
+        "✓ Очень медленные (секунды/минуты)",
+        "✓ Дорогие в поддержке",
+        "✓ Хрупкие (чувствительны к изменениям UI)"
+      ]
+    }
+  };
+
+  document.querySelectorAll('.layer').forEach(layer => {
+    const type = layer.dataset.layer;
+    
+    layer.addEventListener('mouseenter', () => {
+      document.querySelector(`.${type}`).style.filter = 'brightness(1.2)';
+      updateInfo(type);
+    });
+    
+    layer.addEventListener('mouseleave', () => {
+      document.querySelector(`.${type}`).style.filter = 'brightness(1)';
+    });
+    
+    layer.addEventListener('click', () => {
+      updateInfo(type);
+    });
+  });
+
+  function updateInfo(type) {
+    const data = pyramidData[type];
+    const info = document.getElementById('info');
+    
+    info.innerHTML = `
+      <h3 class="info-title">${data.title}</h3>
+      <p>${data.description}</p>
+      <ul class="characteristics">
+        ${data.characteristics.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    `;
+    
+    info.style.borderLeftColor = `var(--${type}-color)`;
+  }
+</script>
+
+</body>
+</html>
