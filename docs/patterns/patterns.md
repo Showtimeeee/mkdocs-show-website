@@ -65,6 +65,8 @@
 
 ![Мой аватар2](images/fin-n-logo.png)
 
+- [Алгоритмы👨‍💻](../algorithms/algorithms.md)
+
 
 
 
