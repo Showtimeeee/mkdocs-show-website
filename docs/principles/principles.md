@@ -3,7 +3,7 @@
 ## **SOLID**
 
 - [S](solid/srp.md) – Single Responsibility Principle (Принцип единственной ответственности) 
-- [O] - Open/Closed Principle (Принцип открытости/закрытости)
+- [O](solid/ocp.md) – Open/Closed Principle (Принцип открытости/закрытости)
 - [L] – Liskov Substitution Principle (Принцип подстановки Лисков)
 - [I] – Interface Segregation Principle (Принцип разделения интерфейса)
 - [D] – Dependency Inversion Principle (Принцип инверсии зависимостей)
