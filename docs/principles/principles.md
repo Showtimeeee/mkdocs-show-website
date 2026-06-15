@@ -6,7 +6,7 @@
 - [O](solid/ocp.md) – Open/Closed Principle (Принцип открытости/закрытости)
 - [L](solid/lsp.md) – Liskov Substitution Principle (Принцип подстановки Лисков)
 - [I](solid/isp.md) – Interface Segregation Principle (Принцип разделения интерфейса)
-- [D] – Dependency Inversion Principle (Принцип инверсии зависимостей)
+- [D](solid/dip.md) – Dependency Inversion Principle (Принцип инверсии зависимостей)
 
 ---
 
