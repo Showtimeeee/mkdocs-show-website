@@ -10,6 +10,13 @@
 
 ---
 
+- [A](acid/atomicity.md) – Atomicity (Атомарность)  
+- [C] – Consistency (Согласованность)  
+- [I] – Isolation (Изолированность)  
+- [D] – Durability (Устойчивость / Долговечность)  
+
+---
+
 - [KISS](kiss.md) – Keep It Simple, Stupid — «делай проще, глупец»
 
 ---
