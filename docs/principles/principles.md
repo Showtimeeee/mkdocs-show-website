@@ -10,7 +10,15 @@
 
 ---
 
-- [KISS](kiss/kiss.md) – Keep It Simple, Stupid — «делай проще, глупец»
+- [KISS](kiss.md) – Keep It Simple, Stupid — «делай проще, глупец»
+
+---
+
+- [DRY](dry.md) – Keep It Simple, Stupid — «делай проще, глупец»
+
+---
+
+- [YAGNI](yagni.md) – Keep It Simple, Stupid — «делай проще, глупец»
 
 ---
 
