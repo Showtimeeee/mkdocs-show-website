@@ -13,7 +13,7 @@
 - [A](acid/atomicity.md) – Atomicity (Атомарность)  
 - [C](acid/consistency.md) – Consistency (Согласованность)  
 - [I](acid/Isolation.md) – Isolation (Изолированность)  
-- [D] – Durability (Устойчивость / Долговечность)  
+- [D](acid/durability.md) – Durability (Устойчивость / Долговечность)  
 
 ---
 
