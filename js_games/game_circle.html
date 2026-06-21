@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Drawing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #a57ad6;
+        }
+        #game-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        #canvas {
+            border: 2px solid #333;
+            background-color: white;
+            cursor: crosshair;
+        }
+        #instructions {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+            min-height: 30px;
+        }
+        #restart-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #restart-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Нарисуй идеальный круг!</h1>
+    <div id="instructions"></div>
+    <div id="game-container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    <div id="result"></div>
+    <button id="restart-btn">Try Again</button>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const resultDiv = document.getElementById('result');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        let isDrawing = false;
+        let points = [];
+        let perfectCircle = null;
+        
+        // Initialize game
+        function init() {
+            isDrawing = false;
+            points = [];
+            perfectCircle = null;
+            resultDiv.textContent = '';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#333';
+        }
+        
+        // Start drawing
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            points = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            addPoint(e);
+        });
+        
+        // Continue drawing
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            addPoint(e);
+            drawCurrentPath();
+        });
+        
+        // Stop drawing
+        canvas.addEventListener('mouseup', (e) => {
+            if (!isDrawing) return;
+            isDrawing = false;
+            addPoint(e);
+            evaluateCircle();
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            if (isDrawing) {
+                isDrawing = false;
+                evaluateCircle();
+            }
+        });
+        
+        // Add point to the path
+        function addPoint(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            points.push({ x, y });
+        }
+        
+        // Draw the current path
+        function drawCurrentPath() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+        
+        // Evaluate how close the drawing is to a perfect circle
+        function evaluateCircle() {
+            if (points.length < 10) {
+                resultDiv.textContent = 'Drawing too short. Try again!';
+                return;
+            }
+            
+            // Calculate the centroid (average of all points)
+            let centroid = { x: 0, y: 0 };
+            for (const point of points) {
+                centroid.x += point.x;
+                centroid.y += point.y;
+            }
+            centroid.x /= points.length;
+            centroid.y /= points.length;
+            
+            // Calculate average radius and variance
+            let totalRadius = 0;
+            let radii = [];
+            
+            for (const point of points) {
+                const radius = Math.sqrt(
+                    Math.pow(point.x - centroid.x, 2) + 
+                    Math.pow(point.y - centroid.y, 2)
+                );
+                totalRadius += radius;
+                radii.push(radius);
+            }
+            
+            const averageRadius = totalRadius / points.length;
+            
+            // Calculate standard deviation
+            let variance = 0;
+            for (const radius of radii) {
+                variance += Math.pow(radius - averageRadius, 2);
+            }
+            variance /= radii.length;
+            const stdDev = Math.sqrt(variance);
+            
+            // Calculate score (0-100)
+            // The smaller the standard deviation relative to radius, the better
+            const relativeDeviation = stdDev / averageRadius;
+            let score = 100 * (1 - Math.min(1, relativeDeviation * 2.5)); // Adjust multiplier for sensitivity
+            
+            score = Math.max(0, Math.round(score));
+            
+            // Store perfect circle data
+            perfectCircle = {
+                center: centroid,
+                radius: averageRadius
+            };
+            
+            // Draw the perfect circle for comparison
+            drawPerfectCircle();
+            
+            // Display result
+            resultDiv.textContent = `Circle Accuracy: ${score}%`;
+            resultDiv.style.color = getColorForScore(score);
+        }
+        
+        // Draw the perfect circle for comparison
+        function drawPerfectCircle() {
+            if (!perfectCircle) return;
+            
+            // Draw user's path
+            drawCurrentPath();
+            
+            // Draw perfect circle
+            ctx.beginPath();
+            ctx.arc(
+                perfectCircle.center.x, 
+                perfectCircle.center.y, 
+                perfectCircle.radius, 
+                0, 
+                Math.PI * 2
+            );
+            ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Draw perfect circle's center
+            ctx.beginPath();
+            ctx.arc(perfectCircle.center.x, perfectCircle.center.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+        }
+        
+        // Get color based on score
+        function getColorForScore(score) {
+            if (score > 80) return '#2ecc71'; // Green
+            if (score > 60) return '#f39c12'; // Orange
+            return '#e74c3c'; // Red
+        }
+        
+        // Restart game
+        restartBtn.addEventListener('click', init);
+        
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
