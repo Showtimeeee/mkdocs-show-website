@@ -24,18 +24,9 @@
 
 ---
 
-#### - [Шестеренки (Gears-Move-Bro)⚙️](gears/gears_move.html)
-#### - [ДВС (Motor-App-Bro)🏍️](engineers_app/motor_bro.html)
+#### - [Bro-Radio 📻](https://bro-radio.onrender.com/)
+#### - [Bro-Roulette 🎡](https://bro-roulette.onrender.com/)
 
 ---
 
-#### - [Bro-Radio 📻](https://bro-radio.onrender.com/)
-
-
-
 *Если у вас есть вопросы или предложения, напишите мне!*
-
-
-
-
-
